@@ -23,10 +23,10 @@ public class SecurityConfig {
         List<String> permitAllEndpointList = Arrays.asList(SIGNUP_URL, SIGNIN_URL);
 
         http.cors().and().csrf().disable()
-                .authorizeHttpRequests(authz ->
+                .authorizeHttpRequests((authz) ->
                         authz.requestMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
                                 .permitAll().anyRequest().authenticated())
                 .oauth2ResourceServer().jwt();
-        return http.build();
+        return http.getOrBuild();
     }
 }

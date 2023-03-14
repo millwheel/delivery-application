@@ -11,15 +11,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CognitoConfig {
     @Value(value="${aws.access-key}")
-    private String accesKey;
+    private String accessKey;
     @Value(value="${aws.access-secret}")
     private String secretKey;
 
     @Bean
     public AWSCognitoIdentityProvider CognitoClient(){
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accesKey, secretKey);
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         return AWSCognitoIdentityProviderClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion("us-east-1")
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).withRegion("ap-northeast-2")
                 .build();
     }
 }
