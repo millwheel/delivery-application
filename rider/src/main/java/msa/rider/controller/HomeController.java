@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(){
-        return "Server is activated successfully";
+        return "Rider server is activated successfully";
     }
 }
