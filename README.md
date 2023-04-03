@@ -8,5 +8,7 @@ Now project is under the task of AWS setting.
 ## System structure
 
 ### rough design
+![rough_design](/document/image/rough_design.PNG)
 
 ### specific design considering AWS
+![specific_design](/document/image/specific_design.PNG)
