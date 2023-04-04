@@ -22,10 +22,12 @@ public class MemberService {
 
     public Boolean join(JoinForm joinData){
         Member member = new Member();
-        memberRepository.findByEmail(joinData.getEmail())
-                .ifPresent(m -> {throw new IllegalArgumentException("이미 존재하는 회원입니다.");});
+        if(memberRepository.findByEmail(joinData.getEmail()).isPresent()){
+            log.info("this email is already used");
+            return false;
+        }
         member.setName(joinData.getName());
-        member.setName(joinData.getEmail());
+        member.setEmail(joinData.getEmail());
         if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
             log.info("Password doesn't match");
             return false;

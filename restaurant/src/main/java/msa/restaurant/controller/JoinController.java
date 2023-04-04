@@ -23,6 +23,7 @@ public class JoinController {
         if(!result){
             return null;
         }
+        log.info("join success");
         return data;
     }
 
