@@ -1,7 +1,10 @@
 package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.DTO.JoinForm;
 import msa.restaurant.service.MemberService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -14,5 +17,13 @@ public class JoinController {
         this.memberService = memberService;
     }
 
+    @PostMapping("join")
+    public JoinForm join(@RequestBody JoinForm data){
+        boolean result = memberService.join(data);
+        if(!result){
+            return null;
+        }
+        return data;
+    }
 
 }
