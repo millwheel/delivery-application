@@ -18,13 +18,13 @@ public class JoinController {
     }
 
     @PostMapping("join")
-    public JoinForm join(@RequestBody JoinForm data){
+    public String join(@RequestBody JoinForm data){
         boolean result = memberService.join(data);
         if(!result){
-            return null;
+            return "join failed. The email is used already or password doesn't match.";
         }
         log.info("join success");
-        return data;
+        return "join succeeded";
     }
 
 }
