@@ -1,0 +1,52 @@
+package msa.restaurant.service;
+
+import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.DAO.Member;
+import msa.restaurant.DTO.JoinForm;
+import msa.restaurant.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    public Boolean join(JoinForm joinData){
+        Member member = new Member();
+        memberRepository.findByEmail(joinData.getEmail())
+                .ifPresent(m -> {throw new IllegalArgumentException("이미 존재하는 회원입니다.");});
+        member.setName(joinData.getName());
+        member.setName(joinData.getEmail());
+        if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
+            log.info("Password doesn't match");
+            return false;
+        }
+        member.setPassword(joinData.getPassword());
+        memberRepository.make(member);
+        return true;
+    }
+
+    public Member login(String email, String password){
+        Optional<Member> user = memberRepository.findByEmail(email);
+        if(user.isEmpty()){
+            log.info("email doesn't exist");
+            return null;
+        }
+        Member member = user.get();
+        if(!password.equals(member.getPassword())){
+            log.info("wrong password");
+            return null;
+        }
+        return member;
+    }
+
+}
