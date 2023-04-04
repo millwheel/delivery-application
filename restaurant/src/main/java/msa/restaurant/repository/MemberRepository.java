@@ -1,5 +1,13 @@
 package msa.restaurant.repository;
 
-public class MemberRepository {
+import msa.restaurant.DAO.Member;
+
+import java.util.Optional;
+
+public interface MemberRepository {
+
+    public void make(Member member);
+    Optional<Member> findById(Long id);
+    Optional<Member> findByEmail(String email);
 
 }
