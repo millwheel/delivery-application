@@ -10,4 +10,5 @@ public class HomeController {
     public String home(){
         return "Customer server is activated successfully";
     }
+
 }
