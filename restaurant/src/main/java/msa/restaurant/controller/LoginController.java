@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Member;
 import msa.restaurant.DTO.LoginForm;
 import msa.restaurant.service.MemberService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,11 @@ public class LoginController {
 
     public LoginController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping("/login")
+    public String joinForm(){
+        return "login form: email, password";
     }
 
     @PostMapping("/login")
