@@ -1,5 +1,6 @@
 package msa.rider.controller;
 
+import msa.rider.DTO.Blog;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(){
-        return "Rider server is activated successfully";
+    public Blog home(){
+        Blog blog = new Blog();
+        blog.setTitle("Server test");
+        blog.setContent("Rider server is activated successfully");
+        return blog;
     }
 }
