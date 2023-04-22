@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/rider")
     public String home(){
         return "Rider server is activated successfully";
     }

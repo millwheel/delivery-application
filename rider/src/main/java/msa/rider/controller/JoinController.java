@@ -18,12 +18,12 @@ public class JoinController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/join")
+    @GetMapping("/rider/join")
     public String joinForm(){
         return "join form: name, email, password, passwordConfirm";
     }
 
-    @PostMapping("/join")
+    @PostMapping("/rider/join")
     public String join(@RequestBody JoinForm data){
         boolean result = memberService.join(data);
         if(!result){

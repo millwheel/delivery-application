@@ -23,12 +23,12 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/rider/login")
     public String joinForm(){
         return "login form: email, password";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/rider/login")
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
