@@ -41,7 +41,10 @@ public class LoginController {
             return;
         }
         log.info("login success");
-        response.sendRedirect("/");
 
+        String token = memberService.makeJwtToken();
+        log.info("JWT={}", token);
+
+        response.sendRedirect("/rider?id_token=" + token);
     }
 }

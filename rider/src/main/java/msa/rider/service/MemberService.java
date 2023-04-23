@@ -1,5 +1,8 @@
 package msa.rider.service;
 
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.DAO.Member;
 import msa.rider.DTO.JoinForm;
@@ -7,6 +10,8 @@ import msa.rider.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
@@ -48,7 +53,21 @@ public class MemberService {
             log.info("wrong password");
             return null;
         }
+
         return member;
+    }
+
+    public String makeJwtToken(){
+        Date now = new Date();
+        return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
+                .setIssuer("fresh") // (2)
+                .setIssuedAt(now) // (3)
+                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
+                .claim("id", "아이디") // (5)
+                .claim("email", "ajufresh@gmail.com")
+                .signWith(SignatureAlgorithm.HS256, "secret") // (6)
+                .compact();
     }
 
 }
