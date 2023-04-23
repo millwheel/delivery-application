@@ -66,7 +66,7 @@ public class MemberService {
                 .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
                 .claim("id", "아이디") // (5)
                 .claim("email", "ajufresh@gmail.com")
-                .signWith(SignatureAlgorithm.HS256, "secret") // (6)
+                .signWith(SignatureAlgorithm.HS256, "sizeOfSecretKeyHasToBeMoreThan256BitsSoMakeItLonger") // (6)
                 .compact();
     }
 
