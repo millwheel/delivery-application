@@ -12,7 +12,7 @@ import java.util.Optional;
 @RestController
 public class ListController {
 
-    @GetMapping("/rider/order-list")
+    @GetMapping("/restaurant/order-list")
     public String orderList (@RequestParam("id_token") Optional<String> jwt, HttpServletResponse response){
         if (jwt.isPresent()) {
             String token = jwt.get();

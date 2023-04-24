@@ -41,12 +41,11 @@ public class LoginController {
             return;
         }
         log.info("login success");
-        response.sendRedirect("/restaurant");
 
         String token = memberService.makeJwtToken();
         log.info("JWT={}", token);
 
-        response.sendRedirect("/rider/order-list?id_token=" + token);
+        response.sendRedirect("/restaurant/order-list?id_token=" + token);
 
     }
 }
