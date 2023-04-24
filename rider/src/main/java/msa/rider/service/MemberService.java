@@ -78,5 +78,10 @@ public class MemberService {
                 .getBody();
     }
 
+    public String getEmailFromClaims(Claims claims){
+        return claims.get("email").toString();
+    }
+
+
 
 }

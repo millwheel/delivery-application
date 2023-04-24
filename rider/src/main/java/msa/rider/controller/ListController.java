@@ -29,8 +29,9 @@ public class ListController {
             log.info("header={}", token);
             Claims claims = memberService.parseJwtToken(token);
             log.info("claims={}", claims);
-            return "Your JWT is " + token + " and order list is here";
-        }
+            String email = memberService.getEmailFromClaims(claims);
+            log.info("email={}", email);
+            return "Your email is " + email;       }
         return "No JWT";
     }
 
