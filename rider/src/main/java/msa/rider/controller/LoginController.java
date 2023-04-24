@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.net.http.HttpHeaders;
 
 @Slf4j
 @RestController
@@ -42,9 +43,11 @@ public class LoginController {
         }
         log.info("login success");
 
-        String token = memberService.makeJwtToken();
-        log.info("JWT={}", token);
+        String id = loginMember.getId();
+        String email = loginMember.getEmail();
 
+        String token = memberService.makeJwtToken(id, email);
+        log.info("JWT={}", token);
         response.sendRedirect("/rider/order-list?id_token=" + token);
     }
 }
