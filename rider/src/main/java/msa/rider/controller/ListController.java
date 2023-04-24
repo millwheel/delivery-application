@@ -16,7 +16,7 @@ public class ListController {
     public String orderList (@RequestParam ("id_token") Optional<String> jwt, HttpServletResponse response){
         if (jwt.isPresent()) {
             String token = jwt.get();
-            return "Your JWT is " + token;
+            return "Your JWT is " + token + " and order list is here";
         }
         return "No JWT";
     }

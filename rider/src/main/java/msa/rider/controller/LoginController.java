@@ -45,6 +45,6 @@ public class LoginController {
         String token = memberService.makeJwtToken();
         log.info("JWT={}", token);
 
-        response.sendRedirect("/rider?id_token=" + token);
+        response.sendRedirect("/rider/order-list?id_token=" + token);
     }
 }

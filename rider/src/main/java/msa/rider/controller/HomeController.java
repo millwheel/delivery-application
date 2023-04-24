@@ -11,10 +11,7 @@ public class HomeController {
 
     @GetMapping("/rider")
     public String home(@RequestParam("id_token") Optional<String> jwt){
-        if (jwt.isPresent()){
-            String token = jwt.get();
-            return "Your JWT is " + token;
-        }
+
         return "Rider server is activated successfully";
     }
 }
