@@ -11,7 +11,7 @@ import java.util.Optional;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/rider")
     @ResponseStatus(HttpStatus.OK)
     public String home(){
         return "Rider server is activated successfully";

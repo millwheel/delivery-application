@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -20,20 +21,31 @@ public class ListController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/order-list")
+    @GetMapping("/rider/order-list")
     @ResponseStatus(HttpStatus.OK)
-    public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) Optional<String> jwt, HttpServletResponse response){
+    public String orderList (@RequestHeader Map<String, String> headers){
 
-        if (jwt.isPresent()) {
-            String token = jwt.get();
-            log.info("header={}", token);
+        if (headers == null){
+            return "No Headers";
+        }
+
+        StringBuilder mapAsString = new StringBuilder("{");
+        for (String key : headers.keySet()) {
+            mapAsString.append(key + "=" + headers.get(key) + ", ");
+        }
+        mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("}");
+
+        String headerString = mapAsString.toString();
+
+        return headerString;
+
+//        String token = jwt.get();
+//        log.info("header={}", token);
 //            Claims claims = memberService.parseJwtToken(token);
 //            log.info("claims={}", claims);
 //            String email = memberService.getEmailFromClaims(claims);
 //            log.info("email={}", email);
-            return "Your token is " + token;
-        }
-        return "No JWT";
+//            return "Your token is " + token;
     }
 
 }
