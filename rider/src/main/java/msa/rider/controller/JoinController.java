@@ -3,10 +3,8 @@ package msa.rider.controller;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.DTO.JoinForm;
 import msa.rider.service.MemberService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -19,11 +17,13 @@ public class JoinController {
     }
 
     @GetMapping("/rider/join")
+    @ResponseStatus(HttpStatus.OK)
     public String joinForm(){
         return "join form: name, email, password, passwordConfirm";
     }
 
     @PostMapping("/rider/join")
+    @ResponseStatus(HttpStatus.OK)
     public String join(@RequestBody JoinForm data){
         boolean result = memberService.join(data);
         if(!result){
