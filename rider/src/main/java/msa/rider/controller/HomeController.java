@@ -11,10 +11,9 @@ import java.util.Optional;
 @RestController
 public class HomeController {
 
-    @GetMapping("/rider")
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public String home(@RequestParam("id_token") Optional<String> jwt){
-
+    public String home(){
         return "Rider server is activated successfully";
     }
 }

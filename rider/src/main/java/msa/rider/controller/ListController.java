@@ -20,7 +20,7 @@ public class ListController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/rider/order-list")
+    @GetMapping("/order-list")
     @ResponseStatus(HttpStatus.OK)
     public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) Optional<String> jwt, HttpServletResponse response){
 

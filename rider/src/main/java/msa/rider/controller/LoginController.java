@@ -23,13 +23,13 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/rider/login")
+    @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public String joinForm(){
         return "login form: email, password";
     }
 
-    @PostMapping("/rider/login")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
