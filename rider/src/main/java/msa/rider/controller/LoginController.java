@@ -44,13 +44,6 @@ public class LoginController {
         }
         log.info("login success");
 
-        String id = loginMember.getId();
-        String email = loginMember.getEmail();
-
-        String token = memberService.makeJwtToken(id, email);
-        log.info("JWT={}", token);
-        response.setHeader(HttpHeaders.AUTHORIZATION, token);
-        String header = response.getHeader(HttpHeaders.AUTHORIZATION);
-        response.sendRedirect("/rider/order-list");
+        response.sendRedirect("/rider");
     }
 }

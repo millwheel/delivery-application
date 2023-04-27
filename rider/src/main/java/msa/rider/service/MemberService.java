@@ -58,20 +58,7 @@ public class MemberService {
         return member;
     }
 
-    public String makeJwtToken(String id, String email){
-        Date now = new Date();
-        return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
-                .setIssuer("poland") // (2)
-                .setIssuedAt(now) // (3)
-                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
-                .claim("id", id) // (5)
-                .claim("email", email)
-                .signWith(SignatureAlgorithm.HS256, "sizeOfSecretKeyHasToBeMoreThan256BitsSoMakeItLonger") // (6)
-                .compact();
-    }
-
-    public Claims parseJwtToken(String token){
+    public Claims parseJwtPayload(String token){
         return Jwts.parser()
                 .setSigningKey("sizeOfSecretKeyHasToBeMoreThan256BitsSoMakeItLonger")
                 .parseClaimsJws(token)
