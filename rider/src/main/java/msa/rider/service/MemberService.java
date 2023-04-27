@@ -1,18 +1,15 @@
 package msa.rider.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.DAO.Member;
 import msa.rider.DTO.JoinForm;
 import msa.rider.repository.MemberRepository;
+import org.bson.json.JsonObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Date;
+import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
@@ -58,15 +55,15 @@ public class MemberService {
         return member;
     }
 
-    public Claims parseJwtPayload(String token){
-        return Jwts.parser()
-                .setSigningKey("sizeOfSecretKeyHasToBeMoreThan256BitsSoMakeItLonger")
-                .parseClaimsJws(token)
-                .getBody();
+    public String parseJwtPayload(String token){
+        String base64Payload = token.split("\\.")[1];
+        byte[] decodedBytes = Base64.getDecoder().decode(base64Payload);
+        return new String(decodedBytes);
     }
 
-    public String getEmailFromClaims(Claims claims){
-        return claims.get("email").toString();
+    public String getEmailFromPayload(String payloadString){
+        JSONObject payloadJson = new JSONObject(payloadString);
+        return payloadJson.getString("email");
     }
 
 

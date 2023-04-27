@@ -21,7 +21,9 @@ public class ListController {
     @ResponseStatus(HttpStatus.OK)
     public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
 
-        return jwt;
+        String decodedPayloadString = memberService.parseJwtPayload(jwt);
+        return memberService.getEmailFromPayload(decodedPayloadString);
+
     }
 
 }
