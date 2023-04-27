@@ -23,12 +23,12 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/restaurant/login")
     public String joinForm(){
         return "login form: email, password";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/restaurant/login")
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
@@ -41,7 +41,11 @@ public class LoginController {
             return;
         }
         log.info("login success");
-        response.sendRedirect("/");
+
+        String token = memberService.makeJwtToken();
+        log.info("JWT={}", token);
+
+        response.sendRedirect("/restaurant/order-list?id_token=" + token);
 
     }
 }

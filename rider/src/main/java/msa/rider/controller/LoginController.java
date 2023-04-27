@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import msa.rider.DAO.Member;
 import msa.rider.DTO.LoginForm;
 import msa.rider.service.MemberService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.tomcat.util.http.parser.Authorization;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -24,11 +24,13 @@ public class LoginController {
     }
 
     @GetMapping("/rider/login")
+    @ResponseStatus(HttpStatus.OK)
     public String joinForm(){
         return "login form: email, password";
     }
 
     @PostMapping("/rider/login")
+    @ResponseStatus(HttpStatus.OK)
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
@@ -41,7 +43,14 @@ public class LoginController {
             return;
         }
         log.info("login success");
-        response.sendRedirect("/");
 
+        String id = loginMember.getId();
+        String email = loginMember.getEmail();
+
+        String token = memberService.makeJwtToken(id, email);
+        log.info("JWT={}", token);
+        response.setHeader(HttpHeaders.AUTHORIZATION, token);
+        String header = response.getHeader(HttpHeaders.AUTHORIZATION);
+        response.sendRedirect("/rider/order-list");
     }
 }
