@@ -24,6 +24,10 @@ public class MemberService {
     }
 
 
+    public String getUserEmail(String token){
+        String decodedPayload = parseJwtPayload(token);
+        return getEmailFromPayload(decodedPayload);
+    }
 
     public String parseJwtPayload(String token){
         String base64Payload = token.split("\\.")[1];
@@ -35,7 +39,4 @@ public class MemberService {
         JSONObject payloadJson = new JSONObject(payloadString);
         return payloadJson.getString("email");
     }
-
-
-
 }

@@ -20,8 +20,8 @@ public class ListController {
     @GetMapping("/rider/order-list")
     @ResponseStatus(HttpStatus.OK)
     public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
-        String decodedPayloadString = memberService.parseJwtPayload(jwt);
-        return memberService.getEmailFromPayload(decodedPayloadString);
+
+        return memberService.getUserEmail(jwt);
     }
 
 }
