@@ -23,37 +23,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Boolean join(JoinForm joinData){
-        Member member = new Member();
-        if(memberRepository.findByEmail(joinData.getEmail()).isPresent()){
-            log.info("this email is already used");
-            return false;
-        }
-        member.setName(joinData.getName());
-        member.setEmail(joinData.getEmail());
-        if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
-            log.info("Password doesn't match");
-            return false;
-        }
-        member.setPassword(joinData.getPassword());
-        memberRepository.make(member);
-        return true;
-    }
 
-    public Member login(String email, String password){
-        Optional<Member> user = memberRepository.findByEmail(email);
-        if(user.isEmpty()){
-            log.info("email doesn't exist");
-            return null;
-        }
-        Member member = user.get();
-        if(!password.equals(member.getPassword())){
-            log.info("wrong password");
-            return null;
-        }
-
-        return member;
-    }
 
     public String parseJwtPayload(String token){
         String base64Payload = token.split("\\.")[1];
