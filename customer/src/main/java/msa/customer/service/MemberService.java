@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.JoinForm;
 import msa.customer.repository.MemberRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
@@ -49,6 +51,22 @@ public class MemberService {
             return null;
         }
         return member;
+    }
+
+    public String getUserEmail(String token){
+        String decodedPayload = parseJwtPayload(token);
+        return getEmailFromPayload(decodedPayload);
+    }
+
+    public String parseJwtPayload(String token){
+        String base64Payload = token.split("\\.")[1];
+        byte[] decodedBytes = Base64.getDecoder().decode(base64Payload);
+        return new String(decodedBytes);
+    }
+
+    public String getEmailFromPayload(String payloadString){
+        JSONObject payloadJson = new JSONObject(payloadString);
+        return payloadJson.getString("email");
     }
 
 }
