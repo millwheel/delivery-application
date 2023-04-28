@@ -1,6 +1,5 @@
 package msa.customer.DAO;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
