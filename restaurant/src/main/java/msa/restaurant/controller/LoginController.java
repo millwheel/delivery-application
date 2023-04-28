@@ -6,10 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Member;
 import msa.restaurant.DTO.LoginForm;
 import msa.restaurant.service.MemberService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -24,11 +22,13 @@ public class LoginController {
     }
 
     @GetMapping("/restaurant/login")
+    @ResponseStatus(HttpStatus.OK)
     public String joinForm(){
         return "login form: email, password";
     }
 
     @PostMapping("/restaurant/login")
+    @ResponseStatus(HttpStatus.OK)
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
@@ -42,10 +42,7 @@ public class LoginController {
         }
         log.info("login success");
 
-        String token = memberService.makeJwtToken();
-        log.info("JWT={}", token);
-
-        response.sendRedirect("/restaurant/order-list?id_token=" + token);
+        response.sendRedirect("/restaurant");
 
     }
 }
