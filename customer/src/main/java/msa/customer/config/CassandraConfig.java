@@ -19,7 +19,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     @Value("${cassandra.keyspace}")
     private String keySpace;
 
-    @Value("${cassandra.basePackages}")
+    @Value("${cassandra.basepackages}")
     private String basePackages;
 
     @Override
