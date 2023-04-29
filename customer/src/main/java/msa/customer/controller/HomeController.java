@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/customer")
     public String home(){
         return "Customer server is activated successfully";
     }

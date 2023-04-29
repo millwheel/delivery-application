@@ -3,13 +3,11 @@ package msa.customer.controller;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.DTO.JoinForm;
 import msa.customer.service.MemberService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RequestMapping("/customer")
 public class JoinController {
 
     private final MemberService memberService;
@@ -18,9 +16,9 @@ public class JoinController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/customer/join")
+    @GetMapping("/join")
 
-    @PostMapping("/customer/join")
+    @PostMapping("/join")
     public String join(@RequestBody JoinForm data){
         boolean result = memberService.join(data);
         if(!result){

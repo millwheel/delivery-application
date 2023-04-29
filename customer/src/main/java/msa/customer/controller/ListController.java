@@ -4,13 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.service.MemberService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RequestMapping("/customer")
 public class ListController {
 
     private final MemberService memberService;
@@ -19,7 +17,7 @@ public class ListController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/rider/order-list")
+    @GetMapping("/order-list")
     @ResponseStatus(HttpStatus.OK)
     public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
 
