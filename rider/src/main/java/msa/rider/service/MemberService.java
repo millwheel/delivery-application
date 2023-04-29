@@ -1,16 +1,11 @@
 package msa.rider.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.DAO.Member;
-import msa.rider.DTO.JoinForm;
 import msa.rider.repository.MemberRepository;
-import org.bson.json.JsonObject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Base64;
-import java.util.Optional;
 
 @Slf4j
 @Service
