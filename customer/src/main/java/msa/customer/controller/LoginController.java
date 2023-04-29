@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.LoginForm;
 import msa.customer.service.MemberService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,10 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/login")
+    @GetMapping("/customer/login")
+
+
+    @PostMapping("/customer/login")
     public void login(@RequestBody LoginForm data,
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
@@ -30,11 +34,11 @@ public class LoginController {
 
         if(loginMember == null){
             log.info("member doesn't exist.");
-            response.sendRedirect("/login");
+            response.sendRedirect("/customer/login");
             return;
         }
         log.info("login success");
-        response.sendRedirect("/");
+        response.sendRedirect("/customer");
 
     }
 }
