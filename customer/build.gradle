@@ -22,8 +22,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.data:spring-data-cassandra:4.0.3'
+	implementation 'com.datastax.cassandra:cassandra-driver-core:4.0.0'git
 	implementation 'org.json:json:20230227'
-	implementation 'com.datastax.cassandra:cassandra-driver-core:4.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
