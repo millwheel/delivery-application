@@ -11,12 +11,10 @@ import java.util.List;
 @Getter
 @Document("member")
 public class Member {
-    @Id
-    private String id;
+
     private String name;
     private String email;
     private String password;
-    private List<String> store;
     public Member(){
 
     }
