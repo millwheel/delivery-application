@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.util.UUID;
 
-@Table
+@Table("member")
 @Getter
 @Setter
 public class Member {
