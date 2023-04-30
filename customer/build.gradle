@@ -16,12 +16,12 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven { url "https://repo.spring.io/libs-milestone" }
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.data:spring-data-cassandra:4.0.3'
+	implementation 'com.datastax.astra:astra-spring-boot-starter:0.1.13'
 	implementation 'org.json:json:20230227'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
