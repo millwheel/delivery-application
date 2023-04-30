@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Slf4j
-@RestController
 @RequestMapping("/customer")
 public class LoginController {
     private final MemberService memberService;
