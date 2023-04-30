@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Member {
 
     @PrimaryKey
-    private UUID id;
+    private Long id;
     @Column
     private String name;
     @Column

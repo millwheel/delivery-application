@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-@Primary
 public class SpringDataMemberRepository implements MemberRepository {
 
     private final SpringDataCassandraMemberRepository repository;
