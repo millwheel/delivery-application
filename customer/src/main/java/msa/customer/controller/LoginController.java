@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Slf4j
+@RestController
 @RequestMapping("/customer")
 public class LoginController {
     private final MemberService memberService;
@@ -20,6 +21,9 @@ public class LoginController {
     }
 
     @GetMapping("/login")
+    public String login(){
+        return "email, password";
+    }
 
 
     @PostMapping("/login")
