@@ -1,4 +1,4 @@
-package msa.customer.config;
+package msa.customer;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
