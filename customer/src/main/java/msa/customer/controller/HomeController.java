@@ -1,6 +1,6 @@
 package msa.customer.controller;
 
-import msa.customer.service.MemberService;
+import msa.customer.service.ParseJwtService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HomeController {
 
-    private final MemberService memberService;
+    private final ParseJwtService parseJwtService;
 
-    public HomeController(MemberService memberService) {
-        this.memberService = memberService;
+    public HomeController(ParseJwtService parseJwtService) {
+        this.parseJwtService = parseJwtService;
     }
 
     @GetMapping("/customer")
@@ -23,9 +23,9 @@ public class HomeController {
     @GetMapping("/customer/main")
     @ResponseStatus(HttpStatus.OK)
     public String main(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
-        String cognitoUsername = memberService.getCognitoUsernameFromJwt(jwt);
-        String email = memberService.getUserEmailFromJwt(jwt);
+        String cognitoUsername = parseJwtService.getCognitoUsernameFromJwt(jwt);
 
+        return "Main";
     }
 
 }

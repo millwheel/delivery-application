@@ -19,6 +19,12 @@ public class SpringDataMemberRepository implements MemberRepository{
     public void make(Member member) {
         repository.save(member);
     }
+
+    @Override
+    public Optional<Member> findById(String id) {
+        return repository.findById(id);
+    }
+
     @Override
     public Optional<Member> findByEmail(String email) {
         return repository.findByEmail(email);

@@ -6,6 +6,7 @@ import msa.customer.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@RestController
 @RequestMapping("/customer")
 public class JoinController {
 
@@ -17,7 +18,7 @@ public class JoinController {
 
     @GetMapping("/join")
     public String join(){
-        return "name, email, password, passwordConfirm";
+        return "id, name, email, password, passwordConfirm";
     }
 
     @PostMapping("/join")

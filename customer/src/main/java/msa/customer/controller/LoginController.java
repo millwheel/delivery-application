@@ -31,7 +31,7 @@ public class LoginController {
                       HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
 
-        Member loginMember = memberService.login(data.getEmail(), data.getPassword());
+        Member loginMember = memberService.login(data.getId(), data.getPassword());
 
         if(loginMember == null){
             log.info("member doesn't exist.");

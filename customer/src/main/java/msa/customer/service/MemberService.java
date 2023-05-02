@@ -27,6 +27,7 @@ public class MemberService {
             log.info("this email is already used");
             return false;
         }
+        member.setMemberId(joinData.getId());
         member.setName(joinData.getName());
         member.setEmail(joinData.getEmail());
         if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
@@ -38,8 +39,8 @@ public class MemberService {
         return true;
     }
 
-    public Member login(String email, String password){
-        Optional<Member> user = memberRepository.findByEmail(email);
+    public Member login(String id, String password){
+        Optional<Member> user = memberRepository.findById(id);
         if(user.isEmpty()){
             log.info("email doesn't exist");
             return null;

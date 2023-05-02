@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface MemberRepository {
     public void make(Member member);
+    Optional<Member> findById(String id);
     Optional<Member> findByEmail(String email);
 }
