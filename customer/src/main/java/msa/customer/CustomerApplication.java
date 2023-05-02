@@ -37,6 +37,9 @@ public class CustomerApplication {
 
 			vetRepository.findById(savedJohn.getId())
 					.ifPresent(v -> log.info("Vet by id: {}", v.getFirstName()));
+
+			vetRepository.findById(savedJane.getId())
+					.ifPresent(v -> log.info("Vet by id: {}", v.getFirstName()));
 		};
 	}
 }

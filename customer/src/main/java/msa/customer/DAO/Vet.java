@@ -13,7 +13,6 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Vet {
 
