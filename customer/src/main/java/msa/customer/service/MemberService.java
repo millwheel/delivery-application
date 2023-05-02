@@ -4,11 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.JoinForm;
 import msa.customer.repository.MemberRepository;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
