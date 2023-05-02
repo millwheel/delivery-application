@@ -12,11 +12,9 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
-@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
