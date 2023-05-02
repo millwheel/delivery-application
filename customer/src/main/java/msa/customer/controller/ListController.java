@@ -17,11 +17,12 @@ public class ListController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/order-list")
+    @GetMapping("/menu-list")
     @ResponseStatus(HttpStatus.OK)
     public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
-
-        return memberService.getUserEmail(jwt);
+        String cognitoUsername = memberService.getCognitoUsernameFromJwt(jwt);
+        String email = memberService.getUserEmailFromJwt(jwt);
+        return cognitoUsername + " " + email;
     }
 
 }

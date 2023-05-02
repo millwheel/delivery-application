@@ -52,20 +52,4 @@ public class MemberService {
         return member;
     }
 
-    public String getUserEmail(String token){
-        String decodedPayload = parseJwtPayload(token);
-        return getEmailFromPayload(decodedPayload);
-    }
-
-    public String parseJwtPayload(String token){
-        String base64Payload = token.split("\\.")[1];
-        byte[] decodedBytes = Base64.getDecoder().decode(base64Payload);
-        return new String(decodedBytes);
-    }
-
-    public String getEmailFromPayload(String payloadString){
-        JSONObject payloadJson = new JSONObject(payloadString);
-        return payloadJson.getString("email");
-    }
-
 }
