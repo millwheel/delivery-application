@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@RestController
 @RequestMapping("/customer")
 public class ListController {
 

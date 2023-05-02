@@ -6,6 +6,7 @@ import msa.customer.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@RestController
 @RequestMapping("/customer")
 public class JoinController {
 
