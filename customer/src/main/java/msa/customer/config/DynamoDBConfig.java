@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableDynamoDBRepositories(basePackages = "msa.customer.repository")
 public class DynamoDBConfig {
 
     @Value("${aws.accessKey}")
