@@ -16,7 +16,7 @@ public class ProductInfo {
 
     @DynamoDBAttribute
     public String getMsrp(){
-        return msrp
+        return msrp;
     }
 
     @DynamoDBAttribute
