@@ -27,5 +27,4 @@ public class Member {
     private String email;
     @DynamoDBAttribute
     private String password;
-
 }

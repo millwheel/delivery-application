@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequestMapping("/customer")
+@RestController
 public class LoginController {
     private final MemberService memberService;
 

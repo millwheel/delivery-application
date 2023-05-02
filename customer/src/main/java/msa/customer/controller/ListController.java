@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequestMapping("/customer")
+@RestController
 public class ListController {
 
     private final MemberService memberService;
