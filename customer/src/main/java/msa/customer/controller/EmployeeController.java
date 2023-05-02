@@ -2,11 +2,13 @@ package msa.customer.controller;
 
 import msa.customer.DAO.Employee;
 import msa.customer.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EmployeeController {
 
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     @PostMapping("/employee")
