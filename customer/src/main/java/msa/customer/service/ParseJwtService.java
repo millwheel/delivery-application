@@ -8,7 +8,7 @@ import java.util.Base64;
 @Service
 public class ParseJwtService {
 
-    public String getUserEmailFromJwt(String token){
+    public String getEmailFromJwt(String token){
         JSONObject payloadJson = parseJwt(token);
         return payloadJson.getString("email");
     }
@@ -16,6 +16,11 @@ public class ParseJwtService {
     public String getCognitoUsernameFromJwt(String token){
         JSONObject payloadJson = parseJwt(token);
         return payloadJson.getString("cognito:username");
+    }
+
+    public String getPhoneNumberFromJwt(String token){
+        JSONObject payloadJSON = parseJwt(token);
+        return parseJwt(token).getString("phone_number");
     }
 
     public JSONObject parseJwt(String token){

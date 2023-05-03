@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "member")
+@DynamoDBTable(tableName = "delivery_customer")
 public class Member {
 
     @DynamoDBHashKey
@@ -24,5 +24,6 @@ public class Member {
     @DynamoDBAttribute
     private String email;
     @DynamoDBAttribute
-    private String password;
+    private String phoneNumber;
+
 }

@@ -20,9 +20,8 @@ public class ListController {
     @GetMapping("/menu-list")
     @ResponseStatus(HttpStatus.OK)
     public String menuList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
-        String cognitoUsername = parseJwtService.getCognitoUsernameFromJwt(jwt);
-        String email = parseJwtService.getUserEmailFromJwt(jwt);
-        return cognitoUsername + " " + email;
+
+        return "menu";
     }
 
 }
