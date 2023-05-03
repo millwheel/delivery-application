@@ -20,7 +20,7 @@ public class ParseJwtService {
 
     public String getPhoneNumberFromJwt(String token){
         JSONObject payloadJSON = parseJwt(token);
-        return parseJwt(token).getString("phone_number");
+        return payloadJSON.getString("phone_number");
     }
 
     public JSONObject parseJwt(String token){

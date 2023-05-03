@@ -31,7 +31,6 @@ public class MemberService {
             log.info("Password doesn't match");
             return false;
         }
-        member.setPassword(joinData.getPassword());
         memberRepository.make(member);
         return true;
     }
@@ -43,10 +42,6 @@ public class MemberService {
             return null;
         }
         Member member = user.get();
-        if(!password.equals(member.getPassword())){
-            log.info("wrong password");
-            return null;
-        }
         return member;
     }
 
