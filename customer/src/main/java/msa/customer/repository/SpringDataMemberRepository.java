@@ -25,8 +25,4 @@ public class SpringDataMemberRepository implements MemberRepository{
         return repository.findById(id);
     }
 
-    @Override
-    public Optional<Member> findByEmail(String email) {
-        return repository.findByEmail(email);
-    }
 }

@@ -9,5 +9,4 @@ import java.util.Optional;
 @EnableScan
 public interface SpringDataDynamoMemberRepository extends CrudRepository<Member, String> {
 
-    Optional<Member> findByEmail(String email);
 }
