@@ -25,4 +25,10 @@ public class SpringDataMemberRepository implements MemberRepository{
         return repository.findById(id);
     }
 
+    @Override
+    public void setPhoneNumber(String id, String phoneNumber){
+        Optional<Member> member = repository.findById(id);
+
+    }
+
 }

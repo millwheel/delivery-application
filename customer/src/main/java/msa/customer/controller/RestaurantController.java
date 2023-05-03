@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/customer")
@@ -32,9 +33,8 @@ public class RestaurantController {
             response.sendRedirect(loginPage);
         }
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
-        String address = memberService.getAddress(id);
-        if(address == null){
-            response.sendRedirect();
+        Optional<String> address = memberService.getAddress(id);
+        if(address.isEmpty()){
         }
 
         return "restaurant";

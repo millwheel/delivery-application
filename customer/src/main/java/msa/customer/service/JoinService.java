@@ -2,6 +2,7 @@ package msa.customer.service;
 
 import msa.customer.DAO.Member;
 import msa.customer.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,6 +12,7 @@ public class JoinService {
 
     private final MemberRepository memberRepository;
 
+    @Autowired
     public JoinService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }

@@ -18,11 +18,26 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public String getAddress(String id){
-        memberRepository.findById(id).ifPresent(member -> {
-            return member.getAddress();
-        });
-        return null;
+    public Optional<String> getName(String id){
+        return memberRepository.findById(id).map(Member::getName);
     }
+
+    public Optional<String> getEmail(String id){
+        return memberRepository.findById(id).map(Member::getEmail);
+    }
+
+    public Optional<String> getPhoneNumber(String id){
+        return memberRepository.findById(id).map(Member::getPhoneNumber);
+    }
+
+    public Optional<String> getAddress(String id){
+        return memberRepository.findById(id).map(Member::getAddress);
+    }
+
+
+
+
+
+
 
 }
