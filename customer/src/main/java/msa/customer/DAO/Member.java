@@ -25,5 +25,7 @@ public class Member {
     private String email;
     @DynamoDBAttribute
     private String phoneNumber;
+    @DynamoDBAttribute
+    private String address;
 
 }

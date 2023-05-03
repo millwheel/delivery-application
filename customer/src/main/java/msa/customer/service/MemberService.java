@@ -18,31 +18,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Boolean join(JoinForm joinData){
-        Member member = new Member();
-        if(memberRepository.findByEmail(joinData.getEmail()).isPresent()){
-            log.info("this email is already used");
-            return false;
-        }
-        member.setMemberId(joinData.getId());
-        member.setName(joinData.getName());
-        member.setEmail(joinData.getEmail());
-        if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
-            log.info("Password doesn't match");
-            return false;
-        }
-        memberRepository.make(member);
-        return true;
-    }
-
-    public Member login(String id, String password){
-        Optional<Member> user = memberRepository.findById(id);
-        if(user.isEmpty()){
-            log.info("email doesn't exist");
-            return null;
-        }
-        Member member = user.get();
-        return member;
+    public String getAddress(String id){
+        memberRepository.findById(id).ifPresent(member -> {
+            return member.getAddress();
+        });
+        return null;
     }
 
 }
