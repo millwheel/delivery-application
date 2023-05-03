@@ -26,9 +26,18 @@ public class SpringDataMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setPhoneNumber(String id, String phoneNumber){
-        Optional<Member> member = repository.findById(id);
+    public void setName(String id, String name){
+        repository.findById(id).ifPresent(member -> member.setName(name));
+    }
 
+    @Override
+    public void setPhoneNumber(String id, String phoneNumber){
+        repository.findById(id).ifPresent(member -> member.setPhoneNumber(phoneNumber));
+    }
+
+    @Override
+    public void setAddress(String id, String address){
+        repository.findById(id).ifPresent(member -> member.setAddress(address));
     }
 
 }
