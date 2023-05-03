@@ -33,10 +33,16 @@ public class MemberService {
         return memberRepository.findById(id).map(Member::getAddress);
     }
 
+    public void setName(String id, String name){
+        memberRepository.setName(id, name);
+    }
 
+    public void setPhoneNumber(String id, String phoneNumber){
+        memberRepository.setPhoneNumber(id, phoneNumber);
+    }
 
-
-
-
+    public void setAddress(String id, String address){
+        memberRepository.setAddress(id, address);
+    }
 
 }
