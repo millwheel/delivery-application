@@ -12,10 +12,4 @@ public interface SpringDataDynamoMemberRepository extends CrudRepository<Member,
 
     Optional<String> findByEmail(String email);
 
-    long countByLastname(String lastname);
-
-    List<Member> removeByFirstname(String firstname);
-
-    boolean findByAgeLessThanEqual(int age);
-
 }
