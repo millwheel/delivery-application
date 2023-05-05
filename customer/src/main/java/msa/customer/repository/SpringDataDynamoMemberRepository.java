@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface SpringDataDynamoMemberRepository extends CrudRepository<Member, String> {
 
     Optional<String> findByEmail(String email);
+
     long countByLastname(String lastname);
 
     List<Member> removeByFirstname(String firstname);
