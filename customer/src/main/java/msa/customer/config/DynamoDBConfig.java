@@ -23,8 +23,6 @@ public class DynamoDBConfig {
     private String awsSecretKey;
     @Value("${aws.region}")
     private String awsRegion;
-//    @Value("${aws.endpoint}")
-//    private String dynamoEndpoint;
 
     public AWSCredentials amazonAWSCredentials() {
         return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
