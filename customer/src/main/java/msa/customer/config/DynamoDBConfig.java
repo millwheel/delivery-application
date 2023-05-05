@@ -32,19 +32,10 @@ public class DynamoDBConfig {
         return new AWSStaticCredentialsProvider(amazonAWSCredentials());
     }
 
-    public DynamoDBMapperConfig dynamoDBMapperConfig() {
-        return DynamoDBMapperConfig.DEFAULT;
-    }
-
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard().withCredentials(amazonAWSCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
-
-    public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB, DynamoDBMapperConfig config) {
-        return new DynamoDBMapper(amazonDynamoDB, config);
-    }
-
 
 }
