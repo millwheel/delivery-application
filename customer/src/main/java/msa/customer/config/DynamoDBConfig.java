@@ -23,8 +23,6 @@ public class DynamoDBConfig {
     private String awsSecretKey;
     @Value("${aws.region}")
     private String awsRegion;
-//    @Value("${aws.endpoint}")
-//    private String dynamoEndpoint;
 
     public AWSCredentials amazonAWSCredentials() {
         return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
@@ -34,18 +32,10 @@ public class DynamoDBConfig {
         return new AWSStaticCredentialsProvider(amazonAWSCredentials());
     }
 
-    public DynamoDBMapperConfig dynamoDBMapperConfig() {
-        return DynamoDBMapperConfig.DEFAULT;
-    }
-
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard().withCredentials(amazonAWSCredentialsProvider())
                 .withRegion(awsRegion).build();
-    }
-
-    public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB, DynamoDBMapperConfig config) {
-        return new DynamoDBMapper(amazonDynamoDB, config);
     }
 
 
