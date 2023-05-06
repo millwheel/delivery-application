@@ -35,6 +35,7 @@ public class RestaurantController {
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
         Optional<String> address = memberService.getAddress(id);
         if(address.isEmpty()){
+            response.sendRedirect("/member/info");
         }
 
         return "restaurant";
