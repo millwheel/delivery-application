@@ -44,8 +44,8 @@ public class MemberController {
         String address = data.getAddress();
         String phoneNumber = data.getPhoneNumber();
         if(name != null) memberService.setName(id, name);
-        if(address != null) memberService.setPhoneNumber(id, address);
         if(phoneNumber != null) memberService.setPhoneNumber(id, phoneNumber);
+        if(address != null) memberService.setAddress(id, address);
         response.sendRedirect("/member/info");
     }
 }
