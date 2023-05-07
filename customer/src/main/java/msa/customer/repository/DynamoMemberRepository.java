@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public class SpringDataMemberRepository implements MemberRepository{
+public class DynamoMemberRepository implements MemberRepository{
 
     private final SpringDataDynamoMemberRepository repository;
 
-    public SpringDataMemberRepository(SpringDataDynamoMemberRepository repository) {
+    public DynamoMemberRepository(SpringDataDynamoMemberRepository repository) {
         this.repository = repository;
     }
     @Override
