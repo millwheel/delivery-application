@@ -1,19 +1,17 @@
 package msa.customer.repository;
 
 import msa.customer.DAO.Member;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public class DynamoMemberRepository implements MemberRepository{
+public class MongoMemberRepository implements MemberRepository{
 
-    private final SpringDataDynamoMemberRepository repository;
+    private final SpringDataMongoMemberRepository repository;
 
-    public DynamoMemberRepository(SpringDataDynamoMemberRepository repository) {
+    public MongoMemberRepository(SpringDataMongoMemberRepository repository) {
         this.repository = repository;
     }
+
     @Override
     public void make(Member member) {
         repository.save(member);
@@ -47,5 +45,4 @@ public class DynamoMemberRepository implements MemberRepository{
             repository.save(member);
         });
     }
-
 }
