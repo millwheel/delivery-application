@@ -1,9 +1,13 @@
 package msa.customer.repository;
 
 import msa.customer.DAO.Member;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Primary
+@Repository
 public class MongoMemberRepository implements MemberRepository{
 
     private final SpringDataMongoMemberRepository repository;
