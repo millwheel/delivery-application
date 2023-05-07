@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.data:spring-data-mongodb:4.0.3'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
 //	implementation 'com.datastax.astra:astra-spring-boot-starter:0.1.13'
 //	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.429'
