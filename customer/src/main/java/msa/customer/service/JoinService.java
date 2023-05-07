@@ -22,11 +22,10 @@ public class JoinService {
         return user.isPresent();
     }
 
-    public void joinMember(String cognitoUsername, String email, String phoneNumber){
+    public void joinMember(String cognitoUsername, String email){
         Member member = new Member();
         member.setMemberId(cognitoUsername);
         member.setEmail(email);
-        member.setPhoneNumber(phoneNumber);
         memberRepository.make(member);
     }
 }

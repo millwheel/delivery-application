@@ -33,8 +33,7 @@ public class MemberController {
         String cognitoUsername = parseJwtService.getCognitoUsernameFromJwt(jwt);
         if(!joinService.checkJoinedMember(cognitoUsername)){
             String email = parseJwtService.getEmailFromJwt(jwt);
-            String phoneNumber = parseJwtService.getPhoneNumberFromJwt(jwt);
-            joinService.joinMember(cognitoUsername, email, phoneNumber);
+            joinService.joinMember(cognitoUsername, email);
         }
         return "member main-gate";
     }
