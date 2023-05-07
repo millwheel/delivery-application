@@ -37,7 +37,6 @@ public class RestaurantController {
         if(address.isEmpty()){
             response.sendRedirect("/member/info");
         }
-
         return "restaurant";
     }
 }

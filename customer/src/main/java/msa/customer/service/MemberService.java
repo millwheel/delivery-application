@@ -34,14 +34,17 @@ public class MemberService {
     }
 
     public void setName(String id, String name){
+        log.info("set name={} for {}", name, id);
         memberRepository.setName(id, name);
     }
 
     public void setPhoneNumber(String id, String phoneNumber){
+        log.info("set phoneNumber={} for {}", phoneNumber, id);
         memberRepository.setPhoneNumber(id, phoneNumber);
     }
 
     public void setAddress(String id, String address){
+        log.info("set address={} for {}", address, id);
         memberRepository.setAddress(id, address);
     }
 
