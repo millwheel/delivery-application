@@ -37,9 +37,4 @@ public class DynamoDBConfig {
         return AmazonDynamoDBClientBuilder.standard().withCredentials(amazonAWSCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
-
-<<<<<<< HEAD
-
-=======
->>>>>>> a8eeb31e43fd907254d1241d290b0349a5f0686a
 }
