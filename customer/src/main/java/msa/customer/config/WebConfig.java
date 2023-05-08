@@ -21,8 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JoinCheckInterceptor(parseJwtService, joinService))
-                .order(2)
-                .addPathPatterns("/customer/**")
-                .excludePathPatterns("/customer", "/customer/food-kind");
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/customer", "/customer/main", "/error");
     }
 }
