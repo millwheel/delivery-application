@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class WeatherService {
 
-    private final String uri = "https://api.openweathermap.org/data/3.0/onecall?lat=39.31&lon=-74.5&exclude=minutely,hourly,daily&appid=f1519305e3ce3603284fbde37b5c5731";
+    private final String uri = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m";
 
     public String getWeather(){
         RestTemplate restTemplate = new RestTemplate();
