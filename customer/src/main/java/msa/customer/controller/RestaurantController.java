@@ -17,8 +17,6 @@ public class RestaurantController {
 
     private final ParseJwtService parseJwtService;
     private final MemberService memberService;
-    @Value("${login.page}")
-    private String loginPage;
 
     public RestaurantController(ParseJwtService parseJwtService, MemberService memberService) {
         this.parseJwtService = parseJwtService;
@@ -29,11 +27,10 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     public String restaurantList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
                                   HttpServletResponse response) throws IOException {
-
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
         Optional<String> address = memberService.getAddress(id);
         if(address.isEmpty()){
-            response.sendRedirect("/member/info");
+            response.sendRedirect("/customer/member/info");
         }
         return "restaurant";
     }
