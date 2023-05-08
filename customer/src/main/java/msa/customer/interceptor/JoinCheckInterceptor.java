@@ -20,8 +20,6 @@ public class JoinCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestURI = request.getRequestURI();
-        log.info("authorization activated: {}", requestURI);
         String jwt = request.getHeader("Authorization");
         String cognitoUsername = parseJwtService.getCognitoUsernameFromJwt(jwt);
         if(!joinService.checkJoinedMember(cognitoUsername)){

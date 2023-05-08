@@ -29,9 +29,7 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     public String restaurantList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
                                   HttpServletResponse response) throws IOException {
-        if(jwt == null){
-            response.sendRedirect(loginPage);
-        }
+
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
         Optional<String> address = memberService.getAddress(id);
         if(address.isEmpty()){
