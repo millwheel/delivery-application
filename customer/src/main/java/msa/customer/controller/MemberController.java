@@ -44,11 +44,13 @@ public class MemberController {
                               HttpServletResponse response) throws IOException {
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
         String name = data.getName();
-        String address = data.getAddress();
         String phoneNumber = data.getPhoneNumber();
+        String address = data.getAddress();
+        String addressDetail = data.getAddressDetail();
         if(name != null) memberService.setName(id, name);
         if(phoneNumber != null) memberService.setPhoneNumber(id, phoneNumber);
         if(address != null) memberService.setAddress(id, address);
+        if(addressDetail != null) memberService.setAddressDetail(id, addressDetail);
         response.sendRedirect("/customer/member/info");
     }
 }

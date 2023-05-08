@@ -49,4 +49,12 @@ public class MongoMemberRepository implements MemberRepository{
             repository.save(member);
         });
     }
+
+    @Override
+    public void setAddressDetail(String id, String addressDetail) {
+        repository.findById(id).ifPresent(member -> {
+            member.setAddress(addressDetail);
+            repository.save(member);
+        });
+    }
 }

@@ -13,4 +13,6 @@ public interface MemberRepository {
     void setPhoneNumber(String id, String phoneNumber);
 
     void setAddress(String id, String address);
+
+    void setAddressDetail(String id, String addressDetail);
 }

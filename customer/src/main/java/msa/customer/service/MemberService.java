@@ -45,4 +45,8 @@ public class MemberService {
         memberRepository.setAddress(id, address);
     }
 
+    public void setAddressDetail(String id, String addressDetail){
+        memberRepository.setAddressDetail(id, addressDetail);
+    }
+
 }

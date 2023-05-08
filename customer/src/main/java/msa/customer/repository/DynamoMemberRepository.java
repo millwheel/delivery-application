@@ -48,4 +48,12 @@ public class DynamoMemberRepository implements MemberRepository{
         });
     }
 
+    @Override
+    public void setAddressDetail(String id, String addressDetail) {
+        repository.findById(id).ifPresent(member -> {
+            member.setAddress(addressDetail);
+            repository.save(member);
+        });
+    }
+
 }

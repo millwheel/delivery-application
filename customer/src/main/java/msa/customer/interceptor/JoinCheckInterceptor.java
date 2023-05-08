@@ -25,7 +25,7 @@ public class JoinCheckInterceptor implements HandlerInterceptor {
         if(!joinService.checkJoinedMember(cognitoUsername)){
             String email = parseJwtService.getEmailFromJwt(jwt);
             joinService.joinMember(cognitoUsername, email);
-            log.info("Create member id={}, email={}", cognitoUsername, email);
+            log.info("Create member: id={}, email={}", cognitoUsername, email);
         }
         return true;
     }
