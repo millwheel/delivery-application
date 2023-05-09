@@ -27,5 +27,6 @@ public class Member {
     private String phoneNumber;
     private String address;
     private String addressDetail;
+    private Coordinates coordinates;
 
 }

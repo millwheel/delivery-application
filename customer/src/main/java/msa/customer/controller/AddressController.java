@@ -14,8 +14,4 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/address")
-    public ResponseEntity<String> addressInfo(){
-        return addressService.getCoordinate();
-    }
 }

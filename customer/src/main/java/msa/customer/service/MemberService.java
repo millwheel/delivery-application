@@ -12,9 +12,11 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AddressService addressService;
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, AddressService addressService) {
         this.memberRepository = memberRepository;
+        this.addressService = addressService;
     }
 
     public Optional<String> getName(String id){
@@ -43,6 +45,7 @@ public class MemberService {
 
     public void setAddress(String id, String address){
         memberRepository.setAddress(id, address);
+        addressService.getCoordinate(address);
     }
 
     public void setAddressDetail(String id, String addressDetail){

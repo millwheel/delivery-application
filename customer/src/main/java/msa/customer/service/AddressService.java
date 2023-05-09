@@ -18,7 +18,7 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public ResponseEntity<String> getCoordinate(){
+    public ResponseEntity<String> getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
@@ -30,7 +30,7 @@ public class AddressService {
 
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(uri)
-                .queryParam("query","강북구 도봉로 110")
+                .queryParam("query",address)
                 .build();
 
         ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
