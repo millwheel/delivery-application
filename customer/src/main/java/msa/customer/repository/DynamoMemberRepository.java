@@ -58,9 +58,8 @@ public class DynamoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setCoordinates(String id, String x, String y) {
+    public void setCoordinates(String id, Coordinates coordinates) {
         repository.findById(id).ifPresent(member -> {
-            Coordinates coordinates = new Coordinates(x, y);
             member.setCoordinates(coordinates);
             repository.save(member);
         });

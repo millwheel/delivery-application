@@ -1,6 +1,7 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.DAO.Coordinates;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public ResponseEntity<String> getCoordinate(String address){
+    public Coordinates getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
@@ -43,7 +44,7 @@ public class AddressService {
         String x = documents.getJSONObject(0).getString("x");
         String y = documents.getJSONObject(0).getString("y");
 
-        return response;
+        return new Coordinates(x, y);
     }
 
 }

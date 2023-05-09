@@ -1,6 +1,7 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
 import msa.customer.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class MemberService {
         return memberRepository.findById(id).map(Member::getAddress);
     }
 
+    public Optional<String> getAddressDetail(String id){
+        return memberRepository.findById(id).map(Member::getAddressDetail);
+    }
+
     public void setName(String id, String name){
         memberRepository.setName(id, name);
     }
@@ -45,7 +50,8 @@ public class MemberService {
 
     public void setAddress(String id, String address){
         memberRepository.setAddress(id, address);
-        addressService.getCoordinate(address);
+        Coordinates coordinate = addressService.getCoordinate(address);
+        memberRepository.setCoordinates(id, coordinate);
     }
 
     public void setAddressDetail(String id, String addressDetail){

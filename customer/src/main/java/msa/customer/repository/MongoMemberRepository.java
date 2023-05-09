@@ -54,19 +54,17 @@ public class MongoMemberRepository implements MemberRepository{
     @Override
     public void setAddressDetail(String id, String addressDetail) {
         repository.findById(id).ifPresent(member -> {
-            member.setAddress(addressDetail);
+            member.setAddressDetail(addressDetail);
             repository.save(member);
         });
     }
 
     @Override
-    public void setCoordinates(String id, String x, String y) {
+    public void setCoordinates(String id, Coordinates coordinates) {
         repository.findById(id).ifPresent(member -> {
-            Coordinates coordinates = new Coordinates(x, y);
             member.setCoordinates(coordinates);
             repository.save(member);
         });
     }
-
 
 }

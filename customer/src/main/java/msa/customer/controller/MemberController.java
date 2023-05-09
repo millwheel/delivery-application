@@ -34,6 +34,7 @@ public class MemberController {
         memberService.getEmail(id).ifPresent(member::setEmail);
         memberService.getPhoneNumber(id).ifPresent(member::setPhoneNumber);
         memberService.getAddress(id).ifPresent(member::setAddress);
+        memberService.getAddressDetail(id).ifPresent(member::setAddressDetail);
         return member;
     }
 
@@ -47,6 +48,7 @@ public class MemberController {
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
+        log.info(addressDetail);
         if(name != null) memberService.setName(id, name);
         if(phoneNumber != null) memberService.setPhoneNumber(id, phoneNumber);
         if(address != null) memberService.setAddress(id, address);

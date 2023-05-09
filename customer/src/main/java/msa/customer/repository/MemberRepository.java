@@ -1,11 +1,12 @@
 package msa.customer.repository;
 
+import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
 
 import java.util.Optional;
 
 public interface MemberRepository {
-    public void make(Member member);
+    void make(Member member);
     Optional<Member> findById(String id);
 
     void setName(String id, String name);
@@ -16,5 +17,5 @@ public interface MemberRepository {
 
     void setAddressDetail(String id, String addressDetail);
 
-    void setCoordinates(String id, String x, String y);
+    void setCoordinates(String id, Coordinates coordinates);
 }
