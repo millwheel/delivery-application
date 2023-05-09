@@ -1,6 +1,8 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public ResponseEntity<Object> getCoordinate(){
+    public ResponseEntity<String> getCoordinate(){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
@@ -31,9 +33,10 @@ public class AddressService {
                 .queryParam("query","강북구 도봉로 110")
                 .build();
 
-        ResponseEntity<Object> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, Object.class);
-        String body = String.valueOf(response.getBody());
-        log.info(body);
+        ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
+        log.info(response.toString());
+        JSONObject json = new JSONObject(response);
+        json.getJSONArray("documents");
 
         return response;
     }

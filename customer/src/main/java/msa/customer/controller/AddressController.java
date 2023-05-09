@@ -15,7 +15,7 @@ public class AddressController {
     }
 
     @GetMapping("/address")
-    public ResponseEntity<Object> weatherInfo(){
+    public ResponseEntity<String> addressInfo(){
         return addressService.getCoordinate();
     }
 }
