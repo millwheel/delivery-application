@@ -22,9 +22,9 @@ public class AddressService {
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
-
+        
+        // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set("Authorization", apiKey);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
@@ -34,9 +34,14 @@ public class AddressService {
                 .build();
 
         ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
-        log.info(response.toString());
-        JSONObject json = new JSONObject(response);
-        json.getJSONArray("documents");
+
+        // API Response로부터 body 뽑아내기
+        String body = response.getBody();
+        JSONObject json = new JSONObject(body);
+        // body에서 좌표 뽑아내기
+        JSONArray documents = json.getJSONArray("documents");
+        String x = documents.getJSONObject(0).getString("x");
+        String y = documents.getJSONObject(0).getString("y");
 
         return response;
     }
