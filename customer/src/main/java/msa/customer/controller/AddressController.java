@@ -1,6 +1,7 @@
 package msa.customer.controller;
 
 import msa.customer.service.AddressService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ public class AddressController {
     }
 
     @GetMapping("/address")
-    public String weatherInfo(){
+    public ResponseEntity<Object> weatherInfo(){
         return addressService.getCoordinate();
     }
 }

@@ -2,10 +2,7 @@ package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -19,12 +16,13 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public String getCoordinate(){
+    public ResponseEntity<Object> getCoordinate(){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
 
         HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set("Authorization", apiKey);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
@@ -33,15 +31,11 @@ public class AddressService {
                 .queryParam("query","강북구 도봉로 110")
                 .build();
 
-        try{
-            ResponseEntity<Object> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, Object.class);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        ResponseEntity<Object> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, Object.class);
+        String body = String.valueOf(response.getBody());
+        log.info(body);
 
-        String result = restTemplate.getForObject(uri, String.class);
-        log.info(result);
-        return result;
+        return response;
     }
 
 }
