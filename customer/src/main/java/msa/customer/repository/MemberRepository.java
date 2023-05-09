@@ -15,4 +15,6 @@ public interface MemberRepository {
     void setAddress(String id, String address);
 
     void setAddressDetail(String id, String addressDetail);
+
+    void setCoordinates(String id, String x, String y);
 }

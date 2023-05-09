@@ -1,5 +1,6 @@
 package msa.customer.repository;
 
+import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,15 @@ public class DynamoMemberRepository implements MemberRepository{
     public void setAddressDetail(String id, String addressDetail) {
         repository.findById(id).ifPresent(member -> {
             member.setAddress(addressDetail);
+            repository.save(member);
+        });
+    }
+
+    @Override
+    public void setCoordinates(String id, String x, String y) {
+        repository.findById(id).ifPresent(member -> {
+            Coordinates coordinates = new Coordinates(x, y);
+            member.setCoordinates(coordinates);
             repository.save(member);
         });
     }
