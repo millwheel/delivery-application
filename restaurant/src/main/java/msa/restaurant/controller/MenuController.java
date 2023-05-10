@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-public class ListController {
-
+@RequestMapping("/restaurant/menu")
+public class MenuController {
 
 }
