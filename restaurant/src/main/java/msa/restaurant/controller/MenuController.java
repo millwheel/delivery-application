@@ -11,4 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/restaurant/menu")
 public class MenuController {
 
+    @GetMapping("/list")
+    public String menuList(){
+        return "menu list";
+    }
 }
