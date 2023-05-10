@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public class SpringDataMemberRepository implements MemberRepository{
+public class MongoMemberRepository implements MemberRepository{
 
     private final SpringDataMongoMemberRepository repository;
 
-    public SpringDataMemberRepository(SpringDataMongoMemberRepository springDataMongoMemberRepository) {
+    public MongoMemberRepository(SpringDataMongoMemberRepository springDataMongoMemberRepository) {
         this.repository = springDataMongoMemberRepository;
     }
 

@@ -1,6 +1,7 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.DAO.Coordinates;
 import msa.restaurant.DAO.Member;
 import msa.restaurant.DTO.JoinForm;
 import msa.restaurant.repository.MemberRepository;
@@ -16,52 +17,49 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    private final AddressService addressService;
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, AddressService addressService) {
         this.memberRepository = memberRepository;
+        this.addressService = addressService;
     }
 
-    public Boolean join(JoinForm joinData){
-        Member member = new Member();
-        if(memberRepository.findByEmail(joinData.getEmail()).isPresent()){
-            log.info("this email is already used");
-            return false;
-        }
-        member.setName(joinData.getName());
-        member.setEmail(joinData.getEmail());
-        if(!joinData.getPassword().equals(joinData.getPasswordConfirm())){
-            log.info("Password doesn't match");
-            return false;
-        }
-        member.setPassword(joinData.getPassword());
-        memberRepository.make(member);
-        return true;
+    public Optional<String> getName(String id){
+        return memberRepository.findById(id).map(Member::getName);
     }
 
-    public Member login(String email, String password){
-        Optional<Member> user = memberRepository.findByEmail(email);
-        if(user.isEmpty()){
-            log.info("email doesn't exist");
-            return null;
-        }
-        Member member = user.get();
-        if(!password.equals(member.getPassword())){
-            log.info("wrong password");
-            return null;
-        }
-        return member;
+    public Optional<String> getEmail(String id){
+        return memberRepository.findById(id).map(Member::getEmail);
     }
 
-    public String parseJwtPayload(String token){
-        String base64Payload = token.split("\\.")[1];
-        byte[] decodedBytes = Base64.getDecoder().decode(base64Payload);
-        return new String(decodedBytes);
+    public Optional<String> getPhoneNumber(String id){
+        return memberRepository.findById(id).map(Member::getPhoneNumber);
     }
 
-    public String getEmailFromPayload(String payloadString){
-        JSONObject payloadJson = new JSONObject(payloadString);
-        return payloadJson.getString("email");
+    public Optional<String> getAddress(String id){
+        return memberRepository.findById(id).map(Member::getAddress);
+    }
+
+    public Optional<String> getAddressDetail(String id){
+        return memberRepository.findById(id).map(Member::getAddressDetail);
+    }
+
+    public void setName(String id, String name){
+        memberRepository.setName(id, name);
+    }
+
+    public void setPhoneNumber(String id, String phoneNumber){
+        memberRepository.setPhoneNumber(id, phoneNumber);
+    }
+
+    public void setAddress(String id, String address){
+        memberRepository.setAddress(id, address);
+        Coordinates coordinate = addressService.getCoordinate(address);
+        memberRepository.setCoordinates(id, coordinate);
+    }
+
+    public void setAddressDetail(String id, String addressDetail){
+        memberRepository.setAddressDetail(id, addressDetail);
     }
 
 }

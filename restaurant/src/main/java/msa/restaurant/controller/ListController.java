@@ -10,18 +10,5 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ListController {
 
-    private final MemberService memberService;
-
-    public ListController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
-    @GetMapping("/restaurant/order-list")
-    @ResponseStatus(HttpStatus.OK)
-    public String orderList (@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
-
-        String decodedPayloadString = memberService.parseJwtPayload(jwt);
-        return memberService.getEmailFromPayload(decodedPayloadString);
-    }
 
 }
