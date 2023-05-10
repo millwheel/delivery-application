@@ -1,19 +1,20 @@
 package msa.restaurant.repository;
 
+import msa.restaurant.DAO.Coordinates;
 import msa.restaurant.DAO.Member;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 @Primary
+@Repository
 public class MongoMemberRepository implements MemberRepository{
 
     private final SpringDataMongoMemberRepository repository;
 
-    public MongoMemberRepository(SpringDataMongoMemberRepository springDataMongoMemberRepository) {
-        this.repository = springDataMongoMemberRepository;
+    public MongoMemberRepository(SpringDataMongoMemberRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -22,7 +23,48 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> findByEmail(String email) {
-        return repository.findByEmail(email);
+    public Optional<Member> findById(String id) {
+        return repository.findById(id);
     }
+
+    @Override
+    public void setName(String id, String name){
+        repository.findById(id).ifPresent(member -> {
+            member.setName(name);
+            repository.save(member);
+        });
+    }
+
+    @Override
+    public void setPhoneNumber(String id, String phoneNumber){
+        repository.findById(id).ifPresent(member -> {
+            member.setPhoneNumber(phoneNumber);
+            repository.save(member);
+        });
+    }
+
+    @Override
+    public void setAddress(String id, String address){
+        repository.findById(id).ifPresent(member -> {
+            member.setAddress(address);
+            repository.save(member);
+        });
+    }
+
+    @Override
+    public void setAddressDetail(String id, String addressDetail) {
+        repository.findById(id).ifPresent(member -> {
+            member.setAddressDetail(addressDetail);
+            repository.save(member);
+        });
+    }
+
+    @Override
+    public void setCoordinates(String id, Coordinates coordinates) {
+        repository.findById(id).ifPresent(member -> {
+            member.setCoordinates(coordinates);
+            repository.save(member);
+        });
+    }
+
 }

@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface SpringDataMongoMemberRepository extends MongoRepository<Member, Long> {
+public interface SpringDataMongoMemberRepository extends MongoRepository<Member, String> {
     Optional<Member> findByEmail(String email);
 }
