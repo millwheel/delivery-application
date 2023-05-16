@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.DTO.MemberForm;
-import msa.customer.service.JoinService;
 import msa.customer.service.MemberService;
 import msa.customer.service.ParseJwtService;
 import org.springframework.http.HttpHeaders;
