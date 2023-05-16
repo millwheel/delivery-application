@@ -17,7 +17,7 @@ public class HomeController {
     @ResponseStatus(HttpStatus.OK)
     public String foodList() {
         // rendered by frontend
-        return "Food kind list here";
+        return "Food kind list";
     }
 
 }

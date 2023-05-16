@@ -41,14 +41,19 @@ public class MemberService {
         return memberRepository.findById(id).map(Member::getAddressDetail);
     }
 
+    public Optional<Coordinates> getCoordinates(String id){
+        return memberRepository.findById(id).map(Member::getCoordinates);
+    }
+
     public MemberForm getUserInfo(String id){
-        MemberForm member = new MemberForm();
-        getName(id).ifPresent(member::setName);
-        getEmail(id).ifPresent(member::setEmail);
-        getPhoneNumber(id).ifPresent(member::setPhoneNumber);
-        getAddress(id).ifPresent(member::setAddress);
-        getAddressDetail(id).ifPresent(member::setAddressDetail);
-        return member;
+        MemberForm memberForm = new MemberForm();
+        getName(id).ifPresent(memberForm::setName);
+        getEmail(id).ifPresent(memberForm::setEmail);
+        getPhoneNumber(id).ifPresent(memberForm::setPhoneNumber);
+        getAddress(id).ifPresent(memberForm::setAddress);
+        getAddressDetail(id).ifPresent(memberForm::setAddressDetail);
+        getCoordinates(id).ifPresent(memberForm::setCoordinates);
+        return memberForm;
     }
 
     public void setName(String id, String name){
