@@ -64,4 +64,9 @@ public class DynamoMemberRepository implements MemberRepository {
         });
     }
 
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
 }

@@ -3,7 +3,6 @@ package msa.customer.repository.restaurant;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.repository.menu.MenuRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

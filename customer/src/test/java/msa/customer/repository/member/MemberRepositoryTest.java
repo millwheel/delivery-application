@@ -2,6 +2,7 @@ package msa.customer.repository.member;
 
 import msa.customer.DAO.Member;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ class MemberRepositoryTest {
     @Autowired
     MemberRepositoryTest(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
+    }
+
+    @AfterEach
+    void deleteAllTestData(){
+        memberRepository.deleteAll();
     }
 
     @DisplayName("회원 저장 후 조회")

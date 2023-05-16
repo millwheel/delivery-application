@@ -67,4 +67,9 @@ public class MongoMemberRepository implements MemberRepository {
         });
     }
 
+    @Override
+    public void deleteAll(){
+        repository.deleteAll();
+    }
+
 }

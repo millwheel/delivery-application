@@ -18,4 +18,6 @@ public interface MemberRepository {
     void setAddressDetail(String id, String addressDetail);
 
     void setCoordinates(String id, Coordinates coordinates);
+
+    public void deleteAll();
 }
