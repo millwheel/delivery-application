@@ -1,15 +1,12 @@
 package msa.customer.repository.menu;
 
-import msa.customer.DAO.Member;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -38,7 +35,7 @@ class MenuRepositoryTest {
 
     @DisplayName("메뉴 가격 및 설명 수정")
     @Test
-    void changeMenuNameAndPrice(){
+    void changeMenuPriceAndDescription(){
         // given
         Menu menu = new Menu();
         Restaurant restaurant = new Restaurant();
