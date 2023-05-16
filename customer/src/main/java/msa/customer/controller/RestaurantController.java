@@ -1,6 +1,7 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import msa.customer.service.MemberService;
 import msa.customer.service.ParseJwtService;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +13,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/customer")
 public class RestaurantController {
 
     private final ParseJwtService parseJwtService;
     private final MemberService memberService;
-
-    public RestaurantController(ParseJwtService parseJwtService, MemberService memberService) {
-        this.parseJwtService = parseJwtService;
-        this.memberService = memberService;
-    }
 
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)

@@ -1,6 +1,7 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.DTO.MemberForm;
 import msa.customer.service.JoinService;
@@ -14,16 +15,12 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/customer")
+@RequiredArgsConstructor
 @Slf4j
 public class MemberController {
 
     private final ParseJwtService parseJwtService;
     private final MemberService memberService;
-
-    public MemberController(ParseJwtService parseJwtService, MemberService memberService) {
-        this.parseJwtService = parseJwtService;
-        this.memberService = memberService;
-    }
 
     @GetMapping("/member/info")
     @ResponseStatus(HttpStatus.OK)
