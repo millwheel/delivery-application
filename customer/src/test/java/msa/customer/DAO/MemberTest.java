@@ -10,7 +10,7 @@ class MemberTest {
     void createMemberTest(){
         Member member = new Member();
         String id = "test-id-1393-1787";
-        String email = "testemail@outlook.kr";
+        String email = "john@onemail.co.kr";
         String name = "John";
         String address = "atlantis city";
         String addressDetail = "in front of door, 1st floor";
