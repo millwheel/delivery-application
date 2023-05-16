@@ -28,11 +28,6 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Optional<Menu> findByName(String name) {
-        return repository.findByName(name);
-    }
-
-    @Override
     public void setName(String id, String name) {
         repository.findById(id).ifPresent(member -> {
             member.setName(name);
