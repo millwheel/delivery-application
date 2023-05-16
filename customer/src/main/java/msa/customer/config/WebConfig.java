@@ -24,5 +24,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/customer", "/customer/main", "/error", "/weather");
+
     }
 }
