@@ -20,7 +20,7 @@ class MenuRepositoryTest {
         this.menuRepository = menuRepository;
     }
 
-    @DisplayName("메뉴 저장 테스트")
+    @DisplayName("메뉴 저장 후 조회 테스트")
     @Test
     void saveMenu(){
         // given
@@ -34,4 +34,6 @@ class MenuRepositoryTest {
         assertThat(storedMenu.getName()).isEqualTo(menu.getName());
         assertThat(storedMenu.getPrice()).isEqualTo(menu.getPrice());
     }
+    
+    
 }
