@@ -1,8 +1,10 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import msa.customer.DAO.Coordinates;
 import msa.customer.service.MemberService;
-import org.springframework.http.HttpHeaders;
+import msa.customer.service.RestaurantService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +15,27 @@ import java.util.Optional;
 @RequestMapping("/customer")
 public class RestaurantController {
     private final MemberService memberService;
+    private final RestaurantService restaurantService;
 
-    public RestaurantController(MemberService memberService) {
+    public RestaurantController(MemberService memberService, RestaurantService restaurantService) {
         this.memberService = memberService;
+        this.restaurantService = restaurantService;
     }
 
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)
-    public String restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                  HttpServletResponse response) throws IOException {
-        Optional<String> address = memberService.getAddress(id);
-        if(address.isEmpty()){
+    public JSONObject restaurantList (@RequestAttribute("cognitoUsername") String id,
+                                      HttpServletResponse response) throws IOException {
+        Optional<Coordinates> coordinates = memberService.getCoordinates(id);
+        if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }
-        return "restaurant";
+        return restaurantService.showAllRestaurantNearCustomer(coordinates.get());
+    }
+
+    @GetMapping("/restaurant/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String showRestaurantInfo(@PathVariable String id){
+        return "restaurant information" + id;
     }
 }

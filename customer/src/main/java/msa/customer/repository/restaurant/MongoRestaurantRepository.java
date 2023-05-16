@@ -31,6 +31,12 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
+    public List<Restaurant> findAll() {
+        return repository.findAll();
+    }
+
+
+    @Override
     public void setName(String id, String name) {
         repository.findById(id).ifPresent(member -> {
             member.setName(name);

@@ -6,6 +6,7 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,19 +51,19 @@ public class RestaurantService {
         return restaurantRepository.findById(id).map(Restaurant::getMenuList);
     }
 
-    public RestaurantForm getRestaurantInfo(String id){
+    public RestaurantForm getRestaurantInfo(String restaurantId){
         RestaurantForm restaurantForm = new RestaurantForm();
-        getName(id).ifPresent(restaurantForm::setName);
-        getPhoneNumber(id).ifPresent(restaurantForm::setPhoneNumber);
-        getAddress(id).ifPresent(restaurantForm::setAddress);
-        getAddressDetail(id).ifPresent(restaurantForm::setAddressDetail);
-        getCoordinates(id).ifPresent(restaurantForm::setCoordinates);
-        getIntroduction(id).ifPresent(restaurantForm::setIntroduction);
-        getMenuList(id).ifPresent(restaurantForm::setMenuList);
+        getName(restaurantId).ifPresent(restaurantForm::setName);
+        getPhoneNumber(restaurantId).ifPresent(restaurantForm::setPhoneNumber);
+        getAddress(restaurantId).ifPresent(restaurantForm::setAddress);
+        getAddressDetail(restaurantId).ifPresent(restaurantForm::setAddressDetail);
+        getCoordinates(restaurantId).ifPresent(restaurantForm::setCoordinates);
+        getIntroduction(restaurantId).ifPresent(restaurantForm::setIntroduction);
+        getMenuList(restaurantId).ifPresent(restaurantForm::setMenuList);
         return restaurantForm;
     }
 
-    public void updateRestaurantInfo(String id, RestaurantForm data){
+    public void updateRestaurantInfo(String restaurantId, RestaurantForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
@@ -70,13 +71,18 @@ public class RestaurantService {
         Coordinates coordinates = data.getCoordinates();
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
-        if(name != null) restaurantRepository.setName(id, name);
-        if(phoneNumber != null) restaurantRepository.setPhoneNumber(id, phoneNumber);
-        if(address != null) restaurantRepository.setAddress(id, address);
-        if(addressDetail != null) restaurantRepository.setAddressDetail(id, addressDetail);
-        if(coordinates != null) restaurantRepository.setCoordinates(id, coordinates);
-        if(introduction != null) restaurantRepository.setIntroduction(id, introduction);
-        if(menuList != null) restaurantRepository.setMenuList(id, menuList);
+        if(name != null) restaurantRepository.setName(restaurantId, name);
+        if(phoneNumber != null) restaurantRepository.setPhoneNumber(restaurantId, phoneNumber);
+        if(address != null) restaurantRepository.setAddress(restaurantId, address);
+        if(addressDetail != null) restaurantRepository.setAddressDetail(restaurantId, addressDetail);
+        if(coordinates != null) restaurantRepository.setCoordinates(restaurantId, coordinates);
+        if(introduction != null) restaurantRepository.setIntroduction(restaurantId, introduction);
+        if(menuList != null) restaurantRepository.setMenuList(restaurantId, menuList);
     }
 
+    public JSONObject showAllRestaurantNearCustomer(Coordinates coordinates){
+        JSONObject jsonObject = new JSONObject();
+
+        return jsonObject;
+    }
 }

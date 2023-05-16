@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface RestaurantRepository {
     String make(Restaurant restaurant);
     Optional<Restaurant> findById(String id);
+    List<Restaurant> findAll();
     void setName(String id, String name);
     void setPhoneNumber(String id, String phoneNumber);
     void setAddress(String id, String address);

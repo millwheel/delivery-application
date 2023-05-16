@@ -22,13 +22,13 @@ public class MemberController {
 
     @GetMapping("/member/info")
     @ResponseStatus(HttpStatus.OK)
-    public MemberForm getMemberInfo(@RequestAttribute("cognitoUsername") String id){
+    public MemberForm showMemberInfo(@RequestAttribute("cognitoUsername") String id){
         return memberService.getUserInfo(id);
     }
 
     @PutMapping("/member/info")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void setMemberInfo(@RequestAttribute("cognitoUsername") String id,
+    public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody MemberForm data,
                               HttpServletResponse response) throws IOException {
         memberService.updateUserInfo(id, data);
