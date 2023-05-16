@@ -2,6 +2,7 @@ package msa.customer.repository.menu;
 
 import msa.customer.DAO.Member;
 import msa.customer.DAO.Menu;
+import msa.customer.DAO.Restaurant;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class MenuRepositoryTest {
 
     @DisplayName("메뉴 저장 후 조회 테스트")
     @Test
-    void saveMenu(){
+    void saveMenuTest(){
         // given
         Menu menu = new Menu();
         menu.setName("불고기 피자");
@@ -34,6 +35,26 @@ class MenuRepositoryTest {
         assertThat(storedMenu.getName()).isEqualTo(menu.getName());
         assertThat(storedMenu.getPrice()).isEqualTo(menu.getPrice());
     }
-    
+
+    @DisplayName("메뉴 가격 및 설명 수정")
+    @Test
+    void changeMenuNameAndPrice(){
+        // given
+        Menu menu = new Menu();
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName("착한피자");
+        menu.setName("페퍼로니 피자");
+        menu.setPrice(15900);
+        menu.setDescription("페퍼로니가 올라간 맛있는 피자");
+        menu.setRestaurant(restaurant);
+        String id = menuRepository.make(menu);
+        // when
+        menuRepository.setPrice(id, 17900);
+        menuRepository.setDescription(id, "페퍼로니 토핑이 흘러 넘치는 피자");
+        Menu savedMenu = menuRepository.findById(id).get();
+        // then
+        assertThat(savedMenu.getPrice()).isEqualTo(17900);
+        assertThat(savedMenu.getDescription()).isEqualTo("페퍼로니 토핑이 흘러 넘치는 피자");
+    }
     
 }
