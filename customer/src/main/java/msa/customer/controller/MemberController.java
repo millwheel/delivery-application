@@ -31,7 +31,7 @@ public class MemberController {
     public void setMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody MemberForm data,
                               HttpServletResponse response) throws IOException {
-        memberService.changeUserInfo(id, data);
+        memberService.updateUserInfo(id, data);
         response.sendRedirect("/customer/member/info");
     }
 }
