@@ -18,11 +18,6 @@ public class ParseJwtService {
         return payloadJson.getString("cognito:username");
     }
 
-    public String getPhoneNumberFromJwt(String token){
-        JSONObject payloadJSON = parseJwt(token);
-        return payloadJSON.getString("phone_number");
-    }
-
     public JSONObject parseJwt(String token){
         String base64Payload = token.split("\\.")[1];
         byte[] decodedBytes = Base64.getDecoder().decode(base64Payload);

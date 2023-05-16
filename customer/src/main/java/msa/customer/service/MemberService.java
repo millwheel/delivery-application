@@ -69,4 +69,15 @@ public class MemberService {
         memberRepository.setAddressDetail(id, addressDetail);
     }
 
+    public void changeUserInfo(String id, MemberForm data){
+        String name = data.getName();
+        String phoneNumber = data.getPhoneNumber();
+        String address = data.getAddress();
+        String addressDetail = data.getAddressDetail();
+        if(name != null) setName(id, name);
+        if(phoneNumber != null) setPhoneNumber(id, phoneNumber);
+        if(address != null) setAddress(id, address);
+        if(addressDetail != null) setAddressDetail(id, addressDetail);
+    }
+
 }

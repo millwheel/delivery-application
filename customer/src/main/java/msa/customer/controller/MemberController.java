@@ -18,30 +18,20 @@ import java.io.IOException;
 @Slf4j
 public class MemberController {
 
-    private final ParseJwtService parseJwtService;
     private final MemberService memberService;
 
     @GetMapping("/member/info")
     @ResponseStatus(HttpStatus.OK)
-    public MemberForm getMemberInfo(@RequestAttribute("cognitoUsername") String cognitoUsername){
-        return memberService.getUserInfo(cognitoUsername);
+    public MemberForm getMemberInfo(@RequestAttribute("cognitoUsername") String id){
+        return memberService.getUserInfo(id);
     }
 
     @PutMapping("/member/info")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void setMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+    public void setMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody MemberForm data,
                               HttpServletResponse response) throws IOException {
-        String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
-        String name = data.getName();
-        String phoneNumber = data.getPhoneNumber();
-        String address = data.getAddress();
-        String addressDetail = data.getAddressDetail();
-        log.info(addressDetail);
-        if(name != null) memberService.setName(id, name);
-        if(phoneNumber != null) memberService.setPhoneNumber(id, phoneNumber);
-        if(address != null) memberService.setAddress(id, address);
-        if(addressDetail != null) memberService.setAddressDetail(id, addressDetail);
+        memberService.changeUserInfo(id, data);
         response.sendRedirect("/customer/member/info");
     }
 }
