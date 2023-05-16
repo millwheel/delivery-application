@@ -13,6 +13,7 @@ import java.util.List;
 @Document("restaurant")
 public class Restaurant {
     private String name;
+    private String introduction;
     private String address;
     private Coordinates coordinates;
     private List<Menu> menuList;
