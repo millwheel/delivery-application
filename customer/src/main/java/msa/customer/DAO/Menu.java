@@ -12,6 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Menu {
 
     private String name;
-    private String price;
+    private int price;
     private String description;
 }
