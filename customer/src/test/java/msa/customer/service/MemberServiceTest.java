@@ -55,19 +55,36 @@ class MemberServiceTest {
         assertThat(userInfo.getAddressDetail()).isEqualTo(member.getAddressDetail());
     }
 
+    @DisplayName("회원 정보에 주소 입력 시 좌표 자동 입력 테스트")
     @Test
     void setAddress() {
         // given
         joinService.joinMember(ID, EMAIL);
         // when
         memberService.setAddress(ID, ADDRESS);
+        MemberForm userInfo = memberService.getUserInfo(ID);
         // then
-        assertThat(memberService.getAddress(ID).get()).isEqualTo(ADDRESS);
-        assertThat(memberService.getCoordinates(ID).get()).isEqualTo(COORDINATES);
+        assertThat(userInfo.getAddress()).isEqualTo(ADDRESS);
+        assertThat(userInfo.getCoordinates()).isEqualTo(COORDINATES);
     }
 
+    @DisplayName("회원 정보 수정 테스트")
     @Test
-    void changeUserInfo() {
-
+    void changeUserInfoTest() {
+        // given
+        joinService.joinMember(ID, EMAIL);
+        memberService.setName(ID, NAME);
+        memberService.setPhoneNumber(ID, PHONE_NUMBER);
+        memberService.setAddress(ID, ADDRESS);
+        memberService.setAddressDetail(ID, ADDRESS_DETAIL);
+        MemberForm data = new MemberForm();
+        data.setName("Jonny");
+        data.setAddress("서울특별시 강북구 도봉로 232");
+        // when
+        memberService.changeUserInfo(ID, data);
+        MemberForm userInfo = memberService.getUserInfo(ID);
+        // then
+        assertThat(userInfo.getName()).isEqualTo("Jonny");
+        assertThat(userInfo.getAddress()).isEqualTo("서울특별시 강북구 도봉로 232");
     }
 }
