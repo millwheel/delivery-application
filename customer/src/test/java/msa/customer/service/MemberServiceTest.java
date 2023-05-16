@@ -35,7 +35,7 @@ class MemberServiceTest {
 
     @DisplayName("회원 정보 조회")
     @Test
-    void getMemberInfo(){
+    void getMemberInfoTest(){
         // given
         Member member = new Member();
         member.setMemberId(ID);
@@ -56,7 +56,7 @@ class MemberServiceTest {
 
     @DisplayName("회원 정보에 주소 입력 시 좌표 자동 입력 테스트")
     @Test
-    void setAddress() {
+    void setAddressTest() {
         // given
         joinService.joinMember(ID, EMAIL);
         // when

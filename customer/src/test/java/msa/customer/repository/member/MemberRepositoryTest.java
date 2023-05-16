@@ -23,7 +23,7 @@ class MemberRepositoryTest {
 
     @DisplayName("회원 저장 후 조회")
     @Test
-    void saveMemberAndCheck(){
+    void saveMemberAndReadTest(){
         // given
         Member member = new Member();
         member.setMemberId("13-50-8523-7084");
