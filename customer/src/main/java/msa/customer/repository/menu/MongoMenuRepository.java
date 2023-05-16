@@ -16,13 +16,19 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void make(Menu menu) {
-        repository.save(menu);
+    public String make(Menu menu) {
+        Menu savedMenu = repository.save(menu);
+        return savedMenu.getId();
     }
 
     @Override
     public Optional<Menu> findById(String id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public Optional<Menu> findByName(String name) {
+        return repository.findByName(name);
     }
 
     @Override
