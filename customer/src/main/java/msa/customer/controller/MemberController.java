@@ -1,12 +1,9 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.DTO.MemberForm;
 import msa.customer.service.MemberService;
-import msa.customer.service.ParseJwtService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +11,14 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/customer")
-@RequiredArgsConstructor
 @Slf4j
 public class MemberController {
 
     private final MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @GetMapping("/member/info")
     @ResponseStatus(HttpStatus.OK)

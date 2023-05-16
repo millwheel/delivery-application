@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 //@DynamoDBTable(tableName = "delivery_customer")
 @Document("member")
