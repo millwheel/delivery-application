@@ -20,7 +20,7 @@ class MenuRepositoryTest {
 
     @DisplayName("메뉴 저장 후 조회 테스트")
     @Test
-    void saveMenuTest(){
+    void createMenuTest(){
         // given
         Menu menu = new Menu();
         menu.setName("불고기 피자");
@@ -35,7 +35,7 @@ class MenuRepositoryTest {
 
     @DisplayName("메뉴 가격 및 설명 수정")
     @Test
-    void changeMenuPriceAndDescription(){
+    void changeMenuPriceAndDescriptionTest(){
         // given
         Menu menu = new Menu();
         Restaurant restaurant = new Restaurant();

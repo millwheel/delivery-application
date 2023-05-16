@@ -20,8 +20,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void make(Restaurant restaurant) {
-        repository.save(restaurant);
+    public String make(Restaurant restaurant) {
+        Restaurant savedRestaurant = repository.save(restaurant);
+        return savedRestaurant.getId();
     }
 
     @Override

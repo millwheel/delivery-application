@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantRepository {
-    void make(Restaurant restaurant);
+    String make(Restaurant restaurant);
     Optional<Restaurant> findById(String id);
     void setName(String id, String name);
     void setPhoneNumber(String id, String phoneNumber);
