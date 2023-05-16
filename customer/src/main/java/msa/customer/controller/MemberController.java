@@ -24,14 +24,8 @@ public class MemberController {
     @GetMapping("/member/info")
     @ResponseStatus(HttpStatus.OK)
     public MemberForm getMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt){
-        MemberForm member = new MemberForm();
         String id = parseJwtService.getCognitoUsernameFromJwt(jwt);
-        memberService.getName(id).ifPresent(member::setName);
-        memberService.getEmail(id).ifPresent(member::setEmail);
-        memberService.getPhoneNumber(id).ifPresent(member::setPhoneNumber);
-        memberService.getAddress(id).ifPresent(member::setAddress);
-        memberService.getAddressDetail(id).ifPresent(member::setAddressDetail);
-        return member;
+        return memberService.getUserInfo(id);
     }
 
     @PutMapping("/member/info")
