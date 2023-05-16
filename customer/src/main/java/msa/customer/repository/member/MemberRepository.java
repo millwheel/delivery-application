@@ -1,4 +1,4 @@
-package msa.customer.repository;
+package msa.customer.repository.member;
 
 import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;

@@ -1,4 +1,4 @@
-package msa.customer.repository;
+package msa.customer.repository.member;
 
 import msa.customer.DAO.Member;
 import org.springframework.data.mongodb.repository.MongoRepository;

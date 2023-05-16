@@ -1,4 +1,4 @@
-package msa.customer.repository;
+package msa.customer.repository.member;
 
 import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Primary
 @Repository
-public class MongoMemberRepository implements MemberRepository{
+public class MongoMemberRepository implements MemberRepository {
 
     private final SpringDataMongoMemberRepository repository;
 

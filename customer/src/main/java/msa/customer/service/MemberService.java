@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
-import msa.customer.repository.MemberRepository;
+import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package msa.customer.service;
 
 import msa.customer.DAO.Member;
-import msa.customer.repository.MemberRepository;
+import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,14 +1,13 @@
-package msa.customer.repository;
+package msa.customer.repository.member;
 
 import msa.customer.DAO.Coordinates;
 import msa.customer.DAO.Member;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public class DynamoMemberRepository implements MemberRepository{
+public class DynamoMemberRepository implements MemberRepository {
 
     private final SpringDataDynamoMemberRepository repository;
 
