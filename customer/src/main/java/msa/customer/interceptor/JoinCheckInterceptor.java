@@ -27,7 +27,7 @@ public class JoinCheckInterceptor implements HandlerInterceptor {
             joinService.joinMember(cognitoUsername, email);
             log.info("Create member: id={}, email={}", cognitoUsername, email);
         }
-//        request.setAttribute("");
+        request.setAttribute("cognitoUsername", cognitoUsername);
         return true;
     }
 }
