@@ -1,10 +1,10 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +19,7 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public Location getCoordinate(String address){
+    public GeoJsonPoint getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
@@ -45,7 +45,7 @@ public class AddressService {
         double x = Double.parseDouble(documents.getJSONObject(0).getString("x"));
         double y = Double.parseDouble(documents.getJSONObject(0).getString("y"));
 
-        return new Location(x, y);
+        return new GeoJsonPoint(x, y);
     }
 
 }

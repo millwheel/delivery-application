@@ -1,10 +1,10 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import msa.customer.DAO.Location;
 import msa.customer.service.MemberService;
 import msa.customer.service.RestaurantService;
 import org.json.JSONObject;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     public JSONObject restaurantList (@RequestAttribute("cognitoUsername") String id,
                                       HttpServletResponse response) throws IOException {
-        Optional<Location> coordinates = memberService.getCoordinates(id);
+        Optional<GeoJsonPoint> coordinates = memberService.getCoordinates(id);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }

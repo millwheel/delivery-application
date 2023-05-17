@@ -5,6 +5,7 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Distance;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.geo.Point;
 
@@ -78,9 +79,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setCoordinates(String id, Location location) {
+    public void setCoordinates(String id, GeoJsonPoint coordinates) {
         repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setLocation(location);
+            restaurant.setCoordinates(coordinates);
             repository.save(restaurant);
         });
     }

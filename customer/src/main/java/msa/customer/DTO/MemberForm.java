@@ -2,7 +2,7 @@ package msa.customer.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.customer.DAO.Location;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 @Getter
 @Setter
@@ -13,6 +13,6 @@ public class MemberForm {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Location location;
+    private GeoJsonPoint location;
 
 }

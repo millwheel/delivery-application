@@ -7,6 +7,7 @@ import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class RestaurantService {
         return restaurantRepository.findById(id).map(Restaurant::getAddressDetail);
     }
 
-    public Optional<Location> getCoordinates(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getLocation);
+    public Optional<GeoJsonPoint> getCoordinates(String id){
+        return restaurantRepository.findById(id).map(Restaurant::getCoordinates);
     }
 
     public Optional<String> getIntroduction(String id){
@@ -56,7 +57,7 @@ public class RestaurantService {
         getPhoneNumber(restaurantId).ifPresent(restaurantForm::setPhoneNumber);
         getAddress(restaurantId).ifPresent(restaurantForm::setAddress);
         getAddressDetail(restaurantId).ifPresent(restaurantForm::setAddressDetail);
-        getCoordinates(restaurantId).ifPresent(restaurantForm::setLocation);
+        getCoordinates(restaurantId).ifPresent(restaurantForm::setCoordinates);
         getIntroduction(restaurantId).ifPresent(restaurantForm::setIntroduction);
         getMenuList(restaurantId).ifPresent(restaurantForm::setMenuList);
         return restaurantForm;
@@ -67,14 +68,14 @@ public class RestaurantService {
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
-        Location location = data.getLocation();
+        GeoJsonPoint coordinates = data.getCoordinates();
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
         if(name != null) restaurantRepository.setName(restaurantId, name);
         if(phoneNumber != null) restaurantRepository.setPhoneNumber(restaurantId, phoneNumber);
         if(address != null) restaurantRepository.setAddress(restaurantId, address);
         if(addressDetail != null) restaurantRepository.setAddressDetail(restaurantId, addressDetail);
-        if(location != null) restaurantRepository.setCoordinates(restaurantId, location);
+        if(coordinates != null) restaurantRepository.setCoordinates(restaurantId, coordinates);
         if(introduction != null) restaurantRepository.setIntroduction(restaurantId, introduction);
         if(menuList != null) restaurantRepository.setMenuList(restaurantId, menuList);
     }
@@ -83,7 +84,7 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONObject showAllRestaurantNearCustomer(Location location){
+    public JSONObject showAllRestaurantNearCustomer(GeoJsonPoint location){
         JSONObject jsonObject = new JSONObject();
         List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
         return jsonObject;

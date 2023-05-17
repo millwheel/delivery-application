@@ -29,7 +29,7 @@ class RestaurantRepositoryTest {
 
     @AfterEach
     void deleteAllTestData(){
-        restaurantRepository.();
+        restaurantRepository.deleteAll();
     }
 
     @DisplayName("음식점 정보 저장 후 조회한다.")

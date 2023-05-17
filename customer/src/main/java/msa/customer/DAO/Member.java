@@ -4,6 +4,7 @@ package msa.customer.DAO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,6 +23,6 @@ public class Member {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Location location;
+    private GeoJsonPoint coordinates;
 
 }

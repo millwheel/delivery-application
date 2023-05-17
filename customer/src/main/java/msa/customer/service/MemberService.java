@@ -1,11 +1,11 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -41,8 +41,8 @@ public class MemberService {
         return memberRepository.findById(id).map(Member::getAddressDetail);
     }
 
-    public Optional<Location> getCoordinates(String id){
-        return memberRepository.findById(id).map(Member::getLocation);
+    public Optional<GeoJsonPoint> getCoordinates(String id){
+        return memberRepository.findById(id).map(Member::getCoordinates);
     }
 
     public MemberForm getUserInfo(String id){
@@ -66,7 +66,7 @@ public class MemberService {
 
     public void setAddress(String id, String address){
         memberRepository.setAddress(id, address);
-        Location coordinate = addressService.getCoordinate(address);
+        GeoJsonPoint coordinate = addressService.getCoordinate(address);
         memberRepository.setCoordinates(id, coordinate);
     }
 

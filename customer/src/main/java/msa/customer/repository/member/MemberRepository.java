@@ -1,7 +1,7 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public interface MemberRepository {
 
     void setAddressDetail(String id, String addressDetail);
 
-    void setCoordinates(String id, Location location);
+    void setCoordinates(String id, GeoJsonPoint coordinates);
 
     void deleteAll();
 }
