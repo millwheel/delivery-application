@@ -1,7 +1,7 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,7 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public Coordinates getCoordinate(String address){
+    public Location getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
@@ -40,11 +40,12 @@ public class AddressService {
         String body = response.getBody();
         JSONObject json = new JSONObject(body);
         // body에서 좌표 뽑아내기
-        JSONArray documents = json.getJSONArray("documents");
-        String x = documents.getJSONObject(0).getString("x");
-        String y = documents.getJSONObject(0).getString("y");
 
-        return new Coordinates(x, y);
+        JSONArray documents = json.getJSONArray("documents");
+        double x = Double.parseDouble(documents.getJSONObject(0).getString("x"));
+        double y = Double.parseDouble(documents.getJSONObject(0).getString("y"));
+
+        return new Location(x, y);
     }
 
 }

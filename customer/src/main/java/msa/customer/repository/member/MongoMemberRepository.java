@@ -1,6 +1,6 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -60,9 +60,9 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void setCoordinates(String id, Coordinates coordinates) {
+    public void setCoordinates(String id, Location location) {
         repository.findById(id).ifPresent(member -> {
-            member.setCoordinates(coordinates);
+            member.setLocation(location);
             repository.save(member);
         });
     }

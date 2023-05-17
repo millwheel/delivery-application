@@ -1,6 +1,6 @@
 package msa.customer.service;
 
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
 import msa.customer.repository.member.MemberRepository;
@@ -23,7 +23,7 @@ class MemberServiceTest {
     private final String PHONE_NUMBER = "01023459988";
     private final String ADDRESS = "서울시 강남구 테헤란로 131";
     private final String ADDRESS_DETAIL = "first floor";
-    private final Coordinates COORDINATES = new Coordinates("127.032937953168", "37.5000818732753");
+    private final Location LOCATION = new Location(127.032937953168, 37.5000818732753);
 
 
     @Autowired
@@ -37,21 +37,21 @@ class MemberServiceTest {
     @Test
     void getMemberInfoTest(){
         // given
-        Member member = new Member();
-        member.setMemberId(ID);
-        member.setName(NAME);
-        member.setEmail(EMAIL);
-        member.setPhoneNumber(PHONE_NUMBER);
-        member.setAddress(ADDRESS);
-        member.setAddressDetail(ADDRESS_DETAIL);
+        MemberForm memberForm = new MemberForm();
+        memberForm.setName(NAME);
+        memberForm.setEmail(EMAIL);
+        memberForm.setPhoneNumber(PHONE_NUMBER);
+        memberForm.setAddress(ADDRESS);
+        memberForm.setAddressDetail(ADDRESS_DETAIL);
         // when
+        memberService.updateUserInfo(ID, memberForm);
         MemberForm userInfo = memberService.getUserInfo(ID);
         // then
-        assertThat(userInfo.getName()).isEqualTo(member.getName());
-        assertThat(userInfo.getEmail()).isEqualTo(member.getEmail());
-        assertThat(userInfo.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
-        assertThat(userInfo.getAddress()).isEqualTo(member.getAddress());
-        assertThat(userInfo.getAddressDetail()).isEqualTo(member.getAddressDetail());
+        assertThat(userInfo.getName()).isEqualTo(memberForm.getName());
+        assertThat(userInfo.getEmail()).isEqualTo(memberForm.getEmail());
+        assertThat(userInfo.getPhoneNumber()).isEqualTo(memberForm.getPhoneNumber());
+        assertThat(userInfo.getAddress()).isEqualTo(memberForm.getAddress());
+        assertThat(userInfo.getAddressDetail()).isEqualTo(memberForm.getAddressDetail());
     }
 
     @DisplayName("회원 정보에 주소 입력 시 좌표 자동 입력 테스트")
@@ -64,7 +64,7 @@ class MemberServiceTest {
         MemberForm userInfo = memberService.getUserInfo(ID);
         // then
         assertThat(userInfo.getAddress()).isEqualTo(ADDRESS);
-        assertThat(userInfo.getCoordinates()).isEqualTo(COORDINATES);
+        assertThat(userInfo.getLocation()).isEqualTo(LOCATION);
     }
 
     @DisplayName("회원 정보 수정 테스트")
@@ -80,7 +80,7 @@ class MemberServiceTest {
         data.setName("Jonny");
         data.setAddress("서울특별시 강북구 도봉로 232");
         // when
-        memberService.changeUserInfo(ID, data);
+        memberService.updateUserInfo(ID, data);
         MemberForm userInfo = memberService.getUserInfo(ID);
         // then
         assertThat(userInfo.getName()).isEqualTo("Jonny");

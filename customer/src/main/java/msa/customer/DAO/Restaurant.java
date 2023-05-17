@@ -19,7 +19,7 @@ public class Restaurant {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Coordinates coordinates;
+    private Location location;
     private String introduction;
     private List<Menu> menuList;
     private boolean open;

@@ -1,5 +1,6 @@
 package msa.customer.repository.restaurant;
 
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.repository.menu.MenuRepository;
@@ -17,15 +18,17 @@ import static org.assertj.core.api.Assertions.*;
 class RestaurantRepositoryTest {
 
     private final RestaurantRepository restaurantRepository;
+    private final MenuRepository menuRepository;
 
     @Autowired
-    RestaurantRepositoryTest(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
+    RestaurantRepositoryTest(MenuRepository menuRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository1) {
         this.restaurantRepository = restaurantRepository;
+        this.menuRepository = menuRepository1;
     }
 
-    @DisplayName("")
+    @DisplayName("음식점 정보 저장 후 조회한다.")
     @Test
-    void createRestaurantTest(){
+    void saveRestaurantTest(){
         // given
         Menu menu = new Menu();
         menu.setName("콤비네이션피자");
@@ -41,15 +44,25 @@ class RestaurantRepositoryTest {
         // when
         String id = restaurantRepository.make(restaurant);
         Restaurant savedRestaurant = restaurantRepository.findById(id).get();
-        savedRestaurant.getMenuList().stream().forEach(v -> {
-            System.out.println(v.getName());
-            System.out.println(v);
-        });
-        System.out.println(menu.getName());
-        System.out.println(menu);
         // then
         assertThat(savedRestaurant.getName()).isEqualTo("착한피자");
-        assertThat(savedRestaurant.getMenuList()).contains(menu);
+        assertThat(savedRestaurant.getMenuList().get(0).getName()).contains(menu.getName());
+    }
+
+    @DisplayName("주어진 좌표 근방 음식점 조회한다.")
+    @Test
+    void test(){
+        // given
+        Restaurant restaurant = new Restaurant();
+        Location pizzaCoordinate = new Location(37.251414, 127.080051);
+        restaurant.setName("착한피자");
+        restaurant.setLocation(pizzaCoordinate);
+        restaurantRepository.make(restaurant);
+        // when
+        Location orderCoordinate = new Location(37.252962, 127.074563);
+        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
+        // then
+        assertThat(restaurantNear.get(0).getName()).isEqualTo(restaurant.getName());
     }
 
 }

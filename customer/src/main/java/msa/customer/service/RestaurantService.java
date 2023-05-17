@@ -1,7 +1,6 @@
 package msa.customer.service;
 
-import msa.customer.DAO.Coordinates;
-import msa.customer.DAO.Member;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
@@ -39,8 +38,8 @@ public class RestaurantService {
         return restaurantRepository.findById(id).map(Restaurant::getAddressDetail);
     }
 
-    public Optional<Coordinates> getCoordinates(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getCoordinates);
+    public Optional<Location> getCoordinates(String id){
+        return restaurantRepository.findById(id).map(Restaurant::getLocation);
     }
 
     public Optional<String> getIntroduction(String id){
@@ -57,7 +56,7 @@ public class RestaurantService {
         getPhoneNumber(restaurantId).ifPresent(restaurantForm::setPhoneNumber);
         getAddress(restaurantId).ifPresent(restaurantForm::setAddress);
         getAddressDetail(restaurantId).ifPresent(restaurantForm::setAddressDetail);
-        getCoordinates(restaurantId).ifPresent(restaurantForm::setCoordinates);
+        getCoordinates(restaurantId).ifPresent(restaurantForm::setLocation);
         getIntroduction(restaurantId).ifPresent(restaurantForm::setIntroduction);
         getMenuList(restaurantId).ifPresent(restaurantForm::setMenuList);
         return restaurantForm;
@@ -68,14 +67,14 @@ public class RestaurantService {
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
-        Coordinates coordinates = data.getCoordinates();
+        Location location = data.getLocation();
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
         if(name != null) restaurantRepository.setName(restaurantId, name);
         if(phoneNumber != null) restaurantRepository.setPhoneNumber(restaurantId, phoneNumber);
         if(address != null) restaurantRepository.setAddress(restaurantId, address);
         if(addressDetail != null) restaurantRepository.setAddressDetail(restaurantId, addressDetail);
-        if(coordinates != null) restaurantRepository.setCoordinates(restaurantId, coordinates);
+        if(location != null) restaurantRepository.setCoordinates(restaurantId, location);
         if(introduction != null) restaurantRepository.setIntroduction(restaurantId, introduction);
         if(menuList != null) restaurantRepository.setMenuList(restaurantId, menuList);
     }
@@ -84,9 +83,9 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONObject showAllRestaurantNearCustomer(Coordinates coordinates){
+    public JSONObject showAllRestaurantNearCustomer(Location location){
         JSONObject jsonObject = new JSONObject();
-
+        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
         return jsonObject;
     }
 }

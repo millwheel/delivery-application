@@ -1,10 +1,12 @@
 package msa.customer.repository.restaurant;
 
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.geo.Distance;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.geo.Point;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,13 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     @Override
     public Optional<Restaurant> findById(String id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<Restaurant> findRestaurantNear(Location location) {
+        Point point = new Point(location.x(), location.y());
+        Distance distance = new Distance(4000);
+        return repository.findByLocationNear(point, distance);
     }
 
     @Override
@@ -69,9 +78,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setCoordinates(String id, Coordinates coordinates) {
+    public void setCoordinates(String id, Location location) {
         repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setCoordinates(coordinates);
+            restaurant.setLocation(location);
             repository.save(restaurant);
         });
     }

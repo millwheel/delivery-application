@@ -1,6 +1,6 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ public interface MemberRepository {
 
     void setAddressDetail(String id, String addressDetail);
 
-    void setCoordinates(String id, Coordinates coordinates);
+    void setCoordinates(String id, Location location);
 
     public void deleteAll();
 }

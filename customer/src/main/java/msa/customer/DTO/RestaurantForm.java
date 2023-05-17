@@ -2,7 +2,7 @@ package msa.customer.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.customer.DAO.Coordinates;
+import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class RestaurantForm {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Coordinates coordinates;
+    private Location location;
     private String introduction;
     private List<Menu> menuList;
 }
