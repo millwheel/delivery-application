@@ -1,6 +1,5 @@
 package msa.customer.service;
 
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
 import msa.customer.repository.member.MemberRepository;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -23,7 +23,7 @@ class MemberServiceTest {
     private final String PHONE_NUMBER = "01023459988";
     private final String ADDRESS = "서울시 강남구 테헤란로 131";
     private final String ADDRESS_DETAIL = "first floor";
-    private final Location LOCATION = new Location(127.032937953168, 37.5000818732753);
+    private final GeoJsonPoint LOCATION = new GeoJsonPoint(127.032937953168, 37.5000818732753);
 
 
     @Autowired

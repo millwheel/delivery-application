@@ -3,6 +3,7 @@ package msa.customer.DAO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -20,7 +21,7 @@ public class Restaurant {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private GeoJsonPoint coordinates;
+    private GeoJsonPoint location;
     private String introduction;
     private List<Menu> menuList;
     private boolean open;

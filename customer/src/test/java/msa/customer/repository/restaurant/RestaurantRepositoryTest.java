@@ -2,12 +2,12 @@ package msa.customer.repository.restaurant;
 
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
-import msa.customer.repository.menu.MenuRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.ArrayList;
@@ -19,12 +19,10 @@ import static org.assertj.core.api.Assertions.*;
 class RestaurantRepositoryTest {
 
     private final RestaurantRepository restaurantRepository;
-    private final MenuRepository menuRepository;
 
     @Autowired
-    RestaurantRepositoryTest(MenuRepository menuRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository1) {
+    RestaurantRepositoryTest(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
-        this.menuRepository = menuRepository1;
     }
 
     @AfterEach
@@ -60,12 +58,12 @@ class RestaurantRepositoryTest {
     void test(){
         // given
         Restaurant restaurant = new Restaurant();
-        GeoJsonPoint pizzaCoordinate = new GeoJsonPoint(37.251414, 127.080051);
+        GeoJsonPoint pizzaCoordinate = new GeoJsonPoint(127.080, 37.251);
         restaurant.setName("착한피자");
-        restaurant.setCoordinates(pizzaCoordinate);
+        restaurant.setLocation(pizzaCoordinate);
         restaurantRepository.make(restaurant);
         // when
-        GeoJsonPoint orderCoordinate = new GeoJsonPoint(37.252962, 127.074563);
+        GeoJsonPoint orderCoordinate = new GeoJsonPoint(127.074, 37.252);
         List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
         // then
         assertThat(restaurantNear.get(0).getName()).isEqualTo(restaurant.getName());

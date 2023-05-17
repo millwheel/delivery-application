@@ -33,9 +33,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public List<Restaurant> findRestaurantNear(GeoJsonPoint coordinates) {
+    public List<Restaurant> findRestaurantNear(GeoJsonPoint location) {
         Distance distance = new Distance(4000);
-        return repository.findByLocationNear(coordinates, distance);
+        return repository.findByLocationNear(location, distance);
     }
 
     @Override
@@ -77,9 +77,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setCoordinates(String id, GeoJsonPoint coordinates) {
+    public void setLocation(String id, GeoJsonPoint location) {
         repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setCoordinates(coordinates);
+            restaurant.setLocation(location);
             repository.save(restaurant);
         });
     }
