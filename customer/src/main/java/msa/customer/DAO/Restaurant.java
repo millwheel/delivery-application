@@ -22,4 +22,5 @@ public class Restaurant {
     private Coordinates coordinates;
     private String introduction;
     private List<Menu> menuList;
+    private boolean open;
 }

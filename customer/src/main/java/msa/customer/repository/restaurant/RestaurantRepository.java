@@ -18,5 +18,6 @@ public interface RestaurantRepository {
     void setCoordinates(String id, Coordinates coordinates);
     void setIntroduction(String id, String introduction);
     void setMenuList(String id, List<Menu> menuList);
+    void setOpen(String id, boolean open);
 
 }

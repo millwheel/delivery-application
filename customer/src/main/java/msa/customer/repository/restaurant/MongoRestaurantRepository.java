@@ -38,57 +38,65 @@ public class MongoRestaurantRepository implements RestaurantRepository{
 
     @Override
     public void setName(String id, String name) {
-        repository.findById(id).ifPresent(member -> {
-            member.setName(name);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setName(name);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setPhoneNumber(String id, String phoneNumber) {
-        repository.findById(id).ifPresent(member -> {
-            member.setPhoneNumber(phoneNumber);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setPhoneNumber(phoneNumber);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setAddress(String id, String address) {
-        repository.findById(id).ifPresent(member -> {
-            member.setAddress(address);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setAddress(address);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(member -> {
-            member.setAddressDetail(addressDetail);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setAddressDetail(addressDetail);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setCoordinates(String id, Coordinates coordinates) {
-        repository.findById(id).ifPresent(member -> {
-            member.setCoordinates(coordinates);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setCoordinates(coordinates);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setIntroduction(String id, String introduction) {
-        repository.findById(id).ifPresent(member -> {
-            member.setIntroduction(introduction);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setIntroduction(introduction);
+            repository.save(restaurant);
         });
     }
 
     @Override
     public void setMenuList(String id, List<Menu> menuList) {
-        repository.findById(id).ifPresent(member -> {
-            member.setMenuList(menuList);
-            repository.save(member);
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setMenuList(menuList);
+            repository.save(restaurant);
+        });
+    }
+
+    @Override
+    public void setOpen(String id, boolean open) {
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setOpen(open);
+            repository.save(restaurant);
         });
     }
 }

@@ -80,6 +80,10 @@ public class RestaurantService {
         if(menuList != null) restaurantRepository.setMenuList(restaurantId, menuList);
     }
 
+    public void openOrCloseRestaurant(String restaurantId, boolean open){
+        restaurantRepository.setOpen(restaurantId, open);
+    }
+
     public JSONObject showAllRestaurantNearCustomer(Coordinates coordinates){
         JSONObject jsonObject = new JSONObject();
 
