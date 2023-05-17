@@ -1,6 +1,5 @@
 package msa.customer.repository.restaurant;
 
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.repository.menu.MenuRepository;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +60,12 @@ class RestaurantRepositoryTest {
     void test(){
         // given
         Restaurant restaurant = new Restaurant();
-        Location pizzaCoordinate = new Location(37.251414, 127.080051);
+        GeoJsonPoint pizzaCoordinate = new GeoJsonPoint(37.251414, 127.080051);
         restaurant.setName("착한피자");
-        restaurant.setLocation(pizzaCoordinate);
+        restaurant.setCoordinates(pizzaCoordinate);
         restaurantRepository.make(restaurant);
         // when
-        Location orderCoordinate = new Location(37.252962, 127.074563);
+        GeoJsonPoint orderCoordinate = new GeoJsonPoint(37.252962, 127.074563);
         List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
         // then
         assertThat(restaurantNear.get(0).getName()).isEqualTo(restaurant.getName());

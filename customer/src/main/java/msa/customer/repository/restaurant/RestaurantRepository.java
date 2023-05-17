@@ -1,6 +1,5 @@
 package msa.customer.repository.restaurant;
 
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -11,7 +10,7 @@ import java.util.Optional;
 public interface RestaurantRepository {
     String make(Restaurant restaurant);
     Optional<Restaurant> findById(String id);
-    List<Restaurant> findRestaurantNear(Location location);
+    List<Restaurant> findRestaurantNear(GeoJsonPoint coordinates);
     List<Restaurant> findAll();
     void setName(String id, String name);
     void setPhoneNumber(String id, String phoneNumber);

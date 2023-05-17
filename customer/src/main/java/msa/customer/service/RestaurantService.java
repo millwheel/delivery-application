@@ -1,6 +1,5 @@
 package msa.customer.service;
 
-import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
@@ -84,9 +83,9 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONObject showAllRestaurantNearCustomer(GeoJsonPoint location){
+    public JSONObject showAllRestaurantNearCustomer(GeoJsonPoint coordinates){
         JSONObject jsonObject = new JSONObject();
-        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
+        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(coordinates);
         return jsonObject;
     }
 }
