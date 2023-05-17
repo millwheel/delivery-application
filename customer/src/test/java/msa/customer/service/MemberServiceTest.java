@@ -37,18 +37,26 @@ class MemberServiceTest {
     @Test
     void getMemberInfoTest(){
         // given
+        Member member = new Member();
+        member.setMemberId(ID);
+        member.setEmail(EMAIL);
+        memberRepository.make(member);
         MemberForm memberForm = new MemberForm();
         memberForm.setName(NAME);
-        memberForm.setEmail(EMAIL);
         memberForm.setPhoneNumber(PHONE_NUMBER);
         memberForm.setAddress(ADDRESS);
         memberForm.setAddressDetail(ADDRESS_DETAIL);
-        // when
         memberService.updateUserInfo(ID, memberForm);
+        // when
         MemberForm userInfo = memberService.getUserInfo(ID);
+        System.out.println(userInfo.getName());
+        System.out.println(userInfo.getEmail());
+        System.out.println(userInfo.getPhoneNumber());
+        System.out.println(userInfo.getAddress());
+        System.out.println(userInfo.getAddressDetail());
         // then
         assertThat(userInfo.getName()).isEqualTo(memberForm.getName());
-        assertThat(userInfo.getEmail()).isEqualTo(memberForm.getEmail());
+        assertThat(userInfo.getEmail()).isEqualTo(member.getEmail());
         assertThat(userInfo.getPhoneNumber()).isEqualTo(memberForm.getPhoneNumber());
         assertThat(userInfo.getAddress()).isEqualTo(memberForm.getAddress());
         assertThat(userInfo.getAddressDetail()).isEqualTo(memberForm.getAddressDetail());
