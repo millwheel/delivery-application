@@ -12,5 +12,5 @@ public interface MenuRepository {
     void setPrice(String id, int price);
     void setDescription(String id, String description);
     void setRestaurant(String id, Restaurant restaurant);
-
+    void deleteAll();
 }

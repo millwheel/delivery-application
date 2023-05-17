@@ -108,4 +108,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
             repository.save(restaurant);
         });
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

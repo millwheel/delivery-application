@@ -58,4 +58,9 @@ public class MongoMenuRepository implements MenuRepository{
             repository.save(member);
         });
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

@@ -19,5 +19,5 @@ public interface MemberRepository {
 
     void setCoordinates(String id, Location location);
 
-    public void deleteAll();
+    void deleteAll();
 }

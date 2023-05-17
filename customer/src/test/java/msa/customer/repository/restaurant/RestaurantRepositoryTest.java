@@ -4,6 +4,7 @@ import msa.customer.DAO.Location;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.repository.menu.MenuRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ class RestaurantRepositoryTest {
     RestaurantRepositoryTest(MenuRepository menuRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository1) {
         this.restaurantRepository = restaurantRepository;
         this.menuRepository = menuRepository1;
+    }
+
+    @AfterEach
+    void deleteAllTestData(){
+        restaurantRepository.();
     }
 
     @DisplayName("음식점 정보 저장 후 조회한다.")

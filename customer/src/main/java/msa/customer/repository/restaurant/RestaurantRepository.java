@@ -20,5 +20,5 @@ public interface RestaurantRepository {
     void setIntroduction(String id, String introduction);
     void setMenuList(String id, List<Menu> menuList);
     void setOpen(String id, boolean open);
-
+    void deleteAll();
 }
