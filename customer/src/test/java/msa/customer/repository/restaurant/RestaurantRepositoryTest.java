@@ -69,4 +69,20 @@ class RestaurantRepositoryTest {
         assertThat(restaurantNear.get(0).getName()).isEqualTo("착한피자");
     }
 
+    @DisplayName("4km 이상 떨어진 곳에 위치한 음식점은 조회하지 않는다.")
+    @Test
+    void notGetRestaurantOver4kmTest(){
+        // given
+        Restaurant restaurant = new Restaurant();
+        Point pizzaCoordinate = new Point(127.018, 37.261);
+        restaurant.setName("피자헤븐");
+        restaurant.setLocation(pizzaCoordinate);
+        restaurantRepository.make(restaurant);
+        // when
+        Point orderCoordinate = new Point(127.074, 37.253);
+        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
+        // then
+        assertThat(restaurantNear).isEmpty();
+    }
+
 }

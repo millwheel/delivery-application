@@ -23,7 +23,7 @@ public class Restaurant {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    @GeoSpatialIndexed(type= GeoSpatialIndexType.GEO_2DSPHERE)
+    @GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
     private String introduction;
     private List<Menu> menuList;

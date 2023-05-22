@@ -3,11 +3,9 @@ package msa.customer.repository.restaurant;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.*;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.geo.Point;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
 
     @Override
     public List<Restaurant> findRestaurantNear(Point location) {
-        Distance distance = new Distance(4000);
+        Distance distance = new Distance(4, Metrics.KILOMETERS);
         return repository.findByLocationNear(location, distance);
     }
 
