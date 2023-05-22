@@ -3,13 +3,24 @@ package msa.customer.service;
 import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
 import msa.customer.repository.member.MemberRepository;
+import msa.customer.repository.member.MongoMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class MemberServiceTest {
@@ -24,7 +35,6 @@ class MemberServiceTest {
     private final String ADDRESS = "서울시 강남구 테헤란로 131";
     private final String ADDRESS_DETAIL = "first floor";
     private final GeoJsonPoint LOCATION = new GeoJsonPoint(127.032937953168, 37.5000818732753);
-
 
     @Autowired
     MemberServiceTest(MemberRepository memberRepository, MemberService memberService, JoinService joinService) {
@@ -49,11 +59,6 @@ class MemberServiceTest {
         memberService.updateUserInfo(ID, memberForm);
         // when
         MemberForm userInfo = memberService.getUserInfo(ID);
-        System.out.println(userInfo.getName());
-        System.out.println(userInfo.getEmail());
-        System.out.println(userInfo.getPhoneNumber());
-        System.out.println(userInfo.getAddress());
-        System.out.println(userInfo.getAddressDetail());
         // then
         assertThat(userInfo.getName()).isEqualTo(memberForm.getName());
         assertThat(userInfo.getEmail()).isEqualTo(member.getEmail());

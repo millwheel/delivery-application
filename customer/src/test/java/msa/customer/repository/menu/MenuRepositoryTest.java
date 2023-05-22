@@ -2,6 +2,7 @@ package msa.customer.repository.menu;
 
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ class MenuRepositoryTest {
     @Autowired
     MenuRepositoryTest(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
+    }
+
+    @AfterEach
+    void deleteAllMenu(){
+        menuRepository.deleteAll();
     }
 
     @DisplayName("메뉴 저장 후 조회 테스트")
