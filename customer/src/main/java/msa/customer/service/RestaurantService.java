@@ -84,8 +84,9 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONObject showAllRestaurantNearCustomer(GeoJsonPoint location){
+    public JSONObject showRestaurantListsNearCustomer(GeoJsonPoint location){
         JSONObject jsonObject = new JSONObject();
+        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(location);
         return jsonObject;
     }
 }

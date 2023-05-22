@@ -30,7 +30,7 @@ public class RestaurantController {
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }
-        return restaurantService.showAllRestaurantNearCustomer(coordinates.get());
+        return restaurantService.showRestaurantListsNearCustomer(coordinates.get());
     }
 
     @GetMapping("/restaurant/{id}")
