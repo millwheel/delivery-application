@@ -5,7 +5,7 @@ import msa.customer.DAO.Member;
 import msa.customer.DTO.MemberForm;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -41,7 +41,7 @@ public class MemberService {
         return memberRepository.findById(id).map(Member::getAddressDetail);
     }
 
-    public Optional<GeoJsonPoint> getCoordinates(String id){
+    public Optional<Point> getCoordinates(String id){
         return memberRepository.findById(id).map(Member::getCoordinates);
     }
 
@@ -66,7 +66,7 @@ public class MemberService {
 
     public void setAddress(String id, String address){
         memberRepository.setAddress(id, address);
-        GeoJsonPoint coordinate = addressService.getCoordinate(address);
+        Point coordinate = addressService.getCoordinate(address);
         memberRepository.setCoordinates(id, coordinate);
     }
 

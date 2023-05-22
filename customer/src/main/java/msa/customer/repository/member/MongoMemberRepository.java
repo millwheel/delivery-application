@@ -2,9 +2,10 @@ package msa.customer.repository.member;
 
 import msa.customer.DAO.Member;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
+import java.awt.*;
 import java.util.Optional;
 
 @Primary
@@ -60,7 +61,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void setCoordinates(String id, GeoJsonPoint coordinates) {
+    public void setCoordinates(String id, Point coordinates) {
         repository.findById(id).ifPresent(member -> {
             member.setCoordinates(coordinates);
             repository.save(member);

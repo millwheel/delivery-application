@@ -4,7 +4,6 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

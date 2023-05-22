@@ -102,20 +102,7 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONArray showRestaurantListsNearCustomer(Point location){
-        JSONArray jsonArray = new JSONArray();
-        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
-        if (restaurantList.isEmpty()) return null;
-        restaurantList.forEach(restaurant -> {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", restaurant.getId());
-            jsonObject.put("name", restaurant.getName());
-            jsonObject.put("phoneNumber", restaurant.getPhoneNumber());
-            jsonObject.put("address", restaurant.getAddress());
-            jsonObject.put("addressDetail", restaurant.getAddressDetail());
-            jsonObject.put("introduction", restaurant.getIntroduction());
-            jsonArray.put(jsonObject);
-        });
-        return jsonArray;
+    public List<Restaurant> showRestaurantListsNearCustomer(Point location){
+        return restaurantRepository.findRestaurantNear(location);
     }
 }
