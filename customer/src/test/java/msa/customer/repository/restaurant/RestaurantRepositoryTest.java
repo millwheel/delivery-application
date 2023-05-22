@@ -25,10 +25,10 @@ class RestaurantRepositoryTest {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @AfterEach
-    void deleteAllTestData(){
-        restaurantRepository.deleteAll();
-    }
+//    @AfterEach
+//    void deleteAllTestData(){
+//        restaurantRepository.deleteAll();
+//    }
 
     @DisplayName("음식점 정보 저장 후 조회한다.")
     @Test

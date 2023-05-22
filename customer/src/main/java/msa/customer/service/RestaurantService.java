@@ -64,7 +64,24 @@ public class RestaurantService {
         return restaurantForm;
     }
 
+    public void createRestaurantInfo(String restaurantId, RestaurantForm data){
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(restaurantId);
+        restaurant.setName(data.getName());
+        restaurant.setPhoneNumber(data.getPhoneNumber());
+        restaurant.setAddress(data.getAddress());
+        restaurant.setAddressDetail(data.getAddressDetail());
+        restaurant.setLocation(data.getLocation());
+        restaurant.setIntroduction(data.getIntroduction());
+        restaurant.setMenuList(data.getMenuList());
+        restaurantRepository.make(restaurant);
+    }
+
     public void updateRestaurantInfo(String restaurantId, RestaurantForm data){
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+        if (restaurant.isEmpty()){
+            createRestaurantInfo(restaurantId, data);
+        }
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
