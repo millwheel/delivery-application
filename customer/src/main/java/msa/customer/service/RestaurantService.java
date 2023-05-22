@@ -102,7 +102,7 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONArray showRestaurantListsNearCustomer(GeoJsonPoint location){
+    public JSONArray showRestaurantListsNearCustomer(Point location){
         JSONArray jsonArray = new JSONArray();
         List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
         if (restaurantList.isEmpty()) return null;

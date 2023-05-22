@@ -2,6 +2,8 @@ package msa.customer.service;
 
 import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ class RestaurantServiceTest {
     private final RestaurantService restaurantService;
     private final RestaurantRepository restaurantRepository;
 
-    private final String ID = "1315-0045-7784-0159";
+    private final String ID = "17830159";
     private final String NAME = "착한피자";
     private final String PHONE_NUMBER = "050713753388";
     private final String ADDRESS = "경기도 수원시 영통구 청명로43번길 8";
@@ -51,6 +53,30 @@ class RestaurantServiceTest {
         assertThat(restaurantInfo.getAddressDetail()).isEqualTo(ADDRESS_DETAIL);
         assertThat(restaurantInfo.getLocation()).isEqualTo(LOCATION);
         assertThat(restaurantInfo.getIntroduction()).isEqualTo(INTRO);
+    }
+
+    @DisplayName("좌표에 가까운 음식점 조회")
+    @Test
+    void getRestaurantInfoNearCustomerLocationTest(){
+        // given
+        RestaurantForm restaurantForm = new RestaurantForm();
+        restaurantForm.setName(NAME);
+        restaurantForm.setPhoneNumber(PHONE_NUMBER);
+        restaurantForm.setAddress(ADDRESS);
+        restaurantForm.setAddressDetail(ADDRESS_DETAIL);
+        restaurantForm.setLocation(LOCATION);
+        restaurantForm.setIntroduction(INTRO);
+        restaurantService.updateRestaurantInfo(ID, restaurantForm);
+        Point orderCoordinate = new Point(127.074, 37.252);
+        // when
+        JSONArray jsonArray = restaurantService.showRestaurantListsNearCustomer(orderCoordinate);
+        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        // then
+        assertThat(jsonObject.get("name")).isEqualTo(NAME);
+        assertThat(jsonObject.get("phoneNumber")).isEqualTo(PHONE_NUMBER);
+        assertThat(jsonObject.get("address")).isEqualTo(ADDRESS);
+        assertThat(jsonObject.get("addressDetail")).isEqualTo(ADDRESS_DETAIL);
+        assertThat(jsonObject.get("introduction")).isEqualTo(INTRO);
     }
 
 }
