@@ -4,6 +4,7 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -84,9 +85,20 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, open);
     }
 
-    public JSONObject showRestaurantListsNearCustomer(GeoJsonPoint location){
-        JSONObject jsonObject = new JSONObject();
-        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(location);
-        return jsonObject;
+    public JSONArray showRestaurantListsNearCustomer(GeoJsonPoint location){
+        JSONArray jsonArray = new JSONArray();
+        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
+        if (restaurantList.isEmpty()) return null;
+        restaurantList.forEach(restaurant -> {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", restaurant.getId());
+            jsonObject.put("name", restaurant.getName());
+            jsonObject.put("phoneNumber", restaurant.getPhoneNumber());
+            jsonObject.put("address", restaurant.getAddress());
+            jsonObject.put("addressDetail", restaurant.getAddressDetail());
+            jsonObject.put("introduction", restaurant.getIntroduction());
+            jsonArray.put(jsonObject);
+        });
+        return jsonArray;
     }
 }
