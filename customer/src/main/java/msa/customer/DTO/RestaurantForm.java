@@ -16,7 +16,7 @@ public class RestaurantForm {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private GeoJsonPoint location;
+    private Point location;
     private String introduction;
     private List<Menu> menuList;
 }

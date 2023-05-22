@@ -39,7 +39,7 @@ public class RestaurantService {
         return restaurantRepository.findById(id).map(Restaurant::getAddressDetail);
     }
 
-    public Optional<GeoJsonPoint> getCoordinates(String id){
+    public Optional<Point> getCoordinates(String id){
         return restaurantRepository.findById(id).map(Restaurant::getLocation);
     }
 
@@ -68,7 +68,7 @@ public class RestaurantService {
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
-        GeoJsonPoint location = data.getLocation();
+        Point location = data.getLocation();
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
         if(name != null) restaurantRepository.setName(restaurantId, name);
@@ -86,7 +86,6 @@ public class RestaurantService {
 
     public JSONObject showAllRestaurantNearCustomer(GeoJsonPoint location){
         JSONObject jsonObject = new JSONObject();
-        List<Restaurant> restaurantList = restaurantRepository.findRestaurantNear(location);
         return jsonObject;
     }
 }

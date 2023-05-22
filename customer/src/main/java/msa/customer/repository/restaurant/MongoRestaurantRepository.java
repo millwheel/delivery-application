@@ -4,6 +4,7 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.geo.Point;
@@ -33,7 +34,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public List<Restaurant> findRestaurantNear(GeoJsonPoint location) {
+    public List<Restaurant> findRestaurantNear(Point location) {
         Distance distance = new Distance(4000);
         return repository.findByLocationNear(location, distance);
     }
@@ -77,7 +78,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setLocation(String id, GeoJsonPoint location) {
+    public void setLocation(String id, Point location) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setLocation(location);
             repository.save(restaurant);

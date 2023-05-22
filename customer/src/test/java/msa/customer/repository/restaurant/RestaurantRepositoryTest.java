@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,18 +54,19 @@ class RestaurantRepositoryTest {
 
     @DisplayName("주어진 좌표 근방 음식점 조회한다.")
     @Test
-    void test(){
+    void getNearRestaurantTest(){
         // given
         Restaurant restaurant = new Restaurant();
-        GeoJsonPoint pizzaCoordinate = new GeoJsonPoint(127.080, 37.251);
+        Point pizzaCoordinate = new Point(127.080, 37.251);
         restaurant.setName("착한피자");
         restaurant.setLocation(pizzaCoordinate);
         restaurantRepository.make(restaurant);
+
         // when
-        GeoJsonPoint orderCoordinate = new GeoJsonPoint(127.074, 37.252);
+        Point orderCoordinate = new Point(127.074, 37.252);
         List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
         // then
-        assertThat(restaurantNear.get(0).getName()).isEqualTo(restaurant.getName());
+        assertThat(restaurantNear.get(0).getName()).isEqualTo("착한피자");
     }
 
 }
