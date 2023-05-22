@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.Optional;
@@ -25,16 +26,16 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class MemberServiceTest {
 
-    private MemberRepository memberRepository;
-    private MemberService memberService;
-    private JoinService joinService;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final JoinService joinService;
     private final String ID = "1315-0045-7784-0159";
     private final String NAME = "John";
     private final String EMAIL = "john@onemail.co.kr";
     private final String PHONE_NUMBER = "01023459988";
     private final String ADDRESS = "서울시 강남구 테헤란로 131";
     private final String ADDRESS_DETAIL = "first floor";
-    private final GeoJsonPoint LOCATION = new GeoJsonPoint(127.032937953168, 37.5000818732753);
+    private final Point LOCATION = new Point(127.032937953168, 37.5000818732753);
 
     @Autowired
     MemberServiceTest(MemberRepository memberRepository, MemberService memberService, JoinService joinService) {
