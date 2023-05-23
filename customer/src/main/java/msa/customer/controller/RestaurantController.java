@@ -30,13 +30,14 @@ public class RestaurantController {
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)
     public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                     @PathVariable FoodKindType kind,
-                                     HttpServletResponse response) throws IOException {
+                                            @PathVariable FoodKindType kind,
+                                            HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(id);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }
         log.info("coordinates={}", coordinates);
+        log.info("food kind={}", kind);
         return restaurantService.showRestaurantListsNearCustomer(coordinates.get(), kind);
     }
 

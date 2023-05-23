@@ -36,10 +36,10 @@ class RestaurantServiceTest {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @AfterEach
-    void deleteAllTestData(){
-        restaurantRepository.deleteAll();
-    }
+//    @AfterEach
+//    void deleteAllTestData(){
+//        restaurantRepository.deleteAll();
+//    }
 
 
     @DisplayName("음식점 정보 저장 후 조회")
@@ -84,6 +84,7 @@ class RestaurantServiceTest {
         // when
         List<Restaurant> restaurantList = restaurantService.showRestaurantListsNearCustomer(orderCoordinate, FoodKindType.PIZZA);
         Restaurant restaurant = restaurantList.get(0);
+        System.out.println(restaurant.getName());
         // then
         assertThat(restaurant.getName()).isEqualTo(NAME);
         assertThat(restaurant.getFoodKind()).isEqualTo(FoodKindType.PIZZA);
