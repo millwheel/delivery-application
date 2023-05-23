@@ -5,8 +5,6 @@ import lombok.Setter;
 import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-
 import java.util.List;
 
 @Getter

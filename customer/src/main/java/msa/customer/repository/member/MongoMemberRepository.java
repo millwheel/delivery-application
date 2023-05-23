@@ -4,8 +4,6 @@ import msa.customer.DAO.Member;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
-
-import java.awt.*;
 import java.util.Optional;
 
 @Primary

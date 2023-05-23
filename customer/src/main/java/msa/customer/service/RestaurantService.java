@@ -5,11 +5,8 @@ import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
