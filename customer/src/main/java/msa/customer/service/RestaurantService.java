@@ -103,11 +103,11 @@ public class RestaurantService {
     }
 
     public void openRestaurant(String restaurantId){
-        restaurantRepository.setOpen(restaurantId, true);
+        restaurantRepository.updateOpenStatus(restaurantId, true);
     }
 
     public void closeRestaurant(String restaurantId){
-        restaurantRepository.setOpen(restaurantId, false);
+        restaurantRepository.updateOpenStatus(restaurantId, false);
     }
 
     public List<Restaurant> showRestaurantListsNearCustomer(Point location, FoodKindType foodKind){

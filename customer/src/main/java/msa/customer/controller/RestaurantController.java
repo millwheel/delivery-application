@@ -6,7 +6,6 @@ import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Restaurant;
 import msa.customer.service.MemberService;
 import msa.customer.service.RestaurantService;
-import org.json.JSONArray;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

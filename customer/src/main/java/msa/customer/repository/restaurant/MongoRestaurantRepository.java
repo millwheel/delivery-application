@@ -125,9 +125,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setOpen(String id, boolean open) {
+    public void updateOpenStatus(String id, boolean status) {
         repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setOpen(open);
+            restaurant.setOpen(status);
             repository.save(restaurant);
         });
     }

@@ -23,6 +23,6 @@ public interface RestaurantRepository {
     void updateLocation(String id, Point location);
     void updateIntroduction(String id, String introduction);
     void updateMenuList(String id, List<Menu> menuList);
-    void setOpen(String id, boolean open);
+    void updateOpenStatus(String id, boolean open);
     void deleteAll();
 }
