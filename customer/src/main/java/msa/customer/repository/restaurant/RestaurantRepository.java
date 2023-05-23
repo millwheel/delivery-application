@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantRepository {
-    String make(Restaurant restaurant);
+    String create(Restaurant restaurant);
+    void update(String id, Restaurant restaurant);
     Optional<Restaurant> findById(String id);
     List<Restaurant> findRestaurantNear(Point location);
     List<Restaurant> findAll();
     void setName(String id, String name);
+    void setFoodKind(String id, String foodKind);
     void setPhoneNumber(String id, String phoneNumber);
     void setAddress(String id, String address);
     void setAddressDetail(String id, String addressDetail);

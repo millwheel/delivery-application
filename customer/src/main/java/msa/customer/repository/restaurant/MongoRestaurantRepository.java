@@ -20,9 +20,24 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public String make(Restaurant restaurant) {
+    public String create(Restaurant restaurant) {
         Restaurant savedRestaurant = repository.save(restaurant);
         return savedRestaurant.getId();
+    }
+
+    @Override
+    public void update(String id, Restaurant restaurant) {
+        repository.findById(id).ifPresent(existing -> {
+            existing.setName(restaurant.getName());
+            existing.setFoodKind(restaurant.getFoodKind());
+            existing.setPhoneNumber(restaurant.getPhoneNumber());
+            existing.setAddress(restaurant.getAddress());
+            existing.setAddressDetail(restaurant.getAddressDetail());
+            existing.setLocation(restaurant.getLocation());
+            existing.setIntroduction(restaurant.getIntroduction());
+            existing.setMenuList(restaurant.getMenuList());
+            repository.save(existing);
+        });
     }
 
     @Override
@@ -46,6 +61,14 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     public void setName(String id, String name) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setName(name);
+            repository.save(restaurant);
+        });
+    }
+
+    @Override
+    public void setFoodKind(String id, String foodKind) {
+        repository.findById(id).ifPresent(restaurant -> {
+            restaurant.setFoodKind(foodKind);
             repository.save(restaurant);
         });
     }

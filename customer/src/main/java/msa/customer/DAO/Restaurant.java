@@ -20,6 +20,7 @@ public class Restaurant {
     @MongoId
     private String id;
     private String name;
+    private String foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;

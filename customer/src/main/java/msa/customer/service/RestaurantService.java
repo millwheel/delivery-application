@@ -74,7 +74,7 @@ public class RestaurantService {
         restaurant.setLocation(data.getLocation());
         restaurant.setIntroduction(data.getIntroduction());
         restaurant.setMenuList(data.getMenuList());
-        restaurantRepository.make(restaurant);
+        restaurantRepository.create(restaurant);
     }
 
     public void updateRestaurantInfo(String restaurantId, RestaurantForm data){
