@@ -13,7 +13,7 @@ public class HomeController {
         return "Customer server is activated successfully";
     }
 
-    @GetMapping("/customer/main")
+    @GetMapping("/customer/foods")
     @ResponseStatus(HttpStatus.OK)
     public String foodList() {
         // rendered by frontend
