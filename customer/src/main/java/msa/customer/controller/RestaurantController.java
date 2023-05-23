@@ -2,6 +2,7 @@ package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Restaurant;
 import msa.customer.service.MemberService;
 import msa.customer.service.RestaurantService;
@@ -29,7 +30,7 @@ public class RestaurantController {
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)
     public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                     @PathVariable String kind,
+                                     @PathVariable FoodKindType kind,
                                      HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(id);
         if(coordinates.isEmpty()){

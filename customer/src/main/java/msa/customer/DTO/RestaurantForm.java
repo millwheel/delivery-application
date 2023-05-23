@@ -2,6 +2,7 @@ package msa.customer.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -11,9 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 public class RestaurantForm {
-
+    private String id;
     private String name;
-    private String foodKind;
+    private FoodKindType foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;

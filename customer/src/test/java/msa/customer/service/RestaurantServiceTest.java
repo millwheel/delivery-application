@@ -1,14 +1,18 @@
 package msa.customer.service;
 
+import msa.customer.DAO.FoodKindType;
+import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
 import msa.customer.repository.restaurant.RestaurantRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,11 +36,18 @@ class RestaurantServiceTest {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @AfterEach
+    void deleteAllTestData(){
+        restaurantRepository.deleteAll();
+    }
+
+
     @DisplayName("음식점 정보 저장 후 조회")
     @Test
     void saveRestaurantInfoTest(){
         // given
         RestaurantForm restaurantForm = new RestaurantForm();
+        restaurantForm.setId(ID);
         restaurantForm.setName(NAME);
         restaurantForm.setPhoneNumber(PHONE_NUMBER);
         restaurantForm.setAddress(ADDRESS);
@@ -44,7 +55,7 @@ class RestaurantServiceTest {
         restaurantForm.setLocation(LOCATION);
         restaurantForm.setIntroduction(INTRO);
         // when
-        restaurantService.updateRestaurantInfo(ID, restaurantForm);
+        restaurantService.createRestaurantInfo(restaurantForm);
         RestaurantForm restaurantInfo = restaurantService.getRestaurantInfo(ID);
         // then
         assertThat(restaurantInfo.getName()).isEqualTo(NAME);
@@ -57,26 +68,29 @@ class RestaurantServiceTest {
 
     @DisplayName("좌표에 가까운 음식점 조회")
     @Test
-    void getRestaurantInfoNearCustomerLocationTest(){
+    void getRestaurantsNearCustomerTest(){
         // given
         RestaurantForm restaurantForm = new RestaurantForm();
+        restaurantForm.setId(ID);
         restaurantForm.setName(NAME);
+        restaurantForm.setFoodKind(FoodKindType.PIZZA);
         restaurantForm.setPhoneNumber(PHONE_NUMBER);
         restaurantForm.setAddress(ADDRESS);
         restaurantForm.setAddressDetail(ADDRESS_DETAIL);
         restaurantForm.setLocation(LOCATION);
         restaurantForm.setIntroduction(INTRO);
-        restaurantService.updateRestaurantInfo(ID, restaurantForm);
+        restaurantService.createRestaurantInfo(restaurantForm);
         Point orderCoordinate = new Point(127.074, 37.252);
         // when
-        JSONArray jsonArray = restaurantService.showRestaurantListsNearCustomer(orderCoordinate);
-        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        List<Restaurant> restaurantList = restaurantService.showRestaurantListsNearCustomer(orderCoordinate, FoodKindType.PIZZA);
+        Restaurant restaurant = restaurantList.get(0);
         // then
-        assertThat(jsonObject.get("name")).isEqualTo(NAME);
-        assertThat(jsonObject.get("phoneNumber")).isEqualTo(PHONE_NUMBER);
-        assertThat(jsonObject.get("address")).isEqualTo(ADDRESS);
-        assertThat(jsonObject.get("addressDetail")).isEqualTo(ADDRESS_DETAIL);
-        assertThat(jsonObject.get("introduction")).isEqualTo(INTRO);
+        assertThat(restaurant.getName()).isEqualTo(NAME);
+        assertThat(restaurant.getFoodKind()).isEqualTo(FoodKindType.PIZZA);
+        assertThat(restaurant.getPhoneNumber()).isEqualTo(PHONE_NUMBER);
+        assertThat(restaurant.getAddress()).isEqualTo(ADDRESS);
+        assertThat(restaurant.getAddressDetail()).isEqualTo(ADDRESS_DETAIL);
+        assertThat(restaurant.getIntroduction()).isEqualTo(INTRO);
     }
 
 }

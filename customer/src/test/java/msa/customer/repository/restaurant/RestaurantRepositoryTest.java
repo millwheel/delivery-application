@@ -1,5 +1,6 @@
 package msa.customer.repository.restaurant;
 
+import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import org.junit.jupiter.api.AfterEach;
@@ -25,10 +26,10 @@ class RestaurantRepositoryTest {
         this.restaurantRepository = restaurantRepository;
     }
 
-//    @AfterEach
-//    void deleteAllTestData(){
-//        restaurantRepository.deleteAll();
-//    }
+    @AfterEach
+    void deleteAllTestData(){
+        restaurantRepository.deleteAll();
+    }
 
     @DisplayName("음식점 정보 저장 후 조회한다.")
     @Test
@@ -46,7 +47,7 @@ class RestaurantRepositoryTest {
         restaurant.setName("착한피자");
         restaurant.setMenuList(menuList);
         // when
-        String id = restaurantRepository.make(restaurant);
+        String id = restaurantRepository.create(restaurant);
         Restaurant savedRestaurant = restaurantRepository.findById(id).get();
         // then
         assertThat(savedRestaurant.getName()).isEqualTo("착한피자");
@@ -61,11 +62,12 @@ class RestaurantRepositoryTest {
         Point pizzaCoordinate = new Point(127.080, 37.251);
         restaurant.setName("착한피자");
         restaurant.setLocation(pizzaCoordinate);
-        restaurantRepository.make(restaurant);
+        restaurant.setFoodKind(FoodKindType.PIZZA);
+        restaurantRepository.create(restaurant);
 
         // when
         Point orderCoordinate = new Point(127.074, 37.252);
-        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
+        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate, FoodKindType.PIZZA);
         // then
         assertThat(restaurantNear.get(0).getName()).isEqualTo("착한피자");
     }
@@ -78,10 +80,11 @@ class RestaurantRepositoryTest {
         Point pizzaCoordinate = new Point(127.018, 37.261);
         restaurant.setName("피자헤븐");
         restaurant.setLocation(pizzaCoordinate);
-        restaurantRepository.make(restaurant);
+        restaurant.setFoodKind(FoodKindType.PIZZA);
+        restaurantRepository.create(restaurant);
         // when
         Point orderCoordinate = new Point(127.074, 37.253);
-        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate);
+        List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate, FoodKindType.PIZZA);
         // then
         assertThat(restaurantNear).isEmpty();
     }

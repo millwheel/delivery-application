@@ -1,5 +1,6 @@
 package msa.customer.repository.restaurant;
 
+import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
@@ -32,9 +33,9 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public List<Restaurant> findRestaurantNear(Point location) {
+    public List<Restaurant> findRestaurantNear(Point location, FoodKindType foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
-        return repository.findByLocationNear(location, distance);
+        return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void updateFoodKind(String id, String foodKind) {
+    public void updateFoodKind(String id, FoodKindType foodKind) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setFoodKind(foodKind);
             repository.save(restaurant);

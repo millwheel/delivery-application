@@ -1,5 +1,6 @@
 package msa.customer.service;
 
+import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
 import msa.customer.DTO.RestaurantForm;
@@ -64,10 +65,11 @@ public class RestaurantService {
         return restaurantForm;
     }
 
-    public void createRestaurantInfo(String restaurantId, RestaurantForm data){
+    public void createRestaurantInfo(RestaurantForm data){
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(restaurantId);
+        restaurant.setId(data.getId());
         restaurant.setName(data.getName());
+        restaurant.setFoodKind(data.getFoodKind());
         restaurant.setPhoneNumber(data.getPhoneNumber());
         restaurant.setAddress(data.getAddress());
         restaurant.setAddressDetail(data.getAddressDetail());
@@ -79,6 +81,7 @@ public class RestaurantService {
 
     public void updateRestaurantInfoIndividual(String restaurantId, RestaurantForm data){
         String name = data.getName();
+        FoodKindType foodKind = data.getFoodKind();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
@@ -86,6 +89,7 @@ public class RestaurantService {
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
         if(name != null) restaurantRepository.updateName(restaurantId, name);
+        if(foodKind != null) restaurantRepository.updateFoodKind(restaurantId, foodKind);
         if(phoneNumber != null) restaurantRepository.updatePhoneNumber(restaurantId, phoneNumber);
         if(address != null) restaurantRepository.updateAddress(restaurantId, address);
         if(addressDetail != null) restaurantRepository.updateAddressDetail(restaurantId, addressDetail);
@@ -106,7 +110,7 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, false);
     }
 
-    public List<Restaurant> showRestaurantListsNearCustomer(Point location, String kind){
-        return restaurantRepository.findRestaurantNear(location);
+    public List<Restaurant> showRestaurantListsNearCustomer(Point location, FoodKindType foodKind){
+        return restaurantRepository.findRestaurantNear(location, foodKind);
     }
 }
