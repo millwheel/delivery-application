@@ -98,8 +98,12 @@ public class RestaurantService {
         restaurantRepository.update(restaurantId, data);
     }
 
-    public void openOrCloseRestaurant(String restaurantId, boolean open){
-        restaurantRepository.setOpen(restaurantId, open);
+    public void openRestaurant(String restaurantId){
+        restaurantRepository.setOpen(restaurantId, true);
+    }
+
+    public void closeRestaurant(String restaurantId){
+        restaurantRepository.setOpen(restaurantId, false);
     }
 
     public List<Restaurant> showRestaurantListsNearCustomer(Point location){
