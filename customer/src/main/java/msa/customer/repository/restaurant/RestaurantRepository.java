@@ -2,27 +2,26 @@ package msa.customer.repository.restaurant;
 
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
-import org.springframework.data.geo.GeoResults;
+import msa.customer.DTO.RestaurantForm;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantRepository {
     String create(Restaurant restaurant);
-    void update(String id, Restaurant restaurant);
+    void update(String id, RestaurantForm data);
     Optional<Restaurant> findById(String id);
     List<Restaurant> findRestaurantNear(Point location);
     List<Restaurant> findAll();
-    void setName(String id, String name);
-    void setFoodKind(String id, String foodKind);
-    void setPhoneNumber(String id, String phoneNumber);
-    void setAddress(String id, String address);
-    void setAddressDetail(String id, String addressDetail);
-    void setLocation(String id, Point location);
-    void setIntroduction(String id, String introduction);
-    void setMenuList(String id, List<Menu> menuList);
+    void updateName(String id, String name);
+    void updateFoodKind(String id, String foodKind);
+    void updatePhoneNumber(String id, String phoneNumber);
+    void updateAddress(String id, String address);
+    void updateAddressDetail(String id, String addressDetail);
+    void updateLocation(String id, Point location);
+    void updateIntroduction(String id, String introduction);
+    void updateMenuList(String id, List<Menu> menuList);
     void setOpen(String id, boolean open);
     void deleteAll();
 }

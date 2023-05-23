@@ -77,11 +77,7 @@ public class RestaurantService {
         restaurantRepository.create(restaurant);
     }
 
-    public void updateRestaurantInfo(String restaurantId, RestaurantForm data){
-        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
-        if (restaurant.isEmpty()){
-            createRestaurantInfo(restaurantId, data);
-        }
+    public void updateRestaurantInfoIndividual(String restaurantId, RestaurantForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
@@ -89,13 +85,17 @@ public class RestaurantService {
         Point location = data.getLocation();
         String introduction = data.getIntroduction();
         List<Menu> menuList = data.getMenuList();
-        if(name != null) restaurantRepository.setName(restaurantId, name);
-        if(phoneNumber != null) restaurantRepository.setPhoneNumber(restaurantId, phoneNumber);
-        if(address != null) restaurantRepository.setAddress(restaurantId, address);
-        if(addressDetail != null) restaurantRepository.setAddressDetail(restaurantId, addressDetail);
-        if(location != null) restaurantRepository.setLocation(restaurantId, location);
-        if(introduction != null) restaurantRepository.setIntroduction(restaurantId, introduction);
-        if(menuList != null) restaurantRepository.setMenuList(restaurantId, menuList);
+        if(name != null) restaurantRepository.updateName(restaurantId, name);
+        if(phoneNumber != null) restaurantRepository.updatePhoneNumber(restaurantId, phoneNumber);
+        if(address != null) restaurantRepository.updateAddress(restaurantId, address);
+        if(addressDetail != null) restaurantRepository.updateAddressDetail(restaurantId, addressDetail);
+        if(location != null) restaurantRepository.updateLocation(restaurantId, location);
+        if(introduction != null) restaurantRepository.updateIntroduction(restaurantId, introduction);
+        if(menuList != null) restaurantRepository.updateMenuList(restaurantId, menuList);
+    }
+
+    public void updateRestaurantInfoBulk(String restaurantId, RestaurantForm data){
+        restaurantRepository.update(restaurantId, data);
     }
 
     public void openOrCloseRestaurant(String restaurantId, boolean open){

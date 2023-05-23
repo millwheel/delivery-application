@@ -13,6 +13,7 @@ import java.util.List;
 public class RestaurantForm {
 
     private String name;
+    private String foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;

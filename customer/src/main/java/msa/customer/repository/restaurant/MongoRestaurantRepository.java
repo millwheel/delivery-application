@@ -2,6 +2,7 @@ package msa.customer.repository.restaurant;
 
 import msa.customer.DAO.Menu;
 import msa.customer.DAO.Restaurant;
+import msa.customer.DTO.RestaurantForm;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;
@@ -26,21 +27,6 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void update(String id, Restaurant restaurant) {
-        repository.findById(id).ifPresent(existing -> {
-            existing.setName(restaurant.getName());
-            existing.setFoodKind(restaurant.getFoodKind());
-            existing.setPhoneNumber(restaurant.getPhoneNumber());
-            existing.setAddress(restaurant.getAddress());
-            existing.setAddressDetail(restaurant.getAddressDetail());
-            existing.setLocation(restaurant.getLocation());
-            existing.setIntroduction(restaurant.getIntroduction());
-            existing.setMenuList(restaurant.getMenuList());
-            repository.save(existing);
-        });
-    }
-
-    @Override
     public Optional<Restaurant> findById(String id) {
         return repository.findById(id);
     }
@@ -56,9 +42,23 @@ public class MongoRestaurantRepository implements RestaurantRepository{
         return repository.findAll();
     }
 
+    @Override
+    public void update(String id, RestaurantForm data) {
+        repository.findById(id).ifPresent(existing -> {
+            existing.setName(data.getName());
+            existing.setFoodKind(data.getFoodKind());
+            existing.setPhoneNumber(data.getPhoneNumber());
+            existing.setAddress(data.getAddress());
+            existing.setAddressDetail(data.getAddressDetail());
+            existing.setLocation(data.getLocation());
+            existing.setIntroduction(data.getIntroduction());
+            existing.setMenuList(data.getMenuList());
+            repository.save(existing);
+        });
+    }
 
     @Override
-    public void setName(String id, String name) {
+    public void updateName(String id, String name) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setName(name);
             repository.save(restaurant);
@@ -66,7 +66,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setFoodKind(String id, String foodKind) {
+    public void updateFoodKind(String id, String foodKind) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setFoodKind(foodKind);
             repository.save(restaurant);
@@ -74,7 +74,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setPhoneNumber(String id, String phoneNumber) {
+    public void updatePhoneNumber(String id, String phoneNumber) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setPhoneNumber(phoneNumber);
             repository.save(restaurant);
@@ -82,7 +82,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setAddress(String id, String address) {
+    public void updateAddress(String id, String address) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setAddress(address);
             repository.save(restaurant);
@@ -90,7 +90,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setAddressDetail(String id, String addressDetail) {
+    public void updateAddressDetail(String id, String addressDetail) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setAddressDetail(addressDetail);
             repository.save(restaurant);
@@ -98,7 +98,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setLocation(String id, Point location) {
+    public void updateLocation(String id, Point location) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setLocation(location);
             repository.save(restaurant);
@@ -106,7 +106,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setIntroduction(String id, String introduction) {
+    public void updateIntroduction(String id, String introduction) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setIntroduction(introduction);
             repository.save(restaurant);
@@ -114,7 +114,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void setMenuList(String id, List<Menu> menuList) {
+    public void updateMenuList(String id, List<Menu> menuList) {
         repository.findById(id).ifPresent(restaurant -> {
             restaurant.setMenuList(menuList);
             repository.save(restaurant);
