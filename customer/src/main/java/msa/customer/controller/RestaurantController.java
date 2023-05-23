@@ -36,7 +36,7 @@ public class RestaurantController {
             response.sendRedirect("/customer/member/info");
         }
         log.info("coordinates={}", coordinates);
-        return restaurantService.showRestaurantListsNearCustomer(coordinates.get());
+        return restaurantService.showRestaurantListsNearCustomer(coordinates.get(), kind);
     }
 
 }

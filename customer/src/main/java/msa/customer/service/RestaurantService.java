@@ -106,7 +106,7 @@ public class RestaurantService {
         restaurantRepository.setOpen(restaurantId, false);
     }
 
-    public List<Restaurant> showRestaurantListsNearCustomer(Point location){
+    public List<Restaurant> showRestaurantListsNearCustomer(Point location, String kind){
         return restaurantRepository.findRestaurantNear(location);
     }
 }
