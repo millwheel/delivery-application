@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,10 +44,10 @@ class MemberRepositoryTest {
         member.setEmail("john@onemail.co.kr");
         member.setAddress("Manhattan central park");
         member.setAddressDetail("first floor");
-        Mockito.when(memberRepository.make(member))
+        BDDMockito.given(memberRepository.findById(Mockito.anyString())).willReturn(Optional.of(member));
         // when
-        memberRepository.make(member);
-        Member savedMember = memberRepository.findById("1350").get();
+        String id = memberRepository.make(member);
+        Member savedMember = memberRepository.findById(id).get();
         // then
         assertThat(savedMember).isNotNull();
         assertThat(savedMember.getName()).isEqualTo("John");

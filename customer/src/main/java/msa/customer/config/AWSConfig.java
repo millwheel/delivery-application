@@ -24,8 +24,6 @@ public class AWSConfig {
     private String awsSecretKey;
     @Value("${aws.region}")
     private String awsRegion;
-    @Value("${aws.sns.topic.arn}")
-    private String snsTopicARN;
 
     public AWSCredentials awsCredentials() {
         return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
