@@ -18,19 +18,26 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
-//	implementation 'com.datastax.astra:astra-spring-boot-starter:0.1.13'
-//	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.429'
+	// --mongodb--
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	// --dynamodb--
 	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
+	//implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.429'
+	// --aws sns sqs--
+//	implementation 'software.amazon.awssdk:bom:2.20.26'
+//	implementation 'software.amazon.awssdk:sqs:2.20.67'
+//	implementation 'software.amazon.awssdk:sns:2.20.66'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
+	// --json--
 	implementation 'org.json:json:20230227'
-    compileOnly 'org.projectlombok:lombok'
+	// --lombok--
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
