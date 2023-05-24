@@ -17,36 +17,37 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-//@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 class MemberRepositoryTest {
 
-    @Mock
+//    @Mock
     private MemberRepository memberRepository;
 
-//    @Autowired
-//    MemberRepositoryTest(MemberRepository memberRepository) {
-//        this.memberRepository = memberRepository;
-//    }
+    @Autowired
+    MemberRepositoryTest(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
-//    @AfterEach
-//    void deleteAllTestData(){
-//        memberRepository.deleteAll();
-//    }
+    @AfterEach
+    void deleteAllTestData(){
+        memberRepository.deleteAll();
+    }
 
     @DisplayName("회원 저장 후 조회")
     @Test
     void saveMemberAndReadTest(){
         // given
+        String id = "1234";
         Member member = new Member();
         member.setMemberId("1350");
         member.setName("John");
         member.setEmail("john@onemail.co.kr");
         member.setAddress("Manhattan central park");
         member.setAddressDetail("first floor");
-        BDDMockito.given(memberRepository.findById(Mockito.anyString())).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findById(id)).willReturn(Optional.of(member));
         // when
-        String id = memberRepository.make(member);
+//        String id = memberRepository.make(member);
         Member savedMember = memberRepository.findById(id).get();
         // then
         assertThat(savedMember).isNotNull();
