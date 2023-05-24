@@ -17,8 +17,9 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void make(Member member) {
-        repository.save(member);
+    public String make(Member member) {
+        Member save = repository.save(member);
+        return save.getMemberId();
     }
 
     @Override

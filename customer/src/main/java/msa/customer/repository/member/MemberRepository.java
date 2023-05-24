@@ -6,7 +6,7 @@ import org.springframework.data.geo.Point;
 import java.util.Optional;
 
 public interface MemberRepository {
-    void make(Member member);
+    String make(Member member);
     Optional<Member> findById(String id);
 
     void setName(String id, String name);

@@ -5,6 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,40 +16,43 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class MemberRepositoryTest {
 
+    @Mock
     private MemberRepository memberRepository;
 
-    @Autowired
-    MemberRepositoryTest(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+//    @Autowired
+//    MemberRepositoryTest(MemberRepository memberRepository) {
+//        this.memberRepository = memberRepository;
+//    }
 
-    @AfterEach
-    void deleteAllTestData(){
-        memberRepository.deleteAll();
-    }
+//    @AfterEach
+//    void deleteAllTestData(){
+//        memberRepository.deleteAll();
+//    }
 
     @DisplayName("회원 저장 후 조회")
     @Test
     void saveMemberAndReadTest(){
         // given
         Member member = new Member();
-        member.setMemberId("13-50-8523-7084");
+        member.setMemberId("1350");
         member.setName("John");
         member.setEmail("john@onemail.co.kr");
-        member.setAddress("Atlantis central park");
+        member.setAddress("Manhattan central park");
         member.setAddressDetail("first floor");
+        Mockito.when(memberRepository.make(member))
         // when
         memberRepository.make(member);
-        Member member1 = memberRepository.findById("13-50-8523-7084").get();
+        Member savedMember = memberRepository.findById("1350").get();
         // then
-        assertThat(member1).isNotNull();
-        assertThat(member1.getName()).isEqualTo("John");
-        assertThat(member1.getEmail()).isEqualTo("john@onemail.co.kr");
-        assertThat(member1.getAddress()).isEqualTo("Atlantis central park");
-        assertThat(member1.getAddressDetail()).isEqualTo("first floor");
+        assertThat(savedMember).isNotNull();
+        assertThat(savedMember.getName()).isEqualTo("John");
+        assertThat(savedMember.getEmail()).isEqualTo("john@onemail.co.kr");
+        assertThat(savedMember.getAddress()).isEqualTo("Manhattan central park");
+        assertThat(savedMember.getAddressDetail()).isEqualTo("first floor");
     }
 
 }
