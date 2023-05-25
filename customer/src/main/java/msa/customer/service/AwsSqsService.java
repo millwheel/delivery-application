@@ -31,9 +31,7 @@ public class AwsSqsService {
 
     public SendMessageResult sendMessage(EcmDto msg) throws JsonProcessingException {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(sqsUrl,
-                objectMapper.writeValueAsString(msg))
-                .withMessageGroupId("sqs-test")
-                .withMessageDeduplicationId(UUID.randomUUID().toString());
+                objectMapper.writeValueAsString(msg));
         return amazonSQS.sendMessage(sendMessageRequest);
     }
 
