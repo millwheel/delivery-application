@@ -1,9 +1,9 @@
 package msa.customer.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import msa.customer.DTO.EcmDto;
 import msa.customer.service.AwsSqsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
@@ -13,6 +13,12 @@ public class SnsSqsController {
 
     public SnsSqsController(AwsSqsService awsSqsService) {
         this.awsSqsService = awsSqsService;
+    }
+
+    @PostMapping("/send")
+    public String send(@RequestBody EcmDto message) throws JsonProcessingException {
+        awsSqsService.sendMessage(message);
+        return "OK";
     }
 
     @GetMapping("/sub")
