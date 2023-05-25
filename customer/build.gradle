@@ -25,12 +25,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	// --dynamodb--
 	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
-	//implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.429'
 	// --aws sns sqs--
-//	implementation 'software.amazon.awssdk:bom:2.20.26'
-//	implementation 'software.amazon.awssdk:sqs:2.20.67'
-//	implementation 'software.amazon.awssdk:sns:2.20.66'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.0.4'
 	// --json--
 	implementation 'org.json:json:20230227'
 	// --lombok--

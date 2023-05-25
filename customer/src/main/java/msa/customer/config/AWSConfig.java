@@ -6,8 +6,6 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.sns.AmazonSNS;
-import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,13 +35,6 @@ public class AWSConfig {
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard().withCredentials(awsCredentialsProvider())
-                .withRegion(awsRegion).build();
-    }
-
-    // SNS Configuration
-    @Bean
-    public AmazonSNS amazonSNS(){
-        return AmazonSNSClientBuilder.standard().withCredentials(awsCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
 
