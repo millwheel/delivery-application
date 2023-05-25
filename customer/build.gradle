@@ -26,8 +26,10 @@ dependencies {
 	// --dynamodb--
 	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
 	// --aws sns sqs--
+
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
-	implementation 'org.springframework.boot:spring-boot-starter-validation:3.0.4'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-aws-messaging:2.2.6.RELEASE'
 	// --json--
 	implementation 'org.json:json:20230227'
 	// --lombok--
