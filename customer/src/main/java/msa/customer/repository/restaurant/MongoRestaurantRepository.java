@@ -35,9 +35,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     @Override
     public List<Restaurant> findRestaurantNear(Point location, FoodKindType foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
-        List<Restaurant> byLocationNearAndFoodKindIs = repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
-        System.out.println(byLocationNearAndFoodKindIs);
-        return byLocationNearAndFoodKindIs;
+        return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }
 
     @Override

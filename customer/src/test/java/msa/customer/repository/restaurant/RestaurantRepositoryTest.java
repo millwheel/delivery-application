@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 
 import java.util.ArrayList;
@@ -64,7 +66,6 @@ class RestaurantRepositoryTest {
         restaurant.setLocation(pizzaCoordinate);
         restaurant.setFoodKind(FoodKindType.PIZZA);
         restaurantRepository.create(restaurant);
-
         // when
         Point orderCoordinate = new Point(127.074, 37.252);
         List<Restaurant> restaurantNear = restaurantRepository.findRestaurantNear(orderCoordinate, FoodKindType.PIZZA);
