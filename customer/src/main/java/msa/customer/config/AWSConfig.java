@@ -33,14 +33,14 @@ public class AWSConfig {
 
     // DynamoDB Configuration
     @Bean
-    public AmazonDynamoDB amazonDynamoDB() {
+    public AmazonDynamoDB amazonDynamoDBClient() {
         return AmazonDynamoDBClientBuilder.standard().withCredentials(awsCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
 
     // SQS Configuration
     @Bean
-    public AmazonSQS amazonSQS(){
+    public AmazonSQS amazonSQSClient(){
         return AmazonSQSClientBuilder.standard().withCredentials(awsCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
