@@ -17,11 +17,9 @@ public class AwsSqsService {
     @Value("${aws.sqs.url}")
     private String sqsUrl;
 
-    private final ObjectMapper objectMapper;
     private final AmazonSQS amazonSQS;
 
     public AwsSqsService(ObjectMapper objectMapper, AmazonSQS amazonSQS) {
-        this.objectMapper = objectMapper;
         this.amazonSQS = amazonSQS;
     }
 
