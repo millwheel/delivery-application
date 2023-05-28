@@ -26,7 +26,7 @@ dependencies {
 	// --dynamodb--
 	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
 	// --aws sqs--
-	implementation 'org.springframework.cloud:spring-cloud-aws-messaging:2.2.6.RELEASE'
+	implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.472'
 	// --json--
 	implementation 'org.json:json:20230227'
 	// --lombok--
