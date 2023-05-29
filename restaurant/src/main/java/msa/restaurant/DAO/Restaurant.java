@@ -1,19 +1,23 @@
 package msa.restaurant.DAO;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-@Document("menu")
-public class Menu {
+@Document("restaurant")
+public class Restaurant {
 
+    @MongoId
+    private String restaurantId;
     private String name;
-    private String price;
-    private String description;
+    private String phoneNumber;
+    private String address;
+    private String addressDetail;
+    private Point coordinates;
 }
