@@ -2,12 +2,13 @@ package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Manager;
-import msa.restaurant.DTO.MemberForm;
+import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DTO.ManagerForm;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -33,14 +34,17 @@ public class MemberService {
     public Optional<String> getPhoneNumber(String id){
         return memberRepository.findById(id).map(Manager::getPhoneNumber);
     }
+    public Optional<List<Restaurant>> getRestaurantList(String id){
+        return memberRepository.findById(id).map(Manager::getRestaurantList);
+    }
 
-
-    public MemberForm getUserInfo(String id){
-        MemberForm memberForm = new MemberForm();
-        getName(id).ifPresent(memberForm::setName);
-        getEmail(id).ifPresent(memberForm::setEmail);
-        getPhoneNumber(id).ifPresent(memberForm::setPhoneNumber);
-        return memberForm;
+    public ManagerForm getUserInfo(String id){
+        ManagerForm managerForm = new ManagerForm();
+        getName(id).ifPresent(managerForm::setName);
+        getEmail(id).ifPresent(managerForm::setEmail);
+        getPhoneNumber(id).ifPresent(managerForm::setPhoneNumber);
+        getRestaurantList(id).ifPresent(managerForm::setRestaurantList);
+        return managerForm;
     }
 
     public void setName(String id, String name){
@@ -52,11 +56,9 @@ public class MemberService {
     }
 
 
-    public void updateUserInfo(String id, MemberForm data){
+    public void updateUserInfo(String id, ManagerForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
-        String address = data.getAddress();
-        String addressDetail = data.getAddressDetail();
         if(name != null) setName(id, name);
         if(phoneNumber != null) setPhoneNumber(id, phoneNumber);
     }
