@@ -16,11 +16,10 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final AddressService addressService;
+
     @Autowired
     public MemberService(MemberRepository memberRepository, AddressService addressService) {
         this.memberRepository = memberRepository;
-        this.addressService = addressService;
     }
 
     public Optional<String> getName(String id){
