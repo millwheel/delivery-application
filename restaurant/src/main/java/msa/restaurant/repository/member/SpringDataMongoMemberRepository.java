@@ -1,4 +1,4 @@
-package msa.restaurant.repository;
+package msa.restaurant.repository.member;
 
 import msa.restaurant.DAO.Member;
 import org.springframework.data.mongodb.repository.MongoRepository;
