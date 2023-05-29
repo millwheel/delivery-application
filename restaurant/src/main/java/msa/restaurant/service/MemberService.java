@@ -42,7 +42,6 @@ public class MemberService {
         getName(id).ifPresent(managerForm::setName);
         getEmail(id).ifPresent(managerForm::setEmail);
         getPhoneNumber(id).ifPresent(managerForm::setPhoneNumber);
-        getRestaurantList(id).ifPresent(managerForm::setRestaurantList);
         return managerForm;
     }
 
@@ -61,10 +60,8 @@ public class MemberService {
     public void updateUserInfo(String id, ManagerForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
-        List<Restaurant> restaurantList = data.getRestaurantList();
         if(name != null) setName(id, name);
         if(phoneNumber != null) setPhoneNumber(id, phoneNumber);
-        if(!restaurantList.isEmpty()) setRestaurantList(id, restaurantList);
     }
 
 }
