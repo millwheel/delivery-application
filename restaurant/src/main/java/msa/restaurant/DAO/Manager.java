@@ -12,11 +12,11 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Document("member")
-public class Member {
+@Document("manager")
+public class Manager {
 
     @MongoId
-    private String memberId;
+    private String managerId;
     private String name;
     private String email;
     private String phoneNumber;

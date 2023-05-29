@@ -1,6 +1,6 @@
 package msa.restaurant.service;
 
-import msa.restaurant.DAO.Member;
+import msa.restaurant.DAO.Manager;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ public class JoinService {
     }
 
     public Boolean checkJoinedMember(String cognitoUsername){
-        Optional<Member> user = memberRepository.findById(cognitoUsername);
+        Optional<Manager> user = memberRepository.findById(cognitoUsername);
         return user.isPresent();
     }
 
     public void joinMember(String cognitoUsername, String email){
-        Member member = new Member();
-        member.setMemberId(cognitoUsername);
-        member.setEmail(email);
-        memberRepository.make(member);
+        Manager manager = new Manager();
+        manager.setMemberId(cognitoUsername);
+        manager.setEmail(email);
+        memberRepository.make(manager);
     }
 }

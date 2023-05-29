@@ -1,7 +1,6 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.DAO.Member;
-import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DAO.Manager;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +18,12 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void make(Member member) {
-        repository.save(member);
+    public void make(Manager manager) {
+        repository.save(manager);
     }
 
     @Override
-    public Optional<Member> findById(String id) {
+    public Optional<Manager> findById(String id) {
         return repository.findById(id);
     }
 
