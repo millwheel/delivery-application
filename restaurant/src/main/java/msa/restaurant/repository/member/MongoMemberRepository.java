@@ -1,10 +1,11 @@
 package msa.restaurant.repository.member;
 
 import msa.restaurant.DAO.Member;
+import msa.restaurant.DAO.Restaurant;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Primary
@@ -44,27 +45,12 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setAddress(String id, String address){
+    public void setRestaurantList(String id, String restaurantId) {
         repository.findById(id).ifPresent(member -> {
-            member.setAddress(address);
-            repository.save(member);
+            List<String> restaurantList = member.getRestaurantList();
+            restaurantList.add(restaurantId);
         });
     }
 
-    @Override
-    public void setAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(member -> {
-            member.setAddressDetail(addressDetail);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setCoordinates(String id, Point coordinates) {
-        repository.findById(id).ifPresent(member -> {
-            member.setCoordinates(coordinates);
-            repository.save(member);
-        });
-    }
 
 }

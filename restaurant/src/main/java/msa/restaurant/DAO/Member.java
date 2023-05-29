@@ -20,6 +20,6 @@ public class Member {
     private String name;
     private String email;
     private String phoneNumber;
-    private List<Restaurant> restaurantList;
+    private List<String> restaurantList;
 
 }

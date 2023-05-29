@@ -1,9 +1,9 @@
 package msa.restaurant.repository.member;
 
 import msa.restaurant.DAO.Member;
-import org.springframework.data.geo.Point;
+import msa.restaurant.DAO.Restaurant;
 
-import java.awt.*;
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository {
@@ -11,8 +11,6 @@ public interface MemberRepository {
     Optional<Member> findById(String id);
     void setName(String id, String name);
     void setPhoneNumber(String id, String phoneNumber);
-    void setAddress(String id, String address);
-    void setAddressDetail(String id, String addressDetail);
-    void setCoordinates(String id, Point coordinates);
+    void setRestaurantList(String id, String restaurantId);
 }
 
