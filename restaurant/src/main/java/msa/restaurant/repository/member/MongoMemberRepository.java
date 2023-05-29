@@ -30,25 +30,25 @@ public class MongoMemberRepository implements MemberRepository{
 
     @Override
     public void setName(String id, String name){
-        repository.findById(id).ifPresent(member -> {
-            member.setName(name);
-            repository.save(member);
+        repository.findById(id).ifPresent(manager -> {
+            manager.setName(name);
+            repository.save(manager);
         });
     }
 
     @Override
     public void setPhoneNumber(String id, String phoneNumber){
-        repository.findById(id).ifPresent(member -> {
-            member.setPhoneNumber(phoneNumber);
-            repository.save(member);
+        repository.findById(id).ifPresent(manager -> {
+            manager.setPhoneNumber(phoneNumber);
+            repository.save(manager);
         });
     }
 
     @Override
-    public void setRestaurantList(String id, Restaurant restaurant) {
-        repository.findById(id).ifPresent(member -> {
-            List<Restaurant> restaurantList = member.getRestaurantList();
-            restaurantList.add(restaurant);
+    public void setRestaurantList(String id, List<Restaurant> restaurantList) {
+        repository.findById(id).ifPresent(manager -> {
+            manager.setRestaurantList(restaurantList);
+            repository.save(manager);
         });
     }
 
