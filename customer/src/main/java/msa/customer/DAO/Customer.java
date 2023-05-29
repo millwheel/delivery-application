@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 //@DynamoDBTable(tableName = "delivery_customer")
 @Document("member")
-public class Member {
+public class Customer {
 
     @MongoId
     private String memberId;

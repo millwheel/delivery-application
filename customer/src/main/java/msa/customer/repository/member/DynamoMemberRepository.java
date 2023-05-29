@@ -1,6 +1,6 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Member;
+import msa.customer.DAO.Customer;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +15,13 @@ public class DynamoMemberRepository implements MemberRepository {
         this.repository = repository;
     }
     @Override
-    public String make(Member member) {
-        Member savedMember = repository.save(member);
-        return savedMember.getMemberId();
+    public String make(Customer customer) {
+        Customer savedCustomer = repository.save(customer);
+        return savedCustomer.getMemberId();
     }
 
     @Override
-    public Optional<Member> findById(String id) {
+    public Optional<Customer> findById(String id) {
         return repository.findById(id);
     }
 

@@ -1,6 +1,6 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Member;
+import msa.customer.DAO.Customer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
@@ -17,13 +17,13 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String make(Member member) {
-        Member save = repository.save(member);
+    public String make(Customer customer) {
+        Customer save = repository.save(customer);
         return save.getMemberId();
     }
 
     @Override
-    public Optional<Member> findById(String id) {
+    public Optional<Customer> findById(String id) {
         return repository.findById(id);
     }
 

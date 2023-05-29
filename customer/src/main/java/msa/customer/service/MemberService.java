@@ -1,8 +1,8 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.Member;
-import msa.customer.DTO.MemberForm;
+import msa.customer.DAO.Customer;
+import msa.customer.DTO.CustomerForm;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -22,38 +22,38 @@ public class MemberService {
     }
 
     public Optional<String> getName(String id){
-        return memberRepository.findById(id).map(Member::getName);
+        return memberRepository.findById(id).map(Customer::getName);
     }
 
     public Optional<String> getEmail(String id){
-        return memberRepository.findById(id).map(Member::getEmail);
+        return memberRepository.findById(id).map(Customer::getEmail);
     }
 
     public Optional<String> getPhoneNumber(String id){
-        return memberRepository.findById(id).map(Member::getPhoneNumber);
+        return memberRepository.findById(id).map(Customer::getPhoneNumber);
     }
 
     public Optional<String> getAddress(String id){
-        return memberRepository.findById(id).map(Member::getAddress);
+        return memberRepository.findById(id).map(Customer::getAddress);
     }
 
     public Optional<String> getAddressDetail(String id){
-        return memberRepository.findById(id).map(Member::getAddressDetail);
+        return memberRepository.findById(id).map(Customer::getAddressDetail);
     }
 
     public Optional<Point> getCoordinates(String id){
-        return memberRepository.findById(id).map(Member::getCoordinates);
+        return memberRepository.findById(id).map(Customer::getCoordinates);
     }
 
-    public MemberForm getUserInfo(String id){
-        MemberForm memberForm = new MemberForm();
-        getName(id).ifPresent(memberForm::setName);
-        getEmail(id).ifPresent(memberForm::setEmail);
-        getPhoneNumber(id).ifPresent(memberForm::setPhoneNumber);
-        getAddress(id).ifPresent(memberForm::setAddress);
-        getAddressDetail(id).ifPresent(memberForm::setAddressDetail);
-        getCoordinates(id).ifPresent(memberForm::setLocation);
-        return memberForm;
+    public CustomerForm getUserInfo(String id){
+        CustomerForm customerForm = new CustomerForm();
+        getName(id).ifPresent(customerForm::setName);
+        getEmail(id).ifPresent(customerForm::setEmail);
+        getPhoneNumber(id).ifPresent(customerForm::setPhoneNumber);
+        getAddress(id).ifPresent(customerForm::setAddress);
+        getAddressDetail(id).ifPresent(customerForm::setAddressDetail);
+        getCoordinates(id).ifPresent(customerForm::setLocation);
+        return customerForm;
     }
 
     public void setName(String id, String name){
@@ -74,7 +74,7 @@ public class MemberService {
         memberRepository.setAddressDetail(id, addressDetail);
     }
 
-    public void updateUserInfo(String id, MemberForm data){
+    public void updateUserInfo(String id, CustomerForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();

@@ -1,7 +1,7 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Member;
+import msa.customer.DAO.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface SpringDataMongoMemberRepository extends MongoRepository<Member, String> {
+public interface SpringDataMongoMemberRepository extends MongoRepository<Customer, String> {
 }

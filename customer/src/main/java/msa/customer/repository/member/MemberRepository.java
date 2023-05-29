@@ -1,13 +1,13 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Member;
+import msa.customer.DAO.Customer;
 import org.springframework.data.geo.Point;
 
 import java.util.Optional;
 
 public interface MemberRepository {
-    String make(Member member);
-    Optional<Member> findById(String id);
+    String make(Customer customer);
+    Optional<Customer> findById(String id);
 
     void setName(String id, String name);
 
