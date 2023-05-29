@@ -24,7 +24,7 @@ public class JoinService {
 
     public void joinMember(String cognitoUsername, String email){
         Manager manager = new Manager();
-        manager.setMemberId(cognitoUsername);
+        manager.setManagerId(cognitoUsername);
         manager.setEmail(email);
         memberRepository.make(manager);
     }
