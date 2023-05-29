@@ -1,10 +1,10 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Coordinates;
 import msa.restaurant.DAO.Member;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -51,7 +51,7 @@ public class MemberService {
 
     public void setAddress(String id, String address){
         memberRepository.setAddress(id, address);
-        Coordinates coordinate = addressService.getCoordinate(address);
+        Point coordinate = addressService.getCoordinate(address);
         memberRepository.setCoordinates(id, coordinate);
     }
 

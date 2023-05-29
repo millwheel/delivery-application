@@ -1,10 +1,10 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Coordinates;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,11 +22,11 @@ public class AddressService {
     @Value("${kakao.local.key}")
     private String kakaoLocalKey;
 
-    public Coordinates getCoordinate(String address){
+    public Point getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
-        
+
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authorization", apiKey);
@@ -43,11 +43,12 @@ public class AddressService {
         String body = response.getBody();
         JSONObject json = new JSONObject(body);
         // body에서 좌표 뽑아내기
-        JSONArray documents = json.getJSONArray("documents");
-        String x = documents.getJSONObject(0).getString("x");
-        String y = documents.getJSONObject(0).getString("y");
 
-        return new Coordinates(x, y);
+        JSONArray documents = json.getJSONArray("documents");
+        double x = Double.parseDouble(documents.getJSONObject(0).getString("x"));
+        double y = Double.parseDouble(documents.getJSONObject(0).getString("y"));
+
+        return new Point(x, y);
     }
 
 }

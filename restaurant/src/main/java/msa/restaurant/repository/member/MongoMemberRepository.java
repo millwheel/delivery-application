@@ -1,8 +1,8 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.DAO.Coordinates;
 import msa.restaurant.DAO.Member;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -60,7 +60,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setCoordinates(String id, Coordinates coordinates) {
+    public void setCoordinates(String id, Point coordinates) {
         repository.findById(id).ifPresent(member -> {
             member.setCoordinates(coordinates);
             repository.save(member);
