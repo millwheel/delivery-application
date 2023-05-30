@@ -4,11 +4,15 @@ import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
 import msa.restaurant.DAO.Restaurant;
 import msa.restaurant.DTO.RestaurantForm;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Primary
+@Repository
 public class MongoRestaurantRepository implements RestaurantRepository{
     private final SpringDataMongoRestaurantRepository repository;
 
@@ -124,3 +128,5 @@ public class MongoRestaurantRepository implements RestaurantRepository{
         repository.deleteAll();
     }
 }
+
+
