@@ -16,15 +16,13 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("/restaurant/member")
+@RequestMapping("/manager/member")
 public class MemberController {
 
     private final MemberService memberService;
-    private final RestaurantService restaurantService;
 
-    public MemberController(MemberService memberService, RestaurantService restaurantService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.restaurantService = restaurantService;
     }
 
     @GetMapping("/info")
@@ -42,28 +40,4 @@ public class MemberController {
         response.sendRedirect("/customer/member/info");
     }
 
-    @GetMapping("/restaurants")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id) {
-        return memberService.getRestaurantList(id);
-    }
-
-    @GetMapping("/restaurants/add")
-    @ResponseStatus(HttpStatus.OK)
-    public String restaurantAddForm () {
-        return "restaurant enroll form";
-    }
-
-    @PostMapping("/restaurants/add")
-    @ResponseStatus(HttpStatus.OK)
-    public void restaurantAdd (@RequestAttribute("cognitoUsername") String id,
-                                 @RequestBody RestaurantForm data,
-                                 HttpServletResponse response) throws IOException {
-        String restaurantId = restaurantService.createRestaurantInfo(data);
-        Restaurant restaurant = restaurantService.getRestaurant(id).get();
-        List<Restaurant> restaurantList = memberService.getRestaurantList(id);
-        restaurantList.add(restaurant);
-        memberService.setRestaurantList(id, restaurantList);
-        response.sendRedirect("/restaurant/member/restaurants");
-    }
 }
