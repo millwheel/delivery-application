@@ -1,13 +1,16 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Manager;
 import msa.restaurant.DAO.Restaurant;
 import msa.restaurant.DTO.ManagerForm;
+import msa.restaurant.DTO.RestaurantForm;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +36,8 @@ public class MemberService {
     public Optional<String> getPhoneNumber(String id){
         return memberRepository.findById(id).map(Manager::getPhoneNumber);
     }
-    public Optional<List<Restaurant>> getRestaurantList(String id){
-        return memberRepository.findById(id).map(Manager::getRestaurantList);
+    public List<Restaurant> getRestaurantList(String id){
+        return memberRepository.findById(id).map(Manager::getRestaurantList).orElse(null);
     }
 
     public ManagerForm getUserInfo(String id){

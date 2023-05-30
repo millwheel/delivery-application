@@ -19,6 +19,6 @@ public class HomeController {
     @GetMapping("/main")
     @ResponseStatus(HttpStatus.OK)
     public String orderList(){
-        return "order list here";
+        return "welcome page";
     }
 }

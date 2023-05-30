@@ -44,9 +44,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
             existing.setPhoneNumber(data.getPhoneNumber());
             existing.setAddress(data.getAddress());
             existing.setAddressDetail(data.getAddressDetail());
-            existing.setLocation(data.getLocation());
             existing.setIntroduction(data.getIntroduction());
-            existing.setMenuList(data.getMenuList());
             repository.save(existing);
         });
     }

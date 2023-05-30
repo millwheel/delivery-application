@@ -25,13 +25,5 @@ public class RestaurantController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/restaurant-list")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                            HttpServletResponse response) throws IOException {
-
-        return memberService.getRestaurantList(id).orElse(null);
-    }
-
 }
 
