@@ -23,7 +23,7 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     @Override
     public String create(Restaurant restaurant) {
         Restaurant savedRestaurant = repository.save(restaurant);
-        return savedRestaurant.getId();
+        return savedRestaurant.getRestaurantId();
     }
 
     @Override

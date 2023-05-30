@@ -38,7 +38,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.SEE_OTHER)
     public void restaurantAdd (@RequestAttribute("cognitoUsername") String id,
                                @RequestBody RestaurantForm data,
                                HttpServletResponse response) throws IOException {
@@ -50,5 +50,20 @@ public class RestaurantController {
         response.sendRedirect("/restaurant/member/restaurants");
     }
 
+    @GetMapping("/update/{number}")
+    @ResponseStatus(HttpStatus.OK)
+    public String restaurantUpdateForm(@PathVariable String number){
+        return "restaurant info update form here.";
+    }
+
+    @PutMapping("/update/{number}")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public void restaurantUpdate(@RequestAttribute("cognitoUsername") String id,
+                                 @PathVariable String number,
+                                 @RequestBody RestaurantForm data,
+                                 HttpServletResponse response) throws IOException {
+
+        response.sendRedirect("/restaurant/member/restaurants");
+    }
 }
 
