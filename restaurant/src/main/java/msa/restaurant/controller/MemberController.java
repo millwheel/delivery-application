@@ -2,17 +2,12 @@ package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Restaurant;
 import msa.restaurant.DTO.ManagerForm;
-import msa.restaurant.DTO.RestaurantForm;
 import msa.restaurant.service.MemberService;
-import msa.restaurant.service.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
