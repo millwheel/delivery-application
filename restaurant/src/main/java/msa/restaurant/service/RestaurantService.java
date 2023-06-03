@@ -16,10 +16,12 @@ import java.util.Optional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final AddressService addressService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, AddressService addressService) {
         this.restaurantRepository = restaurantRepository;
+        this.addressService = addressService;
     }
 
     public Optional<Restaurant> getRestaurant(String restaurantId){
@@ -60,6 +62,7 @@ public class RestaurantService {
         getPhoneNumber(restaurantId).ifPresent(restaurantForm::setPhoneNumber);
         getAddress(restaurantId).ifPresent(restaurantForm::setAddress);
         getAddressDetail(restaurantId).ifPresent(restaurantForm::setAddressDetail);
+        getCoordinates(restaurantId).ifPresent(restaurantForm::setLocation);
         getIntroduction(restaurantId).ifPresent(restaurantForm::setIntroduction);
         return restaurantForm;
     }
@@ -71,6 +74,8 @@ public class RestaurantService {
         restaurant.setFoodKind(data.getFoodKind());
         restaurant.setPhoneNumber(data.getPhoneNumber());
         restaurant.setAddress(data.getAddress());
+        Point coordinate = addressService.getCoordinate(data.getAddress());
+        restaurant.setLocation(coordinate);
         restaurant.setAddressDetail(data.getAddressDetail());
         restaurant.setIntroduction(data.getIntroduction());
         return restaurantRepository.create(restaurant);
@@ -86,7 +91,11 @@ public class RestaurantService {
         if(name != null) restaurantRepository.updateName(restaurantId, name);
         if(foodKind != null) restaurantRepository.updateFoodKind(restaurantId, foodKind);
         if(phoneNumber != null) restaurantRepository.updatePhoneNumber(restaurantId, phoneNumber);
-        if(address != null) restaurantRepository.updateAddress(restaurantId, address);
+        if(address != null) {
+            restaurantRepository.updateAddress(restaurantId, address);
+            Point coordinate = addressService.getCoordinate(address);
+            restaurantRepository.updateLocation(restaurantId, coordinate);
+        }
         if(addressDetail != null) restaurantRepository.updateAddressDetail(restaurantId, addressDetail);
         if(introduction != null) restaurantRepository.updateIntroduction(restaurantId, introduction);
     }
