@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -27,8 +28,8 @@ public class RestaurantController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id) {
-        return memberService.getRestaurantList(id);
+    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String managerId) {
+        return memberService.getRestaurantList(managerId);
     }
 
     @GetMapping("/add")
@@ -39,31 +40,42 @@ public class RestaurantController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void restaurantAdd (@RequestAttribute("cognitoUsername") String id,
+    public void restaurantAdd (@RequestAttribute("cognitoUsername") String managerId,
                                @RequestBody RestaurantForm data,
                                HttpServletResponse response) throws IOException {
         String restaurantId = restaurantService.createRestaurantInfo(data);
-        Restaurant restaurant = restaurantService.getRestaurant(id).get();
-        List<Restaurant> restaurantList = memberService.getRestaurantList(id);
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId).get();
+        List<Restaurant> restaurantList = memberService.getRestaurantList(managerId);
         restaurantList.add(restaurant);
-        memberService.setRestaurantList(id, restaurantList);
-        response.sendRedirect("/restaurant/member/restaurants");
+        memberService.setRestaurantList(managerId, restaurantList);
+        response.sendRedirect("/manager/restaurant/list");
     }
 
-    @GetMapping("/update/{number}")
+    @GetMapping("/update/{restaurantId}")
     @ResponseStatus(HttpStatus.OK)
-    public String restaurantUpdateForm(@PathVariable String number){
+    public String restaurantUpdateForm(@PathVariable String restaurantId){
         return "restaurant info update form here.";
     }
 
-    @PutMapping("/update/{number}")
+    @PutMapping("/update/{restaurantId}")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void restaurantUpdate(@RequestAttribute("cognitoUsername") String id,
-                                 @PathVariable String number,
+    public void restaurantUpdate(@RequestAttribute("cognitoUsername") String managerId,
+                                 @PathVariable String restaurantId,
                                  @RequestBody RestaurantForm data,
                                  HttpServletResponse response) throws IOException {
 
-        response.sendRedirect("/restaurant/member/restaurants");
+        Optional<Restaurant> restaurant = restaurantService.getRestaurant(restaurantId);
+        if (restaurant.isEmpty()){
+            response.sendRedirect("/manager/restaurant/update/error");
+        }
+        restaurantService.updateRestaurantInfo(restaurantId, data);
+        response.sendRedirect("");
+    }
+
+    @GetMapping("/update/error")
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String restaurantUpdateError(){
+        return "Wrong restaurant id";
     }
 }
 

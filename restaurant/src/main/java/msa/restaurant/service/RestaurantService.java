@@ -26,32 +26,32 @@ public class RestaurantService {
         return restaurantRepository.findById(restaurantId);
     }
 
-    public Optional<String> getName(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getName);
+    public Optional<String> getName(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getName);
     }
 
-    public Optional<String> getPhoneNumber(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getPhoneNumber);
+    public Optional<String> getPhoneNumber(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getPhoneNumber);
     }
 
-    public Optional<String> getAddress(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getAddress);
+    public Optional<String> getAddress(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getAddress);
     }
 
-    public Optional<String> getAddressDetail(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getAddressDetail);
+    public Optional<String> getAddressDetail(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getAddressDetail);
     }
 
-    public Optional<Point> getCoordinates(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getLocation);
+    public Optional<Point> getCoordinates(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getLocation);
     }
 
-    public Optional<String> getIntroduction(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getIntroduction);
+    public Optional<String> getIntroduction(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getIntroduction);
     }
 
-    public Optional<List<Menu>> getMenuList(String id){
-        return restaurantRepository.findById(id).map(Restaurant::getMenuList);
+    public Optional<List<Menu>> getMenuList(String restaurantId){
+        return restaurantRepository.findById(restaurantId).map(Restaurant::getMenuList);
     }
 
     public RestaurantForm getRestaurantInfo(String restaurantId){
