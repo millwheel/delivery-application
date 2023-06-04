@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Document("rider")
+@Document("member")
 public class Rider {
 
     @MongoId
