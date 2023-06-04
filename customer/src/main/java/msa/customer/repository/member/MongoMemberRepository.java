@@ -19,7 +19,7 @@ public class MongoMemberRepository implements MemberRepository {
     @Override
     public String make(Customer customer) {
         Customer save = repository.save(customer);
-        return save.getMemberId();
+        return save.getCustomerId();
     }
 
     @Override
