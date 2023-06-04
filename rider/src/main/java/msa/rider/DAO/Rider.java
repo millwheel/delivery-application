@@ -1,23 +1,23 @@
-package msa.customer.DAO;
-
+package msa.rider.DAO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
-//@DynamoDBTable(tableName = "delivery_customer")
-@Document("customer")
-public class Customer {
+@Document("rider")
+public class Rider {
 
     @MongoId
-    private String customerId;
+    private String riderId;
     private String name;
     private String email;
     private String phoneNumber;
