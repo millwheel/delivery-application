@@ -18,8 +18,7 @@ public class JoinService {
     }
 
     public Boolean checkJoinedMember(String cognitoUsername){
-        Optional<Customer> user = memberRepository.findById(cognitoUsername);
-        return user.isPresent();
+        return memberRepository.findById(cognitoUsername).isPresent();
     }
 
     public void joinMember(String cognitoUsername, String email){
