@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Primary
 @Repository
 public class MongoMemberRepository implements MemberRepository {
     private final SpringDataMongoMemberRepository repository;

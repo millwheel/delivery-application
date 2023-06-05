@@ -4,10 +4,10 @@
 For further reference, please consider the following sections:
 
 * [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.4/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.0.4/gradle-plugin/reference/html/#build-image)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.0.4/reference/htmlsingle/#web)
-* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/3.0.4/reference/htmlsingle/#data.nosql.mongodb)
+* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.7/gradle-plugin/reference/html/)
+* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.0.7/gradle-plugin/reference/html/#build-image)
+* [Spring Web](https://docs.spring.io/spring-boot/docs/3.0.7/reference/htmlsingle/#web)
+* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/3.0.7/reference/htmlsingle/#data.nosql.mongodb)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
