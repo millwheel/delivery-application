@@ -1,4 +1,4 @@
-package msa.restaurant.repository.restaurant;
+package msa.restaurant.repository.store;
 
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
@@ -9,7 +9,7 @@ import org.springframework.data.geo.Point;
 import java.util.List;
 import java.util.Optional;
 
-public interface RestaurantRepository {
+public interface StoreRepository {
     String create(Store store);
     void update(String restaurantId, RestaurantForm data);
     Optional<Store> findById(String restaurantId);

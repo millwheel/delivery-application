@@ -1,4 +1,4 @@
-package msa.restaurant.repository.restaurant;
+package msa.restaurant.repository.store;
 
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MongoRestaurantRepository implements RestaurantRepository{
-    private final SpringDataMongoRestaurantRepository repository;
+public class MongoStoreRepository implements StoreRepository {
+    private final SpringDataMongoStoreRepository repository;
 
-    public MongoRestaurantRepository(SpringDataMongoRestaurantRepository repository) {
+    public MongoStoreRepository(SpringDataMongoStoreRepository repository) {
         this.repository = repository;
     }
 
