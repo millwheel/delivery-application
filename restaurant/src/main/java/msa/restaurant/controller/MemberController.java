@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @RestController
 @Slf4j
-@RequestMapping("/manager/member")
+@RequestMapping("/restaurant/member")
 public class MemberController {
 
     private final MemberService memberService;

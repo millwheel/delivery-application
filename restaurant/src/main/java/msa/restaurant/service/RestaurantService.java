@@ -2,7 +2,7 @@ package msa.restaurant.service;
 
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
-import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.RestaurantForm;
 import msa.restaurant.repository.restaurant.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,36 +24,36 @@ public class RestaurantService {
         this.addressService = addressService;
     }
 
-    public Optional<Restaurant> getRestaurant(String restaurantId){
+    public Optional<Store> getRestaurant(String restaurantId){
         return restaurantRepository.findById(restaurantId);
     }
 
     public Optional<String> getName(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getName);
+        return restaurantRepository.findById(restaurantId).map(Store::getName);
     }
 
     public Optional<String> getPhoneNumber(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getPhoneNumber);
+        return restaurantRepository.findById(restaurantId).map(Store::getPhoneNumber);
     }
 
     public Optional<String> getAddress(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getAddress);
+        return restaurantRepository.findById(restaurantId).map(Store::getAddress);
     }
 
     public Optional<String> getAddressDetail(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getAddressDetail);
+        return restaurantRepository.findById(restaurantId).map(Store::getAddressDetail);
     }
 
     public Optional<Point> getCoordinates(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getLocation);
+        return restaurantRepository.findById(restaurantId).map(Store::getLocation);
     }
 
     public Optional<String> getIntroduction(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getIntroduction);
+        return restaurantRepository.findById(restaurantId).map(Store::getIntroduction);
     }
 
     public Optional<List<Menu>> getMenuList(String restaurantId){
-        return restaurantRepository.findById(restaurantId).map(Restaurant::getMenuList);
+        return restaurantRepository.findById(restaurantId).map(Store::getMenuList);
     }
 
     public RestaurantForm getRestaurantInfo(String restaurantId){
@@ -69,16 +69,16 @@ public class RestaurantService {
 
 
     public String createRestaurantInfo(RestaurantForm data){
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(data.getName());
-        restaurant.setFoodKind(data.getFoodKind());
-        restaurant.setPhoneNumber(data.getPhoneNumber());
-        restaurant.setAddress(data.getAddress());
+        Store store = new Store();
+        store.setName(data.getName());
+        store.setFoodKind(data.getFoodKind());
+        store.setPhoneNumber(data.getPhoneNumber());
+        store.setAddress(data.getAddress());
         Point coordinate = addressService.getCoordinate(data.getAddress());
-        restaurant.setLocation(coordinate);
-        restaurant.setAddressDetail(data.getAddressDetail());
-        restaurant.setIntroduction(data.getIntroduction());
-        return restaurantRepository.create(restaurant);
+        store.setLocation(coordinate);
+        store.setAddressDetail(data.getAddressDetail());
+        store.setIntroduction(data.getIntroduction());
+        return restaurantRepository.create(store);
     }
 
     public void updateRestaurantInfo(String restaurantId, RestaurantForm data){

@@ -2,7 +2,7 @@ package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.RestaurantForm;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.service.RestaurantService;
@@ -15,20 +15,20 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("/manager/restaurant")
-public class RestaurantController {
+@RequestMapping("/restaurant/store")
+public class StoreController {
 
     private final RestaurantService restaurantService;
     private final MemberService memberService;
 
-    public RestaurantController(RestaurantService restaurantService, MemberService memberService) {
+    public StoreController(RestaurantService restaurantService, MemberService memberService) {
         this.restaurantService = restaurantService;
         this.memberService = memberService;
     }
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String managerId) {
+    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String managerId) {
         return memberService.getRestaurantList(managerId);
     }
 
@@ -44,11 +44,11 @@ public class RestaurantController {
                                @RequestBody RestaurantForm data,
                                HttpServletResponse response) throws IOException {
         String restaurantId = restaurantService.createRestaurantInfo(data);
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId).get();
-        List<Restaurant> restaurantList = memberService.getRestaurantList(managerId);
-        restaurantList.add(restaurant);
-        memberService.setRestaurantList(managerId, restaurantList);
-        response.sendRedirect("/manager/restaurant/list");
+        Store store = restaurantService.getRestaurant(restaurantId).get();
+        List<Store> storeList = memberService.getRestaurantList(managerId);
+        storeList.add(store);
+        memberService.setRestaurantList(managerId, storeList);
+        response.sendRedirect("/manager/store/list");
     }
 
     @GetMapping("/update/{restaurantId}")
@@ -64,7 +64,7 @@ public class RestaurantController {
                                  @RequestBody RestaurantForm data,
                                  HttpServletResponse response) throws IOException {
 
-        Optional<Restaurant> restaurant = restaurantService.getRestaurant(restaurantId);
+        Optional<Store> restaurant = restaurantService.getRestaurant(restaurantId);
         if (restaurant.isEmpty()){
             response.sendRedirect("/manager/restaurant/update/error");
         }

@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/restaurant")
 public class HomeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String home(){
-        return "Restaurant server is activated successfully";
+        return "Store server is activated successfully";
     }
 
     @GetMapping("/main")

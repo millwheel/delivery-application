@@ -2,8 +2,7 @@ package msa.restaurant.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.DAO.Restaurant;
-import org.springframework.data.geo.Point;
+import msa.restaurant.DAO.Store;
 
 import java.util.List;
 
@@ -14,6 +13,6 @@ public class ManagerForm {
     private String name;
     private String email;
     private String phoneNumber;
-    private List<Restaurant> restaurantList;
+    private List<Store> storeList;
 
 }

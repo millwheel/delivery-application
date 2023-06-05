@@ -20,6 +20,6 @@ public class Manager {
     private String name;
     private String email;
     private String phoneNumber;
-    private List<Restaurant> restaurantList;
+    private List<Store> storeList;
 
 }

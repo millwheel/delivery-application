@@ -2,9 +2,8 @@ package msa.restaurant.repository.restaurant;
 
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
-import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.RestaurantForm;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -20,18 +19,18 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public String create(Restaurant restaurant) {
-        Restaurant savedRestaurant = repository.save(restaurant);
-        return savedRestaurant.getRestaurantId();
+    public String create(Store store) {
+        Store savedStore = repository.save(store);
+        return savedStore.getRestaurantId();
     }
 
     @Override
-    public Optional<Restaurant> findById(String restaurantId) {
+    public Optional<Store> findById(String restaurantId) {
         return repository.findById(restaurantId);
     }
 
     @Override
-    public List<Restaurant> findAll() {
+    public List<Store> findAll() {
         return repository.findAll();
     }
 

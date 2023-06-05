@@ -1,8 +1,7 @@
 package msa.restaurant.repository.member;
 
 import msa.restaurant.DAO.Manager;
-import msa.restaurant.DAO.Restaurant;
-import org.springframework.context.annotation.Primary;
+import msa.restaurant.DAO.Store;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,9 +44,9 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void updateRestaurantList(String managerId, List<Restaurant> restaurantList) {
+    public void updateStoreList(String managerId, List<Store> storeList) {
         repository.findById(managerId).ifPresent(manager -> {
-            manager.setRestaurantList(restaurantList);
+            manager.setStoreList(storeList);
             repository.save(manager);
         });
     }

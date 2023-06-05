@@ -1,16 +1,13 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Manager;
-import msa.restaurant.DAO.Restaurant;
+import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.ManagerForm;
-import msa.restaurant.DTO.RestaurantForm;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +33,8 @@ public class MemberService {
     public Optional<String> getPhoneNumber(String id){
         return memberRepository.findById(id).map(Manager::getPhoneNumber);
     }
-    public List<Restaurant> getRestaurantList(String id){
-        return memberRepository.findById(id).map(Manager::getRestaurantList).orElse(null);
+    public List<Store> getRestaurantList(String id){
+        return memberRepository.findById(id).map(Manager::getStoreList).orElse(null);
     }
 
     public ManagerForm getUserInfo(String id){
@@ -49,15 +46,15 @@ public class MemberService {
     }
 
     public void setName(String id, String name){
-        memberRepository.setName(id, name);
+        memberRepository.updateName(id, name);
     }
 
     public void setPhoneNumber(String id, String phoneNumber){
-        memberRepository.setPhoneNumber(id, phoneNumber);
+        memberRepository.updatePhoneNumber(id, phoneNumber);
     }
 
-    public void setRestaurantList(String id, List<Restaurant> restaurantList){
-        memberRepository.setRestaurantList(id, restaurantList);
+    public void setRestaurantList(String id, List<Store> storeList){
+        memberRepository.updateStoreList(id, storeList);
     }
 
     public void updateUserInfo(String id, ManagerForm data){
