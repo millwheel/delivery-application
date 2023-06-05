@@ -19,7 +19,7 @@ public class AwsSqsService {
 
     private final AmazonSQS amazonSQSClient;
 
-    public AwsSqsService(ObjectMapper objectMapper, AmazonSQS amazonSQS, AmazonSQS amazonSQSClient) {
+    public AwsSqsService(AmazonSQS amazonSQSClient) {
         this.amazonSQSClient = amazonSQSClient;
     }
 
