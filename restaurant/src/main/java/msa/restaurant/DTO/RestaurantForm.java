@@ -5,8 +5,6 @@ import lombok.Setter;
 import msa.restaurant.DAO.FoodKindType;
 import org.springframework.data.geo.Point;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class RestaurantForm {
