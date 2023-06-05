@@ -27,8 +27,8 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public Optional<Restaurant> findById(String id) {
-        return repository.findById(id);
+    public Optional<Restaurant> findById(String restaurantId) {
+        return repository.findById(restaurantId);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void update(String id, RestaurantForm data) {
-        repository.findById(id).ifPresent(existing -> {
+    public void update(String restaurantId, RestaurantForm data) {
+        repository.findById(restaurantId).ifPresent(existing -> {
             existing.setName(data.getName());
             existing.setFoodKind(data.getFoodKind());
             existing.setPhoneNumber(data.getPhoneNumber());
@@ -50,72 +50,72 @@ public class MongoRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public void updateName(String id, String name) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateName(String restaurantId, String name) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setName(name);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateFoodKind(String id, FoodKindType foodKind) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateFoodKind(String restaurantId, FoodKindType foodKind) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setFoodKind(foodKind);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updatePhoneNumber(String id, String phoneNumber) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updatePhoneNumber(String restaurantId, String phoneNumber) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setPhoneNumber(phoneNumber);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateAddress(String id, String address) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateAddress(String restaurantId, String address) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setAddress(address);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateAddressDetail(String restaurantId, String addressDetail) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setAddressDetail(addressDetail);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateLocation(String id, Point location) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateLocation(String restaurantId, Point location) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setLocation(location);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateIntroduction(String id, String introduction) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateIntroduction(String restaurantId, String introduction) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setIntroduction(introduction);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateMenuList(String id, List<Menu> menuList) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateMenuList(String restaurantId, List<Menu> menuList) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setMenuList(menuList);
             repository.save(restaurant);
         });
     }
 
     @Override
-    public void updateOpenStatus(String id, boolean status) {
-        repository.findById(id).ifPresent(restaurant -> {
+    public void updateOpenStatus(String restaurantId, boolean status) {
+        repository.findById(restaurantId).ifPresent(restaurant -> {
             restaurant.setOpen(status);
             repository.save(restaurant);
         });

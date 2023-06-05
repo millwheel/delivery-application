@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface MemberRepository {
     void make(Manager manager);
-    Optional<Manager> findById(String id);
-    void setName(String id, String name);
-    void setPhoneNumber(String id, String phoneNumber);
-    void setRestaurantList(String id, List<Restaurant> restaurant);
+    Optional<Manager> findById(String managerId);
+    void setName(String managerId, String name);
+    void setPhoneNumber(String managerId, String phoneNumber);
+    void setRestaurantList(String managerId, List<Restaurant> restaurant);
 }
 

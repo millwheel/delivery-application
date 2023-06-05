@@ -11,17 +11,17 @@ import java.util.Optional;
 
 public interface RestaurantRepository {
     String create(Restaurant restaurant);
-    void update(String id, RestaurantForm data);
-    Optional<Restaurant> findById(String id);
+    void update(String restaurantId, RestaurantForm data);
+    Optional<Restaurant> findById(String restaurantId);
     List<Restaurant> findAll();
-    void updateName(String id, String name);
-    void updateFoodKind(String id, FoodKindType foodKind);
-    void updatePhoneNumber(String id, String phoneNumber);
-    void updateAddress(String id, String address);
-    void updateAddressDetail(String id, String addressDetail);
-    void updateLocation(String id, Point location);
-    void updateIntroduction(String id, String introduction);
-    void updateMenuList(String id, List<Menu> menuList);
-    void updateOpenStatus(String id, boolean open);
+    void updateName(String restaurantId, String name);
+    void updateFoodKind(String restaurantId, FoodKindType foodKind);
+    void updatePhoneNumber(String restaurantId, String phoneNumber);
+    void updateAddress(String restaurantId, String address);
+    void updateAddressDetail(String restaurantId, String addressDetail);
+    void updateLocation(String restaurantId, Point location);
+    void updateIntroduction(String restaurantId, String introduction);
+    void updateMenuList(String restaurantId, List<Menu> menuList);
+    void updateOpenStatus(String restaurantId, boolean open);
     void deleteAll();
 }
