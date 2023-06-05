@@ -17,7 +17,7 @@ public class DynamoMemberRepository implements MemberRepository {
     @Override
     public String make(Customer customer) {
         Customer savedCustomer = repository.save(customer);
-        return savedCustomer.getMemberId();
+        return savedCustomer.getCustomerId();
     }
 
     @Override
