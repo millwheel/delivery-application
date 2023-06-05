@@ -26,6 +26,6 @@ public class JoinService {
         Manager manager = new Manager();
         manager.setManagerId(cognitoUsername);
         manager.setEmail(email);
-        memberRepository.make(manager);
+        memberRepository.create(manager);
     }
 }

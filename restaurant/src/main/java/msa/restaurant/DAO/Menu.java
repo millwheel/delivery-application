@@ -1,6 +1,5 @@
 package msa.restaurant.DAO;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,9 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document("menu")
 public class Menu {
 
+    @MongoId
+    private String menuId;
     private String name;
-    private String price;
+    private int price;
     private String description;
 }

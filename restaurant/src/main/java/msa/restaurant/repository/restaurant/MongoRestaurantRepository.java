@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Primary
 @Repository
 public class MongoRestaurantRepository implements RestaurantRepository{
     private final SpringDataMongoRestaurantRepository repository;

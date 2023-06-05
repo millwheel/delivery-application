@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Primary
 @Repository
 public class MongoMemberRepository implements MemberRepository{
 
@@ -19,8 +18,9 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void make(Manager manager) {
-        repository.save(manager);
+    public String create(Manager manager) {
+        Manager savedManager = repository.save(manager);
+        return savedManager.getManagerId();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setName(String managerId, String name){
+    public void updateName(String managerId, String name){
         repository.findById(managerId).ifPresent(manager -> {
             manager.setName(name);
             repository.save(manager);
@@ -37,7 +37,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setPhoneNumber(String managerId, String phoneNumber){
+    public void updatePhoneNumber(String managerId, String phoneNumber){
         repository.findById(managerId).ifPresent(manager -> {
             manager.setPhoneNumber(phoneNumber);
             repository.save(manager);
@@ -45,7 +45,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void setRestaurantList(String managerId, List<Restaurant> restaurantList) {
+    public void updateRestaurantList(String managerId, List<Restaurant> restaurantList) {
         repository.findById(managerId).ifPresent(manager -> {
             manager.setRestaurantList(restaurantList);
             repository.save(manager);
