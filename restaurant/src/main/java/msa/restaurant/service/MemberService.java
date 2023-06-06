@@ -5,7 +5,6 @@ import msa.restaurant.DAO.Manager;
 import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.ManagerForm;
 import msa.restaurant.repository.member.MemberRepository;
-import msa.restaurant.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +33,8 @@ public class MemberService {
     public Optional<String> getPhoneNumber(String id){
         return memberRepository.findById(id).map(Manager::getPhoneNumber);
     }
-    public List<Store> getStoreList(String id){
-        return memberRepository.findById(id).map(Manager::getStoreList).orElse(null);
+    public Optional<List<Store>> getStoreList(String id){
+        return memberRepository.findById(id).map(Manager::getStoreList);
     }
 
     public ManagerForm getUserInfo(String id){

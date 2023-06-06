@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Document("restaurant")
+@Document("store")
 public class Store {
     @MongoId
     private String storeId;

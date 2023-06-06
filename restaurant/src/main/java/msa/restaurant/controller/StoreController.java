@@ -13,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -35,7 +37,7 @@ public class StoreController {
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<Store> storeList (@RequestAttribute("cognitoUsername") String managerId) {
-        return memberService.getStoreList(managerId);
+        return memberService.getStoreList(managerId).orElseGet(ArrayList::new);
     }
 
     @GetMapping("/info/{storeId}")
@@ -53,19 +55,18 @@ public class StoreController {
 
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public Store storeAdd (@RequestAttribute("cognitoUsername") String managerId,
+    public void storeAdd (@RequestAttribute("cognitoUsername") String managerId,
                                @RequestBody StoreForm data,
                                HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
         Store store = storeService.getStore(storeId).get();
-//        List<Store> storeList = memberService.getStoreList(managerId);
-//        storeList.add(store);
-//        memberService.updateStoreList(managerId, storeList);
-//        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
-//        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
-//        log.info("message sending result={}", sendMessageResult);
-//        response.sendRedirect("/manager/store/list");
-        return store;
+        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+        storeList.add(store);
+        memberService.updateStoreList(managerId, storeList);
+        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        log.info("message sending result={}", sendMessageResult);
+        response.sendRedirect("/restaurant/store/list");
     }
 
     @GetMapping("/update/{storeId}")
