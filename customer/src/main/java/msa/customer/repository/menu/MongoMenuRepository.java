@@ -1,7 +1,7 @@
 package msa.customer.repository.menu;
 
 import msa.customer.DAO.Menu;
-import msa.customer.DAO.Restaurant;
+import msa.customer.DAO.Store;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -52,9 +52,9 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void setRestaurant(String id, Restaurant restaurant) {
+    public void setRestaurant(String id, Store store) {
         repository.findById(id).ifPresent(member ->{
-            member.setRestaurant(restaurant);
+            member.setStore(store);
             repository.save(member);
         });
     }

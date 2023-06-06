@@ -2,8 +2,7 @@ package msa.customer.repository.restaurant;
 
 import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
-import msa.customer.DAO.Restaurant;
-import msa.customer.DTO.RestaurantForm;
+import msa.customer.DAO.Store;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;
@@ -13,49 +12,34 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public class MongoRestaurantRepository implements RestaurantRepository{
+public class MongoStoreRepository implements StoreRepository {
 
-    private final SpringDataMongoRestaurantRepository repository;
+    private final SpringDataMongoStoreRepository repository;
 
-    public MongoRestaurantRepository(SpringDataMongoRestaurantRepository repository) {
+    public MongoStoreRepository(SpringDataMongoStoreRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public String create(Restaurant restaurant) {
-        Restaurant savedRestaurant = repository.save(restaurant);
-        return savedRestaurant.getId();
+    public String create(Store store) {
+        Store savedStore = repository.save(store);
+        return savedStore.getStoreId();
     }
 
     @Override
-    public Optional<Restaurant> findById(String id) {
+    public Optional<Store> findById(String id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<Restaurant> findRestaurantNear(Point location, FoodKindType foodKind) {
+    public List<Store> findStoreNear(Point location, FoodKindType foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
         return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }
 
     @Override
-    public List<Restaurant> findAll() {
+    public List<Store> findAll() {
         return repository.findAll();
-    }
-
-    @Override
-    public void update(String id, RestaurantForm data) {
-        repository.findById(id).ifPresent(existing -> {
-            existing.setName(data.getName());
-            existing.setFoodKind(data.getFoodKind());
-            existing.setPhoneNumber(data.getPhoneNumber());
-            existing.setAddress(data.getAddress());
-            existing.setAddressDetail(data.getAddressDetail());
-            existing.setLocation(data.getLocation());
-            existing.setIntroduction(data.getIntroduction());
-            existing.setMenuList(data.getMenuList());
-            repository.save(existing);
-        });
     }
 
     @Override

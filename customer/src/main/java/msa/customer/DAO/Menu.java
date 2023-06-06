@@ -16,5 +16,5 @@ public class Menu {
     private String name;
     private int price;
     private String description;
-    private Restaurant restaurant;
+    private Store store;
 }

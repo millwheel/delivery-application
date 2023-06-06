@@ -9,8 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class RestaurantForm {
-    private String id;
+public class StoreForm {
+    private String storeId;
     private String name;
     private FoodKindType foodKind;
     private String phoneNumber;

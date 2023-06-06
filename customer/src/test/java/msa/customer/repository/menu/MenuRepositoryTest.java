@@ -1,7 +1,7 @@
 package msa.customer.repository.menu;
 
 import msa.customer.DAO.Menu;
-import msa.customer.DAO.Restaurant;
+import msa.customer.DAO.Store;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,12 +44,12 @@ class MenuRepositoryTest {
     void changeMenuPriceAndDescriptionTest(){
         // given
         Menu menu = new Menu();
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName("착한피자");
+        Store store = new Store();
+        store.setName("착한피자");
         menu.setName("페퍼로니 피자");
         menu.setPrice(15900);
         menu.setDescription("페퍼로니가 올라간 맛있는 피자");
-        menu.setRestaurant(restaurant);
+        menu.setStore(store);
         String id = menuRepository.make(menu);
         // when
         menuRepository.setPrice(id, 17900);

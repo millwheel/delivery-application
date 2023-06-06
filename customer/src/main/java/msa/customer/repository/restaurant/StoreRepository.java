@@ -2,19 +2,17 @@ package msa.customer.repository.restaurant;
 
 import msa.customer.DAO.FoodKindType;
 import msa.customer.DAO.Menu;
-import msa.customer.DAO.Restaurant;
-import msa.customer.DTO.RestaurantForm;
+import msa.customer.DAO.Store;
 import org.springframework.data.geo.Point;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RestaurantRepository {
-    String create(Restaurant restaurant);
-    void update(String id, RestaurantForm data);
-    Optional<Restaurant> findById(String id);
-    List<Restaurant> findRestaurantNear(Point location, FoodKindType foodKind);
-    List<Restaurant> findAll();
+public interface StoreRepository {
+    String create(Store store);
+    Optional<Store> findById(String id);
+    List<Store> findStoreNear(Point location, FoodKindType foodKind);
+    List<Store> findAll();
     void updateName(String id, String name);
     void updateFoodKind(String id, FoodKindType foodKind);
     void updatePhoneNumber(String id, String phoneNumber);

@@ -3,9 +3,9 @@ package msa.customer.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.DAO.FoodKindType;
-import msa.customer.DAO.Restaurant;
+import msa.customer.DAO.Store;
 import msa.customer.service.MemberService;
-import msa.customer.service.RestaurantService;
+import msa.customer.service.StoreService;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +19,25 @@ import java.util.Optional;
 @RequestMapping("/customer/food/{kind}")
 public class RestaurantController {
     private final MemberService memberService;
-    private final RestaurantService restaurantService;
+    private final StoreService storeService;
 
-    public RestaurantController(MemberService memberService, RestaurantService restaurantService) {
+    public RestaurantController(MemberService memberService, StoreService storeService) {
         this.memberService = memberService;
-        this.restaurantService = restaurantService;
+        this.storeService = storeService;
     }
 
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                            @PathVariable FoodKindType kind,
-                                            HttpServletResponse response) throws IOException {
+    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String id,
+                                       @PathVariable FoodKindType kind,
+                                       HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(id);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }
         log.info("coordinates={}", coordinates);
         log.info("food kind={}", kind);
-        return restaurantService.showRestaurantListsNearCustomer(coordinates.get(), kind);
+        return storeService.showStoreListsNearCustomer(coordinates.get(), kind);
     }
 
 }
