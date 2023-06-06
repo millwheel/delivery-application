@@ -1,5 +1,6 @@
 package msa.restaurant.service;
 
+import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
 import msa.restaurant.DAO.Store;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class StoreService {
 
@@ -86,19 +88,20 @@ public class StoreService {
     public String createStoreInfo(StoreForm data){
         Store store = new Store();
         store.setName(data.getName());
-        store.setFoodKind(extractFoodKind(data.getFoodKind()));
+        store.setFoodKind(data.getFoodKind());
         store.setPhoneNumber(data.getPhoneNumber());
         store.setAddress(data.getAddress());
         Point coordinate = addressService.getCoordinate(data.getAddress());
         store.setLocation(coordinate);
         store.setAddressDetail(data.getAddressDetail());
         store.setIntroduction(data.getIntroduction());
+        log.info("Food kind is={}", store.getFoodKind());
         return storeRepository.create(store);
     }
 
     public void updateStoreInfo(String storeId, StoreForm data){
         String name = data.getName();
-        FoodKindType foodKind = extractFoodKind(data.getFoodKind());
+        FoodKindType foodKind = data.getFoodKind();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();
