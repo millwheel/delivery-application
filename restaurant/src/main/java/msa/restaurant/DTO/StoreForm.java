@@ -7,7 +7,7 @@ import org.springframework.data.geo.Point;
 
 @Getter
 @Setter
-public class RestaurantForm {
+public class StoreForm {
     private String name;
     private FoodKindType foodKind;
     private String phoneNumber;

@@ -1,11 +1,14 @@
 package msa.restaurant.controller;
 
+import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.RestaurantForm;
+import msa.restaurant.DTO.StoreForm;
 import msa.restaurant.service.MemberService;
-import msa.restaurant.service.RestaurantService;
+import msa.restaurant.service.StoreJsonService;
+import msa.restaurant.service.StoreService;
+import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +21,16 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store")
 public class StoreController {
 
-    private final RestaurantService restaurantService;
+    private final StoreService storeService;
+    private final StoreJsonService storeJsonService;
     private final MemberService memberService;
+    private final SqsService sqsService;
 
-    public StoreController(RestaurantService restaurantService, MemberService memberService) {
-        this.restaurantService = restaurantService;
+    public StoreController(StoreService storeService, StoreJsonService storeJsonService, MemberService memberService, SqsService sqsService) {
+        this.storeService = storeService;
+        this.storeJsonService = storeJsonService;
         this.memberService = memberService;
+        this.sqsService = sqsService;
     }
 
     @GetMapping("/list")
@@ -32,22 +39,25 @@ public class StoreController {
         return memberService.getRestaurantList(managerId);
     }
 
-    @GetMapping("/add")
+    @GetMapping("/enroll")
     @ResponseStatus(HttpStatus.OK)
     public String restaurantAddForm () {
         return "restaurant enroll form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void restaurantAdd (@RequestAttribute("cognitoUsername") String managerId,
-                               @RequestBody RestaurantForm data,
+                               @RequestBody StoreForm data,
                                HttpServletResponse response) throws IOException {
-        String restaurantId = restaurantService.createRestaurantInfo(data);
-        Store store = restaurantService.getRestaurant(restaurantId).get();
+        String storeId = storeService.createRestaurantInfo(data);
+        Store store = storeService.getRestaurant(storeId).get();
         List<Store> storeList = memberService.getRestaurantList(managerId);
         storeList.add(store);
-        memberService.setRestaurantList(managerId, storeList);
+        memberService.updateRestaurantList(managerId, storeList);
+        String messageForStoreInfo = storeJsonService.createMessageForStoreInfo(store);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/manager/store/list");
     }
 
@@ -61,14 +71,14 @@ public class StoreController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void restaurantUpdate(@RequestAttribute("cognitoUsername") String managerId,
                                  @PathVariable String restaurantId,
-                                 @RequestBody RestaurantForm data,
+                                 @RequestBody StoreForm data,
                                  HttpServletResponse response) throws IOException {
 
-        Optional<Store> restaurant = restaurantService.getRestaurant(restaurantId);
+        Optional<Store> restaurant = storeService.getRestaurant(restaurantId);
         if (restaurant.isEmpty()){
             response.sendRedirect("/manager/restaurant/update/error");
         }
-        restaurantService.updateRestaurantInfo(restaurantId, data);
+        storeService.updateRestaurantInfo(restaurantId, data);
         response.sendRedirect("");
     }
 

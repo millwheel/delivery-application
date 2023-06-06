@@ -3,7 +3,7 @@ package msa.restaurant.service;
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
 import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.RestaurantForm;
+import msa.restaurant.DTO.StoreForm;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RestaurantService {
+public class StoreService {
 
     private final StoreRepository storeRepository;
     private final AddressService addressService;
 
     @Autowired
-    public RestaurantService(StoreRepository storeRepository, AddressService addressService) {
+    public StoreService(StoreRepository storeRepository, AddressService addressService) {
         this.storeRepository = storeRepository;
         this.addressService = addressService;
     }
@@ -56,19 +56,19 @@ public class RestaurantService {
         return storeRepository.findById(restaurantId).map(Store::getMenuList);
     }
 
-    public RestaurantForm getRestaurantInfo(String restaurantId){
-        RestaurantForm restaurantForm = new RestaurantForm();
-        getName(restaurantId).ifPresent(restaurantForm::setName);
-        getPhoneNumber(restaurantId).ifPresent(restaurantForm::setPhoneNumber);
-        getAddress(restaurantId).ifPresent(restaurantForm::setAddress);
-        getAddressDetail(restaurantId).ifPresent(restaurantForm::setAddressDetail);
-        getCoordinates(restaurantId).ifPresent(restaurantForm::setLocation);
-        getIntroduction(restaurantId).ifPresent(restaurantForm::setIntroduction);
-        return restaurantForm;
+    public StoreForm getRestaurantInfo(String restaurantId){
+        StoreForm storeForm = new StoreForm();
+        getName(restaurantId).ifPresent(storeForm::setName);
+        getPhoneNumber(restaurantId).ifPresent(storeForm::setPhoneNumber);
+        getAddress(restaurantId).ifPresent(storeForm::setAddress);
+        getAddressDetail(restaurantId).ifPresent(storeForm::setAddressDetail);
+        getCoordinates(restaurantId).ifPresent(storeForm::setLocation);
+        getIntroduction(restaurantId).ifPresent(storeForm::setIntroduction);
+        return storeForm;
     }
 
 
-    public String createRestaurantInfo(RestaurantForm data){
+    public String createRestaurantInfo(StoreForm data){
         Store store = new Store();
         store.setName(data.getName());
         store.setFoodKind(data.getFoodKind());
@@ -81,7 +81,7 @@ public class RestaurantService {
         return storeRepository.create(store);
     }
 
-    public void updateRestaurantInfo(String restaurantId, RestaurantForm data){
+    public void updateRestaurantInfo(String restaurantId, StoreForm data){
         String name = data.getName();
         FoodKindType foodKind = data.getFoodKind();
         String phoneNumber = data.getPhoneNumber();

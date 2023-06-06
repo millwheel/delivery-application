@@ -3,7 +3,7 @@ package msa.restaurant.repository.store;
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
 import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.RestaurantForm;
+import msa.restaurant.DTO.StoreForm;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +35,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(String restaurantId, RestaurantForm data) {
+    public void update(String restaurantId, StoreForm data) {
         repository.findById(restaurantId).ifPresent(existing -> {
             existing.setName(data.getName());
             existing.setFoodKind(data.getFoodKind());

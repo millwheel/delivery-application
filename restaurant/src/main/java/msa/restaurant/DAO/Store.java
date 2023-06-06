@@ -3,6 +3,7 @@ package msa.restaurant.DAO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.json.JSONObject;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -15,7 +16,7 @@ import java.util.List;
 @Document("restaurant")
 public class Store {
     @MongoId
-    private String restaurantId;
+    private String storeId;
     private String name;
     private FoodKindType foodKind;
     private String phoneNumber;
@@ -25,4 +26,5 @@ public class Store {
     private String introduction;
     private List<Menu> menuList;
     private boolean open;
+
 }

@@ -3,7 +3,7 @@ package msa.restaurant.repository.store;
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
 import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.RestaurantForm;
+import msa.restaurant.DTO.StoreForm;
 import org.springframework.data.geo.Point;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface StoreRepository {
     String create(Store store);
-    void update(String restaurantId, RestaurantForm data);
+    void update(String restaurantId, StoreForm data);
     Optional<Store> findById(String restaurantId);
     List<Store> findAll();
     void updateName(String restaurantId, String name);

@@ -45,23 +45,23 @@ public class MemberService {
         return managerForm;
     }
 
-    public void setName(String id, String name){
+    public void updateName(String id, String name){
         memberRepository.updateName(id, name);
     }
 
-    public void setPhoneNumber(String id, String phoneNumber){
+    public void updatePhoneNumber(String id, String phoneNumber){
         memberRepository.updatePhoneNumber(id, phoneNumber);
     }
 
-    public void setRestaurantList(String id, List<Store> storeList){
+    public void updateRestaurantList(String id, List<Store> storeList){
         memberRepository.updateStoreList(id, storeList);
     }
 
     public void updateUserInfo(String id, ManagerForm data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
-        if(name != null) setName(id, name);
-        if(phoneNumber != null) setPhoneNumber(id, phoneNumber);
+        if(name != null) updateName(id, name);
+        if(phoneNumber != null) updatePhoneNumber(id, phoneNumber);
     }
 
 }
