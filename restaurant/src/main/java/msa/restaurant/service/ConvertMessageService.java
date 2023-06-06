@@ -8,24 +8,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConvertMessageService {
     public String createMessageForStoreInfo(Store store){
-        StoreForm data = createStoreForm(store);
         JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
+        data.put("id", store.getStoreId());
+        data.put("name", store.getName());
+        data.put("foodKind", store.getFoodKind());
+        data.put("phoneNumber", store.getPhoneNumber());
+        data.put("address", store.getAddress());
+        data.put("addressDetail", store.getAddressDetail());
+        data.put("location", store.getLocation());
+        data.put("introduction", store.getIntroduction());
+        data.put("menuList", store.getMenuList());
         jsonObject.put("dataType", "store");
         jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
-    public StoreForm createStoreForm(Store store){
-        StoreForm data = new StoreForm();
-        data.setStoreId(store.getStoreId());
-        data.setName(store.getName());
-        data.setFoodKind(store.getFoodKind());
-        data.setPhoneNumber(store.getPhoneNumber());
-        data.setAddress(store.getAddress());
-        data.setAddressDetail(store.getAddressDetail());
-        data.setLocation(store.getLocation());
-        data.setIntroduction(store.getIntroduction());
-        data.setMenuList(store.getMenuList());
-        return data;
-    }
 }
