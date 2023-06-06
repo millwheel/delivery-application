@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.store;
 
 import msa.restaurant.DAO.Store;
 import org.json.JSONObject;

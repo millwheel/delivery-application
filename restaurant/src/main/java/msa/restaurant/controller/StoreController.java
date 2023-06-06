@@ -5,9 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.StoreForm;
-import msa.restaurant.service.MemberService;
-import msa.restaurant.service.StoreJsonService;
-import msa.restaurant.service.StoreService;
+import msa.restaurant.service.member.MemberService;
+import msa.restaurant.service.store.StoreJsonService;
+import msa.restaurant.service.store.StoreService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,57 +35,58 @@ public class StoreController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String managerId) {
-        return memberService.getRestaurantList(managerId);
+    public List<Store> storeList (@RequestAttribute("cognitoUsername") String managerId) {
+        return memberService.getStoreList(managerId);
     }
 
     @GetMapping("/enroll")
     @ResponseStatus(HttpStatus.OK)
-    public String restaurantAddForm () {
-        return "restaurant enroll form";
+    public String storeAddForm () {
+        return "store enroll form";
     }
 
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void restaurantAdd (@RequestAttribute("cognitoUsername") String managerId,
+    public void storeAdd (@RequestAttribute("cognitoUsername") String managerId,
                                @RequestBody StoreForm data,
                                HttpServletResponse response) throws IOException {
-        String storeId = storeService.createRestaurantInfo(data);
-        Store store = storeService.getRestaurant(storeId).get();
-        List<Store> storeList = memberService.getRestaurantList(managerId);
+        String storeId = storeService.createStoreInfo(data);
+        Store store = storeService.getStore(storeId).get();
+        List<Store> storeList = memberService.getStoreList(managerId);
         storeList.add(store);
-        memberService.updateRestaurantList(managerId, storeList);
+        memberService.updateStoreList(managerId, storeList);
         String messageForStoreInfo = storeJsonService.createMessageForStoreInfo(store);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/manager/store/list");
     }
 
-    @GetMapping("/update/{restaurantId}")
+    @GetMapping("/update/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public String restaurantUpdateForm(@PathVariable String restaurantId){
-        return "restaurant info update form here.";
+    public String storeUpdateForm(@PathVariable String storeId){
+        return "store info update form here.";
     }
 
-    @PutMapping("/update/{restaurantId}")
+    @PutMapping("/update/{storeId}")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void restaurantUpdate(@RequestAttribute("cognitoUsername") String managerId,
-                                 @PathVariable String restaurantId,
+    public void storeUpdate(@RequestAttribute("cognitoUsername") String managerId,
+                                 @PathVariable String storeId,
                                  @RequestBody StoreForm data,
                                  HttpServletResponse response) throws IOException {
 
-        Optional<Store> restaurant = storeService.getRestaurant(restaurantId);
-        if (restaurant.isEmpty()){
-            response.sendRedirect("/manager/restaurant/update/error");
+        Optional<Store> store = storeService.getStore(storeId);
+        if (store.isEmpty()){
+            response.sendRedirect("/restaurant/store/update/error");
         }
-        storeService.updateRestaurantInfo(restaurantId, data);
-        response.sendRedirect("");
+        storeService.updateStoreInfo(storeId, data);
+
+        response.sendRedirect("/restaurant/store/list");
     }
 
     @GetMapping("/update/error")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String restaurantUpdateError(){
-        return "Wrong restaurant id";
+    public String storeUpdateError(){
+        return "Wrong store id";
     }
 }
 
