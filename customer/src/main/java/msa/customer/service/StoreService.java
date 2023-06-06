@@ -76,23 +76,13 @@ public class StoreService {
         storeRepository.create(store);
     }
 
-    public void updateStoreInfo(String storeId, StoreForm data){
-        String name = data.getName();
-        FoodKindType foodKind = data.getFoodKind();
-        String phoneNumber = data.getPhoneNumber();
-        String address = data.getAddress();
-        String addressDetail = data.getAddressDetail();
-        Point location = data.getLocation();
-        String introduction = data.getIntroduction();
-        List<Menu> menuList = data.getMenuList();
-        if(name != null) storeRepository.updateName(storeId, name);
-        if(foodKind != null) storeRepository.updateFoodKind(storeId, foodKind);
-        if(phoneNumber != null) storeRepository.updatePhoneNumber(storeId, phoneNumber);
-        if(address != null) storeRepository.updateAddress(storeId, address);
-        if(addressDetail != null) storeRepository.updateAddressDetail(storeId, addressDetail);
-        if(location != null) storeRepository.updateLocation(storeId, location);
-        if(introduction != null) storeRepository.updateIntroduction(storeId, introduction);
-        if(menuList != null) storeRepository.updateMenuList(storeId, menuList);
+    public void updateStoreInfo(StoreForm data){
+        Optional<Store> storeOpt = storeRepository.findById(data.getStoreId());
+        if (storeOpt.isEmpty()){
+            createStoreInfo(data);
+            return;
+        }
+        storeRepository.update(data.getStoreId(), data);
     }
 
     public void openStore(String storeId){
