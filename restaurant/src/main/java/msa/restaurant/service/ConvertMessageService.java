@@ -19,7 +19,7 @@ public class ConvertMessageService {
         StoreForm data = new StoreForm();
         data.setStoreId(store.getStoreId());
         data.setName(store.getName());
-        data.setFoodKind(store.getFoodKind());
+        data.setFoodKind(String.valueOf(store.getFoodKind()));
         data.setPhoneNumber(store.getPhoneNumber());
         data.setAddress(store.getAddress());
         data.setAddressDetail(store.getAddressDetail());
