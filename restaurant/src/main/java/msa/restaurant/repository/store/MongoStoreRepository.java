@@ -21,7 +21,7 @@ public class MongoStoreRepository implements StoreRepository {
     @Override
     public String create(Store store) {
         Store savedStore = repository.save(store);
-        return savedStore.getRestaurantId();
+        return savedStore.getStoreId();
     }
 
     @Override
@@ -32,19 +32,6 @@ public class MongoStoreRepository implements StoreRepository {
     @Override
     public List<Store> findAll() {
         return repository.findAll();
-    }
-
-    @Override
-    public void update(String restaurantId, StoreForm data) {
-        repository.findById(restaurantId).ifPresent(existing -> {
-            existing.setName(data.getName());
-            existing.setFoodKind(data.getFoodKind());
-            existing.setPhoneNumber(data.getPhoneNumber());
-            existing.setAddress(data.getAddress());
-            existing.setAddressDetail(data.getAddressDetail());
-            existing.setIntroduction(data.getIntroduction());
-            repository.save(existing);
-        });
     }
 
     @Override

@@ -68,11 +68,25 @@ public class StoreService {
         return storeForm;
     }
 
+    public FoodKindType extractFoodKind(String foodKind){
+        return switch (foodKind) {
+            case "피자" -> FoodKindType.PIZZA;
+            case "치킨" -> FoodKindType.CHICKEN;
+            case "일식" -> FoodKindType.JAPANESE;
+            case "중식" -> FoodKindType.CHINESE;
+            case "한식" -> FoodKindType.KOREAN;
+            case "동남아" -> FoodKindType.SOUTH_EAST;
+            case "양식" -> FoodKindType.WEST;
+            case "디저트" -> FoodKindType.DESSERT;
+            default -> null;
+        };
+    }
+
 
     public String createStoreInfo(StoreForm data){
         Store store = new Store();
         store.setName(data.getName());
-        store.setFoodKind(data.getFoodKind());
+        store.setFoodKind(extractFoodKind(data.getFoodKind()));
         store.setPhoneNumber(data.getPhoneNumber());
         store.setAddress(data.getAddress());
         Point coordinate = addressService.getCoordinate(data.getAddress());
@@ -84,7 +98,7 @@ public class StoreService {
 
     public void updateStoreInfo(String storeId, StoreForm data){
         String name = data.getName();
-        FoodKindType foodKind = data.getFoodKind();
+        FoodKindType foodKind = extractFoodKind(data.getFoodKind());
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
         String addressDetail = data.getAddressDetail();

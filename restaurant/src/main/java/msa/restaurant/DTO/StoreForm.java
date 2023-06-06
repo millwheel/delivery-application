@@ -14,7 +14,7 @@ import java.util.List;
 public class StoreForm {
     private String storeId;
     private String name;
-    private FoodKindType foodKind;
+    private String foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;

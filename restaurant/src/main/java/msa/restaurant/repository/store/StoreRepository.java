@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface StoreRepository {
     String create(Store store);
-    void update(String restaurantId, StoreForm data);
     Optional<Store> findById(String restaurantId);
     List<Store> findAll();
     void updateName(String restaurantId, String name);

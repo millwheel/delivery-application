@@ -53,18 +53,19 @@ public class StoreController {
 
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void storeAdd (@RequestAttribute("cognitoUsername") String managerId,
+    public Store storeAdd (@RequestAttribute("cognitoUsername") String managerId,
                                @RequestBody StoreForm data,
                                HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
         Store store = storeService.getStore(storeId).get();
-        List<Store> storeList = memberService.getStoreList(managerId);
-        storeList.add(store);
-        memberService.updateStoreList(managerId, storeList);
-        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
-        log.info("message sending result={}", sendMessageResult);
-        response.sendRedirect("/manager/store/list");
+//        List<Store> storeList = memberService.getStoreList(managerId);
+//        storeList.add(store);
+//        memberService.updateStoreList(managerId, storeList);
+//        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
+//        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+//        log.info("message sending result={}", sendMessageResult);
+//        response.sendRedirect("/manager/store/list");
+        return store;
     }
 
     @GetMapping("/update/{storeId}")

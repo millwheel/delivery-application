@@ -32,7 +32,7 @@ public class MemberController {
                                  @RequestBody ManagerForm data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateUserInfo(id, data);
-        response.sendRedirect("/manager/member/info");
+        response.sendRedirect("/restaurant/member/info");
     }
 
 }
