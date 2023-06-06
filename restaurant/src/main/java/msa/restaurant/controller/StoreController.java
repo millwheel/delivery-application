@@ -39,6 +39,13 @@ public class StoreController {
         return memberService.getStoreList(managerId);
     }
 
+    @GetMapping("/info/{storeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public StoreForm storeInfo (@RequestAttribute("cognitoUsername") String managerId,
+                                @PathVariable String storeId) {
+        return storeService.getStoreInfo(storeId);
+    }
+
     @GetMapping("/enroll")
     @ResponseStatus(HttpStatus.OK)
     public String storeAddForm () {
@@ -74,12 +81,13 @@ public class StoreController {
                                  @RequestBody StoreForm data,
                                  HttpServletResponse response) throws IOException {
 
-        Optional<Store> store = storeService.getStore(storeId);
-        if (store.isEmpty()){
+        if (storeService.getStore(storeId).isEmpty()){
             response.sendRedirect("/restaurant/store/update/error");
         }
         storeService.updateStoreInfo(storeId, data);
-
+        Store store = storeService.getStore(storeId).get();
+        String messageForStoreInfo = storeJsonService.createMessageForStoreInfo(store);
+        sqsService.sendToCustomer(messageForStoreInfo);
         response.sendRedirect("/restaurant/store/list");
     }
 

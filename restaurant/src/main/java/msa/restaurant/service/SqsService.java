@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class SqsService {
 
     @Value("${aws.sqs.url.customer}")
-    private String customerUrl;
+    private String customerSqsUrl;
     @Value("${aws.sqs.url.restaurant}")
-    private String restaurantUrl;
+    private String restaurantSqsUrl;
     @Value("${aws.sqs.url.rider}")
-    private String riderUrl;
+    private String riderSqsUrl;
 
     private final AmazonSQS amazonSQSClient;
 
@@ -25,23 +25,23 @@ public class SqsService {
     }
 
     public SendMessageResult sendToCustomer(String data){
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(customerUrl, data);
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(customerSqsUrl, data);
         return amazonSQSClient.sendMessage(sendMessageRequest);
     }
 
     public SendMessageResult sendToRider(String data){
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(riderUrl, data);
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(riderSqsUrl, data);
         return amazonSQSClient.sendMessage(sendMessageRequest);
     }
 
     @Scheduled(fixedDelay = 1000)
     public void receive(){
         try{
-            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(restaurantUrl);
+            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(restaurantSqsUrl);
             if(!receiveMessageResult.getMessages().isEmpty()){
                 Message message = receiveMessageResult.getMessages().get(0);
                 log.info("message body={}", message.getBody());
-                amazonSQSClient.deleteMessage(restaurantUrl, message.getReceiptHandle());
+                amazonSQSClient.deleteMessage(restaurantSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e){
             log.error("Queue Dose not exist {}", e.getMessage());
