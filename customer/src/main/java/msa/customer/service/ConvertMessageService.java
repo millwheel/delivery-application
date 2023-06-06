@@ -20,8 +20,10 @@ public class ConvertMessageService {
         JSONObject jsonObject = new JSONObject(message);
         ObjectMapper objectMapper = new ObjectMapper();
         if (jsonObject.get("dataType").equals("store")){
-            StoreForm data = objectMapper.readValue(message, StoreForm.class);
-            storeService.updateStoreInfo(data);
+            String data = jsonObject.get("data").toString();
+            StoreForm storeForm = objectMapper.readValue(data, StoreForm.class);
+            System.out.println(storeForm);
+            storeService.updateStoreInfo(storeForm);
         }
     }
 }

@@ -2,6 +2,7 @@ package msa.customer.service;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,13 +38,14 @@ public class SqsService {
     }
 
     @Scheduled(fixedDelay = 1000)
-    public void receive(){
+    public void receive() throws JsonProcessingException {
         try{
             ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(customerSqsUrl);
             if(!receiveMessageResult.getMessages().isEmpty()){
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
+                convertMessageService.processMessage(messageBody);
                 amazonSQSClient.deleteMessage(customerSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e){
