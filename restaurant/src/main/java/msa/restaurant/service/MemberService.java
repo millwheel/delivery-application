@@ -1,4 +1,4 @@
-package msa.restaurant.service.member;
+package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Manager;

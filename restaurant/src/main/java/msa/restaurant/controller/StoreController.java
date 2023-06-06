@@ -5,16 +5,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.DAO.Store;
 import msa.restaurant.DTO.StoreForm;
-import msa.restaurant.service.member.MemberService;
-import msa.restaurant.service.store.StoreJsonService;
-import msa.restaurant.service.store.StoreService;
+import msa.restaurant.service.MemberService;
+import msa.restaurant.service.ConvertMessageService;
+import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -22,13 +21,13 @@ import java.util.Optional;
 public class StoreController {
 
     private final StoreService storeService;
-    private final StoreJsonService storeJsonService;
+    private final ConvertMessageService convertMessageService;
     private final MemberService memberService;
     private final SqsService sqsService;
 
-    public StoreController(StoreService storeService, StoreJsonService storeJsonService, MemberService memberService, SqsService sqsService) {
+    public StoreController(StoreService storeService, ConvertMessageService convertMessageService, MemberService memberService, SqsService sqsService) {
         this.storeService = storeService;
-        this.storeJsonService = storeJsonService;
+        this.convertMessageService = convertMessageService;
         this.memberService = memberService;
         this.sqsService = sqsService;
     }
@@ -62,7 +61,7 @@ public class StoreController {
         List<Store> storeList = memberService.getStoreList(managerId);
         storeList.add(store);
         memberService.updateStoreList(managerId, storeList);
-        String messageForStoreInfo = storeJsonService.createMessageForStoreInfo(store);
+        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/manager/store/list");
@@ -86,7 +85,7 @@ public class StoreController {
         }
         storeService.updateStoreInfo(storeId, data);
         Store store = storeService.getStore(storeId).get();
-        String messageForStoreInfo = storeJsonService.createMessageForStoreInfo(store);
+        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
         sqsService.sendToCustomer(messageForStoreInfo);
         response.sendRedirect("/restaurant/store/list");
     }

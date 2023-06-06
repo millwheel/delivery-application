@@ -1,4 +1,4 @@
-package msa.restaurant.service.store;
+package msa.restaurant.service;
 
 import msa.restaurant.DAO.FoodKindType;
 import msa.restaurant.DAO.Menu;
