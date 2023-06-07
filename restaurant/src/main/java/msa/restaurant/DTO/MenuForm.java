@@ -2,12 +2,14 @@ package msa.restaurant.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import msa.restaurant.DAO.Store;
 
 @Getter
 @Setter
 public class MenuForm {
+    private String menuId;
     private String name;
-    private String price;
+    private int price;
     private String description;
-
+    private Store store;
 }
