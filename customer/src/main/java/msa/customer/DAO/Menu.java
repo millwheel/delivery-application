@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 public class Menu {
     @MongoId
-    private String id;
+    private String menuId;
     private String name;
     private int price;
     private String description;
