@@ -56,7 +56,7 @@ public class StoreService {
         getPhoneNumber(storeId).ifPresent(storeForm::setPhoneNumber);
         getAddress(storeId).ifPresent(storeForm::setAddress);
         getAddressDetail(storeId).ifPresent(storeForm::setAddressDetail);
-        getCoordinates(storeId).ifPresent(storeForm::setLocation);
+//        getCoordinates(storeId).ifPresent(storeForm::setLocation);
         getIntroduction(storeId).ifPresent(storeForm::setIntroduction);
         getMenuList(storeId).ifPresent(storeForm::setMenuList);
         return storeForm;
@@ -70,7 +70,7 @@ public class StoreService {
         store.setPhoneNumber(data.getPhoneNumber());
         store.setAddress(data.getAddress());
         store.setAddressDetail(data.getAddressDetail());
-        store.setLocation(data.getLocation());
+//        store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
         store.setMenuList(data.getMenuList());
         storeRepository.create(store);
