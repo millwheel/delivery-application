@@ -16,7 +16,7 @@ public class ConvertMessageService {
         data.put("phoneNumber", store.getPhoneNumber());
         data.put("address", store.getAddress());
         data.put("addressDetail", store.getAddressDetail());
-//        data.put("location", store.getLocation());
+        data.put("location", store.getLocation().toString());
         data.put("introduction", store.getIntroduction());
         data.put("menuList", store.getMenuList());
         jsonObject.put("dataType", "store");
