@@ -51,7 +51,7 @@ public class MongoStoreRepository implements StoreRepository {
             store.setPhoneNumber(data.getPhoneNumber());
             store.setAddress(data.getAddress());
             store.setAddressDetail(data.getAddressDetail());
-//            store.setLocation(data.getLocation());
+            store.setLocation(data.getLocation());
             store.setMenuList(data.getMenuList());
             repository.save(store);
         });
