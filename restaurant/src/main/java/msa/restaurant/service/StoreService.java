@@ -118,6 +118,10 @@ public class StoreService {
         if(introduction != null) storeRepository.updateIntroduction(storeId, introduction);
     }
 
+    public void updateStoreInfoBulk(String storeId, StoreForm data){
+        storeRepository.update(storeId, data);
+    }
+
 
     public void openStore(String storeId){
         storeRepository.updateOpenStatus(storeId, true);
