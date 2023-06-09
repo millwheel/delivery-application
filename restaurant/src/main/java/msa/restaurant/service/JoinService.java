@@ -1,6 +1,6 @@
 package msa.restaurant.service;
 
-import msa.restaurant.DAO.Manager;
+import msa.restaurant.entity.Manager;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,8 +2,8 @@ package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.FoodKindType;
-import msa.customer.DAO.Store;
+import msa.customer.entity.FoodKindType;
+import msa.customer.entity.Store;
 import msa.customer.service.MemberService;
 import msa.customer.service.StoreService;
 import org.springframework.data.geo.Point;

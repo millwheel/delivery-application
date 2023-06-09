@@ -1,7 +1,7 @@
 package msa.customer.repository.menu;
 
-import msa.customer.DAO.Menu;
-import msa.customer.DAO.Store;
+import msa.customer.entity.Menu;
+import msa.customer.entity.Store;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

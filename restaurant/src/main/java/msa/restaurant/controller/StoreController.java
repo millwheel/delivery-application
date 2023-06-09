@@ -3,8 +3,8 @@ package msa.restaurant.controller;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.StoreForm;
+import msa.restaurant.entity.Store;
+import msa.restaurant.dto.StoreForm;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.service.ConvertMessageService;
 import msa.restaurant.service.StoreService;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -88,7 +87,8 @@ public class StoreController {
         storeService.updateStoreInfo(storeId, data);
         Store store = storeService.getStore(storeId).get();
         String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
-        sqsService.sendToCustomer(messageForStoreInfo);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
     }
 

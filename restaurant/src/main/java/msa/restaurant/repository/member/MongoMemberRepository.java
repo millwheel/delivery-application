@@ -1,7 +1,7 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.DAO.Manager;
-import msa.restaurant.DAO.Store;
+import msa.restaurant.entity.Manager;
+import msa.restaurant.entity.Store;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

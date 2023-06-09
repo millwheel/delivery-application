@@ -1,16 +1,20 @@
-package msa.customer.DTO;
+package msa.restaurant.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import msa.customer.DAO.FoodKindType;
-import msa.customer.DAO.Menu;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 
-@Getter
 @Setter
-public class StoreForm {
+@Getter
+@NoArgsConstructor
+@Document("store")
+public class Store {
+    @MongoId
     private String storeId;
     private String name;
     private FoodKindType foodKind;
@@ -20,4 +24,7 @@ public class StoreForm {
     private Point location;
     private String introduction;
     private List<Menu> menuList;
+    private boolean open;
+
+
 }

@@ -1,4 +1,4 @@
-package msa.customer.DAO;
+package msa.restaurant.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,17 +6,16 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.util.List;
-
 @Getter
 @Setter
-@Document("order")
 @NoArgsConstructor
-public class Order {
-    @MongoId
-    private String id;
-    private String customerId;
-    private String restaurantId;
-    private List<Menu> menuList;
+@Document("menu")
+public class Menu {
 
+    @MongoId
+    private String menuId;
+    private String name;
+    private int price;
+    private String description;
+    private Store store;
 }

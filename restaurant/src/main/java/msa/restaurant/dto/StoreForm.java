@@ -1,10 +1,9 @@
-package msa.restaurant.DTO;
+package msa.restaurant.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.DAO.FoodKindType;
-import msa.restaurant.DAO.Menu;
+import msa.restaurant.entity.FoodKindType;
+import msa.restaurant.entity.Menu;
 import org.springframework.data.geo.Point;
 
 import java.util.List;

@@ -1,12 +1,11 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.FoodKindType;
-import msa.restaurant.DAO.Menu;
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.StoreForm;
+import msa.restaurant.entity.FoodKindType;
+import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.Store;
+import msa.restaurant.dto.StoreForm;
 import msa.restaurant.repository.store.StoreRepository;
-import msa.restaurant.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;

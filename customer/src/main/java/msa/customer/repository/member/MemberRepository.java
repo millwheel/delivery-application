@@ -1,6 +1,6 @@
 package msa.customer.repository.member;
 
-import msa.customer.DAO.Customer;
+import msa.customer.entity.Customer;
 import org.springframework.data.geo.Point;
 
 import java.util.Optional;

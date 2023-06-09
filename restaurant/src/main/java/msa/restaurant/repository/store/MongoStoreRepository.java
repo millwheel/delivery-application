@@ -1,9 +1,8 @@
 package msa.restaurant.repository.store;
 
-import msa.restaurant.DAO.FoodKindType;
-import msa.restaurant.DAO.Menu;
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.StoreForm;
+import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.Store;
+import msa.restaurant.dto.StoreForm;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 

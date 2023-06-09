@@ -1,4 +1,4 @@
-package msa.customer.DTO;
+package msa.customer.dto;
 
 import lombok.Getter;
 import lombok.Setter;

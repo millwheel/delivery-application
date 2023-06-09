@@ -1,8 +1,8 @@
-package msa.restaurant.DTO;
+package msa.customer.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.DAO.Store;
+import msa.customer.entity.Store;
 
 @Getter
 @Setter

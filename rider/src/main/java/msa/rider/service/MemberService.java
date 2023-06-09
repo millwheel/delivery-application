@@ -1,8 +1,8 @@
 package msa.rider.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.DAO.Rider;
-import msa.rider.DTO.RiderForm;
+import msa.rider.entity.Rider;
+import msa.rider.dto.RiderForm;
 import msa.rider.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;

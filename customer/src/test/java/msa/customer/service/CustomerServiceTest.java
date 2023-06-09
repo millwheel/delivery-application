@@ -1,7 +1,7 @@
 package msa.customer.service;
 
-import msa.customer.DAO.Customer;
-import msa.customer.DTO.CustomerForm;
+import msa.customer.entity.Customer;
+import msa.customer.dto.CustomerForm;
 import msa.customer.repository.member.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package msa.rider.DTO;
+package msa.rider.dto;
 
 import lombok.Getter;
 import lombok.Setter;
