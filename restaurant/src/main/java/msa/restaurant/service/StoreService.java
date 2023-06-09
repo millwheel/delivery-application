@@ -100,26 +100,9 @@ public class StoreService {
     }
 
     public void updateStoreInfo(String storeId, StoreForm data){
-        String name = data.getName();
-        FoodKindType foodKind = data.getFoodKind();
-        String phoneNumber = data.getPhoneNumber();
-        String address = data.getAddress();
-        String addressDetail = data.getAddressDetail();
-        String introduction = data.getIntroduction();
-        if(name != null) storeRepository.updateName(storeId, name);
-        if(foodKind != null) storeRepository.updateFoodKind(storeId, foodKind);
-        if(phoneNumber != null) storeRepository.updatePhoneNumber(storeId, phoneNumber);
-        if(address != null) {
-            storeRepository.updateAddress(storeId, address);
-            Point coordinate = addressService.getCoordinate(address);
-            storeRepository.updateLocation(storeId, coordinate);
-        }
-        if(addressDetail != null) storeRepository.updateAddressDetail(storeId, addressDetail);
-        if(introduction != null) storeRepository.updateIntroduction(storeId, introduction);
-    }
-
-    public void updateStoreInfoBulk(String storeId, StoreForm data){
         storeRepository.update(storeId, data);
+        Point coordinate = addressService.getCoordinate(data.getAddress());
+        storeRepository.updateLocation(storeId, coordinate);
     }
 
 
