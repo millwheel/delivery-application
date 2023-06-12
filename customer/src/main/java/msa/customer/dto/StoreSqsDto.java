@@ -10,14 +10,14 @@ import java.util.List;
 
 @Getter
 @Setter
-public class StoreDto {
+public class StoreSqsDto {
     private String storeId;
     private String name;
     private FoodKindType foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Point location;
+    private double longitude;
+    private double latitude;
     private String introduction;
-    private List<Menu> menuList;
 }

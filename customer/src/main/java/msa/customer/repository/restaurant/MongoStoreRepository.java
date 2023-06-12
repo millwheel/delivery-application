@@ -3,7 +3,7 @@ package msa.customer.repository.restaurant;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Menu;
 import msa.customer.entity.Store;
-import msa.customer.dto.StoreDto;
+import msa.customer.dto.StoreSqsDto;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;
@@ -44,7 +44,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(String storeId, StoreDto data) {
+    public void update(String storeId, StoreSqsDto data) {
         repository.findById(storeId).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());
@@ -52,65 +52,7 @@ public class MongoStoreRepository implements StoreRepository {
             store.setAddress(data.getAddress());
             store.setAddressDetail(data.getAddressDetail());
             store.setLocation(data.getLocation());
-            store.setMenuList(data.getMenuList());
             repository.save(store);
-        });
-    }
-
-
-    @Override
-    public void updateName(String id, String name) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setName(name);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updateFoodKind(String id, FoodKindType foodKind) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setFoodKind(foodKind);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updatePhoneNumber(String id, String phoneNumber) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setPhoneNumber(phoneNumber);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updateAddress(String id, String address) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setAddress(address);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updateAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setAddressDetail(addressDetail);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updateLocation(String id, Point location) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setLocation(location);
-            repository.save(restaurant);
-        });
-    }
-
-    @Override
-    public void updateIntroduction(String id, String introduction) {
-        repository.findById(id).ifPresent(restaurant -> {
-            restaurant.setIntroduction(introduction);
-            repository.save(restaurant);
         });
     }
 
