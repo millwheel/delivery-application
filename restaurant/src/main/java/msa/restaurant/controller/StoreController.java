@@ -22,9 +22,9 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store")
 public class StoreController {
 
+    private final MemberService memberService;
     private final StoreService storeService;
     private final ConvertMessageService convertMessageService;
-    private final MemberService memberService;
     private final SqsService sqsService;
 
     public StoreController(StoreService storeService, ConvertMessageService convertMessageService, MemberService memberService, SqsService sqsService) {

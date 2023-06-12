@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Order {
     @MongoId
-    private String id;
+    private String orderId;
     private String customerId;
     private String restaurantId;
     private List<Menu> menuList;
-
+    private int totalPrice;
 }
