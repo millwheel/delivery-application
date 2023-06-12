@@ -2,7 +2,7 @@ package msa.rider.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.entity.Rider;
-import msa.rider.dto.RiderForm;
+import msa.rider.dto.RiderDto;
 import msa.rider.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -46,15 +46,15 @@ public class MemberService {
         return memberRepository.findById(id).map(Rider::getCoordinates);
     }
 
-    public RiderForm getUserInfo(String id){
-        RiderForm riderForm = new RiderForm();
-        getName(id).ifPresent(riderForm::setName);
-        getEmail(id).ifPresent(riderForm::setEmail);
-        getPhoneNumber(id).ifPresent(riderForm::setPhoneNumber);
-        getAddress(id).ifPresent(riderForm::setAddress);
-        getAddressDetail(id).ifPresent(riderForm::setAddressDetail);
-        getCoordinates(id).ifPresent(riderForm::setLocation);
-        return riderForm;
+    public RiderDto getUserInfo(String id){
+        RiderDto riderDto = new RiderDto();
+        getName(id).ifPresent(riderDto::setName);
+        getEmail(id).ifPresent(riderDto::setEmail);
+        getPhoneNumber(id).ifPresent(riderDto::setPhoneNumber);
+        getAddress(id).ifPresent(riderDto::setAddress);
+        getAddressDetail(id).ifPresent(riderDto::setAddressDetail);
+        getCoordinates(id).ifPresent(riderDto::setLocation);
+        return riderDto;
     }
 
     public void setName(String id, String name){
@@ -75,7 +75,7 @@ public class MemberService {
         memberRepository.setAddressDetail(id, addressDetail);
     }
 
-    public void updateUserInfo(String id, RiderForm data){
+    public void updateUserInfo(String id, RiderDto data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();

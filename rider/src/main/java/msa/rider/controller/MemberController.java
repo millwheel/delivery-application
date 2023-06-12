@@ -2,7 +2,7 @@ package msa.rider.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.dto.RiderForm;
+import msa.rider.dto.RiderDto;
 import msa.rider.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +22,14 @@ public class MemberController {
 
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
-    public RiderForm showMemberInfo(@RequestAttribute("cognitoUsername") String id){
+    public RiderDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
         return memberService.getUserInfo(id);
     }
 
     @PutMapping("/info")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
-                                 @RequestBody RiderForm data,
+                                 @RequestBody RiderDto data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateUserInfo(id, data);
         response.sendRedirect("/rider/member/info");

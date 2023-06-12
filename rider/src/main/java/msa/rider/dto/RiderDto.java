@@ -6,7 +6,7 @@ import org.springframework.data.geo.Point;
 
 @Getter
 @Setter
-public class RiderForm {
+public class RiderDto {
     private String name;
     private String email;
     private String phoneNumber;
