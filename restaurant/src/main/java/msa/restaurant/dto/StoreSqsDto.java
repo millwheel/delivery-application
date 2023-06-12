@@ -4,17 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import msa.restaurant.entity.FoodKindType;
-import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
-import org.springframework.data.geo.Point;
-
-import java.util.List;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class StoreDto {
+public class StoreSqsDto {
     private String storeId;
     private String name;
     private FoodKindType foodKind;
@@ -25,7 +21,7 @@ public class StoreDto {
     private double latitude;
     private String introduction;
 
-    public StoreDto(Store store){
+    public StoreSqsDto(Store store){
         storeId = store.getStoreId();
         name = store.getName();
         foodKind = store.getFoodKind();

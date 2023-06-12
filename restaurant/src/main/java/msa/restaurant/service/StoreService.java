@@ -1,10 +1,10 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.entity.FoodKindType;
+import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
-import msa.restaurant.dto.StoreDto;
+import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -34,12 +34,12 @@ public class StoreService {
         return storeRepository.findById(storeId).map(Store::getMenuList);
     }
 
-    public StoreDto getStoreInfo(String storeId){
-        return storeRepository.findById(storeId).map(StoreDto::new).orElse(null);
+    public StoreSqsDto getStoreInfo(String storeId){
+        return storeRepository.findById(storeId).map(StoreSqsDto::new).orElse(null);
     }
 
 
-    public String createStoreInfo(StoreDto data){
+    public String createStoreInfo(StoreRequestDto data){
         Store store = new Store();
         store.setName(data.getName());
         store.setFoodKind(data.getFoodKind());
@@ -52,7 +52,7 @@ public class StoreService {
         return storeRepository.create(store);
     }
 
-    public void updateStoreInfo(String storeId, StoreDto data){
+    public void updateStoreInfo(String storeId, StoreSqsDto data){
         storeRepository.update(storeId, data);
         Point coordinate = addressService.getCoordinate(data.getAddress());
         storeRepository.updateLocation(storeId, coordinate);

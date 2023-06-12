@@ -3,8 +3,9 @@ package msa.restaurant.controller;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Store;
-import msa.restaurant.dto.StoreDto;
+import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.service.ConvertMessageService;
 import msa.restaurant.service.StoreService;
@@ -41,8 +42,8 @@ public class StoreController {
 
     @GetMapping("/info/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
-                               @PathVariable String storeId) {
+    public StoreSqsDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
+                                  @PathVariable String storeId) {
         return storeService.getStoreInfo(storeId);
     }
 
@@ -55,7 +56,7 @@ public class StoreController {
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void storeAdd (@RequestAttribute("cognitoUsername") String managerId,
-                               @RequestBody StoreDto data,
+                               @RequestBody StoreRequestDto data,
                                HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
         Store store = storeService.getStore(storeId).get();
@@ -78,7 +79,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void storeUpdate(@RequestAttribute("cognitoUsername") String managerId,
                                  @PathVariable String storeId,
-                                 @RequestBody StoreDto data,
+                                 @RequestBody StoreSqsDto data,
                                  HttpServletResponse response) throws IOException {
 
         if (storeService.getStore(storeId).isEmpty()){
