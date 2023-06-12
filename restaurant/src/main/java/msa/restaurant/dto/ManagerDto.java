@@ -1,14 +1,14 @@
-package msa.restaurant.DTO;
+package msa.restaurant.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.DAO.Store;
+import msa.restaurant.entity.Store;
 
 import java.util.List;
 
 @Setter
 @Getter
-public class ManagerForm {
+public class ManagerDto {
 
     private String name;
     private String email;

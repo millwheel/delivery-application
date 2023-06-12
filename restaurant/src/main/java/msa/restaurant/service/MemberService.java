@@ -1,9 +1,9 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Manager;
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.ManagerForm;
+import msa.restaurant.entity.Manager;
+import msa.restaurant.entity.Store;
+import msa.restaurant.dto.ManagerDto;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +37,12 @@ public class MemberService {
         return memberRepository.findById(id).map(Manager::getStoreList);
     }
 
-    public ManagerForm getUserInfo(String id){
-        ManagerForm managerForm = new ManagerForm();
-        getName(id).ifPresent(managerForm::setName);
-        getEmail(id).ifPresent(managerForm::setEmail);
-        getPhoneNumber(id).ifPresent(managerForm::setPhoneNumber);
-        return managerForm;
+    public ManagerDto getUserInfo(String id){
+        ManagerDto managerDto = new ManagerDto();
+        getName(id).ifPresent(managerDto::setName);
+        getEmail(id).ifPresent(managerDto::setEmail);
+        getPhoneNumber(id).ifPresent(managerDto::setPhoneNumber);
+        return managerDto;
     }
 
     public void updateName(String id, String name){
@@ -57,7 +57,7 @@ public class MemberService {
         memberRepository.updateStoreList(id, storeList);
     }
 
-    public void updateUserInfo(String id, ManagerForm data){
+    public void updateUserInfo(String id, ManagerDto data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         if(name != null) updateName(id, name);

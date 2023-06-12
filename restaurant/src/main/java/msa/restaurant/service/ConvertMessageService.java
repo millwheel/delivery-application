@@ -1,7 +1,6 @@
 package msa.restaurant.service;
 
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.StoreForm;
+import msa.restaurant.entity.Store;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 

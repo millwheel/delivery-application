@@ -1,4 +1,4 @@
-package msa.customer.DAO;
+package msa.customer.entity;
 
 
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package msa.restaurant.repository.menu;
 
-import msa.restaurant.DAO.Menu;
+import msa.restaurant.entity.Menu;
 
 import java.util.Optional;
 

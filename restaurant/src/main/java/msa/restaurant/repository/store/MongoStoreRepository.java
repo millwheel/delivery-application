@@ -1,9 +1,8 @@
 package msa.restaurant.repository.store;
 
-import msa.restaurant.DAO.FoodKindType;
-import msa.restaurant.DAO.Menu;
-import msa.restaurant.DAO.Store;
-import msa.restaurant.DTO.StoreForm;
+import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.Store;
+import msa.restaurant.dto.StoreDto;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -35,56 +34,14 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(String storeId, StoreForm data) {
+    public void update(String storeId, StoreDto data) {
         repository.findById(storeId).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());
             store.setPhoneNumber(data.getPhoneNumber());
             store.setAddress(data.getAddress());
             store.setAddressDetail(data.getAddressDetail());
-            store.setLocation(data.getLocation());
             store.setIntroduction(data.getIntroduction());
-            store.setMenuList(data.getMenuList());
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateName(String storeId, String name) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setName(name);
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateFoodKind(String storeId, FoodKindType foodKind) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setFoodKind(foodKind);
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updatePhoneNumber(String storeId, String phoneNumber) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setPhoneNumber(phoneNumber);
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateAddress(String storeId, String address) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setAddress(address);
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateAddressDetail(String storeId, String addressDetail) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setAddressDetail(addressDetail);
             repository.save(store);
         });
     }
@@ -93,14 +50,6 @@ public class MongoStoreRepository implements StoreRepository {
     public void updateLocation(String storeId, Point location) {
         repository.findById(storeId).ifPresent(store -> {
             store.setLocation(location);
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateIntroduction(String storeId, String introduction) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setIntroduction(introduction);
             repository.save(store);
         });
     }

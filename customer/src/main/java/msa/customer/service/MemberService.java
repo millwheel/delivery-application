@@ -1,8 +1,8 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.DAO.Customer;
-import msa.customer.DTO.CustomerForm;
+import msa.customer.entity.Customer;
+import msa.customer.dto.CustomerForm;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;

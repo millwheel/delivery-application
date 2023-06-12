@@ -1,6 +1,6 @@
 package msa.rider.repository;
 
-import msa.rider.DAO.Rider;
+import msa.rider.entity.Rider;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
