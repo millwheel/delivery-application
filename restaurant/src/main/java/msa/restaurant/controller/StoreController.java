@@ -7,7 +7,7 @@ import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.service.MemberService;
-import msa.restaurant.service.MessageConverter;
+import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;

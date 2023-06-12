@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.converter;
 
 import msa.restaurant.dto.StoreSqsDto;
 import org.json.JSONObject;

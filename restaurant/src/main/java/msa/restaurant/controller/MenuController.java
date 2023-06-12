@@ -2,7 +2,7 @@ package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.entity.Menu;
-import msa.restaurant.service.MessageConverter;
+import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
 import org.springframework.web.bind.annotation.*;
