@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import msa.restaurant.entity.FoodKindType;
 import msa.restaurant.entity.Store;
+import org.springframework.data.geo.Point;
 
 
 @Getter
@@ -17,8 +18,7 @@ public class StoreSqsDto {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private double longitude;
-    private double latitude;
+    private Point location;
     private String introduction;
 
     public StoreSqsDto(Store store){
@@ -28,8 +28,7 @@ public class StoreSqsDto {
         phoneNumber = store.getPhoneNumber();
         address = store.getAddress();
         addressDetail = store.getAddressDetail();
-        longitude = store.getLocation().getX();
-        latitude = store.getLocation().getY();
+        location = store.getLocation();
         introduction = store.getIntroduction();
     }
 }
