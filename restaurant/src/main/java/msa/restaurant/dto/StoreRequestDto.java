@@ -7,7 +7,6 @@ import msa.restaurant.entity.FoodKindType;
 @Getter
 @Setter
 public class StoreRequestDto {
-    private String storeId;
     private String name;
     private FoodKindType foodKind;
     private String phoneNumber;

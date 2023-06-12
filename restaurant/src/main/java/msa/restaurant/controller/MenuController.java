@@ -1,8 +1,8 @@
 package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.DAO.Menu;
-import msa.restaurant.service.ConvertMessageService;
+import msa.restaurant.entity.Menu;
+import msa.restaurant.service.MessageConverter;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,12 @@ import java.util.List;
 public class MenuController {
 
     private final StoreService storeService;
-    private final ConvertMessageService convertMessageService;
+    private final MessageConverter messageConverter;
     private final SqsService sqsService;
 
-    public MenuController(StoreService storeService, ConvertMessageService convertMessageService, SqsService sqsService) {
+    public MenuController(StoreService storeService, MessageConverter messageConverter, SqsService sqsService) {
         this.storeService = storeService;
-        this.convertMessageService = convertMessageService;
+        this.messageConverter = messageConverter;
         this.sqsService = sqsService;
     }
 

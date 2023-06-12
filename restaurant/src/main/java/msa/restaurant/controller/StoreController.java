@@ -7,7 +7,7 @@ import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.service.MemberService;
-import msa.restaurant.service.ConvertMessageService;
+import msa.restaurant.service.MessageConverter;
 import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
@@ -24,12 +24,12 @@ public class StoreController {
 
     private final MemberService memberService;
     private final StoreService storeService;
-    private final ConvertMessageService convertMessageService;
+    private final MessageConverter messageConverter;
     private final SqsService sqsService;
 
-    public StoreController(StoreService storeService, ConvertMessageService convertMessageService, MemberService memberService, SqsService sqsService) {
+    public StoreController(StoreService storeService, MessageConverter messageConverter, MemberService memberService, SqsService sqsService) {
         this.storeService = storeService;
-        this.convertMessageService = convertMessageService;
+        this.messageConverter = messageConverter;
         this.memberService = memberService;
         this.sqsService = sqsService;
     }
@@ -64,7 +64,7 @@ public class StoreController {
         storeList.add(store);
         memberService.updateStoreList(managerId, storeList);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(storeSqsDto);
+        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
@@ -89,7 +89,7 @@ public class StoreController {
         storeService.updateStoreInfo(storeId, data);
         Store store = storeService.getStore(storeId).get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(storeSqsDto);
+        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
