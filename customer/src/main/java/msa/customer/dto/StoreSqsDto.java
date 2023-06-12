@@ -19,4 +19,15 @@ public class StoreSqsDto {
     private String addressDetail;
     private Point location;
     private String introduction;
+
+    public StoreSqsDto(String storeId, String name, FoodKindType foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction) {
+        this.storeId = storeId;
+        this.name = name;
+        this.foodKind = foodKind;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.addressDetail = addressDetail;
+        this.location = location;
+        this.introduction = introduction;
+    }
 }

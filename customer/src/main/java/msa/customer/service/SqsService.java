@@ -4,6 +4,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,11 @@ public class SqsService {
     private String riderSqsUrl;
 
     private final AmazonSQS amazonSQSClient;
-    private final ConvertMessageService convertMessageService;
+    private final MessageConverter messageConverter;
 
-    public SqsService(AmazonSQS amazonSQSClient, ConvertMessageService convertMessageService) {
+    public SqsService(AmazonSQS amazonSQSClient, MessageConverter messageConverter) {
         this.amazonSQSClient = amazonSQSClient;
-        this.convertMessageService = convertMessageService;
+        this.messageConverter = messageConverter;
     }
 
     public SendMessageResult sendToRestaurant(String data){
@@ -45,7 +46,7 @@ public class SqsService {
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
-                convertMessageService.processMessage(messageBody);
+                messageConverter.createStoreFromMessage(messageBody);
                 amazonSQSClient.deleteMessage(customerSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e){
