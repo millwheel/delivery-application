@@ -63,7 +63,8 @@ public class StoreController {
         List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
         storeList.add(store);
         memberService.updateStoreList(managerId, storeList);
-        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
+        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
@@ -79,7 +80,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void storeUpdate(@RequestAttribute("cognitoUsername") String managerId,
                                  @PathVariable String storeId,
-                                 @RequestBody StoreSqsDto data,
+                                 @RequestBody StoreRequestDto data,
                                  HttpServletResponse response) throws IOException {
 
         if (storeService.getStore(storeId).isEmpty()){
@@ -87,7 +88,8 @@ public class StoreController {
         }
         storeService.updateStoreInfo(storeId, data);
         Store store = storeService.getStore(storeId).get();
-        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(store);
+        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        String messageForStoreInfo = convertMessageService.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");

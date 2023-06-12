@@ -52,7 +52,7 @@ public class StoreService {
         return storeRepository.create(store);
     }
 
-    public void updateStoreInfo(String storeId, StoreSqsDto data){
+    public void updateStoreInfo(String storeId, StoreRequestDto data){
         storeRepository.update(storeId, data);
         Point coordinate = addressService.getCoordinate(data.getAddress());
         storeRepository.updateLocation(storeId, coordinate);
