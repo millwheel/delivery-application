@@ -17,7 +17,6 @@ public class StoreSqsDto {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private double longitude;
-    private double latitude;
+    private Point location;
     private String introduction;
 }
