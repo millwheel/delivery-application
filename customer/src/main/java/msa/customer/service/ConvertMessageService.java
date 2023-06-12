@@ -2,7 +2,7 @@ package msa.customer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import msa.customer.dto.StoreForm;
+import msa.customer.dto.StoreDto;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ public class ConvertMessageService {
         ObjectMapper objectMapper = new ObjectMapper();
         if (jsonObject.get("dataType").equals("store")){
             String data = jsonObject.get("data").toString();
-            StoreForm storeForm = objectMapper.readValue(data, StoreForm.class);
-            System.out.println(storeForm);
-            storeService.updateStoreInfo(storeForm);
+            StoreDto storeDto = objectMapper.readValue(data, StoreDto.class);
+            System.out.println(storeDto);
+            storeService.updateStoreInfo(storeDto);
         }
     }
 }

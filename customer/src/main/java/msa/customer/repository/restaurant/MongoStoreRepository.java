@@ -3,7 +3,7 @@ package msa.customer.repository.restaurant;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Menu;
 import msa.customer.entity.Store;
-import msa.customer.dto.StoreForm;
+import msa.customer.dto.StoreDto;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;
@@ -44,7 +44,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(String storeId, StoreForm data) {
+    public void update(String storeId, StoreDto data) {
         repository.findById(storeId).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());

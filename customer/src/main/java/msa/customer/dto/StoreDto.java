@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class StoreForm {
+public class StoreDto {
     private String storeId;
     private String name;
     private FoodKindType foodKind;

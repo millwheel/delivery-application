@@ -1,7 +1,7 @@
 package msa.customer.service;
 
 import msa.customer.entity.Customer;
-import msa.customer.dto.CustomerForm;
+import msa.customer.dto.CustomerDto;
 import msa.customer.repository.member.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,23 +38,23 @@ class CustomerServiceTest {
     void getMemberInfoTest(){
         // given
         Customer customer = new Customer();
-        customer.setMemberId(ID);
+        customer.setCustomerId(ID);
         customer.setEmail(EMAIL);
         memberRepository.make(customer);
-        CustomerForm customerForm = new CustomerForm();
-        customerForm.setName(NAME);
-        customerForm.setPhoneNumber(PHONE_NUMBER);
-        customerForm.setAddress(ADDRESS);
-        customerForm.setAddressDetail(ADDRESS_DETAIL);
-        memberService.updateUserInfo(ID, customerForm);
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setName(NAME);
+        customerDto.setPhoneNumber(PHONE_NUMBER);
+        customerDto.setAddress(ADDRESS);
+        customerDto.setAddressDetail(ADDRESS_DETAIL);
+        memberService.updateUserInfo(ID, customerDto);
         // when
-        CustomerForm userInfo = memberService.getUserInfo(ID);
+        CustomerDto userInfo = memberService.getUserInfo(ID);
         // then
-        assertThat(userInfo.getName()).isEqualTo(customerForm.getName());
+        assertThat(userInfo.getName()).isEqualTo(customerDto.getName());
         assertThat(userInfo.getEmail()).isEqualTo(customer.getEmail());
-        assertThat(userInfo.getPhoneNumber()).isEqualTo(customerForm.getPhoneNumber());
-        assertThat(userInfo.getAddress()).isEqualTo(customerForm.getAddress());
-        assertThat(userInfo.getAddressDetail()).isEqualTo(customerForm.getAddressDetail());
+        assertThat(userInfo.getPhoneNumber()).isEqualTo(customerDto.getPhoneNumber());
+        assertThat(userInfo.getAddress()).isEqualTo(customerDto.getAddress());
+        assertThat(userInfo.getAddressDetail()).isEqualTo(customerDto.getAddressDetail());
     }
 
     @DisplayName("회원 정보에 주소 입력 시 좌표 자동 입력 테스트")
@@ -64,7 +64,7 @@ class CustomerServiceTest {
         joinService.joinMember(ID, EMAIL);
         // when
         memberService.setAddress(ID, ADDRESS);
-        CustomerForm userInfo = memberService.getUserInfo(ID);
+        CustomerDto userInfo = memberService.getUserInfo(ID);
         // then
         assertThat(userInfo.getAddress()).isEqualTo(ADDRESS);
         assertThat(userInfo.getLocation()).isEqualTo(LOCATION);
@@ -79,12 +79,12 @@ class CustomerServiceTest {
         memberService.setPhoneNumber(ID, PHONE_NUMBER);
         memberService.setAddress(ID, ADDRESS);
         memberService.setAddressDetail(ID, ADDRESS_DETAIL);
-        CustomerForm data = new CustomerForm();
+        CustomerDto data = new CustomerDto();
         data.setName("Jonny");
         data.setAddress("서울특별시 강북구 도봉로 232");
         // when
         memberService.updateUserInfo(ID, data);
-        CustomerForm userInfo = memberService.getUserInfo(ID);
+        CustomerDto userInfo = memberService.getUserInfo(ID);
         // then
         assertThat(userInfo.getName()).isEqualTo("Jonny");
         assertThat(userInfo.getAddress()).isEqualTo("서울특별시 강북구 도봉로 232");

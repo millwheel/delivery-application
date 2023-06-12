@@ -3,7 +3,7 @@ package msa.customer.service;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Menu;
 import msa.customer.entity.Store;
-import msa.customer.dto.StoreForm;
+import msa.customer.dto.StoreDto;
 import msa.customer.repository.restaurant.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -50,19 +50,19 @@ public class StoreService {
         return storeRepository.findById(id).map(Store::getMenuList);
     }
 
-    public StoreForm getStoreInfo(String storeId){
-        StoreForm storeForm = new StoreForm();
-        getName(storeId).ifPresent(storeForm::setName);
-        getPhoneNumber(storeId).ifPresent(storeForm::setPhoneNumber);
-        getAddress(storeId).ifPresent(storeForm::setAddress);
-        getAddressDetail(storeId).ifPresent(storeForm::setAddressDetail);
-        getCoordinates(storeId).ifPresent(storeForm::setLocation);
-        getIntroduction(storeId).ifPresent(storeForm::setIntroduction);
-        getMenuList(storeId).ifPresent(storeForm::setMenuList);
-        return storeForm;
+    public StoreDto getStoreInfo(String storeId){
+        StoreDto storeDto = new StoreDto();
+        getName(storeId).ifPresent(storeDto::setName);
+        getPhoneNumber(storeId).ifPresent(storeDto::setPhoneNumber);
+        getAddress(storeId).ifPresent(storeDto::setAddress);
+        getAddressDetail(storeId).ifPresent(storeDto::setAddressDetail);
+        getCoordinates(storeId).ifPresent(storeDto::setLocation);
+        getIntroduction(storeId).ifPresent(storeDto::setIntroduction);
+        getMenuList(storeId).ifPresent(storeDto::setMenuList);
+        return storeDto;
     }
 
-    public void createStoreInfo(StoreForm data){
+    public void createStoreInfo(StoreDto data){
         Store store = new Store();
         store.setStoreId(data.getStoreId());
         store.setName(data.getName());
@@ -76,7 +76,7 @@ public class StoreService {
         storeRepository.create(store);
     }
 
-    public void updateStoreInfo(StoreForm data){
+    public void updateStoreInfo(StoreDto data){
         Optional<Store> storeOpt = storeRepository.findById(data.getStoreId());
         if (storeOpt.isEmpty()){
             createStoreInfo(data);

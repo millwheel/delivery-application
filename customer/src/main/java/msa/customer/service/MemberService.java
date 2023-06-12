@@ -2,7 +2,7 @@ package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.entity.Customer;
-import msa.customer.dto.CustomerForm;
+import msa.customer.dto.CustomerDto;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -45,15 +45,15 @@ public class MemberService {
         return memberRepository.findById(id).map(Customer::getCoordinates);
     }
 
-    public CustomerForm getUserInfo(String id){
-        CustomerForm customerForm = new CustomerForm();
-        getName(id).ifPresent(customerForm::setName);
-        getEmail(id).ifPresent(customerForm::setEmail);
-        getPhoneNumber(id).ifPresent(customerForm::setPhoneNumber);
-        getAddress(id).ifPresent(customerForm::setAddress);
-        getAddressDetail(id).ifPresent(customerForm::setAddressDetail);
-        getCoordinates(id).ifPresent(customerForm::setLocation);
-        return customerForm;
+    public CustomerDto getUserInfo(String id){
+        CustomerDto customerDto = new CustomerDto();
+        getName(id).ifPresent(customerDto::setName);
+        getEmail(id).ifPresent(customerDto::setEmail);
+        getPhoneNumber(id).ifPresent(customerDto::setPhoneNumber);
+        getAddress(id).ifPresent(customerDto::setAddress);
+        getAddressDetail(id).ifPresent(customerDto::setAddressDetail);
+        getCoordinates(id).ifPresent(customerDto::setLocation);
+        return customerDto;
     }
 
     public void setName(String id, String name){
@@ -74,7 +74,7 @@ public class MemberService {
         memberRepository.setAddressDetail(id, addressDetail);
     }
 
-    public void updateUserInfo(String id, CustomerForm data){
+    public void updateUserInfo(String id, CustomerDto data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         String address = data.getAddress();
