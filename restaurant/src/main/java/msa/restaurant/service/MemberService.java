@@ -46,8 +46,8 @@ public class MemberService {
         memberRepository.updateStoreList(managerId, storeList);
     }
 
-    public void deleteStoreFromList(String managerId, Store store){
-        memberRepository.deleteStoreFromList(managerId, store);
+    public void deleteStoreFromList(String managerId, String storeId){
+        memberRepository.deleteStoreFromList(managerId, storeId);
     }
 
 }

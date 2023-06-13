@@ -12,6 +12,6 @@ public interface MemberRepository {
     Optional<Manager> findById(String managerId);
     void update(String managerId, ManagerDto data);
     void updateStoreList(String managerId, List<Store> store);
-    void deleteStoreFromList(String managerId, Store store);
+    void deleteStoreFromList(String managerId, String storeId);
 }
 

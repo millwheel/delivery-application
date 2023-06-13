@@ -103,7 +103,7 @@ public class StoreController {
             throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist already.");
         }
         Store store = storeOptional.get();
-        memberService.deleteStoreFromList(managerId, store);
+        memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
         response.sendRedirect("/restaurant/store/list");
     }

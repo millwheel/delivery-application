@@ -45,10 +45,10 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void deleteStoreFromList(String managerId, Store store) {
+    public void deleteStoreFromList(String managerId, String storeId) {
         repository.findById(managerId).ifPresent(manager -> {
             List<Store> storeList = manager.getStoreList();
-            storeList.remove(store);
+            storeList.removeIf(store -> store.getStoreId().equals(storeId));
             manager.setStoreList(storeList);
             repository.save(manager);
         });
