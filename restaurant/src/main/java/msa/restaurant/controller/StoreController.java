@@ -47,15 +47,9 @@ public class StoreController {
         return storeService.getStoreInfo(storeId);
     }
 
-    @GetMapping("/enroll")
-    @ResponseStatus(HttpStatus.OK)
-    public String storeAddForm () {
-        return "store enroll form";
-    }
-
     @PostMapping("/enroll")
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void storeAdd (@RequestAttribute("cognitoUsername") String managerId,
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                                @RequestBody StoreRequestDto data,
                                HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
@@ -70,15 +64,9 @@ public class StoreController {
         response.sendRedirect("/restaurant/store/list");
     }
 
-    @GetMapping("/update/{storeId}")
-    @ResponseStatus(HttpStatus.OK)
-    public String storeUpdateForm(@PathVariable String storeId){
-        return "store info update form here.";
-    }
-
     @PutMapping("/update/{storeId}")
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void storeUpdate(@RequestAttribute("cognitoUsername") String managerId,
+    @ResponseStatus(HttpStatus.OK)
+    public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
                                  @PathVariable String storeId,
                                  @RequestBody StoreRequestDto data,
                                  HttpServletResponse response) throws IOException {
@@ -99,6 +87,15 @@ public class StoreController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String storeUpdateError(){
         return "Wrong store id";
+    }
+
+    @DeleteMapping("/delete/{storeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
+                            @PathVariable String storeId,
+                            HttpServletResponse response) throws IOException {
+        storeService.deleteStore(storeId);
+        response.sendRedirect("/restaurant/store/list");
     }
 }
 

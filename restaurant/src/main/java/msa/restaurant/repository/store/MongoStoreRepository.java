@@ -72,8 +72,8 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void deleteAll() {
-        repository.deleteAll();
+    public void deleteById(String storeId) {
+        repository.deleteById(storeId);
     }
 }
 

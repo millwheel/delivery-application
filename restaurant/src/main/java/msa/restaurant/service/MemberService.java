@@ -53,15 +53,18 @@ public class MemberService {
         memberRepository.updatePhoneNumber(id, phoneNumber);
     }
 
-    public void updateStoreList(String id, List<Store> storeList){
-        memberRepository.updateStoreList(id, storeList);
-    }
-
     public void updateUserInfo(String id, ManagerDto data){
         String name = data.getName();
         String phoneNumber = data.getPhoneNumber();
         if(name != null) updateName(id, name);
         if(phoneNumber != null) updatePhoneNumber(id, phoneNumber);
+    }
+
+    public void updateStoreList(String id, List<Store> storeList){
+        memberRepository.updateStoreList(id, storeList);
+    }
+
+    public void deleteStoreFromList(String id){
     }
 
 }

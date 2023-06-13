@@ -12,5 +12,6 @@ public interface MemberRepository {
     void updateName(String managerId, String name);
     void updatePhoneNumber(String managerId, String phoneNumber);
     void updateStoreList(String managerId, List<Store> store);
+    void deleteStoreFromList(String managerId);
 }
 

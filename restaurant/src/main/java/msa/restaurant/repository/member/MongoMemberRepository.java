@@ -51,4 +51,11 @@ public class MongoMemberRepository implements MemberRepository{
         });
     }
 
+    @Override
+    public void deleteStoreFromList(String managerId) {
+        repository.findById(managerId).ifPresent(manager -> {
+            List<Store> storeList = manager.getStoreList();
+        });
+    }
+
 }

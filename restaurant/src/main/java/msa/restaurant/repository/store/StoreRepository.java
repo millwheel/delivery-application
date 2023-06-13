@@ -17,5 +17,5 @@ public interface StoreRepository {
     void updateLocation(String storeId, Point location);
     void updateMenuList(String storeId, List<Menu> menuList);
     void updateOpenStatus(String storeId, boolean open);
-    void deleteAll();
+    void deleteById(String storeId);
 }

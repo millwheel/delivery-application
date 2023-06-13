@@ -58,6 +58,9 @@ public class StoreService {
         storeRepository.updateLocation(storeId, coordinate);
     }
 
+    public void deleteStore(String storeId){
+        storeRepository.deleteById(storeId);
+    }
 
     public void openStore(String storeId){
         storeRepository.updateOpenStatus(storeId, true);
