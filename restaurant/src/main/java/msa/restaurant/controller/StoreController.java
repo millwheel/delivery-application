@@ -105,6 +105,9 @@ public class StoreController {
         Store store = storeOptional.get();
         memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
+        String messageForDeletingStore = messageConverter.createMessageForDeletingStore(storeId);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForDeletingStore);
+        log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
     }
 }

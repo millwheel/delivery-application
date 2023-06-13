@@ -14,4 +14,11 @@ public class MessageConverter {
         return jsonObject.toString();
     }
 
+    public String createMessageForDeletingStore(String storeId){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("dataType", "delete_store");
+        jsonObject.put("storeId", storeId);
+        return jsonObject.toString();
+    }
+
 }
