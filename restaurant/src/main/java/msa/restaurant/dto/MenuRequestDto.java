@@ -6,8 +6,7 @@ import msa.restaurant.entity.Store;
 
 @Getter
 @Setter
-public class MenuDto {
-    private String menuId;
+public class MenuRequestDto {
     private String name;
     private int price;
     private String description;

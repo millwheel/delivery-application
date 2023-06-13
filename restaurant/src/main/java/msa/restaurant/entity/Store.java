@@ -25,6 +25,4 @@ public class Store {
     private String introduction;
     private List<Menu> menuList;
     private boolean open;
-
-
 }

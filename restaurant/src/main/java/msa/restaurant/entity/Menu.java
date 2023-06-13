@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 @Document("menu")
 public class Menu {
-
     @MongoId
     private String menuId;
     private String name;
