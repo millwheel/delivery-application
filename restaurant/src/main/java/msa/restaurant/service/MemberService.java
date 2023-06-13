@@ -18,50 +18,29 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, AddressService addressService) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
-    public Optional<String> getName(String id){
-        return memberRepository.findById(id).map(Manager::getName);
+    public Optional<List<Store>> getStoreList(String managerId){
+        return memberRepository.findById(managerId).map(Manager::getStoreList);
     }
 
-    public Optional<String> getEmail(String id){
-        return memberRepository.findById(id).map(Manager::getEmail);
-    }
-
-    public Optional<String> getPhoneNumber(String id){
-        return memberRepository.findById(id).map(Manager::getPhoneNumber);
-    }
-    public Optional<List<Store>> getStoreList(String id){
-        return memberRepository.findById(id).map(Manager::getStoreList);
-    }
-
-    public ManagerDto getUserInfo(String id){
+    public ManagerDto getUserInfo(String managerId){
         ManagerDto managerDto = new ManagerDto();
-        getName(id).ifPresent(managerDto::setName);
-        getEmail(id).ifPresent(managerDto::setEmail);
-        getPhoneNumber(id).ifPresent(managerDto::setPhoneNumber);
+        memberRepository.findById(managerId).ifPresent(manager -> {
+            managerDto.setName(manager.getName());
+            managerDto.setPhoneNumber(manager.getPhoneNumber());
+        });
         return managerDto;
     }
 
-    public void updateName(String id, String name){
-        memberRepository.updateName(id, name);
+    public void updateUserInfo(String managerId, ManagerDto data){
+        memberRepository.update(managerId, data);
     }
 
-    public void updatePhoneNumber(String id, String phoneNumber){
-        memberRepository.updatePhoneNumber(id, phoneNumber);
-    }
-
-    public void updateUserInfo(String id, ManagerDto data){
-        String name = data.getName();
-        String phoneNumber = data.getPhoneNumber();
-        if(name != null) updateName(id, name);
-        if(phoneNumber != null) updatePhoneNumber(id, phoneNumber);
-    }
-
-    public void updateStoreList(String id, List<Store> storeList){
-        memberRepository.updateStoreList(id, storeList);
+    public void updateStoreList(String managerId, List<Store> storeList){
+        memberRepository.updateStoreList(managerId, storeList);
     }
 
     public void deleteStoreFromList(String id){

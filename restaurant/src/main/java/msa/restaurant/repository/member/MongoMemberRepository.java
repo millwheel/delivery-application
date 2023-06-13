@@ -1,5 +1,6 @@
 package msa.restaurant.repository.member;
 
+import msa.restaurant.dto.ManagerDto;
 import msa.restaurant.entity.Manager;
 import msa.restaurant.entity.Store;
 import org.springframework.stereotype.Repository;
@@ -28,18 +29,10 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void updateName(String managerId, String name){
+    public void update(String managerId, ManagerDto data) {
         repository.findById(managerId).ifPresent(manager -> {
-            manager.setName(name);
-            repository.save(manager);
-        });
-    }
-
-    @Override
-    public void updatePhoneNumber(String managerId, String phoneNumber){
-        repository.findById(managerId).ifPresent(manager -> {
-            manager.setPhoneNumber(phoneNumber);
-            repository.save(manager);
+            manager.setName(data.getName());
+            manager.setPhoneNumber(data.getPhoneNumber());
         });
     }
 
