@@ -4,6 +4,7 @@ import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.StoreRequestDto;
+import msa.restaurant.dto.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.service.MemberService;
@@ -37,8 +38,13 @@ public class StoreController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Store> storeList (@RequestAttribute("cognitoUsername") String managerId) {
-        return memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+    public List<StoreResponseDto> storeList (@RequestAttribute("cognitoUsername") String managerId) {
+        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+        List<StoreResponseDto> storeResponseDtoList = new ArrayList<>();
+        storeList.forEach(store -> {
+            storeResponseDtoList.add(new StoreResponseDto(store));
+        });
+        return storeResponseDtoList;
     }
 
     @GetMapping("/info/{storeId}")
