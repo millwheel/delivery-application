@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface StoreRepository {
     String create(Store store);
     Optional<Store> findById(String storeId);
-    List<Store> findAll();
     void update(String storeId, StoreRequestDto data);
     void updateLocation(String storeId, Point location);
     void updateMenuList(String storeId, List<Menu> menuList);

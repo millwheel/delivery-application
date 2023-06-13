@@ -30,11 +30,6 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public List<Store> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public void update(String storeId, StoreRequestDto data) {
         repository.findById(storeId).ifPresent(store -> {
             store.setName(data.getName());
