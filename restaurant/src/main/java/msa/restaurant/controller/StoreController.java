@@ -54,10 +54,11 @@ public class StoreController {
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
-        if (storeService.getStore(storeId).isEmpty()){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot find store info create just before from DB.");
         }
-        Store store = storeService.getStore(storeId).get();
+        Store store = storeOptional.get();
         memberService.updateStoreList(managerId, store);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
@@ -72,11 +73,12 @@ public class StoreController {
                             @PathVariable String storeId,
                             @RequestBody StoreRequestDto data,
                             HttpServletResponse response) throws IOException {
-        if (storeService.getStore(storeId).isEmpty()){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot find store info from DB.");
         }
+        Store store = storeOptional.get();
         storeService.updateStoreInfo(storeId, data);
-        Store store = storeService.getStore(storeId).get();
         memberService.updateStoreList(managerId, store);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
@@ -90,6 +92,12 @@ public class StoreController {
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
+            throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist already.");
+        }
+        Store store = storeOptional.get();
+        memberService.deleteStoreFromList(managerId, store);
         storeService.deleteStore(storeId);
         response.sendRedirect("/restaurant/store/list");
     }
