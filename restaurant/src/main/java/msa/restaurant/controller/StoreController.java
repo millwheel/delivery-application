@@ -54,17 +54,16 @@ public class StoreController {
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
-        Optional<Store> storeOpt = storeService.getStore(storeId);
-        if (storeOpt.isPresent()){
-            Store store = storeOpt.get();
-            memberService.updateStoreList(managerId, store);
-            StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-            String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
-            SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
-            log.info("message result={}", sendMessageResult);
-            response.sendRedirect("/restaurant/store/list");
+        if (storeService.getStore(storeId).isEmpty()){
+            throw new RuntimeException("Cannot find store info create just before from DB.");
         }
-        throw new RuntimeException("cannot find store created right before from DB.");
+        Store store = storeService.getStore(storeId).get();
+        memberService.updateStoreList(managerId, store);
+        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        log.info("message result={}", sendMessageResult);
+        response.sendRedirect("/restaurant/store/list");
     }
 
     @PutMapping("/update/{storeId}")
@@ -73,23 +72,17 @@ public class StoreController {
                             @PathVariable String storeId,
                             @RequestBody StoreRequestDto data,
                             HttpServletResponse response) throws IOException {
-
         if (storeService.getStore(storeId).isEmpty()){
-            response.sendRedirect("/restaurant/store/update/error");
+            throw new RuntimeException("Cannot find store info from DB.");
         }
         storeService.updateStoreInfo(storeId, data);
         Store store = storeService.getStore(storeId).get();
+        memberService.updateStoreList(managerId, store);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
-    }
-
-    @GetMapping("/update/error")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String storeUpdateError(){
-        return "Wrong store id";
     }
 
     @DeleteMapping("/delete/{storeId}")
