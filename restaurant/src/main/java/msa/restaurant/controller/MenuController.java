@@ -1,6 +1,7 @@
 package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.MenuResponseDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.SqsService;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/{restaurantId}/menu")
+@RequestMapping("/restaurant/{storeId}/menu")
 public class MenuController {
 
     private final StoreService storeService;
@@ -26,7 +27,12 @@ public class MenuController {
     }
 
     @GetMapping("/list")
-    public List<Menu> menuList(@PathVariable String restaurantId){
-        return storeService.getMenuList(restaurantId).orElseGet(ArrayList::new);
+    public List<MenuResponseDto> menuList(@PathVariable String storeId){
+        List<Menu> menuList = storeService.getMenuList(storeId).orElseGet(ArrayList::new);
+        List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
+        menuList.forEach(menu -> {
+            menuResponseDtoList.add(new MenuResponseDto(menu));
+        });
+        return menuResponseDtoList;
     }
 }

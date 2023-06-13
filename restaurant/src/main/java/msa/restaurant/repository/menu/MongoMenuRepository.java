@@ -1,5 +1,6 @@
 package msa.restaurant.repository.menu;
 
+import msa.restaurant.dto.MenuRequestDto;
 import msa.restaurant.entity.Menu;
 import org.springframework.stereotype.Repository;
 
@@ -26,26 +27,15 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void updateName(String menuId, String name) {
+    public void update(String menuId, MenuRequestDto data) {
         repository.findById(menuId).ifPresent(menu -> {
-            menu.setName(name);
+            menu.setName(data.getName());
+            menu.setPrice(data.getPrice());
+            menu.setDescription(data.getDescription());
+            menu.setStoreId(data.getStoreId());
             repository.save(menu);
         });
     }
 
-    @Override
-    public void updatePrice(String menuId, int price) {
-        repository.findById(menuId).ifPresent(menu -> {
-            menu.setPrice(price);
-            repository.save(menu);
-        });
-    }
 
-    @Override
-    public void updateDescription(String menuId, String description) {
-        repository.findById(menuId).ifPresent(menu -> {
-            menu.setDescription(description);
-            repository.save(menu);
-        });
-    }
 }
