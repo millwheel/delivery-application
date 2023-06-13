@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -50,26 +51,28 @@ public class StoreController {
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.CREATED)
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
-                               @RequestBody StoreRequestDto data,
-                               HttpServletResponse response) throws IOException {
+                          @RequestBody StoreRequestDto data,
+                          HttpServletResponse response) throws IOException {
         String storeId = storeService.createStoreInfo(data);
-        Store store = storeService.getStore(storeId).get();
-        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
-        storeList.add(store);
-        memberService.updateStoreList(managerId, storeList);
-        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
-        log.info("message sending result={}", sendMessageResult);
-        response.sendRedirect("/restaurant/store/list");
+        Optional<Store> storeOpt = storeService.getStore(storeId);
+        if (storeOpt.isPresent()){
+            Store store = storeOpt.get();
+            memberService.updateStoreList(managerId, store);
+            StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+            String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
+            SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+            log.info("message result={}", sendMessageResult);
+            response.sendRedirect("/restaurant/store/list");
+        }
+        throw new RuntimeException("cannot find store created right before from DB.");
     }
 
     @PutMapping("/update/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
-                                 @PathVariable String storeId,
-                                 @RequestBody StoreRequestDto data,
-                                 HttpServletResponse response) throws IOException {
+                            @PathVariable String storeId,
+                            @RequestBody StoreRequestDto data,
+                            HttpServletResponse response) throws IOException {
 
         if (storeService.getStore(storeId).isEmpty()){
             response.sendRedirect("/restaurant/store/update/error");

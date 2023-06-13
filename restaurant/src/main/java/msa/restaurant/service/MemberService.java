@@ -8,6 +8,7 @@ import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,9 @@ public class MemberService {
         memberRepository.update(managerId, data);
     }
 
-    public void updateStoreList(String managerId, List<Store> storeList){
+    public void updateStoreList(String managerId, Store store){
+        List<Store> storeList = getStoreList(managerId).orElseGet(ArrayList::new);
+        storeList.add(store);
         memberRepository.updateStoreList(managerId, storeList);
     }
 
