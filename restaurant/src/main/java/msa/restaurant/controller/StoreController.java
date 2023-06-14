@@ -42,17 +42,12 @@ public class StoreController {
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<StoreResponseDto> storeList (
-            @RequestAttribute("cognitoUsername") String managerId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestAttribute("cognitoUsername") String managerId) {
         List<StoreResponseDto> storeResponseDtoList = new ArrayList<>();
-
-//        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
-
-        Pageable paging = PageRequest.of(page, size);
-        Page<Store> storeListPage = storeService.getStoreList(managerId, paging);
-        List<Store> storeList = storeListPage.getContent();
-
+        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+//        Pageable paging = PageRequest.of(page, size);
+//        Page<Store> storeListPage = storeService.getStoreList(managerId, paging);
+//        List<Store> storeList = storeListPage.getContent();
         storeList.forEach(store -> {
             storeResponseDtoList.add(new StoreResponseDto(store));
         });
@@ -122,7 +117,7 @@ public class StoreController {
         Store store = storeOptional.get();
         memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
-        String messageForDeletingStore = messageConverter.createMessageForDeletingStore(storeId);
+        String messageForDeletingStore = messageConverter.createMessageToDeleteStore(storeId);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForDeletingStore);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");

@@ -22,10 +22,10 @@ public class MenuService {
         return menuRepository.findById(menuId);
     }
 
-    public String createMenu(String storeId, MenuRequestDto data){
+    public String createMenu(MenuRequestDto data){
         Menu menu = new Menu();
         menu.setName(data.getName());
-        menu.setStoreId(storeId);
+        menu.setStoreId(data.getStoreId());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
         return menuRepository.create(menu);

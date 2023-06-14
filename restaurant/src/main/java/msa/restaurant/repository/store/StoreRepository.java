@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface StoreRepository {
     String create(Store store);
     Optional<Store> findById(String storeId);
-    Page<Store> findStoreList(String managerId, Pageable pageable);
+//    Page<Store> findStoreList(String managerId, Pageable pageable);
     void update(String storeId, StoreRequestDto data);
     void updateLocation(String storeId, Point location);
     void updateMenuList(String storeId, List<Menu> menuList);

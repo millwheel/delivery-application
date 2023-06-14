@@ -1,6 +1,8 @@
 package msa.restaurant.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
@@ -43,14 +45,20 @@ public class MenuController {
 
     @GetMapping("/info/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                     @PathVariable String menuId) {
+    public MenuResponseDto menuInfo (@PathVariable String menuId) {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isPresent()){
             Menu menu = menuOptional.get();
             return new MenuResponseDto(menu);
         }
         throw new RuntimeException("Cannot find menu by menu-id");
+    }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addMenu(@RequestBody MenuRequestDto data,
+                        HttpServletResponse response){
+        menuService.createMenu(data);
     }
 
 }
