@@ -1,6 +1,6 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.dto.ManagerDto;
+import msa.restaurant.dto.manager.ManagerDto;
 import msa.restaurant.entity.Manager;
 import msa.restaurant.entity.Store;
 

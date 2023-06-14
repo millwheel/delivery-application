@@ -1,9 +1,8 @@
 package msa.restaurant.repository.store;
 
-import msa.restaurant.dto.StoreRequestDto;
+import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
-import msa.restaurant.dto.StoreSqsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;

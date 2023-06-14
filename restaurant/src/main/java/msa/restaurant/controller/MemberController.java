@@ -2,7 +2,7 @@ package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.ManagerDto;
+import msa.restaurant.dto.manager.ManagerDto;
 import msa.restaurant.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

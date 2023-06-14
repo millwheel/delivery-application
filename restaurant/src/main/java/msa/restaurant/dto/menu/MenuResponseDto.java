@@ -1,4 +1,4 @@
-package msa.restaurant.dto;
+package msa.restaurant.dto.menu;
 
 import lombok.Getter;
 import lombok.Setter;

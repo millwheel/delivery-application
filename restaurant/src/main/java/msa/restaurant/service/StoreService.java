@@ -1,7 +1,7 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.StoreRequestDto;
+import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
 import msa.restaurant.repository.store.StoreRepository;

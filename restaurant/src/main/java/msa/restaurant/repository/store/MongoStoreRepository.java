@@ -1,6 +1,6 @@
 package msa.restaurant.repository.store;
 
-import msa.restaurant.dto.StoreRequestDto;
+import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
 import org.springframework.data.domain.Page;

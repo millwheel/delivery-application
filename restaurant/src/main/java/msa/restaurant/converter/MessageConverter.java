@@ -1,6 +1,6 @@
 package msa.restaurant.converter;
 
-import msa.restaurant.dto.StoreSqsDto;
+import msa.restaurant.dto.store.StoreSqsDto;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 

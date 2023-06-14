@@ -1,7 +1,7 @@
 package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.MenuResponseDto;
+import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.MenuService;

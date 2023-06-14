@@ -3,7 +3,7 @@ package msa.restaurant.service;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.entity.Manager;
 import msa.restaurant.entity.Store;
-import msa.restaurant.dto.ManagerDto;
+import msa.restaurant.dto.manager.ManagerDto;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

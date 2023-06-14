@@ -1,12 +1,11 @@
 package msa.restaurant.service;
 
-import msa.restaurant.dto.MenuRequestDto;
+import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.repository.menu.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
