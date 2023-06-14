@@ -8,5 +8,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface SpringDataMongoStoreRepository extends MongoRepository<Store, String> {
-//    Page<Store> findByManagerId(String managerId, Pageable pageable);
 }

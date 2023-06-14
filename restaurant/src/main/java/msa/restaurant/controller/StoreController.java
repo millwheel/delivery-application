@@ -13,9 +13,6 @@ import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +44,6 @@ public class StoreController {
             @RequestAttribute("cognitoUsername") String managerId) {
         List<StorePartInfoResponseDto> storeResponseDtoList = new ArrayList<>();
         List<StorePartInfo> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
-//        Pageable paging = PageRequest.of(page, size);
-//        Page<Store> storeListPage = storeService.getStoreList(managerId, paging);
-//        List<Store> storeList = storeListPage.getContent();
         storeList.forEach(store -> {
             storeResponseDtoList.add(new StorePartInfoResponseDto(store));
         });

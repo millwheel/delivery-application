@@ -30,11 +30,6 @@ public class MongoStoreRepository implements StoreRepository {
         return repository.findById(storeId);
     }
 
-//    @Override
-//    public Page<Store> findStoreList(String managerId, Pageable pageable) {
-//        return repository.findByManagerId(managerId, pageable);
-//    }
-
     @Override
     public void update(String storeId, StoreRequestDto data) {
         repository.findById(storeId).ifPresent(store -> {

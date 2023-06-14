@@ -35,10 +35,6 @@ public class StoreService {
         return storeRepository.findById(storeId).map(Store::getMenuList);
     }
 
-//    public Page<Store> getStoreList(String managerId, Pageable pageable){
-//        return storeRepository.findStoreList(managerId, pageable);
-//    }
-
     public String createStore(String managerId, StoreRequestDto data){
         Store store = new Store();
         store.setName(data.getName());
