@@ -2,10 +2,9 @@ package msa.restaurant.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.MenuResponseDto;
-import msa.restaurant.dto.StoreResponseDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
-import msa.restaurant.entity.Store;
+import msa.restaurant.service.MenuService;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
 import org.springframework.http.HttpStatus;
@@ -21,11 +20,13 @@ import java.util.Optional;
 public class MenuController {
 
     private final StoreService storeService;
+    private final MenuService menuService;
     private final MessageConverter messageConverter;
     private final SqsService sqsService;
 
-    public MenuController(StoreService storeService, MessageConverter messageConverter, SqsService sqsService) {
+    public MenuController(StoreService storeService, MenuService menuService, MessageConverter messageConverter, SqsService sqsService) {
         this.storeService = storeService;
+        this.menuService = menuService;
         this.messageConverter = messageConverter;
         this.sqsService = sqsService;
     }
@@ -42,9 +43,13 @@ public class MenuController {
 
     @GetMapping("/info/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                       @PathVariable String menuId) {
-
+    public MenuResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
+                                     @PathVariable String menuId) {
+        Optional<Menu> menuOptional = menuService.getMenu(menuId);
+        if (menuOptional.isPresent()){
+            Menu menu = menuOptional.get();
+            return new MenuResponseDto(menu);
+        }
         throw new RuntimeException("Cannot find menu by menu-id");
     }
 
