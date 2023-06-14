@@ -67,7 +67,7 @@ public class StoreController {
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
-        String storeId = storeService.createStore(managerId, data);
+        String storeId = storeService.createStore(data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot find store info create just before from DB.");
