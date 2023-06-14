@@ -1,9 +1,10 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.manager.ManagerResponseDto;
 import msa.restaurant.entity.Manager;
-import msa.restaurant.entity.Store;
-import msa.restaurant.dto.manager.ManagerDto;
+import msa.restaurant.dto.manager.ManagerRequestDto;
+import msa.restaurant.entity.StorePartInfo;
 import msa.restaurant.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,26 +24,26 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Optional<List<Store>> getStoreList(String managerId){
+    public Optional<List<StorePartInfo>> getStoreList(String managerId){
         return memberRepository.findById(managerId).map(Manager::getStoreList);
     }
 
-    public ManagerDto getUserInfo(String managerId){
-        ManagerDto managerDto = new ManagerDto();
+    public ManagerResponseDto getUserInfo(String managerId){
+        ManagerResponseDto managerResponseDto = new ManagerResponseDto();
         memberRepository.findById(managerId).ifPresent(manager -> {
-            managerDto.setName(manager.getName());
-            managerDto.setPhoneNumber(manager.getPhoneNumber());
+            managerResponseDto.setName(manager.getName());
+            managerResponseDto.setPhoneNumber(manager.getPhoneNumber());
         });
-        return managerDto;
+        return managerResponseDto;
     }
 
-    public void updateUserInfo(String managerId, ManagerDto data){
+    public void updateUserInfo(String managerId, ManagerRequestDto data){
         memberRepository.update(managerId, data);
     }
 
-    public void updateStoreList(String managerId, Store store){
-        List<Store> storeList = getStoreList(managerId).orElseGet(ArrayList::new);
-        storeList.add(store);
+    public void updateStoreList(String managerId, StorePartInfo storePartInfo){
+        List<StorePartInfo> storeList = getStoreList(managerId).orElseGet(ArrayList::new);
+        storeList.add(storePartInfo);
         memberRepository.updateStoreList(managerId, storeList);
     }
 

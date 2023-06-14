@@ -3,10 +3,12 @@ package msa.restaurant.controller;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.store.StorePartInfoResponseDto;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
+import msa.restaurant.entity.StorePartInfo;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
@@ -41,15 +43,15 @@ public class StoreController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<StoreResponseDto> storeList (
+    public List<StorePartInfoResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
-        List<StoreResponseDto> storeResponseDtoList = new ArrayList<>();
-        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+        List<StorePartInfoResponseDto> storeResponseDtoList = new ArrayList<>();
+        List<StorePartInfo> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
 //        Pageable paging = PageRequest.of(page, size);
 //        Page<Store> storeListPage = storeService.getStoreList(managerId, paging);
 //        List<Store> storeList = storeListPage.getContent();
         storeList.forEach(store -> {
-            storeResponseDtoList.add(new StoreResponseDto(store));
+            storeResponseDtoList.add(new StorePartInfoResponseDto(store));
         });
         return storeResponseDtoList;
     }
@@ -77,7 +79,8 @@ public class StoreController {
             throw new RuntimeException("Cannot find store info create just before from DB.");
         }
         Store store = storeOptional.get();
-        memberService.updateStoreList(managerId, store);
+        StorePartInfo storePartInfo = new StorePartInfo(store);
+        memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
@@ -96,8 +99,9 @@ public class StoreController {
             throw new RuntimeException("Cannot find store info from DB.");
         }
         Store store = storeOptional.get();
+        StorePartInfo storePartInfo = new StorePartInfo(store);
         storeService.updateStore(storeId, data);
-        memberService.updateStoreList(managerId, store);
+        memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);

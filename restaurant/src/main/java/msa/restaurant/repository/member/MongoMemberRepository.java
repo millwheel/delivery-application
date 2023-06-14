@@ -1,8 +1,8 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.dto.manager.ManagerDto;
+import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.entity.Manager;
-import msa.restaurant.entity.Store;
+import msa.restaurant.entity.StorePartInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void update(String managerId, ManagerDto data) {
+    public void update(String managerId, ManagerRequestDto data) {
         repository.findById(managerId).ifPresent(manager -> {
             manager.setName(data.getName());
             manager.setPhoneNumber(data.getPhoneNumber());
@@ -37,7 +37,7 @@ public class MongoMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void updateStoreList(String managerId, List<Store> storeList) {
+    public void updateStoreList(String managerId, List<StorePartInfo> storeList) {
         repository.findById(managerId).ifPresent(manager -> {
             manager.setStoreList(storeList);
             repository.save(manager);
@@ -47,7 +47,7 @@ public class MongoMemberRepository implements MemberRepository{
     @Override
     public void deleteStoreFromList(String managerId, String storeId) {
         repository.findById(managerId).ifPresent(manager -> {
-            List<Store> storeList = manager.getStoreList();
+            List<StorePartInfo> storeList = manager.getStoreList();
             storeList.removeIf(store -> store.getStoreId().equals(storeId));
             manager.setStoreList(storeList);
             repository.save(manager);

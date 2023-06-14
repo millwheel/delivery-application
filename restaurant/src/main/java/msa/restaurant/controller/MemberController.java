@@ -2,7 +2,8 @@ package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.manager.ManagerDto;
+import msa.restaurant.dto.manager.ManagerRequestDto;
+import msa.restaurant.dto.manager.ManagerResponseDto;
 import msa.restaurant.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +23,14 @@ public class MemberController {
 
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
-    public ManagerDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
+    public ManagerResponseDto memberInfo(@RequestAttribute("cognitoUsername") String id){
         return memberService.getUserInfo(id);
     }
 
     @PutMapping("/info")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
-                                 @RequestBody ManagerDto data,
+                                 @RequestBody ManagerRequestDto data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateUserInfo(id, data);
         response.sendRedirect("/restaurant/member/info");

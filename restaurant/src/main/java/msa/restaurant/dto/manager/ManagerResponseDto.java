@@ -2,14 +2,11 @@ package msa.restaurant.dto.manager;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.entity.Store;
 
-import java.util.List;
-
-@Setter
 @Getter
-public class ManagerDto {
+@Setter
+public class ManagerResponseDto {
     private String name;
+    private String email;
     private String phoneNumber;
-    private List<Store> storeList;
 }

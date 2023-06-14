@@ -1,8 +1,8 @@
 package msa.restaurant.repository.member;
 
-import msa.restaurant.dto.manager.ManagerDto;
+import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.entity.Manager;
-import msa.restaurant.entity.Store;
+import msa.restaurant.entity.StorePartInfo;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface MemberRepository {
     String create(Manager manager);
     Optional<Manager> findById(String managerId);
-    void update(String managerId, ManagerDto data);
-    void updateStoreList(String managerId, List<Store> store);
+    void update(String managerId, ManagerRequestDto data);
+    void updateStoreList(String managerId, List<StorePartInfo> store);
     void deleteStoreFromList(String managerId, String storeId);
 }
 
