@@ -3,6 +3,8 @@ package msa.restaurant.repository.store;
 import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,11 @@ public class MongoStoreRepository implements StoreRepository {
     @Override
     public Optional<Store> findById(String storeId) {
         return repository.findById(storeId);
+    }
+
+    @Override
+    public Page<Store> findStoreList(String managerId, Pageable pageable) {
+        return repository.findByManagerId(managerId, pageable);
     }
 
     @Override

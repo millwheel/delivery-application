@@ -7,6 +7,8 @@ import msa.restaurant.entity.Store;
 import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +36,18 @@ public class StoreService {
         return storeRepository.findById(storeId).map(Store::getMenuList);
     }
 
+    public Page<Store> getStoreList(String managerId, Pageable pageable){
+        return storeRepository.findStoreList(managerId, pageable);
+    }
+
     public StoreSqsDto getStoreInfo(String storeId){
         return storeRepository.findById(storeId).map(StoreSqsDto::new).orElse(null);
     }
 
 
-    public String createStoreInfo(StoreRequestDto data){
+    public String createStoreInfo(String managerId, StoreRequestDto data){
         Store store = new Store();
+        store.setManagerId(managerId);
         store.setName(data.getName());
         store.setFoodKind(data.getFoodKind());
         store.setPhoneNumber(data.getPhoneNumber());

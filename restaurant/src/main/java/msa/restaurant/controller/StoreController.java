@@ -11,6 +11,9 @@ import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +41,18 @@ public class StoreController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<StoreResponseDto> storeList (@RequestAttribute("cognitoUsername") String managerId) {
-        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+    public List<StoreResponseDto> storeList (
+            @RequestAttribute("cognitoUsername") String managerId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         List<StoreResponseDto> storeResponseDtoList = new ArrayList<>();
+
+//        List<Store> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+
+        Pageable paging = PageRequest.of(page, size);
+        Page<Store> storeListPage = storeService.getStoreList(managerId, paging);
+        List<Store> storeList = storeListPage.getContent();
+
         storeList.forEach(store -> {
             storeResponseDtoList.add(new StoreResponseDto(store));
         });
@@ -59,7 +71,7 @@ public class StoreController {
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
-        String storeId = storeService.createStoreInfo(data);
+        String storeId = storeService.createStoreInfo(managerId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot find store info create just before from DB.");
