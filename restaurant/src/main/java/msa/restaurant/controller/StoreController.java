@@ -61,12 +61,17 @@ public class StoreController {
 
     @GetMapping("/info/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreSqsDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
+    public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId) {
-        return storeService.getStoreInfo(storeId);
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isPresent()){
+            Store store = storeOptional.get();
+            return new StoreResponseDto(store);
+        }
+        throw new RuntimeException("Cannot find store by store-id");
     }
 
-    @PostMapping("/enroll")
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,

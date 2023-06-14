@@ -40,11 +40,6 @@ public class StoreService {
         return storeRepository.findStoreList(managerId, pageable);
     }
 
-    public StoreSqsDto getStoreInfo(String storeId){
-        return storeRepository.findById(storeId).map(StoreSqsDto::new).orElse(null);
-    }
-
-
     public String createStoreInfo(String managerId, StoreRequestDto data){
         Store store = new Store();
         store.setManagerId(managerId);
