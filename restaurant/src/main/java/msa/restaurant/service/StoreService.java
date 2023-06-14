@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.StoreRequestDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.Store;
-import msa.restaurant.dto.StoreSqsDto;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +39,7 @@ public class StoreService {
         return storeRepository.findStoreList(managerId, pageable);
     }
 
-    public String createStoreInfo(String managerId, StoreRequestDto data){
+    public String createStore(String managerId, StoreRequestDto data){
         Store store = new Store();
         store.setManagerId(managerId);
         store.setName(data.getName());
@@ -54,7 +53,7 @@ public class StoreService {
         return storeRepository.create(store);
     }
 
-    public void updateStoreInfo(String storeId, StoreRequestDto data){
+    public void updateStore(String storeId, StoreRequestDto data){
         storeRepository.update(storeId, data);
         Point coordinate = addressService.getCoordinate(data.getAddress());
         storeRepository.updateLocation(storeId, coordinate);

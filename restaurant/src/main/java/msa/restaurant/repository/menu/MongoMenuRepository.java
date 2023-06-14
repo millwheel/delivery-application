@@ -32,9 +32,13 @@ public class MongoMenuRepository implements MenuRepository{
             menu.setName(data.getName());
             menu.setPrice(data.getPrice());
             menu.setDescription(data.getDescription());
-            menu.setStoreId(data.getStoreId());
             repository.save(menu);
         });
+    }
+
+    @Override
+    public void deleteById(String menuId) {
+        repository.deleteById(menuId);
     }
 
 
