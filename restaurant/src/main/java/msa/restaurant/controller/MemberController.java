@@ -4,11 +4,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.dto.manager.ManagerResponseDto;
+import msa.restaurant.entity.Manager;
 import msa.restaurant.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -24,7 +26,12 @@ public class MemberController {
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
     public ManagerResponseDto memberInfo(@RequestAttribute("cognitoUsername") String id){
-        return memberService.getUserInfo(id);
+        Optional<Manager> managerOptional = memberService.getManager(id);
+        if (managerOptional.isPresent()){
+            Manager manager = managerOptional.get();
+            return new ManagerResponseDto(manager);
+        }
+        throw new RuntimeException("Cannot find Manager Info");
     }
 
     @PutMapping("/info")
@@ -32,7 +39,7 @@ public class MemberController {
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                                  @RequestBody ManagerRequestDto data,
                                  HttpServletResponse response) throws IOException {
-        memberService.updateUserInfo(id, data);
+        memberService.updateManager(id, data);
         response.sendRedirect("/restaurant/member/info");
     }
 

@@ -1,7 +1,6 @@
 package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.manager.ManagerResponseDto;
 import msa.restaurant.entity.Manager;
 import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.entity.StorePartInfo;
@@ -24,16 +23,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public ManagerResponseDto getUserInfo(String managerId){
-        ManagerResponseDto managerResponseDto = new ManagerResponseDto();
-        memberRepository.findById(managerId).ifPresent(manager -> {
-            managerResponseDto.setName(manager.getName());
-            managerResponseDto.setPhoneNumber(manager.getPhoneNumber());
-        });
-        return managerResponseDto;
+    public Optional<Manager> getManager(String managerId){
+        return memberRepository.findById(managerId);
     }
 
-    public void updateUserInfo(String managerId, ManagerRequestDto data){
+    public void updateManager(String managerId, ManagerRequestDto data){
         memberRepository.update(managerId, data);
     }
 
