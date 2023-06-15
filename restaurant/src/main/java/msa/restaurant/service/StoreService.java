@@ -29,10 +29,6 @@ public class StoreService {
         return storeRepository.findById(storeId);
     }
 
-    public Optional<List<Menu>> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuList);
-    }
-
     public String createStore(StoreRequestDto data){
         Store store = new Store();
         store.setName(data.getName());
@@ -62,6 +58,10 @@ public class StoreService {
 
     public void closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
+    }
+
+    public Optional<List<Menu>> getMenuList(String storeId){
+        return storeRepository.findById(storeId).map(Store::getMenuList);
     }
 
 }

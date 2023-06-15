@@ -59,7 +59,7 @@ public class StoreController {
             Store store = storeOptional.get();
             return new StoreResponseDto(store);
         }
-        throw new RuntimeException("Cannot find store by store-id");
+        throw new RuntimeException("Cannot find store info from DB");
     }
 
     @PostMapping("/add")
@@ -70,7 +70,7 @@ public class StoreController {
         String storeId = storeService.createStore(data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot find store info create just before from DB.");
+            throw new RuntimeException("Cannot add store into DB.");
         }
         Store store = storeOptional.get();
         StorePartInfo storePartInfo = new StorePartInfo(store);
@@ -90,7 +90,7 @@ public class StoreController {
                             HttpServletResponse response) throws IOException {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot find store info from DB.");
+            throw new RuntimeException("Cannot find store info for update.");
         }
         Store store = storeOptional.get();
         StorePartInfo storePartInfo = new StorePartInfo(store);

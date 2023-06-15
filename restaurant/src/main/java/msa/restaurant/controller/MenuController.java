@@ -6,12 +6,14 @@ import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
+import msa.restaurant.entity.MenuPartInfo;
 import msa.restaurant.service.MenuService;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,8 +59,16 @@ public class MenuController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addMenu(@RequestBody MenuRequestDto data,
-                        HttpServletResponse response){
-        menuService.createMenu(data);
+                        HttpServletResponse response) throws IOException {
+        String menuId = menuService.createMenu(data);
+        Optional<Menu> menuOptional = menuService.getMenu(menuId);
+        if (menuOptional.isEmpty()){
+            throw new RuntimeException("Cannot ")
+        }
+        Menu menu = menuOptional.get();
+        MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
+        storeService.
+        response.sendRedirect("/restaurant/{storeId}/menu/list");
     }
 
 }

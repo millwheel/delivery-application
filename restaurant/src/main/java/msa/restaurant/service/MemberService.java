@@ -24,10 +24,6 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Optional<List<StorePartInfo>> getStoreList(String managerId){
-        return memberRepository.findById(managerId).map(Manager::getStoreList);
-    }
-
     public ManagerResponseDto getUserInfo(String managerId){
         ManagerResponseDto managerResponseDto = new ManagerResponseDto();
         memberRepository.findById(managerId).ifPresent(manager -> {
@@ -39,6 +35,10 @@ public class MemberService {
 
     public void updateUserInfo(String managerId, ManagerRequestDto data){
         memberRepository.update(managerId, data);
+    }
+
+    public Optional<List<StorePartInfo>> getStoreList(String managerId){
+        return memberRepository.findById(managerId).map(Manager::getStoreList);
     }
 
     public void updateStoreList(String managerId, StorePartInfo storePartInfo){

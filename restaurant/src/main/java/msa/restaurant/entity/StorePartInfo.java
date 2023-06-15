@@ -1,16 +1,12 @@
 package msa.restaurant.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
 public class StorePartInfo {
-    private String storeId;
-    private String name;
-    private String address;
+    private final String storeId;
+    private final String name;
+    private final String address;
 
     public StorePartInfo(Store store) {
         storeId = store.getStoreId();
