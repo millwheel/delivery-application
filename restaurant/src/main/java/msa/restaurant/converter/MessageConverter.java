@@ -1,5 +1,6 @@
 package msa.restaurant.converter;
 
+import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,14 @@ public class MessageConverter {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("dataType", "delete_store");
         jsonObject.put("storeId", storeId);
+        return jsonObject.toString();
+    }
+
+    public String createMessageForMenuInfo(MenuSqsDto menuSqsDto){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(menuSqsDto);
+        jsonObject.put("dataType", "menu");
+        jsonObject.put("data", data);
         return jsonObject.toString();
     }
 

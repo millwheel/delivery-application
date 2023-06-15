@@ -1,10 +1,12 @@
 package msa.restaurant.controller;
 
+import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.menu.MenuPartInfoResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
+import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.entity.MenuPartInfo;
@@ -70,7 +72,10 @@ public class MenuController {
         Menu menu = menuOptional.get();
         MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
         storeService.updateMenuList(storeId, menuPartInfo);
-
+        MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
+        String messageForMenuInfo = messageConverter.createMessageForMenuInfo(menuSqsDto);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForMenuInfo);
+        log.info("message result={}", sendMessageResult);
         response.sendRedirect("/restaurant/{storeId}/menu/list");
     }
 
