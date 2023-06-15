@@ -40,7 +40,7 @@ public class MenuController {
 
     @GetMapping("/list")
     public List<MenuPartInfoResponseDto> menuList(@PathVariable String storeId){
-        List<MenuPartInfo> menuPartInfoList = storeService.getMenuList(storeId).orElseGet(ArrayList::new);
+        List<MenuPartInfo> menuPartInfoList = storeService.getMenuList(storeId);
         List<MenuPartInfoResponseDto> menuResponseDtoList = new ArrayList<>();
         menuPartInfoList.forEach(menuPartInfo -> {
             menuResponseDtoList.add(new MenuPartInfoResponseDto(menuPartInfo));
@@ -81,22 +81,25 @@ public class MenuController {
 
     @PutMapping("/update/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateMenu(@PathVariable String menuId,
+    public void updateMenu(@PathVariable String storeId,
+                           @PathVariable String menuId,
                            HttpServletResponse response){
 
     }
 
     @DeleteMapping("/delete/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMenu(@PathVariable String menuId,
+    public void deleteMenu(@PathVariable String storeId,
+                           @PathVariable String menuId,
                            HttpServletResponse response){
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("Cannot Delete Menu from DB. It doesn't exist.");
         }
         Menu menu = menuOptional.get();
-        storeService.d();
+        storeService.deleteMenuFromList(storeId, menuId);
         menuService.deleteMenu(menuId);
+
     }
 
 }

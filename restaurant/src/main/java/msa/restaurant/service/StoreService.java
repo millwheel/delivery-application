@@ -62,16 +62,21 @@ public class StoreService {
         storeRepository.updateOpenStatus(storeId, false);
     }
 
-    public Optional<List<MenuPartInfo>> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuPartInfoList);
+    public List<MenuPartInfo> getMenuList(String storeId){
+        return storeRepository.findById(storeId).map(Store::getMenuPartInfoList).orElseGet(ArrayList::new);
     }
 
     public void updateMenuList(String storeId, MenuPartInfo menuPartInfo){
-        List<MenuPartInfo> menuPartInfoList = getMenuList(storeId).orElseGet(ArrayList::new);
-        menuPartInfoList.add(menuPartInfo);
-        storeRepository.updateMenuList(storeId, menuPartInfoList);
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        menuList.add(menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuList);
     }
 
-    public void deleteStoreFromList
+    public void deleteMenuFromList(String storeId, String menuId){
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        menuList.removeIf(menuPartInfo -> menuPartInfo.getMenuId().equals(menuId));
+        storeRepository.updateMenuList(storeId, menuList);
+    }
+
 
 }
