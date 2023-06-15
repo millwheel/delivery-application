@@ -76,8 +76,8 @@ public class StoreController {
         StorePartInfo storePartInfo = new StorePartInfo(store);
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = messageConverter.createMessageToCreateStore(storeSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        String messageToCreateStore = messageConverter.createMessageToCreateStore(storeSqsDto);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToCreateStore);
         log.info("message result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
     }
@@ -97,8 +97,8 @@ public class StoreController {
         storeService.updateStore(storeId, data);
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = messageConverter.createMessageToUpdateStore(storeSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
+        String messageToUpdateStore = messageConverter.createMessageToUpdateStore(storeSqsDto);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateStore);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
     }
@@ -115,8 +115,8 @@ public class StoreController {
         Store store = storeOptional.get();
         memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
-        String messageForDeletingStore = messageConverter.createMessageToDeleteStore(storeId);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForDeletingStore);
+        String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteStore);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
     }

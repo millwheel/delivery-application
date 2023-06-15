@@ -42,4 +42,21 @@ public class MessageConverter {
         return jsonObject.toString();
     }
 
+    public String createMessageToUpdateMenu(MenuSqsDto menuSqsDto){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(menuSqsDto);
+        jsonObject.put("dataType", "menu");
+        jsonObject.put("method", "update");
+        jsonObject.put("data", data);
+        return jsonObject.toString();
+    }
+
+    public String createMessageToDeleteMenu(String menuId){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("dataType", "menu");
+        jsonObject.put("method", "delete");
+        jsonObject.put("menuId", menuId);
+        return jsonObject.toString();
+    }
+
 }

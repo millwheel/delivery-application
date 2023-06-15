@@ -91,7 +91,7 @@ public class MenuController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId,
-                           HttpServletResponse response){
+                           HttpServletResponse response) throws IOException {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("Cannot Delete Menu from DB. It doesn't exist.");
@@ -99,7 +99,10 @@ public class MenuController {
         Menu menu = menuOptional.get();
         storeService.deleteMenuFromList(storeId, menuId);
         menuService.deleteMenu(menuId);
-
+        String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(menuId);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteMenu);
+        log.info("message sending result={}", sendMessageResult);
+        response.sendRedirect("/restaurant/menu/list");
     }
 
 }

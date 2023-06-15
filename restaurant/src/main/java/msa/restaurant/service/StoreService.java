@@ -78,5 +78,4 @@ public class StoreService {
         storeRepository.updateMenuList(storeId, menuList);
     }
 
-
 }
