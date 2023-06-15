@@ -43,8 +43,8 @@ public class StoreController {
     public List<StorePartInfoResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
         List<StorePartInfoResponseDto> storeResponseDtoList = new ArrayList<>();
-        List<StorePartInfo> storeList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
-        storeList.forEach(store -> {
+        List<StorePartInfo> storePartInfoList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+        storePartInfoList.forEach(store -> {
             storeResponseDtoList.add(new StorePartInfoResponseDto(store));
         });
         return storeResponseDtoList;

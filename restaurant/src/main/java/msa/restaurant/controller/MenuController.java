@@ -2,6 +2,7 @@ package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.menu.MenuPartInfoResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.entity.Menu;
@@ -36,11 +37,11 @@ public class MenuController {
     }
 
     @GetMapping("/list")
-    public List<MenuResponseDto> menuList(@PathVariable String storeId){
-        List<Menu> menuList = storeService.getMenuList(storeId).orElseGet(ArrayList::new);
-        List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
-        menuList.forEach(menu -> {
-            menuResponseDtoList.add(new MenuResponseDto(menu));
+    public List<MenuPartInfoResponseDto> menuList(@PathVariable String storeId){
+        List<MenuPartInfo> menuPartInfoList = storeService.getMenuList(storeId).orElseGet(ArrayList::new);
+        List<MenuPartInfoResponseDto> menuResponseDtoList = new ArrayList<>();
+        menuPartInfoList.forEach(menuPartInfo -> {
+            menuResponseDtoList.add(new MenuPartInfoResponseDto(menuPartInfo));
         });
         return menuResponseDtoList;
     }

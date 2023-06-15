@@ -23,6 +23,6 @@ public class Store {
     private String addressDetail;
     private Point location;
     private String introduction;
-    private List<Menu> menuList;
+    private List<MenuPartInfo> menuPartInfoList;
     private boolean open;
 }

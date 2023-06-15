@@ -3,12 +3,14 @@ package msa.restaurant.service;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.MenuPartInfo;
 import msa.restaurant.entity.Store;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +62,14 @@ public class StoreService {
         storeRepository.updateOpenStatus(storeId, false);
     }
 
-    public Optional<List<Menu>> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuList);
+    public Optional<List<MenuPartInfo>> getMenuList(String storeId){
+        return storeRepository.findById(storeId).map(Store::getMenuPartInfoList);
+    }
+
+    public void updateMenuList(String storeId, MenuPartInfo menuPartInfo){
+        List<MenuPartInfo> menuList = getMenuList(storeId).orElseGet(ArrayList::new);
+        menuList.add(menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuList);
     }
 
 }

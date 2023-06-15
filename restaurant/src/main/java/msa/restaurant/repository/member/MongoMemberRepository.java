@@ -39,7 +39,7 @@ public class MongoMemberRepository implements MemberRepository{
     @Override
     public void updateStoreList(String managerId, List<StorePartInfo> storeList) {
         repository.findById(managerId).ifPresent(manager -> {
-            manager.setStoreList(storeList);
+            manager.setStorePartInfoList(storeList);
             repository.save(manager);
         });
     }
@@ -47,9 +47,9 @@ public class MongoMemberRepository implements MemberRepository{
     @Override
     public void deleteStoreFromList(String managerId, String storeId) {
         repository.findById(managerId).ifPresent(manager -> {
-            List<StorePartInfo> storeList = manager.getStoreList();
+            List<StorePartInfo> storeList = manager.getStorePartInfoList();
             storeList.removeIf(store -> store.getStoreId().equals(storeId));
-            manager.setStoreList(storeList);
+            manager.setStorePartInfoList(storeList);
             repository.save(manager);
         });
     }

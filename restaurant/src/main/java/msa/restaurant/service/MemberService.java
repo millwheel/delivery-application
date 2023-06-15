@@ -32,7 +32,7 @@ public class MemberService {
     }
 
     public Optional<List<StorePartInfo>> getStoreList(String managerId){
-        return memberRepository.findById(managerId).map(Manager::getStoreList);
+        return memberRepository.findById(managerId).map(Manager::getStorePartInfoList);
     }
 
     public void updateStoreList(String managerId, StorePartInfo storePartInfo){
