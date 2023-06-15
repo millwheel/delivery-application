@@ -31,18 +31,20 @@ public class MemberService {
         memberRepository.update(managerId, data);
     }
 
-    public Optional<List<StorePartInfo>> getStoreList(String managerId){
-        return memberRepository.findById(managerId).map(Manager::getStorePartInfoList);
+    public List<StorePartInfo> getStoreList(String managerId){
+        return memberRepository.findById(managerId).map(Manager::getStorePartInfoList).orElseGet(ArrayList::new);
     }
 
     public void updateStoreList(String managerId, StorePartInfo storePartInfo){
-        List<StorePartInfo> storeList = getStoreList(managerId).orElseGet(ArrayList::new);
+        List<StorePartInfo> storeList = getStoreList(managerId);
         storeList.add(storePartInfo);
         memberRepository.updateStoreList(managerId, storeList);
     }
 
     public void deleteStoreFromList(String managerId, String storeId){
-        memberRepository.deleteStoreFromList(managerId, storeId);
+        List<StorePartInfo> storeList = getStoreList(managerId);
+        storeList.removeIf(storePartInfo -> storePartInfo.getStoreId().equals(storeId));
+        memberRepository.updateStoreList(managerId, storeList);
     }
 
 }

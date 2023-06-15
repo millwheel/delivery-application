@@ -73,10 +73,30 @@ public class MenuController {
         MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
         storeService.updateMenuList(storeId, menuPartInfo);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
-        String messageForMenuInfo = messageConverter.createMessageForMenuInfo(menuSqsDto);
+        String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForMenuInfo);
         log.info("message result={}", sendMessageResult);
         response.sendRedirect("/restaurant/{storeId}/menu/list");
+    }
+
+    @PutMapping("/update/{menuId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateMenu(@PathVariable String menuId,
+                           HttpServletResponse response){
+
+    }
+
+    @DeleteMapping("/delete/{menuId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMenu(@PathVariable String menuId,
+                           HttpServletResponse response){
+        Optional<Menu> menuOptional = menuService.getMenu(menuId);
+        if (menuOptional.isEmpty()){
+            throw new RuntimeException("Cannot Delete Menu from DB. It doesn't exist.");
+        }
+        Menu menu = menuOptional.get();
+        storeService.d();
+        menuService.deleteMenu(menuId);
     }
 
 }

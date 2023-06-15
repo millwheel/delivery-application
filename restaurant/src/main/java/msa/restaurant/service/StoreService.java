@@ -72,4 +72,6 @@ public class StoreService {
         storeRepository.updateMenuList(storeId, menuPartInfoList);
     }
 
+    public void deleteStoreFromList
+
 }

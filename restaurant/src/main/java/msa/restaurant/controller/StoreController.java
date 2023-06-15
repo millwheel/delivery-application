@@ -43,7 +43,7 @@ public class StoreController {
     public List<StorePartInfoResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
         List<StorePartInfoResponseDto> storeResponseDtoList = new ArrayList<>();
-        List<StorePartInfo> storePartInfoList = memberService.getStoreList(managerId).orElseGet(ArrayList::new);
+        List<StorePartInfo> storePartInfoList = memberService.getStoreList(managerId);
         storePartInfoList.forEach(store -> {
             storeResponseDtoList.add(new StorePartInfoResponseDto(store));
         });
@@ -76,7 +76,7 @@ public class StoreController {
         StorePartInfo storePartInfo = new StorePartInfo(store);
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
+        String messageForStoreInfo = messageConverter.createMessageToCreateStore(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
@@ -97,7 +97,7 @@ public class StoreController {
         storeService.updateStore(storeId, data);
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageForStoreInfo = messageConverter.createMessageForStoreInfo(storeSqsDto);
+        String messageForStoreInfo = messageConverter.createMessageToUpdateStore(storeSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForStoreInfo);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/store/list");
@@ -110,7 +110,7 @@ public class StoreController {
                             HttpServletResponse response) throws IOException {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist already.");
+            throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist.");
         }
         Store store = storeOptional.get();
         memberService.deleteStoreFromList(managerId, store.getStoreId());

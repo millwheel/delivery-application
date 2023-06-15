@@ -7,25 +7,37 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MessageConverter {
-    public String createMessageForStoreInfo(StoreSqsDto storeSqsDto){
+    public String createMessageToCreateStore(StoreSqsDto storeSqsDto){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject(storeSqsDto);
         jsonObject.put("dataType", "store");
+        jsonObject.put("method", "create");
+        jsonObject.put("data", data);
+        return jsonObject.toString();
+    }
+
+    public String createMessageToUpdateStore(StoreSqsDto storeSqsDto){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(storeSqsDto);
+        jsonObject.put("dataType", "store");
+        jsonObject.put("method", "update");
         jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
     public String createMessageToDeleteStore(String storeId){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("dataType", "delete_store");
+        jsonObject.put("dataType", "store");
+        jsonObject.put("method", "delete");
         jsonObject.put("storeId", storeId);
         return jsonObject.toString();
     }
 
-    public String createMessageForMenuInfo(MenuSqsDto menuSqsDto){
+    public String createMessageToCreateMenu(MenuSqsDto menuSqsDto){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject(menuSqsDto);
         jsonObject.put("dataType", "menu");
+        jsonObject.put("method", "create");
         jsonObject.put("data", data);
         return jsonObject.toString();
     }
