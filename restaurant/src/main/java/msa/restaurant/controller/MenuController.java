@@ -60,15 +60,17 @@ public class MenuController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addMenu(@RequestBody MenuRequestDto data,
+                        @PathVariable String storeId,
                         HttpServletResponse response) throws IOException {
         String menuId = menuService.createMenu(data);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Cannot ")
+            throw new RuntimeException("Cannot add menu into DB.");
         }
         Menu menu = menuOptional.get();
         MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
-        storeService.
+        storeService.updateMenuList(storeId, menuPartInfo);
+
         response.sendRedirect("/restaurant/{storeId}/menu/list");
     }
 

@@ -10,7 +10,6 @@ import org.springframework.data.geo.Point;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class StoreSqsDto {
     private String storeId;
     private String name;

@@ -67,9 +67,9 @@ public class StoreService {
     }
 
     public void updateMenuList(String storeId, MenuPartInfo menuPartInfo){
-        List<MenuPartInfo> menuList = getMenuList(storeId).orElseGet(ArrayList::new);
-        menuList.add(menuPartInfo);
-        storeRepository.updateMenuList(storeId, menuList);
+        List<MenuPartInfo> menuPartInfoList = getMenuList(storeId).orElseGet(ArrayList::new);
+        menuPartInfoList.add(menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuPartInfoList);
     }
 
 }
