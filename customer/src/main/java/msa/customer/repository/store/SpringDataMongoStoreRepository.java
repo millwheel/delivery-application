@@ -1,4 +1,4 @@
-package msa.customer.repository.restaurant;
+package msa.customer.repository.store;
 
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Store;

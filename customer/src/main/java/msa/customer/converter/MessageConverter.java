@@ -21,12 +21,14 @@ public class MessageConverter {
 
     public void processMessage(String message) throws JsonProcessingException {
         JSONObject jsonObject = new JSONObject(message);
-        if (jsonObject.get("dataType").equals("store")){
-            createStoreFromMessage(jsonObject);
+        if (jsonObject.get("dataType").equals("create_store")){
+            createStore(jsonObject);
+        } else if (jsonObject.get("dataType").equals("create_store")) {
+            updateStore(jsonObject);
         }
     }
 
-    public void createStoreFromMessage(JSONObject jsonObject) throws JsonProcessingException {
+    public void createStore(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
@@ -34,6 +36,19 @@ public class MessageConverter {
         String data = jsonObject.get("data").toString();
         StoreSqsDto storeSqsDto = objectMapper.readValue(data, StoreSqsDto.class);
         log.info("Update store info={}", storeSqsDto.getStoreId());
-        storeService.updateStoreInfo(storeSqsDto);
+        storeService.createStore(storeSqsDto);
     }
+
+    public void updateStore(JSONObject jsonObject) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
+        objectMapper.registerModule(module);
+        String data = jsonObject.get("data").toString();
+        StoreSqsDto storeSqsDto = objectMapper.readValue(data, StoreSqsDto.class);
+        log.info("Update store info={}", storeSqsDto.getStoreId());
+        storeService.createStore(storeSqsDto);
+    }
+
+
 }

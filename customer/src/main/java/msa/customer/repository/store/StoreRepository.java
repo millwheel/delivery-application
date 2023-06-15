@@ -1,4 +1,4 @@
-package msa.customer.repository.restaurant;
+package msa.customer.repository.store;
 
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Menu;
@@ -14,7 +14,7 @@ public interface StoreRepository {
     Optional<Store> findById(String id);
     List<Store> findStoreNear(Point location, FoodKindType foodKind);
     List<Store> findAll();
-    void update(String storeId, StoreSqsDto data);
+    void update(StoreSqsDto data);
     void updateMenuList(String id, List<Menu> menuList);
     void updateOpenStatus(String id, boolean open);
     void deleteAll();

@@ -1,16 +1,14 @@
 package msa.customer.service;
 
 import msa.customer.entity.FoodKindType;
-import msa.customer.entity.Menu;
 import msa.customer.entity.Store;
 import msa.customer.dto.StoreSqsDto;
-import msa.customer.repository.restaurant.StoreRepository;
+import msa.customer.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StoreService {
@@ -23,7 +21,7 @@ public class StoreService {
     }
 
 
-    public void createStoreInfo(StoreSqsDto data){
+    public void createStore(StoreSqsDto data){
         Store store = new Store();
         store.setStoreId(data.getStoreId());
         store.setName(data.getName());
@@ -37,12 +35,7 @@ public class StoreService {
     }
 
     public void updateStoreInfo(StoreSqsDto data){
-        Optional<Store> storeOpt = storeRepository.findById(data.getStoreId());
-        if (storeOpt.isEmpty()){
-            createStoreInfo(data);
-            return;
-        }
-        storeRepository.update(data.getStoreId(), data);
+        storeRepository.update(data);
     }
 
     public void openStore(String storeId){

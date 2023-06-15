@@ -1,4 +1,4 @@
-package msa.customer.repository.restaurant;
+package msa.customer.repository.store;
 
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Menu;
@@ -44,8 +44,8 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(String storeId, StoreSqsDto data) {
-        repository.findById(storeId).ifPresent(store -> {
+    public void update(StoreSqsDto data) {
+        repository.findById(data.getStoreId()).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());
             store.setPhoneNumber(data.getPhoneNumber());
