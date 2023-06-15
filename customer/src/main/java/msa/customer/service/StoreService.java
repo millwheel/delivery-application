@@ -34,8 +34,12 @@ public class StoreService {
         storeRepository.create(store);
     }
 
-    public void updateStoreInfo(StoreSqsDto data){
+    public void updateStore(StoreSqsDto data){
         storeRepository.update(data);
+    }
+
+    public void deleteStore(String storeId){
+        storeRepository.deleteById(storeId);
     }
 
     public void openStore(String storeId){

@@ -39,11 +39,6 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public List<Store> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public void update(StoreSqsDto data) {
         repository.findById(data.getStoreId()).ifPresent(store -> {
             store.setName(data.getName());
@@ -73,7 +68,8 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void deleteAll() {
-        repository.deleteAll();
+    public void deleteById(String storeId) {
+        repository.deleteById(storeId);
     }
+
 }

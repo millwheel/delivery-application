@@ -13,9 +13,8 @@ public interface StoreRepository {
     String create(Store store);
     Optional<Store> findById(String id);
     List<Store> findStoreNear(Point location, FoodKindType foodKind);
-    List<Store> findAll();
     void update(StoreSqsDto data);
     void updateMenuList(String id, List<Menu> menuList);
     void updateOpenStatus(String id, boolean open);
-    void deleteAll();
+    void deleteById(String id);
 }
