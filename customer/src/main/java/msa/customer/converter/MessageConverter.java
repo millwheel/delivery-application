@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.converter.StoreDeserializer;
 import msa.customer.dto.StoreSqsDto;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
@@ -20,17 +19,21 @@ public class MessageConverter {
         this.storeService = storeService;
     }
 
-    public void createStoreFromMessage(String message) throws JsonProcessingException {
+    public void processMessage(String message) throws JsonProcessingException {
         JSONObject jsonObject = new JSONObject(message);
+        if (jsonObject.get("dataType").equals("store")){
+            createStoreFromMessage(jsonObject);
+        }
+    }
+
+    public void createStoreFromMessage(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
         objectMapper.registerModule(module);
-        if (jsonObject.get("dataType").equals("store")){
-            String data = jsonObject.get("data").toString();
-            StoreSqsDto storeSqsDto = objectMapper.readValue(data, StoreSqsDto.class);
-            log.info("Update store info={}", storeSqsDto.getStoreId());
-            storeService.updateStoreInfo(storeSqsDto);
-        }
+        String data = jsonObject.get("data").toString();
+        StoreSqsDto storeSqsDto = objectMapper.readValue(data, StoreSqsDto.class);
+        log.info("Update store info={}", storeSqsDto.getStoreId());
+        storeService.updateStoreInfo(storeSqsDto);
     }
 }

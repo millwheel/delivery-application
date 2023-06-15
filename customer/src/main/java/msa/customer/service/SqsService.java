@@ -46,7 +46,7 @@ public class SqsService {
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
-                messageConverter.createStoreFromMessage(messageBody);
+                messageConverter.processMessage(messageBody);
                 amazonSQSClient.deleteMessage(customerSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e){
