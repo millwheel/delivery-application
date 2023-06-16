@@ -70,7 +70,10 @@ public class MenuController {
             throw new RuntimeException("Cannot add menu into DB.");
         }
         Menu menu = menuOptional.get();
-        MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
+        MenuPartInfo menuPartInfo = new MenuPartInfo();
+        menuPartInfo.setMenuId(menuId);
+        menuPartInfo.setName(menu.getName());
+        menuPartInfo.setPrice(menu.getPrice());
         storeService.addToMenuList(storeId, menuPartInfo);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         menuSqsDto.setStoreId(storeId);
@@ -91,7 +94,10 @@ public class MenuController {
             throw new RuntimeException("Cannot find menu for update");
         }
         Menu menu = menuOptional.get();
-        MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
+        MenuPartInfo menuPartInfo = new MenuPartInfo();
+        menuPartInfo.setMenuId(menuId);
+        menuPartInfo.setName(menu.getName());
+        menuPartInfo.setPrice(menu.getPrice());
         menuService.updateMenu(menuId, data);
         storeService.updateMenuFromList(storeId, menuPartInfo);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
@@ -111,7 +117,6 @@ public class MenuController {
         if (menuOptional.isEmpty()){
             throw new RuntimeException("Cannot Delete Menu from DB. It doesn't exist.");
         }
-        Menu menu = menuOptional.get();
         storeService.deleteMenuFromList(storeId, menuId);
         menuService.deleteMenu(menuId);
         String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);

@@ -1,16 +1,15 @@
 package msa.restaurant.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class StorePartInfo {
-    private final String storeId;
-    private final String name;
-    private final String address;
-
-    public StorePartInfo(Store store) {
-        storeId = store.getStoreId();
-        name = store.getName();
-        address = store.getAddress();
-    }
+    private String storeId;
+    private String name;
+    private String address;
 }

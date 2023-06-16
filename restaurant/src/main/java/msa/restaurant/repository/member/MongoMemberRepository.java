@@ -39,7 +39,7 @@ public class MongoMemberRepository implements MemberRepository{
     @Override
     public void updateStoreList(String managerId, List<StorePartInfo> storeList) {
         repository.findById(managerId).ifPresent(manager -> {
-            manager.setStorePartInfoList(storeList);
+            manager.setStoreList(storeList);
             repository.save(manager);
         });
     }

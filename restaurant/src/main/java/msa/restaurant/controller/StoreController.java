@@ -73,7 +73,10 @@ public class StoreController {
             throw new RuntimeException("Cannot add store into DB.");
         }
         Store store = storeOptional.get();
-        StorePartInfo storePartInfo = new StorePartInfo(store);
+        StorePartInfo storePartInfo = new StorePartInfo();
+        storePartInfo.setStoreId(store.getStoreId());
+        storePartInfo.setName(store.getName());
+        storePartInfo.setAddress(store.getAddress());
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToCreateStore = messageConverter.createMessageToCreateStore(storeSqsDto);
@@ -93,7 +96,10 @@ public class StoreController {
             throw new RuntimeException("Cannot find store info for update.");
         }
         Store store = storeOptional.get();
-        StorePartInfo storePartInfo = new StorePartInfo(store);
+        StorePartInfo storePartInfo = new StorePartInfo();
+        storePartInfo.setStoreId(store.getStoreId());
+        storePartInfo.setName(store.getName());
+        storePartInfo.setAddress(store.getAddress());
         storeService.updateStore(storeId, data);
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);

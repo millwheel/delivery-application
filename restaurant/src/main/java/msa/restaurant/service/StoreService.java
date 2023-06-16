@@ -62,7 +62,7 @@ public class StoreService {
     }
 
     public List<MenuPartInfo> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuPartInfoList).orElseGet(ArrayList::new);
+        return storeRepository.findById(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
     }
 
     public void addToMenuList(String storeId, MenuPartInfo menuPartInfo){
