@@ -18,6 +18,7 @@ public class MenuService {
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
+        menuRepository.create(menu);
     }
 
     public void updateStore(MenuSqsDto data){

@@ -1,12 +1,12 @@
 package msa.customer.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.MenuSqsDto;
 import msa.customer.dto.StoreSqsDto;
+import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 public class MessageConverter {
 
     private final StoreService storeService;
+    private final MenuService menuService;
 
-    public MessageConverter(StoreService storeService) {
+    public MessageConverter(StoreService storeService, MenuService menuService) {
         this.storeService = storeService;
+        this.menuService = menuService;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -37,9 +39,14 @@ public class MessageConverter {
         } else if (jsonObject.get("dataType").equals("menu")) {
             if (jsonObject.get("method").equals("create")){
                 MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-
+                menuService.createStore(menuSqsDto);
+            } else if (jsonObject.get("method").equals("update")) {
+                MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
+                menuService.updateStore(menuSqsDto);
+            } else if (jsonObject.get("method").equals("delete")){
+                String menuId = (String) jsonObject.get("menuId");
+                menuService.deleteStore(menuId);
             }
-
         }
     }
 
