@@ -26,32 +26,40 @@ public class MessageConverter {
     public void processMessage(String message) throws JsonProcessingException {
         JSONObject jsonObject = new JSONObject(message);
         if (jsonObject.get("dataType").equals("store")){
-            if (jsonObject.get("method").equals("create")){
-                StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
-                storeService.createStore(storeSqsDto);
-            } else if (jsonObject.get("method").equals("update")) {
-                StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
-                storeService.updateStore(storeSqsDto);
-            } else if (jsonObject.get("method").equals("delete")) {
-                String storeId = (String) jsonObject.get("storeId");
-                storeService.deleteStore(storeId);
-            }
+            processStoreData(jsonObject);
         } else if (jsonObject.get("dataType").equals("menu")) {
-            if (jsonObject.get("method").equals("create")){
-                MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-                menuService.createStore(menuSqsDto);
-                storeService.addToMenuList(menuSqsDto);
-            } else if (jsonObject.get("method").equals("update")) {
-                MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-                menuService.updateStore(menuSqsDto);
-                storeService.updateMenuFromList(menuSqsDto);
-            } else if (jsonObject.get("method").equals("delete")){
-                JSONObject data = new JSONObject(jsonObject.get("data").toString());
-                String menuId = (String) data.get("menuId");
-                String storeId = (String) jsonObject.get("storeId");
-                menuService.deleteStore(menuId);
-                storeService.deleteMenuFromList(storeId, menuId);
-            }
+            processMenuData(jsonObject);
+        }
+    }
+
+    public void processStoreData(JSONObject jsonObject) throws JsonProcessingException {
+        if (jsonObject.get("method").equals("create")){
+            StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
+            storeService.createStore(storeSqsDto);
+        } else if (jsonObject.get("method").equals("update")) {
+            StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
+            storeService.updateStore(storeSqsDto);
+        } else if (jsonObject.get("method").equals("delete")) {
+            String storeId = (String) jsonObject.get("storeId");
+            storeService.deleteStore(storeId);
+        }
+    }
+
+    public void processMenuData(JSONObject jsonObject) throws JsonProcessingException {
+        if (jsonObject.get("method").equals("create")){
+            MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
+            menuService.createStore(menuSqsDto);
+            storeService.addToMenuList(menuSqsDto);
+        } else if (jsonObject.get("method").equals("update")) {
+            MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
+            menuService.updateStore(menuSqsDto);
+            storeService.updateMenuFromList(menuSqsDto);
+        } else if (jsonObject.get("method").equals("delete")){
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String menuId = (String) data.get("menuId");
+            String storeId = (String) jsonObject.get("storeId");
+            menuService.deleteStore(menuId);
+            storeService.deleteMenuFromList(storeId, menuId);
         }
     }
 
