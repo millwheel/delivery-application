@@ -7,11 +7,9 @@ import msa.restaurant.dto.menu.MenuPartInfoResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
-import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.entity.MenuPartInfo;
-import msa.restaurant.entity.StorePartInfo;
 import msa.restaurant.service.MenuService;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
@@ -73,8 +71,9 @@ public class MenuController {
         }
         Menu menu = menuOptional.get();
         MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
-        storeService.updateMenuList(storeId, menuPartInfo);
+        storeService.addToMenuList(storeId, menuPartInfo);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
+        menuSqsDto.setStoreId(storeId);
         String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForMenuInfo);
         log.info("message result={}", sendMessageResult);
@@ -94,8 +93,9 @@ public class MenuController {
         Menu menu = menuOptional.get();
         MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
         menuService.updateMenu(menuId, data);
-        storeService.updateMenuList(storeId, menuPartInfo);
+        storeService.updateMenuFromList(storeId, menuPartInfo);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
+        menuSqsDto.setStoreId(storeId);
         String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateMenu);
         log.info("sending result={}", sendMessageResult);

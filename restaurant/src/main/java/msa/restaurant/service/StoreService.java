@@ -2,7 +2,6 @@ package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.entity.Menu;
 import msa.restaurant.entity.MenuPartInfo;
 import msa.restaurant.entity.Store;
 import msa.restaurant.repository.store.StoreRepository;
@@ -66,9 +65,16 @@ public class StoreService {
         return storeRepository.findById(storeId).map(Store::getMenuPartInfoList).orElseGet(ArrayList::new);
     }
 
-    public void updateMenuList(String storeId, MenuPartInfo menuPartInfo){
+    public void addToMenuList(String storeId, MenuPartInfo menuPartInfo){
         List<MenuPartInfo> menuList = getMenuList(storeId);
         menuList.add(menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuList);
+    }
+
+    public void updateMenuFromList(String storeId, MenuPartInfo menuPartInfo){
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        int index = menuList.indexOf(menuPartInfo);
+        menuList.set(index, menuPartInfo);
         storeRepository.updateMenuList(storeId, menuList);
     }
 
