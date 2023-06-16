@@ -1,9 +1,11 @@
 package msa.customer.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.dto.MenuSqsDto;
 import msa.customer.dto.StoreSqsDto;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
@@ -32,6 +34,12 @@ public class MessageConverter {
                 String storeId = (String) jsonObject.get("storeId");
                 storeService.deleteStore(storeId);
             }
+        } else if (jsonObject.get("dataType").equals("menu")) {
+            if (jsonObject.get("method").equals("create")){
+                MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
+
+            }
+
         }
     }
 
@@ -42,6 +50,12 @@ public class MessageConverter {
         objectMapper.registerModule(module);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, StoreSqsDto.class);
+    }
+
+    public MenuSqsDto convertMenuData(JSONObject jsonObject) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String data = jsonObject.get("data").toString();
+        return objectMapper.readValue(data, MenuSqsDto.class);
     }
 
 }
