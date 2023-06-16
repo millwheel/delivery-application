@@ -46,7 +46,8 @@ public class MessageConverter {
                 menuService.updateStore(menuSqsDto);
                 storeService.updateMenuFromList(menuSqsDto);
             } else if (jsonObject.get("method").equals("delete")){
-                String menuId = (String) jsonObject.get("menuId");
+                JSONObject data = new JSONObject(jsonObject.get("data").toString());
+                String menuId = (String) data.get("menuId");
                 String storeId = (String) jsonObject.get("storeId");
                 menuService.deleteStore(menuId);
                 storeService.deleteMenuFromList(storeId, menuId);
