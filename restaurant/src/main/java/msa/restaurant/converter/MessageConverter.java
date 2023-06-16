@@ -51,11 +51,14 @@ public class MessageConverter {
         return jsonObject.toString();
     }
 
-    public String createMessageToDeleteMenu(String menuId){
+    public String createMessageToDeleteMenu(String storeId, String menuId){
         JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
         jsonObject.put("dataType", "menu");
         jsonObject.put("method", "delete");
-        jsonObject.put("menuId", menuId);
+        data.put("storeId", storeId);
+        data.put("menuId", menuId);
+        jsonObject.put("data", data);
         return jsonObject.toString();
     }
 

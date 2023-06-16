@@ -114,7 +114,7 @@ public class MenuController {
         Menu menu = menuOptional.get();
         storeService.deleteMenuFromList(storeId, menuId);
         menuService.deleteMenu(menuId);
-        String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(menuId);
+        String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteMenu);
         log.info("message sending result={}", sendMessageResult);
         response.sendRedirect("/restaurant/menu/list");
