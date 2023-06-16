@@ -7,9 +7,11 @@ import msa.restaurant.dto.menu.MenuPartInfoResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
+import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.Menu;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.entity.MenuPartInfo;
+import msa.restaurant.entity.StorePartInfo;
 import msa.restaurant.service.MenuService;
 import msa.restaurant.service.SqsService;
 import msa.restaurant.service.StoreService;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/{storeId}/menu")
+@RequestMapping("/restaurant/menu")
 public class MenuController {
 
     private final StoreService storeService;
@@ -38,7 +40,7 @@ public class MenuController {
         this.sqsService = sqsService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("{storeId}/list")
     public List<MenuPartInfoResponseDto> menuList(@PathVariable String storeId){
         List<MenuPartInfo> menuPartInfoList = storeService.getMenuList(storeId);
         List<MenuPartInfoResponseDto> menuResponseDtoList = new ArrayList<>();
@@ -48,7 +50,7 @@ public class MenuController {
         return menuResponseDtoList;
     }
 
-    @GetMapping("/info/{menuId}")
+    @GetMapping("{storeId}/info/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public MenuResponseDto menuInfo (@PathVariable String menuId) {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
@@ -59,7 +61,7 @@ public class MenuController {
         throw new RuntimeException("Cannot find menu by menu-id");
     }
 
-    @PostMapping("/add")
+    @PostMapping("{storeId}/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addMenu(@RequestBody MenuRequestDto data,
                         @PathVariable String storeId,
@@ -83,8 +85,21 @@ public class MenuController {
     @ResponseStatus(HttpStatus.OK)
     public void updateMenu(@PathVariable String storeId,
                            @PathVariable String menuId,
-                           HttpServletResponse response){
-
+                           @RequestBody MenuRequestDto data,
+                           HttpServletResponse response) throws IOException {
+        Optional<Menu> menuOptional = menuService.getMenu(menuId);
+        if (menuOptional.isEmpty()){
+            throw new RuntimeException("Cannot find menu for update");
+        }
+        Menu menu = menuOptional.get();
+        MenuPartInfo menuPartInfo = new MenuPartInfo(menu);
+        menuService.updateMenu(menuId, data);
+        storeService.updateMenuList(storeId, menuPartInfo);
+        MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
+        String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
+        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateMenu);
+        log.info("sending result={}", sendMessageResult);
+        response.sendRedirect("/restaurant/menu");
     }
 
     @DeleteMapping("/delete/{menuId}")
