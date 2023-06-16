@@ -42,7 +42,7 @@ class CustomerRepositoryTest {
         customer.setAddressDetail("first floor");
         BDDMockito.given(memberRepository.findById(id)).willReturn(Optional.of(customer));
         // when
-//        String id = memberRepository.make(customer);
+//        String id = memberRepository.create(customer);
         Customer savedCustomer = memberRepository.findById(id).get();
         // then
         assertThat(savedCustomer).isNotNull();

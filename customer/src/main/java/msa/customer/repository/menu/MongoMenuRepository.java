@@ -1,7 +1,7 @@
 package msa.customer.repository.menu;
 
+import msa.customer.dto.MenuSqsDto;
 import msa.customer.entity.Menu;
-import msa.customer.entity.Store;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -17,42 +17,28 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public String make(Menu menu) {
+    public String create(Menu menu) {
         Menu savedMenu = repository.save(menu);
         return savedMenu.getMenuId();
     }
 
     @Override
-    public Optional<Menu> findById(String id) {
-        return repository.findById(id);
+    public Optional<Menu> findById(String menuId) {
+        return repository.findById(menuId);
     }
 
     @Override
-    public void setName(String id, String name) {
-        repository.findById(id).ifPresent(member -> {
-            member.setName(name);
-            repository.save(member);
+    public void update(MenuSqsDto data) {
+        repository.findById(data.getMenuId()).ifPresent(menu -> {
+            menu.setName(data.getName());
+            menu.setPrice(data.getPrice());
+            menu.setDescription(data.getDescription());
         });
     }
 
     @Override
-    public void setPrice(String id, int price) {
-        repository.findById(id).ifPresent(member -> {
-            member.setPrice(price);
-            repository.save(member);
-        });
+    public void deleteById(String menuId) {
+        repository.deleteById(menuId);
     }
 
-    @Override
-    public void setDescription(String id, String description) {
-        repository.findById(id).ifPresent(member ->{
-            member.setDescription(description);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void deleteAll() {
-        repository.deleteAll();
-    }
 }

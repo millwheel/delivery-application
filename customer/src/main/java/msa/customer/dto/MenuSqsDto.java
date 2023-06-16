@@ -11,5 +11,4 @@ public class MenuSqsDto {
     private String name;
     private int price;
     private String description;
-    private Store store;
 }

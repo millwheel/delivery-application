@@ -1,5 +1,7 @@
 package msa.customer.service;
 
+import msa.customer.dto.MenuSqsDto;
+import msa.customer.entity.Menu;
 import msa.customer.repository.menu.MenuRepository;
 
 public class MenuService {
@@ -8,5 +10,21 @@ public class MenuService {
 
     public MenuService(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
+    }
+
+    public void createStore(MenuSqsDto data){
+        Menu menu = new Menu();
+        menu.setMenuId(data.getMenuId());
+        menu.setName(data.getName());
+        menu.setPrice(data.getPrice());
+        menu.setDescription(data.getDescription());
+    }
+
+    public void updateStore(MenuSqsDto data){
+        menuRepository.update(data);
+    }
+
+    public void deleteStore(String menuId){
+        menuRepository.deleteById(menuId);
     }
 }

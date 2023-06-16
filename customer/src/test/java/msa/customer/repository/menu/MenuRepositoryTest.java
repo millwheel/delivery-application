@@ -32,7 +32,7 @@ class MenuRepositoryTest {
         menu.setName("불고기 피자");
         menu.setPrice(18900);
         // when
-        String id = menuRepository.make(menu);
+        String id = menuRepository.create(menu);
         Menu storedMenu = menuRepository.findById(id).get();
         // then
         assertThat(storedMenu.getName()).isEqualTo(menu.getName());
@@ -50,7 +50,7 @@ class MenuRepositoryTest {
         menu.setPrice(15900);
         menu.setDescription("페퍼로니가 올라간 맛있는 피자");
         menu.setStore(store);
-        String id = menuRepository.make(menu);
+        String id = menuRepository.create(menu);
         // when
         menuRepository.setPrice(id, 17900);
         menuRepository.setDescription(id, "페퍼로니 토핑이 흘러 넘치는 피자");
