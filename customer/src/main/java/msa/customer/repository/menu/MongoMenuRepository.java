@@ -52,14 +52,6 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void setRestaurant(String id, Store store) {
-        repository.findById(id).ifPresent(member ->{
-            member.setStore(store);
-            repository.save(member);
-        });
-    }
-
-    @Override
     public void deleteAll() {
         repository.deleteAll();
     }
