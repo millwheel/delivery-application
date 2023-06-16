@@ -1,6 +1,9 @@
 package msa.customer.service;
 
+import msa.customer.dto.MenuSqsDto;
 import msa.customer.entity.FoodKindType;
+import msa.customer.entity.Menu;
+import msa.customer.entity.MenuPartInfo;
 import msa.customer.entity.Store;
 import msa.customer.dto.StoreSqsDto;
 import msa.customer.repository.store.StoreRepository;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,5 +56,31 @@ public class StoreService {
 
     public List<Store> showStoreListsNearCustomer(Point location, FoodKindType foodKind){
         return storeRepository.findStoreNear(location, foodKind);
+    }
+
+    public List<MenuPartInfo> getMenuList(String storeId){
+        return storeRepository.findById(storeId).map(Store::getMenuPartInfoList).orElseGet(ArrayList::new);
+    }
+
+    public void addToMenuList(MenuSqsDto menuSqsDto){
+        String storeId = menuSqsDto.getStoreId();
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        MenuPartInfo menuPartInfo = new MenuPartInfo(menuSqsDto);
+        menuList.add(menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuList);
+    }
+
+    public void updateMenuFromList(MenuSqsDto menuSqsDto){
+        String storeId = menuSqsDto.getStoreId();
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        MenuPartInfo menuPartInfo = new MenuPartInfo(menuSqsDto);
+        int index = menuList.indexOf(menuPartInfo);
+        menuList.set(index, menuPartInfo);
+        storeRepository.updateMenuList(storeId, menuList);
+    }
+    public void deleteMenuFromList(String storeId, String menuId){
+        List<MenuPartInfo> menuList = getMenuList(storeId);
+        menuList.removeIf(menuPartInfo -> menuPartInfo.getMenuId().equals(menuId));
+        storeRepository.updateMenuList(storeId, menuList);
     }
 }

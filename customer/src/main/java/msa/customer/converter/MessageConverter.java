@@ -40,12 +40,16 @@ public class MessageConverter {
             if (jsonObject.get("method").equals("create")){
                 MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
                 menuService.createStore(menuSqsDto);
+                storeService.addToMenuList(menuSqsDto);
             } else if (jsonObject.get("method").equals("update")) {
                 MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
                 menuService.updateStore(menuSqsDto);
+                storeService.updateMenuFromList(menuSqsDto);
             } else if (jsonObject.get("method").equals("delete")){
                 String menuId = (String) jsonObject.get("menuId");
+                String storeId = (String) jsonObject.get("storeId");
                 menuService.deleteStore(menuId);
+                storeService.deleteMenuFromList(storeId, menuId);
             }
         }
     }
