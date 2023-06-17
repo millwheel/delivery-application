@@ -59,7 +59,7 @@ public class MessageConverter {
         } else if (jsonObject.get("method").equals("delete")){
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String menuId = (String) data.get("menuId");
-            String storeId = (String) jsonObject.get("storeId");
+            String storeId = (String) data.get("storeId");
             menuService.deleteStore(menuId);
             storeService.deleteMenuFromList(storeId, menuId);
         }
