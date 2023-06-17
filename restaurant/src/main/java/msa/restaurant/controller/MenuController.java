@@ -108,7 +108,7 @@ public class MenuController {
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
-    @DeleteMapping("/delete/{menuId}")
+    @DeleteMapping("{storeId}/delete/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId,
