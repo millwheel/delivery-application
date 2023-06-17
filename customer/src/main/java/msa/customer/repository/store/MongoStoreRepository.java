@@ -54,7 +54,7 @@ public class MongoStoreRepository implements StoreRepository {
     @Override
     public void updateMenuList(String id, List<MenuPartInfo> menuList) {
         repository.findById(id).ifPresent(store -> {
-            store.setMenuPartInfoList(menuList);
+            store.setMenuList(menuList);
             repository.save(store);
         });
     }
