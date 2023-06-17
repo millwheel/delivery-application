@@ -1,17 +1,15 @@
 package msa.customer.entity;
 
 import lombok.Getter;
-import msa.customer.dto.MenuSqsDto;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class MenuPartInfo {
-    private final String menuId;
-    private final String name;
-    private final int price;
-
-    public MenuPartInfo(MenuSqsDto data) {
-        menuId = data.getMenuId();
-        name = data.getName();
-        price = data.getPrice();
-    }
+    private String menuId;
+    private String name;
+    private int price;
 }
+

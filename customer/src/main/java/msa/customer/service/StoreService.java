@@ -65,7 +65,10 @@ public class StoreService {
     public void addToMenuList(MenuSqsDto menuSqsDto){
         String storeId = menuSqsDto.getStoreId();
         List<MenuPartInfo> menuList = getMenuList(storeId);
-        MenuPartInfo menuPartInfo = new MenuPartInfo(menuSqsDto);
+        MenuPartInfo menuPartInfo = new MenuPartInfo();
+        menuPartInfo.setMenuId(menuSqsDto.getMenuId());
+        menuPartInfo.setName(menuSqsDto.getName());
+        menuPartInfo.setPrice(menuSqsDto.getPrice());
         menuList.add(menuPartInfo);
         storeRepository.updateMenuList(storeId, menuList);
     }
@@ -73,7 +76,10 @@ public class StoreService {
     public void updateMenuFromList(MenuSqsDto menuSqsDto){
         String storeId = menuSqsDto.getStoreId();
         List<MenuPartInfo> menuList = getMenuList(storeId);
-        MenuPartInfo menuPartInfo = new MenuPartInfo(menuSqsDto);
+        MenuPartInfo menuPartInfo = new MenuPartInfo();
+        menuPartInfo.setMenuId(menuSqsDto.getMenuId());
+        menuPartInfo.setName(menuSqsDto.getName());
+        menuPartInfo.setPrice(menuSqsDto.getPrice());
         int index = menuList.indexOf(menuPartInfo);
         menuList.set(index, menuPartInfo);
         storeRepository.updateMenuList(storeId, menuList);

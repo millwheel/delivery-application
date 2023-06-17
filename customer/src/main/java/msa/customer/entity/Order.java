@@ -17,6 +17,6 @@ public class Order {
     private String orderId;
     private String customerId;
     private String restaurantId;
-    private List<Menu> menuList;
+    private List<MenuPartInfo> menuList;
     private int totalPrice;
 }

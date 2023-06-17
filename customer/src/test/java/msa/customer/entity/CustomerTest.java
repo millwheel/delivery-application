@@ -15,13 +15,13 @@ class CustomerTest {
         String address = "atlantis city";
         String addressDetail = "in front of door, 1st floor";
 
-        customer.setMemberId(id);
+        customer.setCustomerId(id);
         customer.setEmail(email);
         customer.setName(name);
         customer.setAddress(address);
         customer.setAddressDetail(addressDetail);
 
-        assertThat(customer.getMemberId()).isEqualTo(id);
+        assertThat(customer.getCustomerId()).isEqualTo(id);
         assertThat(customer.getName()).isEqualTo(name);
         assertThat(customer.getEmail()).isEqualTo(email);
         assertThat(customer.getAddress()).isEqualTo(address);

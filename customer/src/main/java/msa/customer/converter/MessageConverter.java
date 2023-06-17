@@ -9,6 +9,7 @@ import msa.customer.dto.StoreSqsDto;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class MessageConverter {
     private final StoreService storeService;
     private final MenuService menuService;
 
+    @Autowired
     public MessageConverter(StoreService storeService, MenuService menuService) {
         this.storeService = storeService;
         this.menuService = menuService;
