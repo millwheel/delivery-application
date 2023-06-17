@@ -80,7 +80,7 @@ public class MenuController {
         String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForMenuInfo);
         log.info("message result={}", sendMessageResult);
-        response.sendRedirect("/restaurant/{storeId}/menu/list");
+        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
     @PutMapping("{storeId}/update/{menuId}")
@@ -105,7 +105,7 @@ public class MenuController {
         String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateMenu);
         log.info("sending result={}", sendMessageResult);
-        response.sendRedirect("/restaurant/menu");
+        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
     @DeleteMapping("/delete/{menuId}")
@@ -122,7 +122,7 @@ public class MenuController {
         String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);
         SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteMenu);
         log.info("message sending result={}", sendMessageResult);
-        response.sendRedirect("/restaurant/menu/list");
+        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
 }
