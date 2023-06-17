@@ -83,7 +83,7 @@ public class MenuController {
         response.sendRedirect("/restaurant/{storeId}/menu/list");
     }
 
-    @PutMapping("/update/{menuId}")
+    @PutMapping("{storeId}/update/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateMenu(@PathVariable String storeId,
                            @PathVariable String menuId,
