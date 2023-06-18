@@ -78,8 +78,8 @@ public class MenuController {
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         menuSqsDto.setStoreId(storeId);
         String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageForMenuInfo);
-        log.info("message result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageForMenuInfo);
+        sqsService.sendToRider(messageForMenuInfo);
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
@@ -103,8 +103,8 @@ public class MenuController {
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         menuSqsDto.setStoreId(storeId);
         String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateMenu);
-        log.info("sending result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageToUpdateMenu);
+        sqsService.sendToRider(messageToUpdateMenu);
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
@@ -120,8 +120,8 @@ public class MenuController {
         storeService.deleteMenuFromList(storeId, menuId);
         menuService.deleteMenu(menuId);
         String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteMenu);
-        log.info("message sending result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageToDeleteMenu);
+        sqsService.sendToRider(messageToDeleteMenu);
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 

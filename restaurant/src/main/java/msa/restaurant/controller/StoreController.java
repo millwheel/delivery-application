@@ -80,8 +80,8 @@ public class StoreController {
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToCreateStore = messageConverter.createMessageToCreateStore(storeSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToCreateStore);
-        log.info("message result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageToCreateStore);
+        sqsService.sendToRider(messageToCreateStore);
         response.sendRedirect("/restaurant/store/list");
     }
 
@@ -104,8 +104,8 @@ public class StoreController {
         memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = messageConverter.createMessageToUpdateStore(storeSqsDto);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToUpdateStore);
-        log.info("message sending result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageToUpdateStore);
+        sqsService.sendToRider(messageToUpdateStore);
         response.sendRedirect("/restaurant/store/list");
     }
 
@@ -122,8 +122,8 @@ public class StoreController {
         memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
         String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
-        SendMessageResult sendMessageResult = sqsService.sendToCustomer(messageToDeleteStore);
-        log.info("message sending result={}", sendMessageResult);
+        sqsService.sendToCustomer(messageToDeleteStore);
+        sqsService.sendToRider(messageToDeleteStore);
         response.sendRedirect("/restaurant/store/list");
     }
 }
