@@ -3,6 +3,7 @@ package msa.customer.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -16,7 +17,7 @@ public class Order {
     @MongoId
     private String orderId;
     private String customerId;
-    private String restaurantId;
+    private String storeId;
     private List<MenuPartInfo> menuList;
     private int totalPrice;
 }

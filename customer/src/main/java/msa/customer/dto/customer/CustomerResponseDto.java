@@ -1,16 +1,14 @@
-package msa.customer.dto;
+package msa.customer.dto.customer;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.geo.Point;
 
 @Getter
 @Setter
-public class CustomerDto {
+public class CustomerResponseDto {
     private String name;
     private String email;
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Point location;
 }
