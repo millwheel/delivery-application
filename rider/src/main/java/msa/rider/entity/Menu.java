@@ -3,24 +3,17 @@ package msa.rider.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-
-@Setter
 @Getter
+@Setter
+@Document("menu")
 @NoArgsConstructor
-@Document("rider")
-public class Rider {
-
+public class Menu {
     @MongoId
-    private String riderId;
+    private String menuId;
     private String name;
-    private String email;
-    private String phoneNumber;
-    private String address;
-    private String addressDetail;
-    private Point location;
-
+    private int price;
+    private String description;
 }

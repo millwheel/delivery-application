@@ -3,7 +3,7 @@ package msa.rider.service;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.entity.Rider;
 import msa.rider.dto.RiderDto;
-import msa.rider.repository.MemberRepository;
+import msa.rider.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;

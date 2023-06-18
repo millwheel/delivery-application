@@ -1,4 +1,4 @@
-package msa.rider.repository;
+package msa.rider.repository.member;
 
 import msa.rider.entity.Rider;
 import org.springframework.data.geo.Point;
