@@ -1,5 +1,6 @@
 package msa.customer.repository.member;
 
+import msa.customer.dto.customer.CustomerRequestDto;
 import msa.customer.entity.Customer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
@@ -17,7 +18,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String make(Customer customer) {
+    public String create(Customer customer) {
         Customer save = repository.save(customer);
         return save.getCustomerId();
     }
@@ -28,48 +29,16 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void setName(String id, String name){
-        repository.findById(id).ifPresent(member -> {
-            member.setName(name);
-            repository.save(member);
+    public void update(String customerId, CustomerRequestDto data, Point location) {
+        repository.findById(customerId).ifPresent(customer -> {
+            customer.setName(data.getName());
+            customer.setEmail(data.getEmail());
+            customer.setPhoneNumber(data.getPhoneNumber());
+            customer.setAddress(data.getAddress());
+            customer.setAddressDetail(data.getAddressDetail());
+            customer.setLocation(location);
         });
     }
 
-    @Override
-    public void setPhoneNumber(String id, String phoneNumber){
-        repository.findById(id).ifPresent(member -> {
-            member.setPhoneNumber(phoneNumber);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setAddress(String id, String address){
-        repository.findById(id).ifPresent(member -> {
-            member.setAddress(address);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(member -> {
-            member.setAddressDetail(addressDetail);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setCoordinates(String id, Point coordinates) {
-        repository.findById(id).ifPresent(member -> {
-            member.setCoordinates(coordinates);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void deleteAll(){
-        repository.deleteAll();
-    }
 
 }

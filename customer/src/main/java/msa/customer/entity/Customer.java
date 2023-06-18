@@ -23,6 +23,6 @@ public class Customer {
     private String phoneNumber;
     private String address;
     private String addressDetail;
-    private Point coordinates;
+    private Point location;
 
 }
