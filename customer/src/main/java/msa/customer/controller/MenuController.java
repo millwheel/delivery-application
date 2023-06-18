@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/customer/restaurant/{id}")
+@RequestMapping("/customer/restaurant/{restaurantId}")
 public class MenuController {
 
     @GetMapping("/menu-list")

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("/customer/food/{kind}")
+@RequestMapping("/customer/{foodKind}")
 public class RestaurantController {
     private final MemberService memberService;
     private final StoreService storeService;
@@ -28,16 +28,14 @@ public class RestaurantController {
 
     @GetMapping("/restaurant-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String id,
-                                       @PathVariable FoodKindType kind,
+    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String customerId,
+                                       @PathVariable FoodKindType foodKind,
                                        HttpServletResponse response) throws IOException {
-        Optional<Point> coordinates = memberService.getCoordinates(id);
+        Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
         }
-        log.info("coordinates={}", coordinates);
-        log.info("food kind={}", kind);
-        return storeService.showStoreListsNearCustomer(coordinates.get(), kind);
+        return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
 
 }

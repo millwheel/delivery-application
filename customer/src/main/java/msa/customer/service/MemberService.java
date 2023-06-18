@@ -27,10 +27,12 @@ public class MemberService {
         return memberRepository.findById(customerId);
     }
 
+    public Optional<Point> getCoordinates(String customerId) {
+        return memberRepository.findById(customerId).map(Customer::getLocation);
+    }
 
     public void updateCustomer(String customerId, CustomerRequestDto data){
         Point coordinate = addressService.getCoordinate(data.getAddress());
         memberRepository.update(customerId, data, coordinate);
     }
-
 }
