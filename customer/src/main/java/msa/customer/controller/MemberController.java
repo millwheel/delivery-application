@@ -24,7 +24,7 @@ public class MemberController {
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
-        return memberService.getUserInfo(id);
+        return memberService.getCustomer(id);
     }
 
     @PutMapping("/info")
@@ -32,7 +32,7 @@ public class MemberController {
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody CustomerRequestDto data,
                               HttpServletResponse response) throws IOException {
-        memberService.updateUserInfo(id, data);
+        memberService.updateCustomer(id, data);
         response.sendRedirect("/customer/member/info");
     }
 }
