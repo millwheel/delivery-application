@@ -2,12 +2,10 @@ package msa.rider.service;
 
 import msa.rider.dto.MenuSqsDto;
 import msa.rider.dto.StoreSqsDto;
-import msa.rider.entity.FoodKindType;
 import msa.rider.entity.MenuPartInfo;
 import msa.rider.entity.Store;
 import msa.rider.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,10 +49,6 @@ public class StoreService {
 
     public void closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
-    }
-
-    public List<Store> showStoreListsNearCustomer(Point location, FoodKindType foodKind){
-        return storeRepository.findStoreNear(location, foodKind);
     }
 
     public List<MenuPartInfo> getMenuList(String storeId){
