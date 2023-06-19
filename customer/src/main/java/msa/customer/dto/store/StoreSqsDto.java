@@ -1,4 +1,4 @@
-package msa.customer.dto;
+package msa.customer.dto.store;
 
 import lombok.Getter;
 import msa.customer.entity.FoodKindType;

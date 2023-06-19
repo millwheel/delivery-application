@@ -38,4 +38,5 @@ public class StoreController {
         return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
 
+
 }

@@ -3,7 +3,7 @@ package msa.customer.repository.store;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.MenuPartInfo;
 import msa.customer.entity.Store;
-import msa.customer.dto.StoreSqsDto;
+import msa.customer.dto.store.StoreSqsDto;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;

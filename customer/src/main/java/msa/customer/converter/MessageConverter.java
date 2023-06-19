@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.MenuSqsDto;
-import msa.customer.dto.StoreSqsDto;
+import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;

@@ -1,10 +1,9 @@
 package msa.customer.repository.store;
 
 import msa.customer.entity.FoodKindType;
-import msa.customer.entity.Menu;
 import msa.customer.entity.MenuPartInfo;
 import msa.customer.entity.Store;
-import msa.customer.dto.StoreSqsDto;
+import msa.customer.dto.store.StoreSqsDto;
 import org.springframework.data.geo.Point;
 
 import java.util.List;
