@@ -17,11 +17,11 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @RequestMapping("/customer/{foodKind}")
-public class RestaurantController {
+public class StoreController {
     private final MemberService memberService;
     private final StoreService storeService;
 
-    public RestaurantController(MemberService memberService, StoreService storeService) {
+    public StoreController(MemberService memberService, StoreService storeService) {
         this.memberService = memberService;
         this.storeService = storeService;
     }
