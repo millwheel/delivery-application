@@ -23,11 +23,6 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Optional<Menu> findById(String menuId) {
-        return repository.findById(menuId);
-    }
-
-    @Override
     public void update(MenuSqsDto data) {
         repository.findById(data.getMenuId()).ifPresent(menu -> {
             menu.setName(data.getName());

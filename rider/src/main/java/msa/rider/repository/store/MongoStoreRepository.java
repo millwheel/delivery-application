@@ -35,12 +35,6 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public List<Store> findStoreNear(Point location, FoodKindType foodKind) {
-        Distance distance = new Distance(4, Metrics.KILOMETERS);
-        return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
-    }
-
-    @Override
     public void update(StoreSqsDto data) {
         repository.findById(data.getStoreId()).ifPresent(store -> {
             store.setName(data.getName());

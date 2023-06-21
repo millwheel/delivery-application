@@ -62,7 +62,7 @@ public class MongoMemberRepository implements MemberRepository {
     @Override
     public void setCoordinates(String id, Point coordinates) {
         repository.findById(id).ifPresent(member -> {
-            member.setCoordinates(coordinates);
+            member.setLocation(coordinates);
             repository.save(member);
         });
     }

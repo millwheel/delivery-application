@@ -9,5 +9,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface SpringDataMongoStoreRepository extends MongoRepository<Store, String> {
-    List<Store> findByLocationNearAndFoodKindIs(Point location, Distance distance, FoodKindType foodKind);
 }
