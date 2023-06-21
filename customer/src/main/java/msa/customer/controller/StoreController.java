@@ -2,6 +2,7 @@ package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.dto.store.StoreResponseDto;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.Store;
 import msa.customer.service.MemberService;
@@ -26,11 +27,11 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/restaurant-list")
+    @GetMapping("/store-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<Store> restaurantList (@RequestAttribute("cognitoUsername") String customerId,
-                                       @PathVariable FoodKindType foodKind,
-                                       HttpServletResponse response) throws IOException {
+    public List<Store> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
+                                     @PathVariable FoodKindType foodKind,
+                                     HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
@@ -38,5 +39,15 @@ public class StoreController {
         return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
 
+    @GetMapping("/store/{storeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public StoreResponseDto showStoreInfo (@RequestAttribute("cognitoUsername") String customerId,
+                             @PathVariable String storeId){
+        Optional<Store> store = storeService.getStore(storeId);
+        if (store.isEmpty()){
+            throw new RuntimeException("store doesn't exist");
+        }
+        return new StoreResponseDto(store.get());
+    }
 
 }

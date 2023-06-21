@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoreService {
@@ -35,6 +36,10 @@ public class StoreService {
         store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
         storeRepository.create(store);
+    }
+
+    public Optional<Store> getStore(String storeId){
+        return storeRepository.findById(storeId);
     }
 
     public void updateStore(StoreSqsDto data){
