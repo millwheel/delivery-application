@@ -14,10 +14,20 @@ import java.util.List;
 @Document("order")
 @NoArgsConstructor
 public class Order {
+    private String customerId;
+    private String storeId;
+    private int totalPrice;
+
     @MongoId
     private String orderId;
     private String customerId;
+    private String customerName;
+    private String customerAddress;
+    private String customerAddressDetail;
     private String storeId;
+    private String storeName;
+    private String storeAddress;
+    private String storeAddressDetail;
     private List<MenuPartInfo> menuList;
     private int totalPrice;
 }
