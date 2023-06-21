@@ -1,6 +1,6 @@
 package msa.customer.service;
 
-import msa.customer.dto.MenuSqsDto;
+import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.entity.FoodKindType;
 import msa.customer.entity.MenuPartInfo;
 import msa.customer.entity.Store;

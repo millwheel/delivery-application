@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.dto.MenuSqsDto;
+import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
@@ -50,17 +50,17 @@ public class MessageConverter {
     public void processMenuData(JSONObject jsonObject) throws JsonProcessingException {
         if (jsonObject.get("method").equals("create")){
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-            menuService.createStore(menuSqsDto);
+            menuService.createMenu(menuSqsDto);
             storeService.addToMenuList(menuSqsDto);
         } else if (jsonObject.get("method").equals("update")) {
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-            menuService.updateStore(menuSqsDto);
+            menuService.updateMenu(menuSqsDto);
             storeService.updateMenuFromList(menuSqsDto);
         } else if (jsonObject.get("method").equals("delete")){
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String menuId = (String) data.get("menuId");
             String storeId = (String) data.get("storeId");
-            menuService.deleteStore(menuId);
+            menuService.deleteMenu(menuId);
             storeService.deleteMenuFromList(storeId, menuId);
         }
     }

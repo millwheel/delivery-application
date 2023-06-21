@@ -1,9 +1,11 @@
 package msa.customer.service;
 
-import msa.customer.dto.MenuSqsDto;
+import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.entity.Menu;
 import msa.customer.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MenuService {
@@ -14,7 +16,7 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public void createStore(MenuSqsDto data){
+    public void createMenu(MenuSqsDto data){
         Menu menu = new Menu();
         menu.setMenuId(data.getMenuId());
         menu.setName(data.getName());
@@ -23,11 +25,15 @@ public class MenuService {
         menuRepository.create(menu);
     }
 
-    public void updateStore(MenuSqsDto data){
+    public Optional<Menu> getMenu(String menuId){
+        return menuRepository.findById(menuId);
+    }
+
+    public void updateMenu(MenuSqsDto data){
         menuRepository.update(data);
     }
 
-    public void deleteStore(String menuId){
+    public void deleteMenu(String menuId){
         menuRepository.deleteById(menuId);
     }
 }

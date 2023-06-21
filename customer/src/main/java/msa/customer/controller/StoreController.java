@@ -41,8 +41,7 @@ public class StoreController {
 
     @GetMapping("/store/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto showStoreInfo (@RequestAttribute("cognitoUsername") String customerId,
-                             @PathVariable String storeId){
+    public StoreResponseDto showStoreInfo (@PathVariable String storeId){
         Optional<Store> store = storeService.getStore(storeId);
         if (store.isEmpty()){
             throw new RuntimeException("store doesn't exist");

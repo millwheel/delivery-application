@@ -1,4 +1,4 @@
-package msa.customer.dto;
+package msa.customer.dto.menu;
 
 import lombok.Getter;
 
