@@ -1,6 +1,6 @@
 package msa.customer.repository.basket;
 
-import msa.customer.entity.Basket;
+import msa.customer.entity.basket.Basket;
 
 import java.util.Optional;
 

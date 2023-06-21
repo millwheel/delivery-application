@@ -1,8 +1,8 @@
 package msa.customer.controller;
 
 import msa.customer.dto.menu.MenuResponseDto;
-import msa.customer.entity.Menu;
-import msa.customer.entity.MenuPartInfo;
+import msa.customer.entity.menu.Menu;
+import msa.customer.entity.menu.MenuPartInfo;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.springframework.http.HttpStatus;

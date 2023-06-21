@@ -1,9 +1,9 @@
-package msa.customer.entity;
+package msa.customer.entity.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.geo.Point;
+import msa.customer.entity.menu.MenuPartInfo;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 

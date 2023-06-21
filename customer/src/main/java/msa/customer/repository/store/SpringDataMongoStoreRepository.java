@@ -1,7 +1,7 @@
 package msa.customer.repository.store;
 
-import msa.customer.entity.FoodKindType;
-import msa.customer.entity.Store;
+import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.Store;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;

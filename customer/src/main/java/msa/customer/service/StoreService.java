@@ -1,9 +1,9 @@
 package msa.customer.service;
 
 import msa.customer.dto.menu.MenuSqsDto;
-import msa.customer.entity.FoodKindType;
-import msa.customer.entity.MenuPartInfo;
-import msa.customer.entity.Store;
+import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.menu.MenuPartInfo;
+import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,9 @@
-package msa.customer.entity;
+package msa.customer.entity.store;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import msa.customer.entity.menu.MenuPartInfo;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;

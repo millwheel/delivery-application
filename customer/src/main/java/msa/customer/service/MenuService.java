@@ -1,7 +1,7 @@
 package msa.customer.service;
 
 import msa.customer.dto.menu.MenuSqsDto;
-import msa.customer.entity.Menu;
+import msa.customer.entity.menu.Menu;
 import msa.customer.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
 

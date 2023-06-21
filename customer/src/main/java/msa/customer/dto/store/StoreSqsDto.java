@@ -1,7 +1,7 @@
 package msa.customer.dto.store;
 
 import lombok.Getter;
-import msa.customer.entity.FoodKindType;
+import msa.customer.entity.store.FoodKindType;
 import org.springframework.data.geo.Point;
 
 @Getter

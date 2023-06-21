@@ -1,7 +1,7 @@
 package msa.customer.repository.menu;
 
 import msa.customer.dto.menu.MenuSqsDto;
-import msa.customer.entity.Menu;
+import msa.customer.entity.menu.Menu;
 
 import java.util.Optional;
 

@@ -2,8 +2,8 @@ package msa.customer.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.customer.entity.FoodKindType;
-import msa.customer.entity.Store;
+import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.Store;
 
 @Getter
 @Setter

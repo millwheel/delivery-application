@@ -1,6 +1,5 @@
 package msa.customer.service;
 
-import msa.customer.entity.Basket;
 import msa.customer.repository.order.OrderRepository;
 import org.springframework.stereotype.Service;
 

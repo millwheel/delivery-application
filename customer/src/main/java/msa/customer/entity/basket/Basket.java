@@ -1,4 +1,4 @@
-package msa.customer.entity;
+package msa.customer.entity.basket;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
