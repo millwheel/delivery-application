@@ -1,9 +1,11 @@
 package msa.customer.repository.order;
 
 import msa.customer.entity.Order;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public class MongoOrderRepository implements OrderRepository{
 
     private final SpringDataMongoOrderRepository repository;
