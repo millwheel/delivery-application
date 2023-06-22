@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customer/store/{storeId}")
+@RequestMapping("/customer/store/{storeId}/menu")
 public class MenuController {
 
     private final StoreService storeService;
@@ -29,13 +29,13 @@ public class MenuController {
         this.basketService = basketService;
     }
 
-    @GetMapping("/menu-list")
+    @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartInfo> showMenuList (@PathVariable String storeId){
         return storeService.getMenuList(storeId);
     }
 
-    @GetMapping("/menu/{menuId}")
+    @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public MenuResponseDto showMenu(@PathVariable String menuId){
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
@@ -46,7 +46,7 @@ public class MenuController {
         throw new RuntimeException("menu doesn't exist.");
     }
 
-    @PostMapping("/menu/{menuId}")
+    @PostMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable String storeId,
@@ -59,7 +59,8 @@ public class MenuController {
         if (menuCount >= 100000){
             throw new IllegalArgumentException("menuCount is too large.");
         }
-        basketService.addToBasket(customerId, menuId, menuCount);
+        basketService.addToBasket(customerId, storeId, menuId, menuCount);
         response.sendRedirect("/customer/store/" + storeId + "/menu/" + menuId);
     }
+
 }

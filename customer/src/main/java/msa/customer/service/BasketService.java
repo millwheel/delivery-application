@@ -21,8 +21,13 @@ public class BasketService {
         this.menuRepository = menuRepository;
     }
 
-    public void addToBasket(String basketId, String menuId, int count){
+    public void addToBasket(String basketId, String storeId, String menuId, int count){
         Optional<Basket> basketOptional = basketRepository.findById(basketId);
+        if (basketOptional.isPresent()){
+            if(!basketOptional.get().getStoreId().equals(storeId)){
+                throw new RuntimeException("storeId doesn't match existing storeId");
+            }
+        }
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
         try {
             Basket basketAfter = setUpBasketInfo(basketBefore, menuId, count);

@@ -14,5 +14,6 @@ public class Basket {
     private List<String> menuIdList;
     private List<Integer> menuCountList;
     private List<Integer> menuPriceList;
+    private String storeId;
     private int totalPrice;
 }

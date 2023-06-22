@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("/customer/{foodKind}")
+@RequestMapping("/customer/{foodKind}/store")
 public class StoreController {
     private final MemberService memberService;
     private final StoreService storeService;
@@ -27,7 +27,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/store-list")
+    @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<Store> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                      @PathVariable FoodKindType foodKind,
@@ -39,7 +39,7 @@ public class StoreController {
         return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
 
-    @GetMapping("/store/{storeId}")
+    @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto showStoreInfo (@PathVariable String storeId){
         Optional<Store> store = storeService.getStore(storeId);
