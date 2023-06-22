@@ -12,6 +12,8 @@ import java.util.List;
 public class Basket {
     private String basketId;
     List<String> menuName;
+    List<Integer> menuCount;
+    List<Integer> menuEachCount;
     List<Integer> menuPrice;
     int totalPrice;
 }

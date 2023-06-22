@@ -1,5 +1,6 @@
 package msa.customer.controller;
 
+import msa.customer.dto.basket.BasketRequestDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
 import msa.customer.entity.menu.MenuPartInfo;
@@ -38,5 +39,11 @@ public class MenuController {
             return new MenuResponseDto(menu);
         }
         throw new RuntimeException("menu doesn't exist.");
+    }
+
+    @PostMapping("/menu/{menuId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addToBasket(@RequestBody BasketRequestDto basketRequestDto){
+
     }
 }
