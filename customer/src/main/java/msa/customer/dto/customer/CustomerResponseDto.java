@@ -2,7 +2,7 @@ package msa.customer.dto.customer;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.customer.entity.Customer;
+import msa.customer.entity.member.Customer;
 
 @Getter
 @Setter

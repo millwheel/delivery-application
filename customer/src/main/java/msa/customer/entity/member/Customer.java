@@ -1,4 +1,4 @@
-package msa.customer.entity;
+package msa.customer.entity.member;
 
 
 import lombok.Getter;

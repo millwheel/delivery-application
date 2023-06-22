@@ -1,5 +1,6 @@
 package msa.customer.entity;
 
+import msa.customer.entity.member.Customer;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

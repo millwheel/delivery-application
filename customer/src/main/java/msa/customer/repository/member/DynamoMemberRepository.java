@@ -1,7 +1,7 @@
 package msa.customer.repository.member;
 
 import msa.customer.dto.customer.CustomerRequestDto;
-import msa.customer.entity.Customer;
+import msa.customer.entity.member.Customer;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
