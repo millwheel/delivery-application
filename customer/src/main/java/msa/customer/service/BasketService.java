@@ -1,6 +1,5 @@
 package msa.customer.service;
 
-import msa.customer.dto.basket.BasketRequestDto;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.menu.Menu;
 import msa.customer.repository.basket.BasketRepository;
@@ -68,6 +67,10 @@ public class BasketService {
         int totalPrice = menuPriceList.stream().mapToInt(Integer::intValue).sum();
         basket.setTotalPrice(totalPrice);
         return basket;
+    }
+
+    public void deleteAllInBasket(String basketId){
+        basketRepository.deleteById(basketId);
     }
 
 
