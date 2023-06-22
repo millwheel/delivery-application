@@ -20,6 +20,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/basket/info")
+    public void showBasketMenu(@RequestAttribute String customerId){
+        basketService.getBasket(customerId);
+    }
+
     @GetMapping("/basket/clean")
     public void cleanBasket(@RequestAttribute String customerId,
                             @PathVariable FoodKindType foodKind,

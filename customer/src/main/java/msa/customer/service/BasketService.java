@@ -69,6 +69,10 @@ public class BasketService {
         return basket;
     }
 
+    public Optional<Basket> getBasket(String basketId){
+        return basketRepository.findById(basketId);
+    }
+
     public void deleteAllInBasket(String basketId){
         basketRepository.deleteById(basketId);
     }
