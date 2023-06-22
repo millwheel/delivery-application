@@ -24,7 +24,7 @@ public class BasketService {
     public void addToBasket(String basketId, BasketRequestDto basketRequestDto){
         Optional<Basket> basketOptional = basketRepository.findById(basketId);
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
-        Basket basketAfter = setUpBasketList(basketBefore, basketRequestDto);
+        Basket basketAfter = setUpBasketInfo(basketBefore, basketRequestDto);
         if(basketOptional.isEmpty()){
             basketRepository.create(basketAfter);
         }else{
@@ -32,7 +32,7 @@ public class BasketService {
         }
     }
 
-    public Basket setUpBasketList(Basket basket, BasketRequestDto basketRequestDto){
+    public Basket setUpBasketInfo(Basket basket, BasketRequestDto basketRequestDto){
         String menuId = basketRequestDto.getMenuId();
         int countAdd = basketRequestDto.getCount();
         List<String> menuIdList = basket.getMenuIdList();
@@ -58,6 +58,10 @@ public class BasketService {
         basket.setMenuIdList(menuIdList);
         basket.setMenuCountList(menuCountList);
         basket.setMenuPriceList(menuPriceList);
+        int totalPrice = menuPriceList.stream().mapToInt(Integer::intValue).sum();
+        basket.setTotalPrice(totalPrice);
         return basket;
     }
+
+
 }

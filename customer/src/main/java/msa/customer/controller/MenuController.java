@@ -49,5 +49,6 @@ public class MenuController {
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @RequestBody BasketRequestDto basketRequestDto){
         basketService.addToBasket(customerId, basketRequestDto);
+
     }
 }

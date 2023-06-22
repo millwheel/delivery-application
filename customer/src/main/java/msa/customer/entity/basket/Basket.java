@@ -11,7 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Basket {
     private String basketId;
-    List<String> menuIdList;
-    List<Integer> menuCountList;
-    List<Integer> menuPriceList;
+    private List<String> menuIdList;
+    private List<Integer> menuCountList;
+    private List<Integer> menuPriceList;
+    private int totalPrice;
 }
