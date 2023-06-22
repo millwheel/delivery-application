@@ -1,6 +1,5 @@
 package msa.restaurant.controller;
 
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.menu.MenuPartInfoResponseDto;
