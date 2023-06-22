@@ -1,7 +1,7 @@
 package msa.customer.repository.store;
 
+import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKindType;
-import msa.customer.entity.menu.MenuPartInfo;
 import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
 import org.springframework.context.annotation.Primary;
@@ -52,7 +52,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void updateMenuList(String id, List<MenuPartInfo> menuList) {
+    public void updateMenuList(String id, List<Menu> menuList) {
         repository.findById(id).ifPresent(store -> {
             store.setMenuList(menuList);
             repository.save(store);

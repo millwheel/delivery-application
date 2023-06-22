@@ -1,10 +1,9 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import msa.customer.dto.basket.BasketRequestDto;
+import msa.customer.dto.menu.MenuListResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
-import msa.customer.entity.menu.MenuPartInfo;
 import msa.customer.service.BasketService;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +31,14 @@ public class MenuController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<MenuPartInfo> showMenuList (@PathVariable String storeId){
-        return storeService.getMenuList(storeId);
+    public List<MenuListResponseDto> showMenuList (@PathVariable String storeId){
+        List<Menu> menuList = storeService.getMenuList(storeId);
+        List<MenuListResponseDto> newMenuList = new ArrayList<>();
+        menuList.forEach(menu -> {
+            MenuListResponseDto menuListResponseDto = new MenuListResponseDto(menu);
+            newMenuList.add(menuListResponseDto);
+        });
+        return newMenuList;
     }
 
     @GetMapping("/{menuId}")

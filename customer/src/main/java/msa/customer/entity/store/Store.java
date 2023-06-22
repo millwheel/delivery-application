@@ -3,7 +3,7 @@ package msa.customer.entity.store;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import msa.customer.entity.menu.MenuPartInfo;
+import msa.customer.entity.menu.Menu;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
@@ -27,6 +27,6 @@ public class Store {
     @GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
     private String introduction;
-    private List<MenuPartInfo> menuList;
+    private List<Menu> menuList;
     private boolean open;
 }

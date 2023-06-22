@@ -1,8 +1,8 @@
 package msa.customer.service;
 
 import msa.customer.dto.menu.MenuSqsDto;
+import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKindType;
-import msa.customer.entity.menu.MenuPartInfo;
 import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.repository.store.StoreRepository;
@@ -62,34 +62,35 @@ public class StoreService {
         return storeRepository.findStoreNear(location, foodKind);
     }
 
-    public List<MenuPartInfo> getMenuList(String storeId){
+    public List<Menu> getMenuList(String storeId){
         return storeRepository.findById(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
     }
 
     public void addToMenuList(MenuSqsDto menuSqsDto){
         String storeId = menuSqsDto.getStoreId();
-        List<MenuPartInfo> menuList = getMenuList(storeId);
-        MenuPartInfo menuPartInfo = new MenuPartInfo();
-        menuPartInfo.setMenuId(menuSqsDto.getMenuId());
-        menuPartInfo.setName(menuSqsDto.getName());
-        menuPartInfo.setPrice(menuSqsDto.getPrice());
-        menuList.add(menuPartInfo);
+        List<Menu> menuList = getMenuList(storeId);
+        Menu menu = new Menu();
+        menu.setMenuId(menuSqsDto.getMenuId());
+        menu.setName(menuSqsDto.getName());
+        menu.setPrice(menuSqsDto.getPrice());
+        menu.setDescription(menuSqsDto.getDescription());
+        menuList.add(menu);
         storeRepository.updateMenuList(storeId, menuList);
     }
 
     public void updateMenuFromList(MenuSqsDto menuSqsDto){
         String storeId = menuSqsDto.getStoreId();
-        List<MenuPartInfo> menuList = getMenuList(storeId);
-        MenuPartInfo menuPartInfo = new MenuPartInfo();
-        menuPartInfo.setMenuId(menuSqsDto.getMenuId());
-        menuPartInfo.setName(menuSqsDto.getName());
-        menuPartInfo.setPrice(menuSqsDto.getPrice());
-        int index = menuList.indexOf(menuPartInfo);
-        menuList.set(index, menuPartInfo);
+        List<Menu> menuList = getMenuList(storeId);
+        Menu menu = new Menu();
+        menu.setMenuId(menuSqsDto.getMenuId());
+        menu.setName(menuSqsDto.getName());
+        menu.setPrice(menuSqsDto.getPrice());
+        int index = menuList.indexOf(menu);
+        menuList.set(index, menu);
         storeRepository.updateMenuList(storeId, menuList);
     }
     public void deleteMenuFromList(String storeId, String menuId){
-        List<MenuPartInfo> menuList = getMenuList(storeId);
+        List<Menu> menuList = getMenuList(storeId);
         menuList.removeIf(menuPartInfo -> menuPartInfo.getMenuId().equals(menuId));
         storeRepository.updateMenuList(storeId, menuList);
     }

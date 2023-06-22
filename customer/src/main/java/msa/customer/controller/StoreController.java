@@ -39,7 +39,7 @@ public class StoreController {
         return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
 
-    @GetMapping("/{storeId}")
+    @GetMapping("/info/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto showStoreInfo (@PathVariable String storeId){
         Optional<Store> store = storeService.getStore(storeId);
