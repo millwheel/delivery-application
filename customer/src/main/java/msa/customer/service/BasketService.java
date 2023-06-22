@@ -23,11 +23,12 @@ public class BasketService {
 
     public void addToBasket(String basketId, BasketRequestDto basketRequestDto){
         Optional<Basket> basketOptional = basketRepository.findById(basketId);
-        Basket basket = basketOptional.orElseGet(Basket::new);
+        Basket basketBefore = basketOptional.orElseGet(Basket::new);
+        Basket basketAfter = setUpBasketList(basketBefore, basketRequestDto);
         if(basketOptional.isEmpty()){
-            basketRepository.create(basket);
+            basketRepository.create(basketAfter);
         }else{
-            basketRepository.update(basket);
+            basketRepository.update(basketAfter);
         }
     }
 

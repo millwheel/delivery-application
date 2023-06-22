@@ -4,6 +4,7 @@ import msa.customer.dto.basket.BasketRequestDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
 import msa.customer.entity.menu.MenuPartInfo;
+import msa.customer.service.BasketService;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,12 @@ public class MenuController {
 
     private final StoreService storeService;
     private final MenuService menuService;
+    private final BasketService basketService;
 
-    public MenuController(StoreService storeService, MenuService menuService) {
+    public MenuController(StoreService storeService, MenuService menuService, BasketService basketService) {
         this.storeService = storeService;
         this.menuService = menuService;
+        this.basketService = basketService;
     }
 
     @GetMapping("/menu-list")
@@ -45,6 +48,6 @@ public class MenuController {
     @ResponseStatus(HttpStatus.OK)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @RequestBody BasketRequestDto basketRequestDto){
-
+        basketService.addToBasket(customerId, basketRequestDto);
     }
 }
