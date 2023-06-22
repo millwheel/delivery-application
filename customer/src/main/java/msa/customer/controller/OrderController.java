@@ -1,12 +1,15 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import msa.customer.dto.basket.BasketResponseDto;
+import msa.customer.entity.basket.Basket;
 import msa.customer.entity.store.FoodKindType;
 import msa.customer.service.BasketService;
 import msa.customer.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RequestMapping("/customer/{foodKind}/store/{storeId}")
 @RestController
@@ -21,8 +24,13 @@ public class OrderController {
     }
 
     @GetMapping("/basket/info")
-    public void showBasketMenu(@RequestAttribute String customerId){
-        basketService.getBasket(customerId);
+    public BasketResponseDto showBasketMenu(@RequestAttribute String customerId){
+        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        if (basketOptional.isEmpty()){
+            throw new RuntimeException("basket is empty");
+        }
+        Basket basket = basketOptional.get();
+        return new BasketResponseDto(basket);
     }
 
     @GetMapping("/basket/clean")

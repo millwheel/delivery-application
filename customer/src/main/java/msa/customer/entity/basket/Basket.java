@@ -3,6 +3,7 @@ package msa.customer.entity.basket;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import msa.customer.dto.basket.MenuInBasket;
 
 import java.util.List;
 
