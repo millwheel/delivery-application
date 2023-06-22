@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.menu.MenuListResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
+import msa.customer.entity.store.FoodKindType;
 import msa.customer.service.BasketService;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
@@ -55,6 +56,7 @@ public class MenuController {
     @PostMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
+                            @PathVariable FoodKindType foodKind,
                             @PathVariable String storeId,
                             @PathVariable String menuId,
                             @RequestBody int menuCount,
@@ -66,7 +68,7 @@ public class MenuController {
             throw new IllegalArgumentException("menuCount is too large.");
         }
         basketService.addToBasket(customerId, storeId, menuId, menuCount);
-        response.sendRedirect("/customer/store/" + storeId + "/menu/" + menuId);
+        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu/list");
     }
 
 }
