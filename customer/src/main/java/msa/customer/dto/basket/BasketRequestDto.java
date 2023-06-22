@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BasketRequestDto {
-    private String menuName;
-    private int menuCount;
+    private String menuId;
+    private int count;
 }

@@ -43,7 +43,8 @@ public class MenuController {
 
     @PostMapping("/menu/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addToBasket(@RequestBody BasketRequestDto basketRequestDto){
+    public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
+                            @RequestBody BasketRequestDto basketRequestDto){
 
     }
 }
