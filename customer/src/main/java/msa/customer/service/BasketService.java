@@ -21,20 +21,22 @@ public class BasketService {
         this.menuRepository = menuRepository;
     }
 
-    public void addToBasket(String basketId, BasketRequestDto basketRequestDto){
+    public void addToBasket(String basketId, String menuId, int count){
         Optional<Basket> basketOptional = basketRepository.findById(basketId);
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
-        Basket basketAfter = setUpBasketInfo(basketBefore, basketRequestDto);
-        if(basketOptional.isEmpty()){
-            basketRepository.create(basketAfter);
-        }else{
-            basketRepository.update(basketAfter);
+        try {
+            Basket basketAfter = setUpBasketInfo(basketBefore, menuId, count);
+            if(basketOptional.isEmpty()){
+                basketRepository.create(basketAfter);
+            }else{
+                basketRepository.update(basketAfter);
+            }
+        } catch (Exception e){
+            throw e;
         }
     }
 
-    public Basket setUpBasketInfo(Basket basket, BasketRequestDto basketRequestDto){
-        String menuId = basketRequestDto.getMenuId();
-        int countAdd = basketRequestDto.getCount();
+    public Basket setUpBasketInfo(Basket basket, String menuId, int countAdd){
         List<String> menuIdList = basket.getMenuIdList();
         List<Integer> menuCountList = basket.getMenuCountList();
         List<Integer> menuPriceList = basket.getMenuPriceList();

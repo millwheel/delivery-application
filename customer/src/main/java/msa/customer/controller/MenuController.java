@@ -1,5 +1,6 @@
 package msa.customer.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.basket.BasketRequestDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
@@ -10,6 +11,7 @@ import msa.customer.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +49,17 @@ public class MenuController {
     @PostMapping("/menu/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
-                            @RequestBody BasketRequestDto basketRequestDto){
-        basketService.addToBasket(customerId, basketRequestDto);
-
+                            @PathVariable String storeId,
+                            @PathVariable String menuId,
+                            @RequestBody int menuCount,
+                            HttpServletResponse response) throws IOException {
+        if (menuCount == 0){
+            throw new IllegalArgumentException("menuCount should not be zero.");
+        }
+        if (menuCount >= 100000){
+            throw new IllegalArgumentException("menuCount is too large.");
+        }
+        basketService.addToBasket(customerId, menuId, menuCount);
+        response.sendRedirect("/customer/store/" + storeId + "/menu/" + menuId);
     }
 }
