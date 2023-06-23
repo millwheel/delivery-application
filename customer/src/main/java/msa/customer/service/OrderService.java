@@ -71,4 +71,8 @@ public class OrderService {
         order.setMenuInBasketList(basket.getMenuInBasketList());
         return order;
     }
+
+    public Optional<Order> getOrder(String orderId){
+        return orderRepository.findById(orderId);
+    }
 }
