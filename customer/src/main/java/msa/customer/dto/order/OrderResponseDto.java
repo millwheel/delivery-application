@@ -1,39 +1,26 @@
-package msa.customer.entity.order;
+package msa.customer.dto.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import msa.customer.entity.basket.MenuInBasket;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
 @Setter
-@Document("order")
+@Getter
 @NoArgsConstructor
-public class Order {
-    @MongoId
-    private String orderId;
+public class OrderResponseDto {
     private LocalDateTime orderTime;
-    private String customerId;
-    private String customerName;
     private String customerPhoneNumber;
     private String customerAddress;
     private String customerAddressDetail;
-    private Point customerLocation;
     private List<MenuInBasket> menuInBasketList;
     private int totalPrice;
-    private String storeId;
     private String storeName;
     private String storePhoneNumber;
     private String storeAddress;
     private String storeAddressDetail;
-    private Point storeLocation;
     private int storeOrderNumber;
-    private String riderId;
-    private String riderPhoneNumber;
 }
