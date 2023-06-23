@@ -23,8 +23,10 @@ public class Order {
     private String customerAddressDetail;
     private Point customerLocation;
     private List<String> menuIdList;
+    private List<String> menuNameList;
     private List<Integer> menuCountList;
     private List<Integer> menuPriceList;
+    private int totalPrice;
     private String storeId;
     private String storeName;
     private String storePhoneNumber;
@@ -34,5 +36,4 @@ public class Order {
     private int storeOrderNumber;
     private String riderId;
     private String riderPhoneNumber;
-    private int totalPrice;
 }

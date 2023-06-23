@@ -43,13 +43,16 @@ public class BasketService {
 
     public Basket setUpBasketInfo(Basket basket, String menuId, int countAdd){
         List<String> menuIdList = basket.getMenuIdList();
+        List<String> menuNameList = basket.getMenuNameList();
         List<Integer> menuCountList = basket.getMenuCountList();
         List<Integer> menuPriceList = basket.getMenuPriceList();
         Optional<Menu> menuOptional = menuRepository.findById(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("menu doesn't exist.");
         }
-        int eachPrice = menuOptional.get().getPrice();
+        Menu menu = menuOptional.get();
+        String menuName = menu.getName();
+        int eachPrice = menu.getPrice();
         if(menuIdList.contains(menuId)){
             int index = menuIdList.indexOf(menuId);
             int thisMenuCount = menuCountList.get(index) + countAdd;
@@ -58,6 +61,7 @@ public class BasketService {
             menuPriceList.set(index, thisMenuPrice);
         } else {
             menuIdList.add(menuId);
+            menuNameList.add(menuName);
             menuCountList.add(countAdd);
             int thisMenuPrice = eachPrice * countAdd;
             menuPriceList.add(thisMenuPrice);

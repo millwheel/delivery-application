@@ -13,6 +13,7 @@ import java.util.List;
 public class Basket {
     private String basketId;
     private List<String> menuIdList;
+    private List<String> menuNameList;
     private List<Integer> menuCountList;
     private List<Integer> menuPriceList;
     private String storeId;

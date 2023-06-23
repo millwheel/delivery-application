@@ -2,9 +2,11 @@ package msa.customer.service;
 
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;
+import msa.customer.entity.store.Store;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.member.MemberRepository;
 import msa.customer.repository.order.OrderRepository;
+import msa.customer.repository.store.StoreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
