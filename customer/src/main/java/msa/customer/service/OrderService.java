@@ -68,10 +68,7 @@ public class OrderService {
             throw new RuntimeException("Basket doesn't exist.");
         }
         Basket basket = basketOptional.get();
-        order.setMenuIdList(basket.getMenuIdList());
-        order.setMenuNameList(basket.getMenuNameList());
-        order.setMenuCountList(basket.getMenuCountList());
-        order.setMenuPriceList(basket.getMenuPriceList());
+        order.setMenuInBasketList(basket.getMenuInBasketList());
         return order;
     }
 }
