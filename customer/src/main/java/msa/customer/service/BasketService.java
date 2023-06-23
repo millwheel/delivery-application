@@ -1,6 +1,5 @@
 package msa.customer.service;
 
-import msa.customer.dto.basket.MenuInBasket;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.menu.Menu;
 import msa.customer.repository.basket.BasketRepository;

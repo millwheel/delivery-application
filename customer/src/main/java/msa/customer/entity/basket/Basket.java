@@ -3,7 +3,6 @@ package msa.customer.entity.basket;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import msa.customer.dto.basket.MenuInBasket;
 
 import java.util.List;
 
@@ -12,10 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Basket {
     private String basketId;
-    private List<String> menuIdList;
-    private List<String> menuNameList;
-    private List<Integer> menuCountList;
-    private List<Integer> menuPriceList;
+    private List<MenuInBasket> menuInBasketList;
     private String storeId;
     private int totalPrice;
 }

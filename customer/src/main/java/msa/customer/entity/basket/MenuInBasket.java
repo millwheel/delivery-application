@@ -1,4 +1,4 @@
-package msa.customer.dto.basket;
+package msa.customer.entity.basket;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MenuInBasket {
     private String menuId;
+    private String menuName;
     private int count;
     private int price;
 }
