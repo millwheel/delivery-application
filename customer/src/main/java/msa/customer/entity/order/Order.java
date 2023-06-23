@@ -19,6 +19,7 @@ public class Order {
     @MongoId
     private String orderId;
     private LocalDateTime orderTime;
+    private OrderStatus orderStatus;
     private String customerId;
     private String customerName;
     private String customerPhoneNumber;

@@ -9,20 +9,15 @@ import msa.customer.entity.order.OrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-public class OrderResponseDto {
+public class OrderPartResponseDto {
     private LocalDateTime orderTime;
     private OrderStatus orderStatus;
-    private String customerPhoneNumber;
-    private String customerAddress;
-    private String customerAddressDetail;
+    private String orderId;
+    private String storeName;
     private List<MenuInBasket> menuInBasketList;
     private int totalPrice;
-    private String storeName;
-    private String storePhoneNumber;
-    private String storeAddress;
-    private String storeAddressDetail;
-    private int storeOrderNumber;
+
 }

@@ -43,6 +43,4 @@ public class BasketController {
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu/list");
     }
 
-
-
 }
