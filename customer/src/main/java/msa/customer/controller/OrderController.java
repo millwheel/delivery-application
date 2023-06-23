@@ -3,6 +3,7 @@ package msa.customer.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.basket.BasketResponseDto;
 import msa.customer.entity.basket.Basket;
+import msa.customer.entity.order.Order;
 import msa.customer.entity.store.FoodKindType;
 import msa.customer.service.BasketService;
 import msa.customer.service.OrderService;
@@ -42,8 +43,11 @@ public class OrderController {
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu/list");
     }
 
-    @GetMapping
-    public void createOrder(@RequestAttribute String customerId){
-
+    @PostMapping("/order")
+    public void createOrder(@RequestAttribute String customerId,
+                            @PathVariable String storeId){
+        Order order = orderService.createOrder(customerId, storeId, customerId);
     }
+
+
 }

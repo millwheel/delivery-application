@@ -16,15 +16,25 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final BasketRepository basketRepository;
+    private final StoreRepository storeRepository;
 
-    public OrderService(OrderRepository repository, MemberRepository memberRepository, BasketRepository basketRepository) {
+    public OrderService(OrderRepository repository, MemberRepository memberRepository, BasketRepository basketRepository, StoreRepository storeRepository) {
         this.orderRepository = repository;
         this.memberRepository = memberRepository;
         this.basketRepository = basketRepository;
+        this.storeRepository = storeRepository;
     }
 
-    public void createOrder(String customerId, String storeId, String basketId){
+    public Order createOrder(String customerId, String storeId, String basketId){
         Order order = new Order();
+        Order order1 = addCustomerInfo(customerId, order);
+        Order order2 = addStoreInfo(storeId, order1);
+        Order order3 = addBasketInfo(basketId, order2);
+        orderRepository.create(order3);
+        return order3;
+    }
+
+    public Order addCustomerInfo(String customerId, Order order){
         order.setCustomerId(customerId);
         memberRepository.findById(customerId).ifPresent(member -> {
             order.setCustomerId(member.getCustomerId());
@@ -34,8 +44,34 @@ public class OrderService {
             order.setCustomerAddressDetail(member.getAddressDetail());
             order.setCustomerLocation(member.getLocation());
         });
-        Optional<Basket> basketOptional = basketRepository.findById(basketId);
+        return order;
+    }
 
-        orderRepository.create(order);
+    public Order addStoreInfo(String storeId, Order order){
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
+        if (storeOptional.isEmpty()){
+            throw new RuntimeException("Store doesn't exist");
+        }
+        Store store = storeOptional.get();
+        order.setStoreId(store.getStoreId());
+        order.setStoreName(store.getName());
+        order.setStorePhoneNumber(store.getPhoneNumber());
+        order.setStoreAddress(store.getAddress());
+        order.setStoreAddressDetail(store.getAddressDetail());
+        order.setStoreLocation(store.getLocation());
+        return order;
+    }
+
+    public Order addBasketInfo(String basketId, Order order){
+        Optional<Basket> basketOptional = basketRepository.findById(basketId);
+        if (basketOptional.isEmpty()){
+            throw new RuntimeException("Basket doesn't exist.");
+        }
+        Basket basket = basketOptional.get();
+        order.setMenuIdList(basket.getMenuIdList());
+        order.setMenuNameList(basket.getMenuNameList());
+        order.setMenuCountList(basket.getMenuCountList());
+        order.setMenuPriceList(basket.getMenuPriceList());
+        return order;
     }
 }
