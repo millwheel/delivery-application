@@ -52,6 +52,6 @@ public class OrderController {
             throw new RuntimeException("order doesn't exist.");
         }
         Order order = orderOptional.get();
-
+        return new OrderResponseDto(order);
     }
 }
