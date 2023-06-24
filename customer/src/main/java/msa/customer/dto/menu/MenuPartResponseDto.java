@@ -4,16 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import msa.customer.entity.menu.Menu;
 
-import java.util.List;
-
 @Setter
 @Getter
-public class MenuListResponseDto {
+public class MenuPartResponseDto {
     private String menuId;
     private String name;
     private int price;
 
-    public MenuListResponseDto(Menu menu) {
+    public MenuPartResponseDto(Menu menu) {
         menuId = menu.getMenuId();
         name = menu.getName();
         price = menu.getPrice();

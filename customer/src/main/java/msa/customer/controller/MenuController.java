@@ -1,7 +1,7 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import msa.customer.dto.menu.MenuListResponseDto;
+import msa.customer.dto.menu.MenuPartResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKindType;
@@ -32,12 +32,12 @@ public class MenuController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<MenuListResponseDto> showMenuList (@PathVariable String storeId){
+    public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
         List<Menu> menuList = storeService.getMenuList(storeId);
-        List<MenuListResponseDto> newMenuList = new ArrayList<>();
+        List<MenuPartResponseDto> newMenuList = new ArrayList<>();
         menuList.forEach(menu -> {
-            MenuListResponseDto menuListResponseDto = new MenuListResponseDto(menu);
-            newMenuList.add(menuListResponseDto);
+            MenuPartResponseDto menuPartResponseDto = new MenuPartResponseDto(menu);
+            newMenuList.add(menuPartResponseDto);
         });
         return newMenuList;
     }
