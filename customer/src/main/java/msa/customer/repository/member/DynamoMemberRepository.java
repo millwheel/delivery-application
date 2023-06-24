@@ -27,15 +27,13 @@ public class DynamoMemberRepository implements MemberRepository {
     }
 
     @Override
+    public void update(String customerId, CustomerRequestDto data) {
+
+    }
+
+    @Override
     public void update(String customerId, CustomerRequestDto data, Point location) {
-        repository.findById(customerId).ifPresent(customer -> {
-            customer.setName(data.getName());
-            customer.setEmail(data.getEmail());
-            customer.setPhoneNumber(data.getPhoneNumber());
-            customer.setAddress(data.getAddress());
-            customer.setAddressDetail(data.getAddressDetail());
-            customer.setLocation(location);
-        });
+
     }
 
 }

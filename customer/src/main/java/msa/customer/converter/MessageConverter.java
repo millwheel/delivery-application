@@ -38,7 +38,7 @@ public class MessageConverter {
         if (jsonObject.get("method").equals("create")){
             StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
             storeService.createStore(storeSqsDto);
-        } else if (jsonObject.get("method").equals("update")) {
+        } else if (jsonObject.get("method").equals("updateLocation")) {
             StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
             storeService.updateStore(storeSqsDto);
         } else if (jsonObject.get("method").equals("delete")) {
@@ -52,7 +52,7 @@ public class MessageConverter {
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
             menuService.createMenu(menuSqsDto);
             storeService.addToMenuList(menuSqsDto);
-        } else if (jsonObject.get("method").equals("update")) {
+        } else if (jsonObject.get("method").equals("updateLocation")) {
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
             menuService.updateMenu(menuSqsDto);
             storeService.updateMenuFromList(menuSqsDto);

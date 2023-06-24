@@ -34,7 +34,7 @@ public class MemberController {
         throw new RuntimeException("Cannot find Customer Info");
     }
 
-    @PutMapping("/info")
+    @PatchMapping("/info")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody CustomerRequestDto data,
