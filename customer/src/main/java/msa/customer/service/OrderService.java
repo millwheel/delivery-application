@@ -7,6 +7,7 @@ import msa.customer.repository.member.MemberRepository;
 import msa.customer.repository.order.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,6 @@ public class OrderService {
         Order order = new Order();
         order.setCustomerId(customerId);
         memberRepository.findById(customerId).ifPresent(member -> {
-            order.setCustomerId(member.getCustomerId());
             order.setCustomerName(member.getName());
             order.setCustomerPhoneNumber(member.getPhoneNumber());
             order.setCustomerAddress(member.getAddress());
@@ -33,7 +33,13 @@ public class OrderService {
             order.setCustomerLocation(member.getLocation());
         });
         Optional<Basket> basketOptional = basketRepository.findById(basketId);
-
+        if (basketOptional.isEmpty()){
+            throw new RuntimeException("basket is empty.");
+        }
+        Basket basket = basketOptional.get();
+        order.setMenuIdList(basket.getMenuIdList());
+        order.setMenuCountList(basket.getMenuCountList());
+        order.setMenuPriceList(basket.getMenuPriceList());
         orderRepository.create(order);
     }
 }

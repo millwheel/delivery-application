@@ -42,6 +42,10 @@ public class BasketService {
     }
 
     public Basket setUpBasketInfo(Basket basket, String menuId, int countAdd){
+//        List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
+//        MenuInBasket menuInBasket = new MenuInBasket();
+//        menuInBasket.setMenuId(menuId);
+//        menuInBasketList.
         List<String> menuIdList = basket.getMenuIdList();
         List<Integer> menuCountList = basket.getMenuCountList();
         List<Integer> menuPriceList = basket.getMenuPriceList();
