@@ -33,7 +33,7 @@ public class Order {
     private String storePhoneNumber;
     private String storeAddress;
     private String storeAddressDetail;
-    private Point storeLocation;+
+    private Point storeLocation;
     private int storeOrderNumber;
     private String riderId;
     private String riderPhoneNumber;

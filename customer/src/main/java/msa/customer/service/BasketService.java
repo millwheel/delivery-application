@@ -42,18 +42,7 @@ public class BasketService {
         }
     }
 
-<<<<<<< HEAD
-    public Basket setUpBasketInfo(Basket basket, String menuId, int countAdd){
-//        List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
-//        MenuInBasket menuInBasket = new MenuInBasket();
-//        menuInBasket.setMenuId(menuId);
-//        menuInBasketList.
-        List<String> menuIdList = basket.getMenuIdList();
-        List<Integer> menuCountList = basket.getMenuCountList();
-        List<Integer> menuPriceList = basket.getMenuPriceList();
-=======
     public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
->>>>>>> 8a3f8f325f90bd671483f95c516aed65b56d13d2
         Optional<Menu> menuOptional = menuRepository.findById(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("menu doesn't exist.");
