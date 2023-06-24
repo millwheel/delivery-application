@@ -3,11 +3,13 @@ package msa.customer.service;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.customer.CustomerRequestDto;
 import msa.customer.entity.member.Customer;
+import msa.customer.entity.order.Order;
 import msa.customer.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -35,4 +37,5 @@ public class MemberService {
         Point coordinate = addressService.getCoordinate(data.getAddress());
         memberRepository.update(customerId, data, coordinate);
     }
+
 }

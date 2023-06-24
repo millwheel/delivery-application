@@ -3,6 +3,7 @@ package msa.customer.repository.order;
 import msa.customer.entity.order.Order;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,6 +24,11 @@ public class MongoOrderRepository implements OrderRepository{
     @Override
     public Optional<Order> findById(String orderId) {
         return repository.findById(orderId);
+    }
+
+    @Override
+    public Optional<List<Order>> findByCustomerId(String customerId) {
+        return repository.findByCustomerId(customerId);
     }
 
     @Override

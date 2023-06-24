@@ -9,6 +9,7 @@ import msa.customer.repository.order.OrderRepository;
 import msa.customer.repository.store.StoreRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -70,6 +71,10 @@ public class OrderService {
         Basket basket = basketOptional.get();
         order.setMenuInBasketList(basket.getMenuInBasketList());
         return order;
+    }
+
+    public Optional<List<Order>> getOrderList(String customerId){
+        return orderRepository.findByCustomerId(customerId);
     }
 
     public Optional<Order> getOrder(String orderId){

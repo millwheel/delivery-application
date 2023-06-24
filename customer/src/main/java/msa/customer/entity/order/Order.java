@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import msa.customer.entity.basket.MenuInBasket;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -20,6 +21,7 @@ public class Order {
     private String orderId;
     private LocalDateTime orderTime;
     private OrderStatus orderStatus;
+    @Indexed
     private String customerId;
     private String customerName;
     private String customerPhoneNumber;

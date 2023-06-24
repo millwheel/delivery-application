@@ -1,10 +1,13 @@
 package msa.customer.controller;
 
+import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/order")
@@ -17,9 +20,18 @@ public class OrderController {
     }
 
     @GetMapping("/list")
-    public void showOrderList(@RequestAttribute String customerId,
-                              @PathVariable String storeId) {
-        orderService.
+    public List<OrderPartResponseDto> showOrderList(@RequestAttribute String customerId,
+                                                    @PathVariable String storeId) {
+        Optional<List<Order>> orderListOptional = orderService.getOrderList(customerId);
+        if (orderListOptional.isEmpty()){
+            throw new RuntimeException("No order info");
+        }
+        List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
+        List<Order> orderList = orderListOptional.get();
+        for (Order order : orderList) {
+            orderPartInfoList.add(new OrderPartResponseDto(order));
+        }
+        return orderPartInfoList;
     }
 
     @PostMapping("/add")
