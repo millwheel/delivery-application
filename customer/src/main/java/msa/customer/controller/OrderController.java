@@ -30,9 +30,9 @@ public class OrderController {
         }
         List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
         List<Order> orderList = orderListOptional.get();
-        for (Order order : orderList) {
+        orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));
-        }
+        });
         return orderPartInfoList;
     }
 
