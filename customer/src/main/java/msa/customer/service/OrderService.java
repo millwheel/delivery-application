@@ -26,13 +26,12 @@ public class OrderService {
         this.storeRepository = storeRepository;
     }
 
-    public Order createOrder(String customerId, String storeId, String basketId){
+    public void createOrder(String customerId, String storeId, String basketId){
         Order order = new Order();
         Order order1 = addCustomerInfo(customerId, order);
         Order order2 = addStoreInfo(storeId, order1);
         Order order3 = addBasketInfo(basketId, order2);
         orderRepository.create(order3);
-        return order3;
     }
 
     public Order addCustomerInfo(String customerId, Order order){

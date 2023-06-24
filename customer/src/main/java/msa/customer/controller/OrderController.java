@@ -1,16 +1,18 @@
 package msa.customer.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/order")
+@RequestMapping("/customer/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -36,8 +38,10 @@ public class OrderController {
 
     @PostMapping("/add")
     public void createOrder(@RequestAttribute String customerId,
-                            @PathVariable String storeId) {
-        Order order = orderService.createOrder(customerId, storeId, customerId);
+                            @PathVariable String storeId,
+                            HttpServletResponse response) throws IOException {
+        orderService.createOrder(customerId, storeId, customerId);
+        response.sendRedirect("/customer/order/list");
     }
 
     @GetMapping("/{orderId}")
