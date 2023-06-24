@@ -35,6 +35,7 @@ public class StoreController {
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
+            return null;
         }
         return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
     }
