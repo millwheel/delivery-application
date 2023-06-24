@@ -32,7 +32,7 @@ public class MemberService {
     }
 
     public void updateCustomer(String customerId, CustomerRequestDto data){
-        if (data.getAddress().isEmpty()) {
+        if (data.getAddress() == null) {
             memberRepository.update(customerId, data);
         } else {
             Point coordinate = addressService.getCoordinate(data.getAddress());

@@ -33,9 +33,9 @@ public class MongoMemberRepository implements MemberRepository {
     @Override
     public void update(String customerId, CustomerRequestDto data) {
         repository.findById(customerId).ifPresent(customer -> {
-            if (!data.getName().isEmpty()) customer.setName(data.getName());
-            if (!data.getEmail().isEmpty()) customer.setEmail(data.getEmail());
-            if (!data.getPhoneNumber().isEmpty()) customer.setPhoneNumber(data.getPhoneNumber());
+            if (data.getName() != null) customer.setName(data.getName());
+            if (data.getEmail() != null) customer.setEmail(data.getEmail());
+            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
             repository.save(customer);
         });
     }
@@ -43,12 +43,12 @@ public class MongoMemberRepository implements MemberRepository {
     @Override
     public void update(String customerId, CustomerRequestDto data, Point location) {
         repository.findById(customerId).ifPresent(customer -> {
-            if (!data.getName().isEmpty()) customer.setName(data.getName());
-            if (!data.getEmail().isEmpty()) customer.setEmail(data.getEmail());
-            if (!data.getPhoneNumber().isEmpty()) customer.setPhoneNumber(data.getPhoneNumber());
+            if (data.getName() != null) customer.setName(data.getName());
+            if (data.getEmail() != null) customer.setEmail(data.getEmail());
+            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
             customer.setAddress(data.getAddress());
             customer.setLocation(location);
-            if (!data.getAddressDetail().isEmpty()) customer.setAddressDetail(data.getAddressDetail());
+            if (data.getAddressDetail() != null) customer.setAddressDetail(data.getAddressDetail());
             repository.save(customer);
         });
     }
