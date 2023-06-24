@@ -29,9 +29,8 @@ public class MongoBasketRepository implements BasketRepository{
     @Override
     public void update(Basket basket) {
         repository.findById(basket.getBasketId()).ifPresent(savedBasket ->{
-            savedBasket.setMenuIdList(basket.getMenuIdList());
-            savedBasket.setMenuCountList(basket.getMenuCountList());
-            savedBasket.setMenuPriceList(basket.getMenuPriceList());
+            savedBasket.setMenuInBasketList(basket.getMenuInBasketList());
+            savedBasket.setTotalPrice(basket.getTotalPrice());
         });
     }
 
