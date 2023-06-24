@@ -1,7 +1,7 @@
 package msa.customer.service;
 
-import msa.customer.dto.basket.MenuInBasket;
 import msa.customer.entity.basket.Basket;
+import msa.customer.entity.basket.MenuInBasket;
 import msa.customer.entity.menu.Menu;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.menu.MenuRepository;
@@ -30,8 +30,9 @@ public class BasketService {
         }
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
         try {
-            Basket basketAfter = setUpBasketInfo(basketBefore, menuId, count);
+            Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
             if(basketOptional.isEmpty()){
+                basketAfter.setStoreId(storeId);
                 basketRepository.create(basketAfter);
             }else{
                 basketRepository.update(basketAfter);
@@ -41,6 +42,7 @@ public class BasketService {
         }
     }
 
+<<<<<<< HEAD
     public Basket setUpBasketInfo(Basket basket, String menuId, int countAdd){
 //        List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
 //        MenuInBasket menuInBasket = new MenuInBasket();
@@ -49,27 +51,38 @@ public class BasketService {
         List<String> menuIdList = basket.getMenuIdList();
         List<Integer> menuCountList = basket.getMenuCountList();
         List<Integer> menuPriceList = basket.getMenuPriceList();
+=======
+    public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
+>>>>>>> 8a3f8f325f90bd671483f95c516aed65b56d13d2
         Optional<Menu> menuOptional = menuRepository.findById(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("menu doesn't exist.");
         }
-        int eachPrice = menuOptional.get().getPrice();
-        if(menuIdList.contains(menuId)){
-            int index = menuIdList.indexOf(menuId);
-            int thisMenuCount = menuCountList.get(index) + countAdd;
-            menuCountList.set(index, thisMenuCount);
-            int thisMenuPrice = thisMenuCount * eachPrice;
-            menuPriceList.set(index, thisMenuPrice);
+        Menu menu = menuOptional.get();
+        String menuName = menu.getName();
+        int eachPrice = menu.getPrice();
+        int menuPrice = countAdd * eachPrice;
+
+        List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
+        Optional<MenuInBasket> menuInBasketOptional = menuInBasketList.stream().filter(m -> m.getMenuId().equals(menuId)).findAny();
+        if (menuInBasketOptional.isPresent()){
+            MenuInBasket menuInBasket = menuInBasketOptional.get();
+            int index = menuInBasketList.indexOf(menuInBasket);
+            int countBefore = menuInBasket.getCount();
+            menuInBasket.setCount(countBefore + countAdd);
+            int priceBefore = menuInBasket.getPrice();
+            menuInBasket.setPrice(priceBefore + menuPrice);
+            menuInBasketList.set(index, menuInBasket);
         } else {
-            menuIdList.add(menuId);
-            menuCountList.add(countAdd);
-            int thisMenuPrice = eachPrice * countAdd;
-            menuPriceList.add(thisMenuPrice);
+            MenuInBasket menuInBasket = new MenuInBasket();
+            menuInBasket.setMenuId(menuId);
+            menuInBasket.setMenuName(menuName);
+            menuInBasket.setCount(countAdd);
+            menuInBasket.setPrice(menuPrice);
+            menuInBasketList.add(menuInBasket);
         }
-        basket.setMenuIdList(menuIdList);
-        basket.setMenuCountList(menuCountList);
-        basket.setMenuPriceList(menuPriceList);
-        int totalPrice = menuPriceList.stream().mapToInt(Integer::intValue).sum();
+        basket.setMenuInBasketList(menuInBasketList);
+        int totalPrice = menuInBasketList.stream().mapToInt(MenuInBasket::getPrice).sum();
         basket.setTotalPrice(totalPrice);
         return basket;
     }

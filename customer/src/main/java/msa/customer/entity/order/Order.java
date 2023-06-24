@@ -3,10 +3,12 @@ package msa.customer.entity.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import msa.customer.entity.basket.MenuInBasket;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,15 +18,16 @@ import java.util.List;
 public class Order {
     @MongoId
     private String orderId;
+    private LocalDateTime orderTime;
+    private OrderStatus orderStatus;
     private String customerId;
     private String customerName;
     private String customerPhoneNumber;
     private String customerAddress;
     private String customerAddressDetail;
     private Point customerLocation;
-    private List<String> menuIdList;
-    private List<Integer> menuCountList;
-    private List<Integer> menuPriceList;
+    private List<MenuInBasket> menuInBasketList;
+    private int totalPrice;
     private String storeId;
     private String storeName;
     private String storePhoneNumber;
@@ -34,5 +37,4 @@ public class Order {
     private int storeOrderNumber;
     private String riderId;
     private String riderPhoneNumber;
-    private int totalPrice;
 }
