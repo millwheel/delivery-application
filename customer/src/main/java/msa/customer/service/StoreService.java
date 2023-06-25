@@ -58,7 +58,7 @@ public class StoreService {
         storeRepository.updateOpenStatus(storeId, false);
     }
 
-    public List<Store> showStoreListsNearCustomer(Point location, FoodKind foodKind){
+    public List<Store> showStoreListNearCustomer(Point location, FoodKind foodKind){
         return storeRepository.readStoreNearLocation(location, foodKind);
     }
 }

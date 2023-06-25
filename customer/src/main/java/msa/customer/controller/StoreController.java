@@ -2,6 +2,7 @@ package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.dto.store.StorePartResponseDto;
 import msa.customer.dto.store.StoreResponseDto;
 import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,17 +29,22 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<Store> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
-                                     @PathVariable FoodKind foodKind,
-                                     HttpServletResponse response) throws IOException {
+    public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
+                                                    @PathVariable FoodKind foodKind,
+                                                    HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             response.sendRedirect("/customer/member/info");
             return null;
         }
-        return storeService.showStoreListsNearCustomer(coordinates.get(), foodKind);
+        List<StorePartResponseDto> storePartList = new ArrayList<>();
+        List<Store> storeList = storeService.showStoreListNearCustomer(coordinates.get(), foodKind);
+        storeList.forEach(store -> {
+            storePartList.add(new StorePartResponseDto(store));
+        });
+        return storePartList;
     }
 
     @GetMapping("/{storeId}")

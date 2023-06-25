@@ -30,7 +30,6 @@ public class DynamoMemberRepository implements MemberRepository {
     public void updateMember(String customerId, CustomerRequestDto data) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
-            if (data.getEmail() != null) customer.setEmail(data.getEmail());
             if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
             repository.save(customer);
         });
@@ -40,7 +39,6 @@ public class DynamoMemberRepository implements MemberRepository {
     public void updateMember(String customerId, CustomerRequestDto data, Point location) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
-            if (data.getEmail() != null) customer.setEmail(data.getEmail());
             if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
             customer.setAddress(data.getAddress());
             customer.setLocation(location);

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface MenuRepository {
     String createMenu(Menu menu);
     Optional<Menu> readMenu(String menuId);
-    Optional<List<Menu>> readMenuList(String storeId);
+    List<Menu> readMenuList(String storeId);
     void updateMenu(MenuSqsDto data);
     void deleteMenu(String menuId);
 }

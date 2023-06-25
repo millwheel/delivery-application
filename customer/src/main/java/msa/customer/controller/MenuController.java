@@ -28,20 +28,16 @@ public class MenuController {
         this.basketService = basketService;
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
-        Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
-        if (menuListOptional.isEmpty()){
-            throw new RuntimeException("menu list doesn't exist.");
-        }
-        List<Menu> menuList = menuListOptional.get();
-        List<MenuPartResponseDto> newMenuList = new ArrayList<>();
+        List<Menu> menuList = menuService.getMenuList(storeId);
+        List<MenuPartResponseDto> menuPartList = new ArrayList<>();
         menuList.forEach(menu -> {
             MenuPartResponseDto menuPartResponseDto = new MenuPartResponseDto(menu);
-            newMenuList.add(menuPartResponseDto);
+            menuPartList.add(menuPartResponseDto);
         });
-        return newMenuList;
+        return menuPartList;
     }
 
     @GetMapping("/{menuId}")
