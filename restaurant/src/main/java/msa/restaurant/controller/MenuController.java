@@ -32,7 +32,8 @@ public class MenuController {
         this.sqsService = sqsService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> menuList(@PathVariable String storeId){
         Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
         if (menuListOptional.isEmpty()){
@@ -57,7 +58,7 @@ public class MenuController {
         throw new RuntimeException("Menu doesn't exist.");
     }
 
-    @PostMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addMenu(@RequestBody MenuRequestDto data,
                         @PathVariable String storeId,

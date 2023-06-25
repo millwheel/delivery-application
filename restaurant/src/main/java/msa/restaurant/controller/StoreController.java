@@ -38,7 +38,7 @@ public class StoreController {
         this.sqsService = sqsService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartInfoResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
@@ -62,7 +62,7 @@ public class StoreController {
         throw new RuntimeException("Cannot find store info from DB");
     }
 
-    @PostMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
