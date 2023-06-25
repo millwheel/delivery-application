@@ -7,6 +7,7 @@ import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class BasketService {
         try {
             Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
             if(basketOptional.isEmpty()){
+                basketAfter.setBasketId(basketId);
                 basketAfter.setStoreId(storeId);
                 basketRepository.createBasket(basketAfter);
             }else{
@@ -53,6 +55,9 @@ public class BasketService {
         int menuPrice = countAdd * eachPrice;
 
         List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
+        if (menuInBasketList == null){
+            menuInBasketList = new ArrayList<>();
+        }
         Optional<MenuInBasket> menuInBasketOptional = menuInBasketList.stream().filter(m -> m.getMenuId().equals(menuId)).findAny();
         if (menuInBasketOptional.isPresent()){
             MenuInBasket menuInBasket = menuInBasketOptional.get();
