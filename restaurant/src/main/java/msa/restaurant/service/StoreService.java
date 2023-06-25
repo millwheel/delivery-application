@@ -2,15 +2,11 @@ package msa.restaurant.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.entity.MenuPartInfo;
 import msa.restaurant.entity.Store;
 import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j

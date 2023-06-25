@@ -1,15 +1,9 @@
 package msa.restaurant.repository.store;
 
 import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.entity.Menu;
-import msa.restaurant.entity.MenuPartInfo;
 import msa.restaurant.entity.Store;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -52,13 +46,6 @@ public class MongoStoreRepository implements StoreRepository {
         });
     }
 
-    @Override
-    public void updateMenuList(String storeId, List<MenuPartInfo> menuList) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setMenuList(menuList);
-            repository.save(store);
-        });
-    }
 
     @Override
     public void updateOpenStatus(String storeId, boolean status) {
