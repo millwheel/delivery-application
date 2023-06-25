@@ -23,7 +23,7 @@ public class MenuController {
     private final MenuService menuService;
     private final BasketService basketService;
 
-    public MenuController(StoreService storeService, MenuService menuService, BasketService basketService) {
+    public MenuController(MenuService menuService, BasketService basketService) {
         this.menuService = menuService;
         this.basketService = basketService;
     }
@@ -66,7 +66,7 @@ public class MenuController {
             throw new IllegalArgumentException("menuCount is too large.");
         }
         basketService.addToBasket(customerId, storeId, menuId, menuCount);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu/list");
+        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");
     }
 
 }

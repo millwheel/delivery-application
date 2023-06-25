@@ -16,15 +16,13 @@ import java.util.Optional;
 public class BasketController {
 
     private final BasketService basketService;
-    private final OrderService orderService;
 
-    public BasketController(BasketService basketService, OrderService orderService) {
+    public BasketController(BasketService basketService) {
         this.basketService = basketService;
-        this.orderService = orderService;
     }
 
-    @GetMapping("/basket/info")
-    public BasketResponseDto showBasketMenu(@RequestAttribute String customerId){
+    @GetMapping("/basket")
+    public BasketResponseDto showBasketMenu(@RequestAttribute("cognitoUsername") String customerId){
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
             throw new RuntimeException("basket is empty");
@@ -33,13 +31,13 @@ public class BasketController {
         return new BasketResponseDto(basket);
     }
 
-    @GetMapping("/basket/clean")
-    public void cleanBasket(@RequestAttribute String customerId,
+    @DeleteMapping("/basket")
+    public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
         basketService.deleteAllInBasket(customerId);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu/list");
+        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");
     }
 
 }
