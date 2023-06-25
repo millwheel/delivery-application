@@ -40,11 +40,11 @@ public class MenuController {
             throw new RuntimeException("no menu list");
         }
         List<Menu> menuList = menuListOptional.get();
-        List<MenuPartResponseDto> menuResponseDtoList = new ArrayList<>();
+        List<MenuPartResponseDto> menuListDto = new ArrayList<>();
         menuList.forEach(menu -> {
-            menuResponseDtoList.add(new MenuPartResponseDto(menu));
+            menuListDto.add(new MenuPartResponseDto(menu));
         });
-        return menuResponseDtoList;
+        return menuListDto;
     }
 
     @GetMapping("/{menuId}")
@@ -73,7 +73,7 @@ public class MenuController {
         String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageForMenuInfo);
         sqsService.sendToRider(messageForMenuInfo);
-        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
+        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
     @PutMapping("/{menuId}")
@@ -92,7 +92,7 @@ public class MenuController {
         String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageToUpdateMenu);
         sqsService.sendToRider(messageToUpdateMenu);
-        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
+        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
     @DeleteMapping("/{menuId}")
@@ -108,7 +108,7 @@ public class MenuController {
         String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);
-        response.sendRedirect("/restaurant/menu/" + storeId + "/list");
+        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
 }

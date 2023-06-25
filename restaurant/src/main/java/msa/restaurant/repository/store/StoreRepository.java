@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface StoreRepository {
     String create(Store store);
-    Optional<Store> findById(String storeId);
+    Optional<Store> readStore(String storeId);
+    Optional<List<Store>> readStoreList(String managerId);
     void update(String storeId, StoreRequestDto data);
     void updateLocation(String storeId, Point location);
     void updateOpenStatus(String storeId, boolean open);

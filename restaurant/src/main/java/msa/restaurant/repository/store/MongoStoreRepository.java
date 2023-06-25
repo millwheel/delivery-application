@@ -4,6 +4,8 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.Store;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,8 +23,13 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public Optional<Store> findById(String storeId) {
+    public Optional<Store> readStore(String storeId) {
         return repository.findById(storeId);
+    }
+
+    @Override
+    public Optional<List<Store>> readStoreList(String managerId) {
+        return repository.findByManagerId(managerId);
     }
 
     @Override

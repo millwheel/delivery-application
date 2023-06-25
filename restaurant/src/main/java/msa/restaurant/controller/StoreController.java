@@ -1,9 +1,8 @@
 package msa.restaurant.controller;
 
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.store.StorePartInfoResponseDto;
+import msa.restaurant.dto.store.StorePartResponseDto;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
@@ -40,14 +39,18 @@ public class StoreController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<StorePartInfoResponseDto> storeList (
+    public List<StorePartResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
-        List<StorePartInfoResponseDto> storeResponseDtoList = new ArrayList<>();
-        List<StorePartInfo> storePartInfoList = memberService.getStoreList(managerId);
-        storePartInfoList.forEach(store -> {
-            storeResponseDtoList.add(new StorePartInfoResponseDto(store));
+        Optional<List<Store>> storeListOptional = storeService.getStoreList(managerId);
+        if (storeListOptional.isEmpty()){
+            throw new RuntimeException("No store list.");
+        }
+        List<StorePartResponseDto> storeListDto = new ArrayList<>();
+        List<Store> storeList = storeListOptional.get();
+        storeList.forEach(store -> {
+            storeListDto.add(new StorePartResponseDto(store));
         });
-        return storeResponseDtoList;
+        return storeListDto;
     }
 
     @GetMapping("/{storeId}")
@@ -73,16 +76,11 @@ public class StoreController {
             throw new RuntimeException("Cannot add store into DB.");
         }
         Store store = storeOptional.get();
-        StorePartInfo storePartInfo = new StorePartInfo();
-        storePartInfo.setStoreId(store.getStoreId());
-        storePartInfo.setName(store.getName());
-        storePartInfo.setAddress(store.getAddress());
-        memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToCreateStore = messageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
-        response.sendRedirect("/restaurant/store/list");
+        response.sendRedirect("/restaurant/store");
     }
 
     @PutMapping("/{storeId}")
@@ -91,22 +89,17 @@ public class StoreController {
                             @PathVariable String storeId,
                             @RequestBody StoreRequestDto data,
                             HttpServletResponse response) throws IOException {
+        storeService.updateStore(storeId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot find store info for update.");
         }
         Store store = storeOptional.get();
-        StorePartInfo storePartInfo = new StorePartInfo();
-        storePartInfo.setStoreId(store.getStoreId());
-        storePartInfo.setName(store.getName());
-        storePartInfo.setAddress(store.getAddress());
-        storeService.updateStore(storeId, data);
-        memberService.updateStoreList(managerId, storePartInfo);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = messageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
         sqsService.sendToRider(messageToUpdateStore);
-        response.sendRedirect("/restaurant/store/list");
+        response.sendRedirect("/restaurant/store");
     }
 
     @DeleteMapping("/{storeId}")
@@ -119,12 +112,11 @@ public class StoreController {
             throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist.");
         }
         Store store = storeOptional.get();
-        memberService.deleteStoreFromList(managerId, store.getStoreId());
         storeService.deleteStore(storeId);
         String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);
         sqsService.sendToRider(messageToDeleteStore);
-        response.sendRedirect("/restaurant/store/list");
+        response.sendRedirect("/restaurant/store");
     }
 }
 

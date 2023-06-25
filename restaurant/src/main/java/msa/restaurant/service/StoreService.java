@@ -7,6 +7,8 @@ import msa.restaurant.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,9 +25,12 @@ public class StoreService {
     }
 
     public Optional<Store> getStore(String storeId){
-        return storeRepository.findById(storeId);
+        return storeRepository.readStore(storeId);
     }
 
+    public Optional<List<Store>> getStoreList(String managerId){
+        return storeRepository.readStoreList(managerId);
+    }
     public String createStore(StoreRequestDto data){
         Store store = new Store();
         store.setName(data.getName());
