@@ -1,9 +1,7 @@
 package msa.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.dto.menu.MenuSqsDto;
-import msa.customer.entity.menu.Menu;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.repository.store.StoreRepository;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +58,7 @@ public class StoreService {
         storeRepository.updateOpenStatus(storeId, false);
     }
 
-    public List<Store> showStoreListsNearCustomer(Point location, FoodKindType foodKind){
+    public List<Store> showStoreListsNearCustomer(Point location, FoodKind foodKind){
         return storeRepository.readStoreNearLocation(location, foodKind);
     }
 }

@@ -1,7 +1,6 @@
 package msa.customer.repository.store;
 
-import msa.customer.entity.menu.Menu;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
 import org.springframework.context.annotation.Primary;
@@ -33,7 +32,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public List<Store> readStoreNearLocation(Point location, FoodKindType foodKind) {
+    public List<Store> readStoreNearLocation(Point location, FoodKind foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
         return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }

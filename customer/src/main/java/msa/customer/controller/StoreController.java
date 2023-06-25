@@ -3,7 +3,7 @@ package msa.customer.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.store.StoreResponseDto;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
 import msa.customer.service.MemberService;
 import msa.customer.service.StoreService;
@@ -30,7 +30,7 @@ public class StoreController {
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<Store> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
-                                     @PathVariable FoodKindType foodKind,
+                                     @PathVariable FoodKind foodKind,
                                      HttpServletResponse response) throws IOException {
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){

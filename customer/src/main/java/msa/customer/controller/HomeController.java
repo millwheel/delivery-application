@@ -1,12 +1,16 @@
 package msa.customer.controller;
 
+import msa.customer.entity.store.FoodKind;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
 public class HomeController {
-
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -14,11 +18,14 @@ public class HomeController {
         return "Customer server is activated successfully";
     }
 
-    @GetMapping("/foods")
+    @GetMapping("/main")
     @ResponseStatus(HttpStatus.OK)
-    public String foodsKind() {
-        // rendered by frontend
-        return "Food kind list";
+    public List<String> foods() {
+        List<String> foodKindList = new ArrayList<>();
+        for (FoodKind foodKind : EnumSet.allOf(FoodKind.class)){
+            foodKindList.add(foodKind.toString());
+        }
+        return foodKindList;
     }
 
 }

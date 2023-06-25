@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import msa.customer.dto.store.StoreSqsDto;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import org.springframework.data.geo.Point;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class StoreDeserializer extends StdDeserializer {
         JsonNode node = p.getCodec().readTree(p);
         String storeId = node.get("storeId").asText();
         String name = node.get("name").asText();
-        FoodKindType foodKind = FoodKindType.valueOf(node.get("foodKind").asText());
+        FoodKind foodKind = FoodKind.valueOf(node.get("foodKind").asText());
         String phoneNumber = node.get("phoneNumber").asText();
         String address = node.get("address").asText();
         String addressDetail = node.get("addressDetail").asText();

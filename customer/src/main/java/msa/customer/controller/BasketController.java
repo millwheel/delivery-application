@@ -3,8 +3,7 @@ package msa.customer.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.basket.BasketResponseDto;
 import msa.customer.entity.basket.Basket;
-import msa.customer.entity.order.Order;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import msa.customer.service.BasketService;
 import msa.customer.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class BasketController {
 
     @GetMapping("/basket/clean")
     public void cleanBasket(@RequestAttribute String customerId,
-                            @PathVariable FoodKindType foodKind,
+                            @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
         basketService.deleteAllInBasket(customerId);

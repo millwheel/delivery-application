@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.menu.MenuPartResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
-import msa.customer.entity.store.FoodKindType;
+import msa.customer.entity.store.FoodKind;
 import msa.customer.service.BasketService;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
@@ -58,7 +58,7 @@ public class MenuController {
     @PostMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
-                            @PathVariable FoodKindType foodKind,
+                            @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
                             @PathVariable String menuId,
                             @RequestBody int menuCount,
