@@ -2,10 +2,7 @@ package msa.restaurant.repository.member;
 
 import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.entity.Manager;
-import msa.restaurant.entity.StorePartInfo;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.Optional;
 
 @Repository

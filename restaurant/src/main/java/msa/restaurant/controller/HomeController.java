@@ -13,12 +13,12 @@ public class HomeController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String home(){
-        return "Store server is activated successfully";
+        return "Restaurant server is activated successfully";
     }
 
     @GetMapping("/main")
     @ResponseStatus(HttpStatus.OK)
-    public String orderList(){
+    public String welcome(){
         return "welcome page";
     }
 }

@@ -7,7 +7,6 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
-import msa.restaurant.entity.StorePartInfo;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
@@ -98,6 +97,12 @@ public class StoreController {
         sqsService.sendToCustomer(messageToUpdateStore);
         sqsService.sendToRider(messageToUpdateStore);
         response.sendRedirect("/restaurant/store");
+    }
+
+    @PostMapping("/{storeId}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateStoreStatus(){
+
     }
 
     @DeleteMapping("/{storeId}")
