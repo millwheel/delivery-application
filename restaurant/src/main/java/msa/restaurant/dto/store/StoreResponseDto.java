@@ -14,6 +14,7 @@ public class StoreResponseDto {
     private String address;
     private String addressDetail;
     private String introduction;
+    private boolean open;
 
     public StoreResponseDto(Store store) {
         name = store.getName();
@@ -22,5 +23,6 @@ public class StoreResponseDto {
         address = store.getAddress();
         addressDetail = store.getAddressDetail();
         introduction = store.getIntroduction();
+        open = store.isOpen();
     }
 }
