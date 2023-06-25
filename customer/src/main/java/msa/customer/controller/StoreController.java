@@ -27,7 +27,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Store> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                      @PathVariable FoodKind foodKind,
