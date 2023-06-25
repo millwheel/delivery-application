@@ -43,7 +43,7 @@ public class BasketService {
     }
 
     public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
-        Optional<Menu> menuOptional = menuRepository.findById(menuId);
+        Optional<Menu> menuOptional = menuRepository.readMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("menu doesn't exist.");
         }

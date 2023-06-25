@@ -36,7 +36,7 @@ public class OrderService {
 
     public Order addCustomerInfo(String customerId, Order order){
         order.setCustomerId(customerId);
-        memberRepository.findById(customerId).ifPresent(member -> {
+        memberRepository.readMember(customerId).ifPresent(member -> {
             order.setCustomerId(member.getCustomerId());
             order.setCustomerName(member.getName());
             order.setCustomerPhoneNumber(member.getPhoneNumber());
@@ -77,6 +77,6 @@ public class OrderService {
     }
 
     public Optional<Order> getOrder(String orderId){
-        return orderRepository.findById(orderId);
+        return orderRepository.readOrder(orderId);
     }
 }

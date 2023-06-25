@@ -61,37 +61,4 @@ public class StoreService {
     public List<Store> showStoreListsNearCustomer(Point location, FoodKindType foodKind){
         return storeRepository.readStoreNearLocation(location, foodKind);
     }
-
-    public List<Menu> getMenuList(String storeId){
-        return storeRepository.readStore(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
-    }
-
-    public void addToMenuList(MenuSqsDto menuSqsDto){
-        String storeId = menuSqsDto.getStoreId();
-        List<Menu> menuList = getMenuList(storeId);
-        Menu menu = new Menu();
-        menu.setMenuId(menuSqsDto.getMenuId());
-        menu.setName(menuSqsDto.getName());
-        menu.setPrice(menuSqsDto.getPrice());
-        menu.setDescription(menuSqsDto.getDescription());
-        menuList.add(menu);
-        storeRepository.updateMenuList(storeId, menuList);
-    }
-
-    public void updateMenuFromList(MenuSqsDto menuSqsDto){
-        String storeId = menuSqsDto.getStoreId();
-        List<Menu> menuList = getMenuList(storeId);
-        Menu menu = new Menu();
-        menu.setMenuId(menuSqsDto.getMenuId());
-        menu.setName(menuSqsDto.getName());
-        menu.setPrice(menuSqsDto.getPrice());
-        int index = menuList.indexOf(menu);
-        menuList.set(index, menu);
-        storeRepository.updateMenuList(storeId, menuList);
-    }
-    public void deleteMenuFromList(String storeId, String menuId){
-        List<Menu> menuList = getMenuList(storeId);
-        menuList.removeIf(menuPartInfo -> menuPartInfo.getMenuId().equals(menuId));
-        storeRepository.updateMenuList(storeId, menuList);
-    }
 }

@@ -33,7 +33,11 @@ public class MenuController {
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
-        List<Menu> menuList = storeService.getMenuList(storeId);
+        Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
+        if (menuListOptional.isEmpty()){
+            throw new RuntimeException("menu list doesn't exist.");
+        }
+        List<Menu> menuList = menuListOptional.get();
         List<MenuPartResponseDto> newMenuList = new ArrayList<>();
         menuList.forEach(menu -> {
             MenuPartResponseDto menuPartResponseDto = new MenuPartResponseDto(menu);

@@ -22,7 +22,7 @@ public class DynamoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Customer> findById(String id) {
+    public Optional<Customer> readMember(String id) {
         return repository.findById(id);
     }
 
