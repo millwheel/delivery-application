@@ -14,7 +14,6 @@ public interface StoreRepository {
     Optional<Store> readStore(String id);
     List<Store> readStoreNearLocation(Point location, FoodKindType foodKind);
     void updateStore(StoreSqsDto data);
-//    void updateMenuList(String id, List<Menu> menuList);
     void updateOpenStatus(String id, boolean open);
     void deleteStore(String id);
 }

@@ -1,5 +1,6 @@
 package msa.customer.service;
 
+import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKindType;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class StoreService {
 
@@ -35,7 +37,8 @@ public class StoreService {
         store.setAddressDetail(data.getAddressDetail());
         store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
-        storeRepository.createStore(store);
+        String storeId = storeRepository.createStore(store);
+        log.info(storeId);
     }
 
     public Optional<Store> getStore(String storeId){

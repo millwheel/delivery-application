@@ -51,14 +51,6 @@ public class MongoStoreRepository implements StoreRepository {
         });
     }
 
-//    @Override
-//    public void updateMenuList(String id, List<Menu> menuList) {
-//        repository.findById(id).ifPresent(store -> {
-//            store.setMenuList(menuList);
-//            repository.save(store);
-//        });
-//    }
-
     @Override
     public void updateOpenStatus(String id, boolean status) {
         repository.findById(id).ifPresent(restaurant -> {
