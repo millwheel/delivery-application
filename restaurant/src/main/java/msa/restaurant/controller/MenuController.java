@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/menu")
+@RequestMapping("/restaurant/store/{storeId}/menu")
 public class MenuController {
     private final MenuService menuService;
     private final MessageConverter messageConverter;
@@ -32,7 +32,7 @@ public class MenuController {
         this.sqsService = sqsService;
     }
 
-    @GetMapping("{storeId}/list")
+    @GetMapping("/list")
     public List<MenuPartResponseDto> menuList(@PathVariable String storeId){
         Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
         if (menuListOptional.isEmpty()){
@@ -46,7 +46,7 @@ public class MenuController {
         return menuResponseDtoList;
     }
 
-    @GetMapping("{storeId}/info/{menuId}")
+    @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public MenuResponseDto menuInfo (@PathVariable String menuId) {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
@@ -57,7 +57,7 @@ public class MenuController {
         throw new RuntimeException("Menu doesn't exist.");
     }
 
-    @PostMapping("{storeId}/add")
+    @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public void addMenu(@RequestBody MenuRequestDto data,
                         @PathVariable String storeId,
@@ -75,7 +75,7 @@ public class MenuController {
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
-    @PutMapping("{storeId}/update/{menuId}")
+    @PutMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateMenu(@PathVariable String storeId,
                            @PathVariable String menuId,
@@ -94,7 +94,7 @@ public class MenuController {
         response.sendRedirect("/restaurant/menu/" + storeId + "/list");
     }
 
-    @DeleteMapping("{storeId}/delete/{menuId}")
+    @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId,

@@ -50,7 +50,7 @@ public class StoreController {
         return storeResponseDtoList;
     }
 
-    @GetMapping("/info/{storeId}")
+    @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId) {
@@ -62,7 +62,7 @@ public class StoreController {
         throw new RuntimeException("Cannot find store info from DB");
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
@@ -85,7 +85,7 @@ public class StoreController {
         response.sendRedirect("/restaurant/store/list");
     }
 
-    @PutMapping("/update/{storeId}")
+    @PutMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
@@ -109,7 +109,7 @@ public class StoreController {
         response.sendRedirect("/restaurant/store/list");
     }
 
-    @DeleteMapping("/delete/{storeId}")
+    @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
