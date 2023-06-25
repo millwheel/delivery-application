@@ -27,9 +27,11 @@ public class MessageConverter {
 
     public String createMessageToDeleteStore(String storeId){
         JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
         jsonObject.put("dataType", "store");
         jsonObject.put("method", "delete");
-        jsonObject.put("storeId", storeId);
+        data.put("storeId", storeId);
+        jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
