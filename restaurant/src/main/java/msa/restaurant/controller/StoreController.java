@@ -7,6 +7,7 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
+import msa.restaurant.entity.StoreStatus;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
@@ -59,7 +60,7 @@ public class StoreController {
             Store store = storeOptional.get();
             return new StoreResponseDto(store);
         }
-        throw new RuntimeException("Cannot find store info from DB");
+        throw new RuntimeException("Can't find store from DB");
     }
 
     @PostMapping
@@ -70,7 +71,7 @@ public class StoreController {
         String storeId = storeService.createStore(data, managerId);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot add store into DB.");
+            throw new RuntimeException("Can't find store from DB");
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
@@ -89,7 +90,7 @@ public class StoreController {
         storeService.updateStore(storeId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot find store info for update.");
+            throw new RuntimeException("Can't find store from DB");
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
@@ -99,10 +100,23 @@ public class StoreController {
         response.sendRedirect("/restaurant/store");
     }
 
-    @PostMapping("/{storeId}/status")
+    @PostMapping("/{storeId}/{status}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateStoreStatus(){
-
+    public void changeStoreStatus(@PathVariable String storeId,
+                                  @PathVariable StoreStatus status){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
+            throw new RuntimeException("Can't find store from DB");
+        }
+        String messageToChangeStatus;
+        if (status == StoreStatus.OPEN){
+            storeService.openStore(storeId);
+            messageToChangeStatus = messageConverter.createMessageToOpenStore();
+        } else {
+            storeService.closeStore(storeId);
+            messageToChangeStatus = messageConverter.createMessageToCloseStore();
+        }
+        sqsService.sendToCustomer(messageToChangeStatus);
     }
 
     @DeleteMapping("/{storeId}")
@@ -112,7 +126,7 @@ public class StoreController {
                             HttpServletResponse response) throws IOException {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist.");
+            throw new RuntimeException("Can't find store from DB");
         }
         storeService.deleteStore(storeId);
         String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
