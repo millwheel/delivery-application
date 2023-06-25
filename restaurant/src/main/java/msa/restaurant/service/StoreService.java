@@ -31,7 +31,7 @@ public class StoreService {
     public Optional<List<Store>> getStoreList(String managerId){
         return storeRepository.readStoreList(managerId);
     }
-    public String createStore(StoreRequestDto data){
+    public String createStore(StoreRequestDto data, String managerId){
         Store store = new Store();
         store.setName(data.getName());
         store.setFoodKind(data.getFoodKind());
@@ -41,6 +41,7 @@ public class StoreService {
         store.setLocation(coordinate);
         store.setAddressDetail(data.getAddressDetail());
         store.setIntroduction(data.getIntroduction());
+        store.setManagerId(managerId);
         return storeRepository.create(store);
     }
 

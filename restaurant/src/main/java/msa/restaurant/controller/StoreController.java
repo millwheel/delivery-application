@@ -68,7 +68,7 @@ public class StoreController {
     public void addStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
-        String storeId = storeService.createStore(data);
+        String storeId = storeService.createStore(data, managerId);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot add store into DB.");

@@ -11,6 +11,5 @@ public interface MemberRepository {
     String create(Manager manager);
     Optional<Manager> findById(String managerId);
     void update(String managerId, ManagerRequestDto data);
-    void updateStoreList(String managerId, List<StorePartInfo> store);
 }
 
