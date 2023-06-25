@@ -25,17 +25,19 @@ public class MessageConverter {
         return jsonObject.toString();
     }
 
-    public String createMessageToOpenStore(){
+    public String createMessageToOpenStore(String storeId){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("dataType", "store");
         jsonObject.put("method", "open");
+        jsonObject.put("storeId", storeId);
         return jsonObject.toString();
     }
 
-    public String createMessageToCloseStore(){
+    public String createMessageToCloseStore(String storeId){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("dataType", "store");
         jsonObject.put("method", "close");
+        jsonObject.put("storeId", storeId);
         return jsonObject.toString();
     }
 

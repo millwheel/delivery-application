@@ -111,10 +111,10 @@ public class StoreController {
         String messageToChangeStatus;
         if (status == StoreStatus.OPEN){
             storeService.openStore(storeId);
-            messageToChangeStatus = messageConverter.createMessageToOpenStore();
+            messageToChangeStatus = messageConverter.createMessageToOpenStore(storeId);
         } else {
             storeService.closeStore(storeId);
-            messageToChangeStatus = messageConverter.createMessageToCloseStore();
+            messageToChangeStatus = messageConverter.createMessageToCloseStore(storeId);
         }
         sqsService.sendToCustomer(messageToChangeStatus);
     }
