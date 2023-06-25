@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -23,6 +22,7 @@ public class Store {
     private String addressDetail;
     private Point location;
     private String introduction;
-    private List<MenuPartInfo> menuList;
     private boolean open;
+    @Indexed
+    private String managerId;
 }

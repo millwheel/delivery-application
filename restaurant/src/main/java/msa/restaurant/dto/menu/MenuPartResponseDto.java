@@ -6,18 +6,14 @@ import msa.restaurant.entity.Menu;
 
 @Setter
 @Getter
-public class MenuSqsDto {
+public class MenuPartResponseDto {
     private String menuId;
     private String name;
     private int price;
-    private String description;
-    private String storeId;
 
-    public MenuSqsDto(Menu menu) {
+    public MenuPartResponseDto(Menu menu) {
         menuId = menu.getMenuId();
         name = menu.getName();
         price = menu.getPrice();
-        description = menu.getDescription();
-        storeId = menu.getStoreId();
     }
 }

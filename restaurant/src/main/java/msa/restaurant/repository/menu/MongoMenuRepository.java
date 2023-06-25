@@ -4,6 +4,7 @@ import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.entity.Menu;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,8 +23,13 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Optional<Menu> findById(String menuId) {
+    public Optional<Menu> readMenu(String menuId) {
         return repository.findById(menuId);
+    }
+
+    @Override
+    public Optional<List<Menu>> readMenuList(String storeId) {
+        return repository.findByStoreId(storeId);
     }
 
     @Override

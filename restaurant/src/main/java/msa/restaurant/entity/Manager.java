@@ -14,12 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Document("manager")
 public class Manager {
-
     @MongoId
     private String managerId;
     private String name;
     private String email;
     private String phoneNumber;
-    private List<StorePartInfo> storeList;
-
 }

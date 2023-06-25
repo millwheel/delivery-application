@@ -61,27 +61,4 @@ public class StoreService {
         storeRepository.updateOpenStatus(storeId, false);
     }
 
-    public List<MenuPartInfo> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
-    }
-
-    public void addToMenuList(String storeId, MenuPartInfo menuPartInfo){
-        List<MenuPartInfo> menuList = getMenuList(storeId);
-        menuList.add(menuPartInfo);
-        storeRepository.updateMenuList(storeId, menuList);
-    }
-
-    public void updateMenuFromList(String storeId, MenuPartInfo menuPartInfo){
-        List<MenuPartInfo> menuList = getMenuList(storeId);
-        int index = menuList.indexOf(menuPartInfo);
-        menuList.set(index, menuPartInfo);
-        storeRepository.updateMenuList(storeId, menuList);
-    }
-
-    public void deleteMenuFromList(String storeId, String menuId){
-        List<MenuPartInfo> menuList = getMenuList(storeId);
-        menuList.removeIf(menuPartInfo -> menuPartInfo.getMenuId().equals(menuId));
-        storeRepository.updateMenuList(storeId, menuList);
-    }
-
 }

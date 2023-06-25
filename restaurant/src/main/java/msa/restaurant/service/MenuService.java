@@ -6,6 +6,7 @@ import msa.restaurant.repository.menu.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,16 +19,21 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public Optional<Menu> getMenu(String menuId){
-        return menuRepository.findById(menuId);
-    }
-
-    public String createMenu(MenuRequestDto data){
+    public String createMenu(MenuRequestDto data, String storeId){
         Menu menu = new Menu();
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
+        menu.setStoreId(storeId);
         return menuRepository.create(menu);
+    }
+
+    public Optional<Menu> getMenu(String menuId){
+        return menuRepository.readMenu(menuId);
+    }
+
+    public Optional<List<Menu>> getMenuList(String storeId){
+        return menuRepository.readMenuList(storeId);
     }
 
     public void updateMenu(String menuId, MenuRequestDto data){
