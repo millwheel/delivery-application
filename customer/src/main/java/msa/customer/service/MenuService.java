@@ -25,11 +25,16 @@ public class MenuService {
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
+        menu.setStoreId(data.getStoreId());
         menuRepository.createMenu(menu);
     }
 
     public Optional<Menu> getMenu(String menuId){
         return menuRepository.readMenu(menuId);
+    }
+
+    public Optional<List<Menu>> getMenuList(String storeId){
+        return menuRepository.readMenuList(storeId);
     }
 
     public void updateMenu(MenuSqsDto data){
@@ -38,9 +43,5 @@ public class MenuService {
 
     public void deleteMenu(String menuId){
         menuRepository.deleteMenu(menuId);
-    }
-
-    public Optional<List<Menu>> getMenuList(String storeId){
-        return menuRepository.readMenuList(storeId);
     }
 }

@@ -51,17 +51,14 @@ public class MessageConverter {
         if (jsonObject.get("method").equals("createMenu")){
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
             menuService.createMenu(menuSqsDto);
-            storeService.addToMenuList(menuSqsDto);
         } else if (jsonObject.get("method").equals("updateLocation")) {
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
             menuService.updateMenu(menuSqsDto);
-            storeService.updateMenuFromList(menuSqsDto);
         } else if (jsonObject.get("method").equals("delete")){
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String menuId = (String) data.get("menuId");
             String storeId = (String) data.get("storeId");
             menuService.deleteMenu(menuId);
-            storeService.deleteMenuFromList(storeId, menuId);
         }
     }
 
