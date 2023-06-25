@@ -31,6 +31,7 @@ public class MongoBasketRepository implements BasketRepository{
         repository.findById(basket.getBasketId()).ifPresent(savedBasket ->{
             savedBasket.setMenuInBasketList(basket.getMenuInBasketList());
             savedBasket.setTotalPrice(basket.getTotalPrice());
+            repository.save(basket);
         });
     }
 

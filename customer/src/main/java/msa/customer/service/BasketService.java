@@ -1,5 +1,6 @@
 package msa.customer.service;
 
+import lombok.extern.slf4j.Slf4j;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.basket.MenuInBasket;
 import msa.customer.entity.menu.Menu;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BasketService {
 
     private final BasketRepository basketRepository;
@@ -32,6 +34,7 @@ public class BasketService {
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
         try {
             Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
+            log.info(basketAfter.getMenuInBasketList().toString());
             if(basketOptional.isEmpty()){
                 basketAfter.setBasketId(basketId);
                 basketAfter.setStoreId(storeId);
@@ -58,6 +61,7 @@ public class BasketService {
         if (menuInBasketList == null){
             menuInBasketList = new ArrayList<>();
         }
+        log.info(menuInBasketList.toString());
         Optional<MenuInBasket> menuInBasketOptional = menuInBasketList.stream().filter(m -> m.getMenuId().equals(menuId)).findAny();
         if (menuInBasketOptional.isPresent()){
             MenuInBasket menuInBasket = menuInBasketOptional.get();
@@ -75,6 +79,7 @@ public class BasketService {
             menuInBasket.setPrice(menuPrice);
             menuInBasketList.add(menuInBasket);
         }
+        log.info(menuInBasketList.toString());
         basket.setMenuInBasketList(menuInBasketList);
         int totalPrice = menuInBasketList.stream().mapToInt(MenuInBasket::getPrice).sum();
         basket.setTotalPrice(totalPrice);
