@@ -90,6 +90,10 @@ public class BasketService {
         return basketRepository.readBasket(basketId);
     }
 
+    public void deleteMenuFromBasket(String basketId, String menuId){
+        basketRepository.deleteMenu(basketId, menuId);
+    }
+
     public void deleteAllInBasket(String basketId){
         basketRepository.deleteBasket(basketId);
     }

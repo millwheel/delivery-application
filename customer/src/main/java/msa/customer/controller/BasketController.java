@@ -31,6 +31,16 @@ public class BasketController {
         return new BasketResponseDto(basket);
     }
 
+    @DeleteMapping("/basket/{menuId}")
+    public void deleteMenuFromBasket (@RequestAttribute("cognitoUsername") String customerId,
+                                      @PathVariable FoodKind foodKind,
+                                      @PathVariable String storeId,
+                                      @PathVariable String menuId,
+                                      HttpServletResponse response) throws IOException {
+        basketService.deleteMenuFromBasket(customerId, menuId);
+        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
+    }
+
     @DeleteMapping("/basket")
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
