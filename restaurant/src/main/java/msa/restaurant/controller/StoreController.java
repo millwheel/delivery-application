@@ -25,7 +25,6 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store")
 public class StoreController {
 
-    private final MemberService memberService;
     private final StoreService storeService;
     private final MessageConverter messageConverter;
     private final SqsService sqsService;
@@ -33,7 +32,6 @@ public class StoreController {
     public StoreController(StoreService storeService, MessageConverter messageConverter, MemberService memberService, SqsService sqsService) {
         this.storeService = storeService;
         this.messageConverter = messageConverter;
-        this.memberService = memberService;
         this.sqsService = sqsService;
     }
 
@@ -111,7 +109,6 @@ public class StoreController {
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Cannot Delete Store from DB. It doesn't exist.");
         }
-        Store store = storeOptional.get();
         storeService.deleteStore(storeId);
         String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);

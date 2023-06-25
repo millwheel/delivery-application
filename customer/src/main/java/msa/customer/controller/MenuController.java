@@ -20,12 +20,10 @@ import java.util.Optional;
 @RequestMapping("/customer/{foodKind}/store/{storeId}/menu")
 public class MenuController {
 
-    private final StoreService storeService;
     private final MenuService menuService;
     private final BasketService basketService;
 
     public MenuController(StoreService storeService, MenuService menuService, BasketService basketService) {
-        this.storeService = storeService;
         this.menuService = menuService;
         this.basketService = basketService;
     }
