@@ -3,6 +3,7 @@ package msa.customer.entity.menu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -16,4 +17,6 @@ public class Menu {
     private String name;
     private int price;
     private String description;
+    @Indexed
+    private String storeId;
 }

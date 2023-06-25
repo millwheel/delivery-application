@@ -27,6 +27,5 @@ public class Store {
     @GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
     private String introduction;
-    private List<Menu> menuList;
     private boolean open;
 }
