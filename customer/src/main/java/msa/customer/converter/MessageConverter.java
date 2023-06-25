@@ -41,6 +41,12 @@ public class MessageConverter {
         } else if (jsonObject.get("method").equals("update")) {
             StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
             storeService.updateStore(storeSqsDto);
+        } else if (jsonObject.get("method").equals("open")){
+            String storeId = (String)jsonObject.get("storeId");
+            storeService.openStore(storeId);
+        } else if (jsonObject.get("method").equals("close")){
+            String storeId = (String)jsonObject.get("storeId");
+            storeService.closeStore(storeId);
         } else if (jsonObject.get("method").equals("delete")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String storeId = (String) data.get("storeId");
