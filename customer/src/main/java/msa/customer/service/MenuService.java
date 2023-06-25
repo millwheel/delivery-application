@@ -22,7 +22,7 @@ public class MenuService {
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
-        menuRepository.create(menu);
+        menuRepository.createMenu(menu);
     }
 
     public Optional<Menu> getMenu(String menuId){
@@ -30,10 +30,10 @@ public class MenuService {
     }
 
     public void updateMenu(MenuSqsDto data){
-        menuRepository.update(data);
+        menuRepository.updateMenu(data);
     }
 
     public void deleteMenu(String menuId){
-        menuRepository.deleteById(menuId);
+        menuRepository.deleteMenu(menuId);
     }
 }

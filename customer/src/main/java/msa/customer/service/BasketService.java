@@ -22,7 +22,7 @@ public class BasketService {
     }
 
     public void addToBasket(String basketId, String storeId, String menuId, int count){
-        Optional<Basket> basketOptional = basketRepository.findById(basketId);
+        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isPresent()){
             if(!basketOptional.get().getStoreId().equals(storeId)){
                 throw new RuntimeException("storeId doesn't match existing storeId");
@@ -33,9 +33,9 @@ public class BasketService {
             Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
             if(basketOptional.isEmpty()){
                 basketAfter.setStoreId(storeId);
-                basketRepository.create(basketAfter);
+                basketRepository.createBasket(basketAfter);
             }else{
-                basketRepository.update(basketAfter);
+                basketRepository.updateBasket(basketAfter);
             }
         } catch (Exception e){
             throw e;
@@ -77,11 +77,11 @@ public class BasketService {
     }
 
     public Optional<Basket> getBasket(String basketId){
-        return basketRepository.findById(basketId);
+        return basketRepository.readBasket(basketId);
     }
 
     public void deleteAllInBasket(String basketId){
-        basketRepository.deleteById(basketId);
+        basketRepository.deleteBasket(basketId);
     }
 
 

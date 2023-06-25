@@ -16,18 +16,18 @@ public class MongoBasketRepository implements BasketRepository{
     }
 
     @Override
-    public String create(Basket basket) {
+    public String createBasket(Basket basket) {
         Basket savedBasket = repository.save(basket);
         return savedBasket.getBasketId();
     }
 
     @Override
-    public Optional<Basket> findById(String basketId) {
+    public Optional<Basket> readBasket(String basketId) {
         return repository.findById(basketId);
     }
 
     @Override
-    public void update(Basket basket) {
+    public void updateBasket(Basket basket) {
         repository.findById(basket.getBasketId()).ifPresent(savedBasket ->{
             savedBasket.setMenuInBasketList(basket.getMenuInBasketList());
             savedBasket.setTotalPrice(basket.getTotalPrice());
@@ -35,7 +35,7 @@ public class MongoBasketRepository implements BasketRepository{
     }
 
     @Override
-    public void deleteById(String basketId) {
+    public void deleteBasket(String basketId) {
         repository.deleteById(basketId);
     }
 }

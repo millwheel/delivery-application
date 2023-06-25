@@ -5,6 +5,7 @@ import msa.customer.entity.menu.Menu;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,18 +18,23 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public String create(Menu menu) {
+    public String createMenu(Menu menu) {
         Menu savedMenu = repository.save(menu);
         return savedMenu.getMenuId();
     }
 
     @Override
-    public Optional<Menu> findById(String menuId) {
+    public Optional<Menu> readMenu(String menuId) {
         return repository.findById(menuId);
     }
 
     @Override
-    public void update(MenuSqsDto data) {
+    public Optional<List<Menu>> readMenuList(String storeId) {
+        return repository.findByStoreId(storeId);
+    }
+
+    @Override
+    public void updateMenu(MenuSqsDto data) {
         repository.findById(data.getMenuId()).ifPresent(menu -> {
             menu.setName(data.getName());
             menu.setPrice(data.getPrice());
@@ -37,7 +43,7 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void deleteById(String menuId) {
+    public void deleteMenu(String menuId) {
         repository.deleteById(menuId);
     }
 

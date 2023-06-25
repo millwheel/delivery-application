@@ -22,24 +22,24 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public String create(Store store) {
+    public String createStore(Store store) {
         Store savedStore = repository.save(store);
         return savedStore.getStoreId();
     }
 
     @Override
-    public Optional<Store> findById(String id) {
+    public Optional<Store> readStore(String id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<Store> findStoreNear(Point location, FoodKindType foodKind) {
+    public List<Store> readStoreNearLocation(Point location, FoodKindType foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
         return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }
 
     @Override
-    public void update(StoreSqsDto data) {
+    public void updateStore(StoreSqsDto data) {
         repository.findById(data.getStoreId()).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());
@@ -68,7 +68,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void deleteById(String storeId) {
+    public void deleteStore(String storeId) {
         repository.deleteById(storeId);
     }
 

@@ -16,23 +16,23 @@ public class MongoOrderRepository implements OrderRepository{
     }
 
     @Override
-    public String create(Order order) {
+    public String createOrder(Order order) {
         Order savedOrder = repository.save(order);
         return savedOrder.getOrderId();
     }
 
     @Override
-    public Optional<Order> findById(String orderId) {
+    public Optional<Order> readOrder(String orderId) {
         return repository.findById(orderId);
     }
 
     @Override
-    public Optional<List<Order>> findByCustomerId(String customerId) {
+    public Optional<List<Order>> readOrderList(String customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public void deleteById(String orderId) {
+    public void deleteOrder(String orderId) {
         repository.deleteById(orderId);
     }
 }

@@ -16,7 +16,7 @@ public class DynamoMemberRepository implements MemberRepository {
         this.repository = repository;
     }
     @Override
-    public String create(Customer customer) {
+    public String createMember(Customer customer) {
         Customer savedCustomer = repository.save(customer);
         return savedCustomer.getCustomerId();
     }
@@ -27,13 +27,26 @@ public class DynamoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data) {
-
+    public void updateMember(String customerId, CustomerRequestDto data) {
+        repository.findById(customerId).ifPresent(customer -> {
+            if (data.getName() != null) customer.setName(data.getName());
+            if (data.getEmail() != null) customer.setEmail(data.getEmail());
+            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
+            repository.save(customer);
+        });
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data, Point location) {
-
+    public void updateMember(String customerId, CustomerRequestDto data, Point location) {
+        repository.findById(customerId).ifPresent(customer -> {
+            if (data.getName() != null) customer.setName(data.getName());
+            if (data.getEmail() != null) customer.setEmail(data.getEmail());
+            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
+            customer.setAddress(data.getAddress());
+            customer.setLocation(location);
+            if (data.getAddressDetail() != null) customer.setAddressDetail(data.getAddressDetail());
+            repository.save(customer);
+        });
     }
 
 }

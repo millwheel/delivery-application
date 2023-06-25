@@ -20,7 +20,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String create(Customer customer) {
+    public String createMember(Customer customer) {
         Customer save = repository.save(customer);
         return save.getCustomerId();
     }
@@ -31,7 +31,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data) {
+    public void updateMember(String customerId, CustomerRequestDto data) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
             if (data.getEmail() != null) customer.setEmail(data.getEmail());
@@ -41,7 +41,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data, Point location) {
+    public void updateMember(String customerId, CustomerRequestDto data, Point location) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
             if (data.getEmail() != null) customer.setEmail(data.getEmail());

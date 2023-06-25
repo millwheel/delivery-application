@@ -31,7 +31,7 @@ public class OrderService {
         Order order1 = addCustomerInfo(customerId, order);
         Order order2 = addStoreInfo(storeId, order1);
         Order order3 = addBasketInfo(basketId, order2);
-        orderRepository.create(order3);
+        orderRepository.createOrder(order3);
     }
 
     public Order addCustomerInfo(String customerId, Order order){
@@ -48,7 +48,7 @@ public class OrderService {
     }
 
     public Order addStoreInfo(String storeId, Order order){
-        Optional<Store> storeOptional = storeRepository.findById(storeId);
+        Optional<Store> storeOptional = storeRepository.readStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Store doesn't exist");
         }
@@ -63,7 +63,7 @@ public class OrderService {
     }
 
     public Order addBasketInfo(String basketId, Order order){
-        Optional<Basket> basketOptional = basketRepository.findById(basketId);
+        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new RuntimeException("Basket doesn't exist.");
         }
@@ -73,7 +73,7 @@ public class OrderService {
     }
 
     public Optional<List<Order>> getOrderList(String customerId){
-        return orderRepository.findByCustomerId(customerId);
+        return orderRepository.readOrderList(customerId);
     }
 
     public Optional<Order> getOrder(String orderId){

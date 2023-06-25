@@ -23,6 +23,6 @@ public class JoinService {
         Customer customer = new Customer();
         customer.setCustomerId(cognitoUsername);
         customer.setEmail(email);
-        memberRepository.create(customer);
+        memberRepository.createMember(customer);
     }
 }

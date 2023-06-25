@@ -35,19 +35,19 @@ public class StoreService {
         store.setAddressDetail(data.getAddressDetail());
         store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
-        storeRepository.create(store);
+        storeRepository.createStore(store);
     }
 
     public Optional<Store> getStore(String storeId){
-        return storeRepository.findById(storeId);
+        return storeRepository.readStore(storeId);
     }
 
     public void updateStore(StoreSqsDto data){
-        storeRepository.update(data);
+        storeRepository.updateStore(data);
     }
 
     public void deleteStore(String storeId){
-        storeRepository.deleteById(storeId);
+        storeRepository.deleteStore(storeId);
     }
 
     public void openStore(String storeId){
@@ -59,11 +59,11 @@ public class StoreService {
     }
 
     public List<Store> showStoreListsNearCustomer(Point location, FoodKindType foodKind){
-        return storeRepository.findStoreNear(location, foodKind);
+        return storeRepository.readStoreNearLocation(location, foodKind);
     }
 
     public List<Menu> getMenuList(String storeId){
-        return storeRepository.findById(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
+        return storeRepository.readStore(storeId).map(Store::getMenuList).orElseGet(ArrayList::new);
     }
 
     public void addToMenuList(MenuSqsDto menuSqsDto){

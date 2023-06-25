@@ -33,10 +33,10 @@ public class MemberService {
 
     public void updateCustomer(String customerId, CustomerRequestDto data){
         if (data.getAddress() == null) {
-            memberRepository.update(customerId, data);
+            memberRepository.updateMember(customerId, data);
         } else {
             Point coordinate = addressService.getCoordinate(data.getAddress());
-            memberRepository.update(customerId, data, coordinate);
+            memberRepository.updateMember(customerId, data, coordinate);
         }
     }
 

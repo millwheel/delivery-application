@@ -35,7 +35,7 @@ public class MessageConverter {
     }
 
     public void processStoreData(JSONObject jsonObject) throws JsonProcessingException {
-        if (jsonObject.get("method").equals("create")){
+        if (jsonObject.get("method").equals("createMenu")){
             StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
             storeService.createStore(storeSqsDto);
         } else if (jsonObject.get("method").equals("updateLocation")) {
@@ -48,7 +48,7 @@ public class MessageConverter {
     }
 
     public void processMenuData(JSONObject jsonObject) throws JsonProcessingException {
-        if (jsonObject.get("method").equals("create")){
+        if (jsonObject.get("method").equals("createMenu")){
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
             menuService.createMenu(menuSqsDto);
             storeService.addToMenuList(menuSqsDto);
