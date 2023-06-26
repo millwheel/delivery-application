@@ -40,6 +40,7 @@ public class MongoMenuRepository implements MenuRepository{
             menu.setPrice(data.getPrice());
             menu.setDescription(data.getDescription());
             menu.setStoreId(data.getStoreId());
+            repository.save(menu);
         });
     }
 

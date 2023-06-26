@@ -22,8 +22,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderPartResponseDto> showOrderList(@RequestAttribute String customerId,
-                                                    @PathVariable String storeId) {
+    public List<OrderPartResponseDto> showOrderList(@RequestAttribute String customerId) {
         Optional<List<Order>> orderListOptional = orderService.getOrderList(customerId);
         if (orderListOptional.isEmpty()){
             throw new RuntimeException("No order info");
