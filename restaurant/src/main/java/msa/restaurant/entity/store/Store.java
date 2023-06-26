@@ -16,7 +16,7 @@ public class Store {
     @MongoId
     private String storeId;
     private String name;
-    private FoodKindType foodKind;
+    private FoodKind foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;

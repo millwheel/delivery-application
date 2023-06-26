@@ -1,5 +1,5 @@
 package msa.restaurant.entity.store;
 
-public enum FoodKindType {
+public enum FoodKind {
     CHINESE, KOREAN, JAPANESE, CHICKEN, PIZZA, SOUTH_EAST, WEST, DESSERT
 }

@@ -2,7 +2,7 @@ package msa.restaurant.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.entity.store.FoodKindType;
+import msa.restaurant.entity.store.FoodKind;
 import msa.restaurant.entity.store.Store;
 import org.springframework.data.geo.Point;
 
@@ -12,12 +12,13 @@ import org.springframework.data.geo.Point;
 public class StoreSqsDto {
     private String storeId;
     private String name;
-    private FoodKindType foodKind;
+    private FoodKind foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;
     private Point location;
     private String introduction;
+    private boolean open;
 
     public StoreSqsDto(Store store){
         storeId = store.getStoreId();
@@ -28,5 +29,6 @@ public class StoreSqsDto {
         addressDetail = store.getAddressDetail();
         location = store.getLocation();
         introduction = store.getIntroduction();
+        open = store.isOpen();
     }
 }

@@ -2,7 +2,7 @@ package msa.restaurant.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.entity.store.FoodKindType;
+import msa.restaurant.entity.store.FoodKind;
 import msa.restaurant.entity.store.Store;
 
 @Getter
@@ -10,7 +10,7 @@ import msa.restaurant.entity.store.Store;
 public class StorePartResponseDto {
     private String storeId;
     private String name;
-    private FoodKindType foodKind;
+    private FoodKind foodKind;
     private String address;
     private String addressDetail;
 

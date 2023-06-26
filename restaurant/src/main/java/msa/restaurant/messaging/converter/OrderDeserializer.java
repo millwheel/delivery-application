@@ -20,6 +20,8 @@ public class OrderDeserializer extends StdDeserializer {
     @Override
     public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
         JsonNode node = p.getCodec().readTree(p);
+        String orderId = node.get("orderId").asText();
+        String orderTime = node.get("orderTime").asText();
         return null;
     }
 }

@@ -2,13 +2,13 @@ package msa.restaurant.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.entity.store.FoodKindType;
+import msa.restaurant.entity.store.FoodKind;
 
 @Getter
 @Setter
 public class StoreRequestDto {
     private String name;
-    private FoodKindType foodKind;
+    private FoodKind foodKind;
     private String phoneNumber;
     private String address;
     private String addressDetail;
