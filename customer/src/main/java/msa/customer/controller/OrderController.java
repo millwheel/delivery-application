@@ -1,6 +1,8 @@
 package msa.customer.controller;
 
+import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import msa.customer.messaging.converter.ReceivingMessageConverter;
 import msa.customer.messaging.converter.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/customer/order")
 public class OrderController {

@@ -25,7 +25,6 @@ public class OrderResponseDto {
     private String storePhoneNumber;
     private String storeAddress;
     private String storeAddressDetail;
-    private int storeOrderNumber;
 
     public OrderResponseDto(Order order) {
         orderTime = order.getOrderTime();
@@ -39,6 +38,5 @@ public class OrderResponseDto {
         storePhoneNumber = order.getStorePhoneNumber();
         storeAddress = order.getStoreAddress();
         storeAddressDetail = order.getStoreAddressDetail();
-        storeOrderNumber = order.getStoreOrderNumber();
     }
 }

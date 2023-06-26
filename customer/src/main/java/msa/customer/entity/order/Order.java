@@ -36,7 +36,6 @@ public class Order {
     private String storeAddress;
     private String storeAddressDetail;
     private Point storeLocation;
-    private int storeOrderNumber;
     private String riderId;
     private String riderPhoneNumber;
 }

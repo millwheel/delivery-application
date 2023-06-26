@@ -35,7 +35,7 @@ public class StoreService {
         store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
         String storeId = storeRepository.createStore(store);
-        log.info(storeId);
+        log.info("Created store id={}", storeId);
     }
 
     public Optional<Store> getStore(String storeId){
