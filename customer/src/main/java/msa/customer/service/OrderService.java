@@ -28,7 +28,7 @@ public class OrderService {
         this.storeRepository = storeRepository;
     }
 
-    public void createOrder(String customerId, String basketId){
+    public String createOrder(String customerId, String basketId){
         Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new RuntimeException("Basket doesn't exist.");
@@ -41,7 +41,7 @@ public class OrderService {
         Order order3 = addBasketInfo(basket, order2);
         order3.setOrderTime(LocalDateTime.now());
         order3.setOrderStatus(OrderStatus.ORDER_REQUEST);
-        orderRepository.createOrder(order2);
+        return orderRepository.createOrder(order2);
     }
 
     public Order addCustomerInfo(String customerId, Order order){

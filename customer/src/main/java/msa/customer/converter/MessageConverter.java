@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.dto.store.StoreSqsDto;
+import msa.customer.entity.order.Order;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
@@ -81,6 +82,15 @@ public class MessageConverter {
         ObjectMapper objectMapper = new ObjectMapper();
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, MenuSqsDto.class);
+    }
+
+    public String createMessageToCreateOrder(Order order){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(order);
+        jsonObject.put("dataType", "order");
+        jsonObject.put("method", "create");
+        jsonObject.put("data", data);
+        return jsonObject.toString();
     }
 
 }

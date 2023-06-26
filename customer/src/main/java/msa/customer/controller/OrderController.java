@@ -1,10 +1,12 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import msa.customer.converter.MessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.OrderService;
+import msa.customer.service.SqsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -17,9 +19,13 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final SqsService sqsService;
+    private final MessageConverter messageConverter;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, SqsService sqsService, MessageConverter messageConverter) {
         this.orderService = orderService;
+        this.sqsService = sqsService;
+        this.messageConverter = messageConverter;
     }
 
     @GetMapping
@@ -39,7 +45,14 @@ public class OrderController {
     @PostMapping
     public void createOrder(@RequestAttribute("cognitoUsername") String customerId,
                             HttpServletResponse response) throws IOException {
-        orderService.createOrder(customerId, customerId);
+        String orderId = orderService.createOrder(customerId, customerId);
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if(orderOptional.isEmpty()){
+            throw new RuntimeException("Can't create order");
+        }
+        Order order = orderOptional.get();
+        String messageToCreateOrder = messageConverter.createMessageToCreateOrder(order);
+        sqsService.sendToRestaurant(messageToCreateOrder);
         response.sendRedirect("/customer/order");
     }
 
