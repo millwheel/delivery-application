@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class MessageConverter {
+public class ReceivingMessageConverter {
 
     private final StoreService storeService;
     private final MenuService menuService;
 
     @Autowired
-    public MessageConverter(StoreService storeService, MenuService menuService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService) {
         this.storeService = storeService;
         this.menuService = menuService;
     }
@@ -84,13 +84,6 @@ public class MessageConverter {
         return objectMapper.readValue(data, MenuSqsDto.class);
     }
 
-    public String createMessageToCreateOrder(Order order){
-        JSONObject jsonObject = new JSONObject();
-        JSONObject data = new JSONObject(order);
-        jsonObject.put("dataType", "order");
-        jsonObject.put("method", "create");
-        jsonObject.put("data", data);
-        return jsonObject.toString();
-    }
+
 
 }

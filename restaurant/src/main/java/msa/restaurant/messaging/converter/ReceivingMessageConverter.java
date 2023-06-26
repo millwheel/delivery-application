@@ -1,4 +1,4 @@
-package msa.restaurant.converter;
+package msa.restaurant.messaging.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.json.JSONObject;

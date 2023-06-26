@@ -1,4 +1,4 @@
-package msa.restaurant.converter;
+package msa.restaurant.messaging.converter;
 
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;

@@ -7,9 +7,9 @@ import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.entity.Menu;
-import msa.restaurant.converter.SendingMessageConverter;
+import msa.restaurant.messaging.converter.SendingMessageConverter;
 import msa.restaurant.service.MenuService;
-import msa.restaurant.service.SqsService;
+import msa.restaurant.messaging.sqs.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
