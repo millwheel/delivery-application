@@ -21,7 +21,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<OrderPartResponseDto> showOrderList(@RequestAttribute String customerId,
                                                     @PathVariable String storeId) {
         Optional<List<Order>> orderListOptional = orderService.getOrderList(customerId);
@@ -36,12 +36,12 @@ public class OrderController {
         return orderPartInfoList;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void createOrder(@RequestAttribute String customerId,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
         orderService.createOrder(customerId, storeId, customerId);
-        response.sendRedirect("/customer/order/list");
+        response.sendRedirect("/customer/order");
     }
 
     @GetMapping("/{orderId}")

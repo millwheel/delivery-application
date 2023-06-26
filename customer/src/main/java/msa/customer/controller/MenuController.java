@@ -28,7 +28,7 @@ public class MenuController {
         this.basketService = basketService;
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
         List<Menu> menuList = menuService.getMenuList(storeId);

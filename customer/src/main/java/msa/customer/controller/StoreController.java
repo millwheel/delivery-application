@@ -29,7 +29,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                                     @PathVariable FoodKind foodKind,

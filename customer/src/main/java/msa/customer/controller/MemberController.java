@@ -23,7 +23,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/info")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
         Optional<Customer> customerOptional = memberService.getCustomer(id);
@@ -34,7 +34,7 @@ public class MemberController {
         throw new RuntimeException("Cannot find Customer Info");
     }
 
-    @PatchMapping("/info")
+    @PatchMapping
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody CustomerRequestDto data,
