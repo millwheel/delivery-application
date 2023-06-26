@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.dto.manager.ManagerResponseDto;
-import msa.restaurant.entity.Manager;
+import msa.restaurant.entity.member.Manager;
 import msa.restaurant.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

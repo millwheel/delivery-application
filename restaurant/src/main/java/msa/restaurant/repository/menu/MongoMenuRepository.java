@@ -1,7 +1,7 @@
 package msa.restaurant.repository.menu;
 
 import msa.restaurant.dto.menu.MenuRequestDto;
-import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.menu.Menu;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

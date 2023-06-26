@@ -1,22 +1,22 @@
-package msa.restaurant.entity;
+package msa.restaurant.entity.member;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Getter
+import java.util.List;
+
+
 @Setter
+@Getter
 @NoArgsConstructor
-@Document("menu")
-public class Menu {
+@Document("manager")
+public class Manager {
     @MongoId
-    private String menuId;
+    private String managerId;
     private String name;
-    private int price;
-    private String description;
-    @Indexed
-    private String storeId;
+    private String email;
+    private String phoneNumber;
 }

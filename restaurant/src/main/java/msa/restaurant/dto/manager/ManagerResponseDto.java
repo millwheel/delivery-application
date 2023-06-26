@@ -2,7 +2,7 @@ package msa.restaurant.dto.manager;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.restaurant.entity.Manager;
+import msa.restaurant.entity.member.Manager;
 
 @Getter
 @Setter

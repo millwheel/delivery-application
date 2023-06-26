@@ -1,7 +1,7 @@
 package msa.restaurant.repository.store;
 
 import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.entity.Store;
+import msa.restaurant.entity.store.Store;
 import org.springframework.data.geo.Point;
 
 import java.util.List;

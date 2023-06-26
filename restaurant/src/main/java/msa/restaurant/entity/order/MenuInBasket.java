@@ -1,4 +1,4 @@
-package msa.restaurant.entity;
+package msa.restaurant.entity.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StorePartResponseDto;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
-import msa.restaurant.entity.Store;
+import msa.restaurant.entity.store.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.messaging.converter.SendingMessageConverter;

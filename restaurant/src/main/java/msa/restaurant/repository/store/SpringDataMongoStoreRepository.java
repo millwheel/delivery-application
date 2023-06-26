@@ -1,6 +1,6 @@
 package msa.restaurant.repository.store;
 
-import msa.restaurant.entity.Store;
+import msa.restaurant.entity.store.Store;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

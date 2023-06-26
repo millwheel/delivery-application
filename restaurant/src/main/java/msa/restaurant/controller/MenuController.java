@@ -6,7 +6,7 @@ import msa.restaurant.dto.menu.MenuPartResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
-import msa.restaurant.entity.Menu;
+import msa.restaurant.entity.menu.Menu;
 import msa.restaurant.messaging.converter.SendingMessageConverter;
 import msa.restaurant.service.MenuService;
 import msa.restaurant.messaging.sqs.SqsService;
