@@ -2,6 +2,7 @@ package msa.customer.service;
 
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;
+import msa.customer.entity.order.OrderStatus;
 import msa.customer.entity.store.Store;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.member.MemberRepository;
@@ -9,6 +10,7 @@ import msa.customer.repository.order.OrderRepository;
 import msa.customer.repository.store.StoreRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,9 @@ public class OrderService {
         Order order = new Order();
         Order order1 = addCustomerInfo(customerId, order);
         Order order2 = addStoreInfo(storeId, order1);
-        order2.setMenuInBasketList(basket.getMenuInBasketList());
+        Order order3 = addBasketInfo(basket, order2);
+        order3.setOrderTime(LocalDateTime.now());
+        order3.setOrderStatus(OrderStatus.ORDER_REQUEST);
         orderRepository.createOrder(order2);
     }
 
@@ -62,6 +66,12 @@ public class OrderService {
             order.setStoreAddressDetail(store.getAddressDetail());
             order.setStoreLocation(store.getLocation());
         });
+        return order;
+    }
+
+    public Order addBasketInfo(Basket basket, Order order){
+        order.setMenuInBasketList(basket.getMenuInBasketList());
+        order.setTotalPrice(basket.getTotalPrice());
         return order;
     }
 

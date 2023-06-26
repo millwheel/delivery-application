@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RestController
 @RequestMapping("/customer/order")
 public class OrderController {
 
@@ -22,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderPartResponseDto> showOrderList(@RequestAttribute String customerId) {
+    public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String customerId) {
         Optional<List<Order>> orderListOptional = orderService.getOrderList(customerId);
         if (orderListOptional.isEmpty()){
             throw new RuntimeException("No order info");
@@ -36,15 +37,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public void createOrder(@RequestAttribute String customerId,
+    public void createOrder(@RequestAttribute("cognitoUsername") String customerId,
                             HttpServletResponse response) throws IOException {
         orderService.createOrder(customerId, customerId);
         response.sendRedirect("/customer/order");
     }
 
     @GetMapping("/{orderId}")
-    public OrderResponseDto showOrderInfo(@RequestAttribute String customerId,
-                                          @PathVariable String orderId){
+    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
