@@ -7,7 +7,6 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
-import msa.restaurant.entity.StoreStatus;
 import msa.restaurant.service.MemberService;
 import msa.restaurant.converter.MessageConverter;
 import msa.restaurant.service.StoreService;
@@ -100,16 +99,16 @@ public class StoreController {
         response.sendRedirect("/restaurant/store");
     }
 
-    @PostMapping("/{storeId}/{status}")
+    @PostMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public void changeStoreStatus(@PathVariable String storeId,
-                                  @PathVariable StoreStatus status){
+                                  @RequestBody boolean open){
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Can't find store from DB");
         }
         String messageToChangeStatus;
-        if (status == StoreStatus.OPEN){
+        if (open){
             storeService.openStore(storeId);
             messageToChangeStatus = messageConverter.createMessageToOpenStore(storeId);
         } else {
