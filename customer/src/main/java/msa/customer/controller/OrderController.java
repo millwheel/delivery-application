@@ -37,9 +37,8 @@ public class OrderController {
 
     @PostMapping
     public void createOrder(@RequestAttribute String customerId,
-                            @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
-        orderService.createOrder(customerId, storeId, customerId);
+        orderService.createOrder(customerId, customerId);
         response.sendRedirect("/customer/order");
     }
 

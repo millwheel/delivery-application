@@ -11,5 +11,6 @@ public class MenuInBasket {
     private String menuId;
     private String menuName;
     private int count;
+    private int eachPrice;
     private int price;
 }

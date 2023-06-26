@@ -34,7 +34,6 @@ public class BasketService {
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
         try {
             Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
-            log.info(basketAfter.getMenuInBasketList().toString());
             if(basketOptional.isEmpty()){
                 basketAfter.setBasketId(basketId);
                 basketAfter.setStoreId(storeId);
@@ -61,7 +60,6 @@ public class BasketService {
         if (menuInBasketList == null){
             menuInBasketList = new ArrayList<>();
         }
-        log.info(menuInBasketList.toString());
         Optional<MenuInBasket> menuInBasketOptional = menuInBasketList.stream().filter(m -> m.getMenuId().equals(menuId)).findAny();
         if (menuInBasketOptional.isPresent()){
             MenuInBasket menuInBasket = menuInBasketOptional.get();
@@ -76,10 +74,10 @@ public class BasketService {
             menuInBasket.setMenuId(menuId);
             menuInBasket.setMenuName(menuName);
             menuInBasket.setCount(countAdd);
+            menuInBasket.setEachPrice(eachPrice);
             menuInBasket.setPrice(menuPrice);
             menuInBasketList.add(menuInBasket);
         }
-        log.info(menuInBasketList.toString());
         basket.setMenuInBasketList(menuInBasketList);
         int totalPrice = menuInBasketList.stream().mapToInt(MenuInBasket::getPrice).sum();
         basket.setTotalPrice(totalPrice);

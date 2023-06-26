@@ -26,12 +26,18 @@ public class OrderService {
         this.storeRepository = storeRepository;
     }
 
-    public void createOrder(String customerId, String storeId, String basketId){
+    public void createOrder(String customerId, String basketId){
+        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
+        if (basketOptional.isEmpty()){
+            throw new RuntimeException("Basket doesn't exist.");
+        }
+        Basket basket = basketOptional.get();
+        String storeId = basket.getStoreId();
         Order order = new Order();
         Order order1 = addCustomerInfo(customerId, order);
         Order order2 = addStoreInfo(storeId, order1);
-        Order order3 = addBasketInfo(basketId, order2);
-        orderRepository.createOrder(order3);
+        order2.setMenuInBasketList(basket.getMenuInBasketList());
+        orderRepository.createOrder(order2);
     }
 
     public Order addCustomerInfo(String customerId, Order order){
@@ -48,27 +54,14 @@ public class OrderService {
     }
 
     public Order addStoreInfo(String storeId, Order order){
-        Optional<Store> storeOptional = storeRepository.readStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist");
-        }
-        Store store = storeOptional.get();
-        order.setStoreId(store.getStoreId());
-        order.setStoreName(store.getName());
-        order.setStorePhoneNumber(store.getPhoneNumber());
-        order.setStoreAddress(store.getAddress());
-        order.setStoreAddressDetail(store.getAddressDetail());
-        order.setStoreLocation(store.getLocation());
-        return order;
-    }
-
-    public Order addBasketInfo(String basketId, Order order){
-        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
-        if (basketOptional.isEmpty()){
-            throw new RuntimeException("Basket doesn't exist.");
-        }
-        Basket basket = basketOptional.get();
-        order.setMenuInBasketList(basket.getMenuInBasketList());
+        storeRepository.readStore(storeId).ifPresent(store -> {
+            order.setStoreId(store.getStoreId());
+            order.setStoreName(store.getName());
+            order.setStorePhoneNumber(store.getPhoneNumber());
+            order.setStoreAddress(store.getAddress());
+            order.setStoreAddressDetail(store.getAddressDetail());
+            order.setStoreLocation(store.getLocation());
+        });
         return order;
     }
 
