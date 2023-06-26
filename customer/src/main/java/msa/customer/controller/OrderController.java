@@ -1,6 +1,7 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import msa.customer.messaging.converter.ReceivingMessageConverter;
 import msa.customer.messaging.converter.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
@@ -21,11 +22,13 @@ public class OrderController {
     private final OrderService orderService;
     private final SqsService sqsService;
     private final SendingMessageConverter sendingMessageConverter;
+    private final ReceivingMessageConverter receivingMessageConverter;
 
-    public OrderController(OrderService orderService, SqsService sqsService, SendingMessageConverter sendingMessageConverter) {
+    public OrderController(OrderService orderService, SqsService sqsService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
         this.orderService = orderService;
         this.sqsService = sqsService;
         this.sendingMessageConverter = sendingMessageConverter;
+        this.receivingMessageConverter = receivingMessageConverter;
     }
 
     @GetMapping
