@@ -33,19 +33,19 @@ public class StoreService {
     }
     public String createStore(StoreRequestDto data, String managerId){
         Store store = new Store();
-        if(data.getName() == null) throw new RuntimeException("store name is missing");
+        if(data.getName() == null) throw new NullPointerException("store name is missing");
         store.setName(data.getName());
-        if(data.getFoodKind() == null) throw new RuntimeException("store foodKind is missing");
+        if(data.getFoodKind() == null) throw new NullPointerException("store foodKind is missing");
         store.setFoodKind(data.getFoodKind());
-        if(data.getPhoneNumber() == null) throw new RuntimeException("store phone number is missing");
+        if(data.getPhoneNumber() == null) throw new NullPointerException("store phone number is missing");
         store.setPhoneNumber(data.getPhoneNumber());
-        if(data.getAddress() == null) throw new RuntimeException("store address is missing");
+        if(data.getAddress() == null) throw new NullPointerException("store address is missing");
         store.setAddress(data.getAddress());
         Point coordinate = addressService.getCoordinate(data.getAddress());
         store.setLocation(coordinate);
-        if(data.getAddressDetail() == null) throw new RuntimeException("store address detail is missing");
+        if(data.getAddressDetail() == null) throw new NullPointerException("store address detail is missing");
         store.setAddressDetail(data.getAddressDetail());
-        if(data.getIntroduction() == null) throw new RuntimeException("store introduction is missing");
+        if(data.getIntroduction() == null) throw new NullPointerException("store introduction is missing");
         store.setIntroduction(data.getIntroduction());
         store.setManagerId(managerId);
         store.setOpen(false);
