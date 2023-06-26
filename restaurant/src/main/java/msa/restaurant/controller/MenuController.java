@@ -7,7 +7,7 @@ import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.entity.Menu;
-import msa.restaurant.converter.MessageConverter;
+import msa.restaurant.converter.SendingMessageConverter;
 import msa.restaurant.service.MenuService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
@@ -23,12 +23,12 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store/{storeId}/menu")
 public class MenuController {
     private final MenuService menuService;
-    private final MessageConverter messageConverter;
+    private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public MenuController(MenuService menuService, MessageConverter messageConverter, SqsService sqsService) {
+    public MenuController(MenuService menuService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.menuService = menuService;
-        this.messageConverter = messageConverter;
+        this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
 
@@ -70,7 +70,7 @@ public class MenuController {
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
-        String messageForMenuInfo = messageConverter.createMessageToCreateMenu(menuSqsDto);
+        String messageForMenuInfo = sendingMessageConverter.createMessageToCreateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageForMenuInfo);
         sqsService.sendToRider(messageForMenuInfo);
         response.sendRedirect("/restaurant/store/" +storeId + "/menu");
@@ -89,7 +89,7 @@ public class MenuController {
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
-        String messageToUpdateMenu = messageConverter.createMessageToUpdateMenu(menuSqsDto);
+        String messageToUpdateMenu = sendingMessageConverter.createMessageToUpdateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageToUpdateMenu);
         sqsService.sendToRider(messageToUpdateMenu);
         response.sendRedirect("/restaurant/store/" +storeId + "/menu");
@@ -105,7 +105,7 @@ public class MenuController {
             throw new RuntimeException("Menu doesn't exist.");
         }
         menuService.deleteMenu(menuId);
-        String messageToDeleteMenu = messageConverter.createMessageToDeleteMenu(storeId, menuId);
+        String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);
         response.sendRedirect("/restaurant/store/" +storeId + "/menu");

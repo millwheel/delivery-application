@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessageConverter {
+public class SendingMessageConverter {
     public String createMessageToCreateStore(StoreSqsDto storeSqsDto){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject(storeSqsDto);

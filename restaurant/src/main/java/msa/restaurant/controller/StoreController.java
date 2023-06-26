@@ -8,7 +8,7 @@ import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.service.MemberService;
-import msa.restaurant.converter.MessageConverter;
+import msa.restaurant.converter.SendingMessageConverter;
 import msa.restaurant.service.StoreService;
 import msa.restaurant.service.SqsService;
 import org.springframework.http.HttpStatus;
@@ -25,12 +25,12 @@ import java.util.Optional;
 public class StoreController {
 
     private final StoreService storeService;
-    private final MessageConverter messageConverter;
+    private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public StoreController(StoreService storeService, MessageConverter messageConverter, MemberService memberService, SqsService sqsService) {
+    public StoreController(StoreService storeService, SendingMessageConverter sendingMessageConverter, MemberService memberService, SqsService sqsService) {
         this.storeService = storeService;
-        this.messageConverter = messageConverter;
+        this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
 
@@ -74,7 +74,7 @@ public class StoreController {
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageToCreateStore = messageConverter.createMessageToCreateStore(storeSqsDto);
+        String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
         response.sendRedirect("/restaurant/store");
@@ -93,7 +93,7 @@ public class StoreController {
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageToUpdateStore = messageConverter.createMessageToUpdateStore(storeSqsDto);
+        String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
         sqsService.sendToRider(messageToUpdateStore);
         response.sendRedirect("/restaurant/store");
@@ -110,10 +110,10 @@ public class StoreController {
         String messageToChangeStatus;
         if (open){
             storeService.openStore(storeId);
-            messageToChangeStatus = messageConverter.createMessageToOpenStore(storeId);
+            messageToChangeStatus = sendingMessageConverter.createMessageToOpenStore(storeId);
         } else {
             storeService.closeStore(storeId);
-            messageToChangeStatus = messageConverter.createMessageToCloseStore(storeId);
+            messageToChangeStatus = sendingMessageConverter.createMessageToCloseStore(storeId);
         }
         sqsService.sendToCustomer(messageToChangeStatus);
     }
@@ -128,7 +128,7 @@ public class StoreController {
             throw new RuntimeException("Can't find store from DB");
         }
         storeService.deleteStore(storeId);
-        String messageToDeleteStore = messageConverter.createMessageToDeleteStore(storeId);
+        String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);
         sqsService.sendToRider(messageToDeleteStore);
         response.sendRedirect("/restaurant/store");
