@@ -1,12 +1,12 @@
 package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import msa.customer.converter.MessageConverter;
+import msa.customer.messaging.converter.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.OrderService;
-import msa.customer.service.SqsService;
+import msa.customer.messaging.SqsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -20,12 +20,12 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SqsService sqsService;
-    private final MessageConverter messageConverter;
+    private final SendingMessageConverter sendingMessageConverter;
 
-    public OrderController(OrderService orderService, SqsService sqsService, MessageConverter messageConverter) {
+    public OrderController(OrderService orderService, SqsService sqsService, SendingMessageConverter sendingMessageConverter) {
         this.orderService = orderService;
         this.sqsService = sqsService;
-        this.messageConverter = messageConverter;
+        this.sendingMessageConverter = sendingMessageConverter;
     }
 
     @GetMapping
@@ -51,7 +51,7 @@ public class OrderController {
             throw new RuntimeException("Can't create order");
         }
         Order order = orderOptional.get();
-        String messageToCreateOrder = messageConverter.createMessageToCreateOrder(order);
+        String messageToCreateOrder = sendingMessageConverter.createMessageToCreateOrder(order);
         sqsService.sendToRestaurant(messageToCreateOrder);
         response.sendRedirect("/customer/order");
     }

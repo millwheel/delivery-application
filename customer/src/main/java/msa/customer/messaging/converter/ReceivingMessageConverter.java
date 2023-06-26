@@ -1,4 +1,4 @@
-package msa.customer.converter;
+package msa.customer.messaging.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.dto.store.StoreSqsDto;
-import msa.customer.entity.order.Order;
 import msa.customer.service.MenuService;
 import msa.customer.service.StoreService;
 import org.json.JSONObject;
