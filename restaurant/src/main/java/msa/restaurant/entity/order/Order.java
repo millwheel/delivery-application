@@ -36,6 +36,7 @@ public class Order {
     private String storeAddressDetail;
     private Point storeLocation;
     private String riderId;
+    private String riderName;
     private String riderPhoneNumber;
 
     public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<MenuInBasket> menuInBasketList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {

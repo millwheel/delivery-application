@@ -23,7 +23,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/info")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ManagerResponseDto memberInfo(@RequestAttribute("cognitoUsername") String id){
         Optional<Manager> managerOptional = memberService.getManager(id);
@@ -34,7 +34,7 @@ public class MemberController {
         throw new RuntimeException("Cannot find Manager Info");
     }
 
-    @PutMapping("/info")
+    @PutMapping()
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                                  @RequestBody ManagerRequestDto data,
