@@ -18,7 +18,7 @@ import java.util.List;
 public class Order {
     @MongoId
     private String orderId;
-    private LocalDateTime orderTime;
+    private String orderTime;
     private OrderStatus orderStatus;
     private String customerId;
     private String customerName;
@@ -35,7 +35,26 @@ public class Order {
     private String storeAddress;
     private String storeAddressDetail;
     private Point storeLocation;
-    private int storeOrderNumber;
     private String riderId;
     private String riderPhoneNumber;
+
+    public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<MenuInBasket> menuInBasketList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {
+        this.orderId = orderId;
+        this.orderTime = orderTime;
+        this.orderStatus = orderStatus;
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.customerAddress = customerAddress;
+        this.customerAddressDetail = customerAddressDetail;
+        this.customerLocation = customerLocation;
+        this.menuInBasketList = menuInBasketList;
+        this.totalPrice = totalPrice;
+        this.storeId = storeId;
+        this.storeName = storeName;
+        this.storePhoneNumber = storePhoneNumber;
+        this.storeAddress = storeAddress;
+        this.storeAddressDetail = storeAddressDetail;
+        this.storeLocation = storeLocation;
+    }
 }
