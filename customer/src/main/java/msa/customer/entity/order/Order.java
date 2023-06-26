@@ -19,7 +19,7 @@ import java.util.List;
 public class Order {
     @MongoId
     private String orderId;
-    private LocalDateTime orderTime;
+    private String orderTime;
     private OrderStatus orderStatus;
     @Indexed
     private String customerId;

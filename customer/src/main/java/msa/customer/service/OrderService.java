@@ -11,6 +11,7 @@ import msa.customer.repository.store.StoreRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,8 @@ public class OrderService {
         Order order1 = addCustomerInfo(customerId, order);
         Order order2 = addStoreInfo(storeId, order1);
         Order order3 = addBasketInfo(basket, order2);
-        order3.setOrderTime(LocalDateTime.now());
+        String thisTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        order3.setOrderTime(thisTime);
         order3.setOrderStatus(OrderStatus.ORDER_REQUEST);
         return orderRepository.createOrder(order2);
     }
