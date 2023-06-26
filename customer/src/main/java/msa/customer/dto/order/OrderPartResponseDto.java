@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderPartResponseDto {
     private String orderId;
-    private LocalDateTime orderTime;
+    private String orderTime;
     private OrderStatus orderStatus;
     private String storeName;
     private List<MenuInBasket> menuInBasketList;

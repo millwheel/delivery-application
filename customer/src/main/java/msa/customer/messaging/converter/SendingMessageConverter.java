@@ -2,7 +2,9 @@ package msa.customer.messaging.converter;
 
 import msa.customer.entity.order.Order;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SendingMessageConverter {
 
     public String createMessageToCreateOrder(Order order){

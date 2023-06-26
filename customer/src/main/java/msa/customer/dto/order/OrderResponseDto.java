@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class OrderResponseDto {
-    private LocalDateTime orderTime;
+    private String orderTime;
     private OrderStatus orderStatus;
     private String customerPhoneNumber;
     private String customerAddress;
