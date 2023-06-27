@@ -1,13 +1,8 @@
 package msa.rider.repository.store;
 
 import msa.rider.dto.StoreSqsDto;
-import msa.rider.entity.FoodKindType;
-import msa.rider.entity.MenuPartInfo;
 import msa.rider.entity.Store;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,14 +38,6 @@ public class MongoStoreRepository implements StoreRepository {
             store.setAddress(data.getAddress());
             store.setAddressDetail(data.getAddressDetail());
             store.setLocation(data.getLocation());
-            repository.save(store);
-        });
-    }
-
-    @Override
-    public void updateMenuList(String id, List<MenuPartInfo> menuList) {
-        repository.findById(id).ifPresent(store -> {
-            store.setMenuList(menuList);
             repository.save(store);
         });
     }

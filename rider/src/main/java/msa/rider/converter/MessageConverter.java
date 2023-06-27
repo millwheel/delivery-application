@@ -50,18 +50,14 @@ public class MessageConverter {
     public void processMenuData(JSONObject jsonObject) throws JsonProcessingException {
         if (jsonObject.get("method").equals("create")){
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-            menuService.createStore(menuSqsDto);
-            storeService.addToMenuList(menuSqsDto);
+            menuService.createMenu(menuSqsDto);
         } else if (jsonObject.get("method").equals("update")) {
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
-            menuService.updateStore(menuSqsDto);
-            storeService.updateMenuFromList(menuSqsDto);
+            menuService.updateMenu(menuSqsDto);
         } else if (jsonObject.get("method").equals("delete")){
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String menuId = (String) data.get("menuId");
-            String storeId = (String) data.get("storeId");
-            menuService.deleteStore(menuId);
-            storeService.deleteMenuFromList(storeId, menuId);
+            menuService.deleteMenu(menuId);
         }
     }
 

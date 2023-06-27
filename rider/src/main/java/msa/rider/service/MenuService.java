@@ -14,20 +14,21 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public void createStore(MenuSqsDto data){
+    public void createMenu(MenuSqsDto data){
         Menu menu = new Menu();
         menu.setMenuId(data.getMenuId());
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
+        menu.setStoreId(data.getStoreId());
         menuRepository.create(menu);
     }
 
-    public void updateStore(MenuSqsDto data){
+    public void updateMenu(MenuSqsDto data){
         menuRepository.update(data);
     }
 
-    public void deleteStore(String menuId){
+    public void deleteMenu(String menuId){
         menuRepository.deleteById(menuId);
     }
 }
