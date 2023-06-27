@@ -6,9 +6,9 @@ import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
-import msa.customer.service.BasketService;
-import msa.customer.service.MenuService;
-import msa.customer.service.StoreService;
+import msa.customer.service.basket.BasketService;
+import msa.customer.service.menu.MenuService;
+import msa.customer.service.store.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

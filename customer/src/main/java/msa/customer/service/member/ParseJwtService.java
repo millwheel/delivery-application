@@ -1,4 +1,4 @@
-package msa.customer.service;
+package msa.customer.service.member;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

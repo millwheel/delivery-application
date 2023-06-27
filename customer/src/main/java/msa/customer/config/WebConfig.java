@@ -1,8 +1,8 @@
 package msa.customer.config;
 
 import msa.customer.interceptor.JoinCheckInterceptor;
-import msa.customer.service.JoinService;
-import msa.customer.service.ParseJwtService;
+import msa.customer.service.member.JoinService;
+import msa.customer.service.member.ParseJwtService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

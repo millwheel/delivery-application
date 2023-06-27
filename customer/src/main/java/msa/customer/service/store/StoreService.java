@@ -1,4 +1,4 @@
-package msa.customer.service;
+package msa.customer.service.store;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.entity.store.FoodKind;

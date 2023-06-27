@@ -1,4 +1,4 @@
-package msa.customer.messaging.converter;
+package msa.customer.deserializer;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

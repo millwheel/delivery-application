@@ -1,4 +1,4 @@
-package msa.customer.messaging.converter;
+package msa.customer.service.messaging;
 
 import msa.customer.entity.order.Order;
 import org.json.JSONObject;

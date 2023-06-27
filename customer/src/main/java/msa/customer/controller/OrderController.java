@@ -1,15 +1,14 @@
 package msa.customer.controller;
 
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.messaging.converter.ReceivingMessageConverter;
-import msa.customer.messaging.converter.SendingMessageConverter;
+import msa.customer.service.messaging.ReceivingMessageConverter;
+import msa.customer.service.messaging.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
-import msa.customer.service.OrderService;
-import msa.customer.messaging.SqsService;
+import msa.customer.service.order.OrderService;
+import msa.customer.service.messaging.SqsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -36,12 +35,8 @@ public class OrderController {
 
     @GetMapping
     public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String customerId) {
-        Optional<List<Order>> orderListOptional = orderService.getOrderList(customerId);
-        if (orderListOptional.isEmpty()){
-            throw new RuntimeException("No order info");
-        }
+        List<Order> orderList = orderService.getOrderList(customerId).orElseGet(ArrayList::new);
         List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
-        List<Order> orderList = orderListOptional.get();
         orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));
         });
@@ -68,7 +63,6 @@ public class OrderController {
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
         }
-        Order order = orderOptional.get();
-        return new OrderResponseDto(order);
+        return new OrderResponseDto(orderOptional.get());
     }
 }

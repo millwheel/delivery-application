@@ -1,4 +1,4 @@
-package msa.customer.service;
+package msa.customer.service.order;
 
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;

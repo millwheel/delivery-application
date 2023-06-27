@@ -3,8 +3,8 @@ package msa.customer.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.service.JoinService;
-import msa.customer.service.ParseJwtService;
+import msa.customer.service.member.JoinService;
+import msa.customer.service.member.ParseJwtService;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j

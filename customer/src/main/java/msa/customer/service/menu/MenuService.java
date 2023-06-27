@@ -1,4 +1,4 @@
-package msa.customer.service;
+package msa.customer.service.menu;
 
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.entity.menu.Menu;

@@ -1,4 +1,4 @@
-package msa.customer.service;
+package msa.customer.service.member;
 
 import msa.customer.entity.member.Customer;
 import msa.customer.repository.member.MemberRepository;

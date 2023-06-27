@@ -1,9 +1,10 @@
-package msa.customer.service;
+package msa.customer.service.member;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.customer.CustomerRequestDto;
 import msa.customer.entity.member.Customer;
 import msa.customer.repository.member.MemberRepository;
+import msa.customer.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
