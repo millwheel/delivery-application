@@ -1,6 +1,7 @@
-package msa.restaurant.repository.order;
+package msa.rider.repository.order;
 
-import msa.restaurant.entity.order.Order;
+import msa.rider.entity.order.Order;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public Optional<List<Order>> readOrderList(String storeId) {
-        return repository.findByStoreId(storeId);
+    public List<Order> readOrderList(Point location) {
+        return repository.findByLocationNear(location);
     }
 
     @Override

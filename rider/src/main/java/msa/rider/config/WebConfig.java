@@ -1,8 +1,8 @@
 package msa.rider.config;
 
 import msa.rider.interceptor.JoinCheckInterceptor;
-import msa.rider.service.JoinService;
-import msa.rider.service.ParseJwtService;
+import msa.rider.service.member.JoinService;
+import msa.rider.service.member.ParseJwtService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

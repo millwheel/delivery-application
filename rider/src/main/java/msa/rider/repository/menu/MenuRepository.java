@@ -1,6 +1,6 @@
 package msa.rider.repository.menu;
 
-import msa.rider.dto.MenuSqsDto;
+import msa.rider.dto.menu.MenuSqsDto;
 import msa.rider.entity.menu.Menu;
 
 import java.util.Optional;

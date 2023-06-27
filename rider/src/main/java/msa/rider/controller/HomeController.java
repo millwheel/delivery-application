@@ -1,8 +1,7 @@
 package msa.rider.controller;
 
 import msa.rider.dto.rider.RiderAddressRequestDto;
-import msa.rider.dto.rider.RiderResponseDto;
-import msa.rider.service.MemberService;
+import msa.rider.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import msa.rider.dto.StoreSqsDto;
+import msa.rider.dto.store.StoreSqsDto;
 import msa.rider.entity.store.FoodKindType;
 import org.springframework.data.geo.Point;
 

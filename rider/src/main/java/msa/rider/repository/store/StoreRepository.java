@@ -1,6 +1,6 @@
 package msa.rider.repository.store;
 
-import msa.rider.dto.StoreSqsDto;
+import msa.rider.dto.store.StoreSqsDto;
 import msa.rider.entity.store.Store;
 import java.util.Optional;
 
