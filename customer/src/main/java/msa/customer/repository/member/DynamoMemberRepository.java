@@ -16,18 +16,18 @@ public class DynamoMemberRepository implements MemberRepository {
         this.repository = repository;
     }
     @Override
-    public String createMember(Customer customer) {
+    public String create(Customer customer) {
         Customer savedCustomer = repository.save(customer);
         return savedCustomer.getCustomerId();
     }
 
     @Override
-    public Optional<Customer> readMember(String id) {
+    public Optional<Customer> findById(String id) {
         return repository.findById(id);
     }
 
     @Override
-    public void updateMember(String customerId, CustomerRequestDto data) {
+    public void update(String customerId, CustomerRequestDto data) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
             if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
@@ -36,7 +36,7 @@ public class DynamoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void updateMember(String customerId, CustomerRequestDto data, Point location) {
+    public void update(String customerId, CustomerRequestDto data, Point location) {
         repository.findById(customerId).ifPresent(customer -> {
             if (data.getName() != null) customer.setName(data.getName());
             if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());

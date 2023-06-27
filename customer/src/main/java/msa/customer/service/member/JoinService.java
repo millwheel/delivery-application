@@ -16,13 +16,13 @@ public class JoinService {
     }
 
     public Boolean checkJoinedMember(String cognitoUsername){
-        return memberRepository.readMember(cognitoUsername).isPresent();
+        return memberRepository.findById(cognitoUsername).isPresent();
     }
 
     public void joinMember(String cognitoUsername, String email){
         Customer customer = new Customer();
         customer.setCustomerId(cognitoUsername);
         customer.setEmail(email);
-        memberRepository.createMember(customer);
+        memberRepository.create(customer);
     }
 }

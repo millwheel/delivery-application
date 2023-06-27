@@ -7,9 +7,9 @@ import org.springframework.data.geo.Point;
 import java.util.Optional;
 
 public interface MemberRepository {
-    String createMember(Customer customer);
-    Optional<Customer> readMember(String id);
-    void updateMember(String customerId, CustomerRequestDto data);
-    void updateMember(String customerId, CustomerRequestDto data, Point location);
+    String create(Customer customer);
+    Optional<Customer> findById(String id);
+    void update(String customerId, CustomerRequestDto data);
+    void update(String customerId, CustomerRequestDto data, Point location);
 
 }

@@ -3,7 +3,6 @@ package msa.customer.service.order;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
-import msa.customer.entity.store.Store;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.member.MemberRepository;
 import msa.customer.repository.order.OrderRepository;
@@ -48,7 +47,7 @@ public class OrderService {
 
     public Order addCustomerInfo(String customerId, Order order){
         order.setCustomerId(customerId);
-        memberRepository.readMember(customerId).ifPresent(member -> {
+        memberRepository.findById(customerId).ifPresent(member -> {
             order.setCustomerId(member.getCustomerId());
             order.setCustomerName(member.getName());
             order.setCustomerPhoneNumber(member.getPhoneNumber());
