@@ -52,8 +52,9 @@ public class OrderController {
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
         }
-        OrderStatus orderStatus = orderOptional.get().getOrderStatus();
-        orderService.updateOrderStatus(orderId, orderStatus);
+        Order order = orderOptional.get();
+        OrderStatus updatedOrderStatus = orderService.updateOrderStatus(orderId, order.getOrderStatus());
+
         response.sendRedirect("/restaurant/store/" + storeId + "/order");
     }
 

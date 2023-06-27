@@ -2,6 +2,7 @@ package msa.restaurant.service.messaging;
 
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;
+import msa.restaurant.entity.order.OrderStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +28,21 @@ public class SendingMessageConverter {
 
     public String createMessageToOpenStore(String storeId){
         JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
         jsonObject.put("dataType", "store");
         jsonObject.put("method", "open");
-        jsonObject.put("storeId", storeId);
+        data.put("storeId", storeId);
+        jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
     public String createMessageToCloseStore(String storeId){
         JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
         jsonObject.put("dataType", "store");
         jsonObject.put("method", "close");
-        jsonObject.put("storeId", storeId);
+        data.put("storeId", storeId);
+        jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
@@ -74,8 +79,17 @@ public class SendingMessageConverter {
         JSONObject data = new JSONObject();
         jsonObject.put("dataType", "menu");
         jsonObject.put("method", "delete");
-        data.put("storeId", storeId);
         data.put("menuId", menuId);
+        jsonObject.put("data", data);
+        return jsonObject.toString();
+    }
+
+    public String createMessageToUpdateOrderStatus(OrderStatus orderStatus){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject();
+        jsonObject.put("dataType", "menu");
+        jsonObject.put("method", "update");
+        data.put("orderStatus", orderStatus);
         jsonObject.put("data", data);
         return jsonObject.toString();
     }

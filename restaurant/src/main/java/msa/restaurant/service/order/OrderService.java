@@ -29,11 +29,13 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public void updateOrderStatus(String orderId, OrderStatus orderStatus){
+    public OrderStatus updateOrderStatus(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
+            return OrderStatus.ORDER_ACCEPT;
         } else if (orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
             orderRepository.updateOrderStatus(orderId, OrderStatus.FOOD_READY);
+            return OrderStatus.FOOD_READY;
         } else {
             throw new RuntimeException("The current order status is not changeable");
         }
