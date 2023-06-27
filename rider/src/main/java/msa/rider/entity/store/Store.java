@@ -1,4 +1,4 @@
-package msa.rider.entity;
+package msa.rider.entity.store;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import java.util.List;
 
 @Setter
 @Getter

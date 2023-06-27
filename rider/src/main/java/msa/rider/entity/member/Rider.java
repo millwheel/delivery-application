@@ -1,4 +1,4 @@
-package msa.rider.entity;
+package msa.rider.entity.member;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
