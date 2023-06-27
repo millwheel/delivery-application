@@ -7,10 +7,10 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.store.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
-import msa.restaurant.service.MemberService;
-import msa.restaurant.messaging.converter.SendingMessageConverter;
-import msa.restaurant.service.StoreService;
-import msa.restaurant.messaging.sqs.SqsService;
+import msa.restaurant.service.member.MemberService;
+import msa.restaurant.service.messaging.SendingMessageConverter;
+import msa.restaurant.service.store.StoreService;
+import msa.restaurant.service.messaging.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.menu;
 
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.entity.menu.Menu;

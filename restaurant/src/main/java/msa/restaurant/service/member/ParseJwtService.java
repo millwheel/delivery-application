@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.member;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

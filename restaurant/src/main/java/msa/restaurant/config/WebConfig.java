@@ -1,8 +1,8 @@
 package msa.restaurant.config;
 
 import msa.restaurant.interceptor.JoinCheckInterceptor;
-import msa.restaurant.service.JoinService;
-import msa.restaurant.service.ParseJwtService;
+import msa.restaurant.service.member.JoinService;
+import msa.restaurant.service.member.ParseJwtService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.member;
 
 import msa.restaurant.entity.member.Manager;
 import msa.restaurant.repository.member.MemberRepository;

@@ -1,10 +1,9 @@
 package msa.restaurant.controller;
 
-
 import msa.restaurant.dto.order.OrderPartResponseDto;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
-import msa.restaurant.service.OrderService;
+import msa.restaurant.service.order.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

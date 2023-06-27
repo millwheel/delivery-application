@@ -3,8 +3,8 @@ package msa.restaurant.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.service.JoinService;
-import msa.restaurant.service.ParseJwtService;
+import msa.restaurant.service.member.JoinService;
+import msa.restaurant.service.member.ParseJwtService;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j

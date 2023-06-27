@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.member;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.entity.member.Manager;

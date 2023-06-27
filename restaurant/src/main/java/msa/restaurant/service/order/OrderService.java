@@ -1,4 +1,4 @@
-package msa.restaurant.service;
+package msa.restaurant.service.order;
 
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.repository.order.OrderRepository;

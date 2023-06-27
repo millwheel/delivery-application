@@ -1,10 +1,9 @@
-package msa.restaurant.messaging.sqs;
+package msa.restaurant.service.messaging;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.messaging.converter.ReceivingMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
