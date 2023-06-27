@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.service.messaging.SendingMessageConverter;
+import msa.restaurant.service.messaging.SqsService;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.service.sse.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,15 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SseService sseService;
+    private final SendingMessageConverter sendingMessageConverter;
+    private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService) {
+    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
         this.sseService = sseService;
+        this.sendingMessageConverter = sendingMessageConverter;
+        this.sqsService = sqsService;
     }
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -54,7 +60,9 @@ public class OrderController {
         }
         Order order = orderOptional.get();
         OrderStatus updatedOrderStatus = orderService.updateOrderStatus(orderId, order.getOrderStatus());
-
+        String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToUpdateOrderStatus(updatedOrderStatus);
+        sqsService.sendToRider(messageToUpdateOrderStatus);
+        sqsService.sendToCustomer(messageToUpdateOrderStatus);
         response.sendRedirect("/restaurant/store/" + storeId + "/order");
     }
 
