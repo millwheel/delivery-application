@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MongoOrderRespository implements OrderRepository {
+public class MongoOrderRepository implements OrderRepository {
 
     private final SpringDataMongoOrderRepository repository;
 
-    public MongoOrderRespository(SpringDataMongoOrderRepository repository) {
+    public MongoOrderRepository(SpringDataMongoOrderRepository repository) {
         this.repository = repository;
     }
 
@@ -28,7 +28,7 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public List<Order> readOrderList(Point location) {
+    public List<Order> readOrderListNearLocation(Point location) {
         return repository.findByLocationNear(location);
     }
 
