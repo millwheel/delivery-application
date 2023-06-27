@@ -3,7 +3,7 @@ package msa.restaurant.dto.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import msa.restaurant.entity.order.MenuInBasket;
+import msa.restaurant.entity.order.OrderMenu;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 
@@ -18,7 +18,7 @@ public class OrderResponseDto {
     private String customerPhoneNumber;
     private String customerAddress;
     private String customerAddressDetail;
-    private List<MenuInBasket> menuInBasketList;
+    private List<OrderMenu> orderMenuList;
     private int totalPrice;
     private String storeName;
     private String storePhoneNumber;
@@ -33,7 +33,7 @@ public class OrderResponseDto {
         customerPhoneNumber = order.getCustomerPhoneNumber();
         customerAddress = order.getCustomerAddress();
         customerAddressDetail = order.getCustomerAddressDetail();
-        menuInBasketList = order.getMenuInBasketList();
+        orderMenuList = order.getOrderMenuList();
         totalPrice = order.getTotalPrice();
         storeName = order.getStoreName();
         storePhoneNumber = order.getStorePhoneNumber();

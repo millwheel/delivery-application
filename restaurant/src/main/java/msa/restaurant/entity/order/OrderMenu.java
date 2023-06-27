@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class MenuInBasket {
+public class OrderMenu {
     private String menuId;
     private String menuName;
     private int count;

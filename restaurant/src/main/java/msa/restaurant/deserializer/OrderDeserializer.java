@@ -5,11 +5,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import msa.restaurant.entity.order.MenuInBasket;
+import msa.restaurant.entity.order.OrderMenu;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,15 +37,15 @@ public class OrderDeserializer extends StdDeserializer {
         double cx = node.get("customerLocation").get("x").asDouble();
         double cy = node.get("customerLocation").get("y").asDouble();
         Point customerLocation = new Point(cx, cy);
-        List<MenuInBasket> menuInBasketList = new ArrayList<>();
-        node.get("menuInBasketList").forEach(eachData -> {
-            MenuInBasket menuInBasket = new MenuInBasket();
-            menuInBasket.setMenuId(eachData.get("menuId").asText());
-            menuInBasket.setMenuName(eachData.get("menuName").asText());
-            menuInBasket.setCount(eachData.get("count").asInt());
-            menuInBasket.setEachPrice(eachData.get("eachPrice").asInt());
-            menuInBasket.setPrice(eachData.get("price").asInt());
-            menuInBasketList.add(menuInBasket);
+        List<OrderMenu> orderMenuList = new ArrayList<>();
+        node.get("orderMenuList").forEach(eachData -> {
+            OrderMenu orderMenu = new OrderMenu();
+            orderMenu.setMenuId(eachData.get("menuId").asText());
+            orderMenu.setMenuName(eachData.get("menuName").asText());
+            orderMenu.setCount(eachData.get("count").asInt());
+            orderMenu.setEachPrice(eachData.get("eachPrice").asInt());
+            orderMenu.setPrice(eachData.get("price").asInt());
+            orderMenuList.add(orderMenu);
         });
         int totalPrice = node.get("totalPrice").asInt();
         String storeId = node.get("storeId").asText();
@@ -58,7 +57,7 @@ public class OrderDeserializer extends StdDeserializer {
         double sy = node.get("storeLocation").get("y").asDouble();
         Point storeLocation = new Point(sx, sy);
         return new Order(orderId, orderTime, orderStatus, customerId, customerName, customerPhoneNumber,
-                customerAddress, customerAddressDetail, customerLocation, menuInBasketList, totalPrice,
+                customerAddress, customerAddressDetail, customerLocation, orderMenuList, totalPrice,
                 storeId, storeName, storePhoneNumber, storeAddress, storeAddressDetail, storeLocation);
     }
 }

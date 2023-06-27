@@ -7,8 +7,6 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -26,7 +24,7 @@ public class Order {
     private String customerAddress;
     private String customerAddressDetail;
     private Point customerLocation;
-    private List<MenuInBasket> menuInBasketList;
+    private List<OrderMenu> orderMenuList;
     private int totalPrice;
     @Indexed
     private String storeId;
@@ -39,7 +37,7 @@ public class Order {
     private String riderName;
     private String riderPhoneNumber;
 
-    public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<MenuInBasket> menuInBasketList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {
+    public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<OrderMenu> orderMenuList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -49,7 +47,7 @@ public class Order {
         this.customerAddress = customerAddress;
         this.customerAddressDetail = customerAddressDetail;
         this.customerLocation = customerLocation;
-        this.menuInBasketList = menuInBasketList;
+        this.orderMenuList = orderMenuList;
         this.totalPrice = totalPrice;
         this.storeId = storeId;
         this.storeName = storeName;
