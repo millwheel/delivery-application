@@ -1,5 +1,6 @@
 package msa.rider.repository.member;
 
+import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.Rider;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
@@ -17,7 +18,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String make(Rider rider) {
+    public String create(Rider rider) {
         Rider save = repository.save(rider);
         return save.getRiderId();
     }
@@ -28,47 +29,28 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void setName(String id, String name){
-        repository.findById(id).ifPresent(member -> {
-            member.setName(name);
-            repository.save(member);
+    public void update(String riderId, RiderResponseDto data) {
+        repository.findById(riderId).ifPresent(rider -> {
+            if (data.getName() != null) rider.setName(data.getName());
+            if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
+            repository.save(rider);
         });
     }
 
     @Override
-    public void setPhoneNumber(String id, String phoneNumber){
-        repository.findById(id).ifPresent(member -> {
-            member.setPhoneNumber(phoneNumber);
-            repository.save(member);
+    public void update(String riderId, RiderResponseDto data, Point location) {
+        repository.findById(riderId).ifPresent(rider -> {
+            if (data.getName() != null) rider.setName(data.getName());
+            if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
+            rider.setAddress(data.getAddress());
+            rider.setLocation(location);
+            if (data.getAddressDetail() != null) rider.setAddressDetail(data.getAddressDetail());
+            repository.save(rider);
         });
     }
 
     @Override
-    public void setAddress(String id, String address){
-        repository.findById(id).ifPresent(member -> {
-            member.setAddress(address);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setAddressDetail(String id, String addressDetail) {
-        repository.findById(id).ifPresent(member -> {
-            member.setAddressDetail(addressDetail);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void setCoordinates(String id, Point coordinates) {
-        repository.findById(id).ifPresent(member -> {
-            member.setLocation(coordinates);
-            repository.save(member);
-        });
-    }
-
-    @Override
-    public void deleteAll(){
-        repository.deleteAll();
+    public void deleteById(String riderId) {
+        repository.deleteById(riderId);
     }
 }

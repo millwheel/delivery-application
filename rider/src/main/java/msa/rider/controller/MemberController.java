@@ -2,12 +2,14 @@ package msa.rider.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.dto.RiderDto;
+import msa.rider.dto.rider.RiderResponseDto;
+import msa.rider.entity.Rider;
 import msa.rider.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -20,19 +22,24 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/info")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public RiderDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
-        return memberService.getUserInfo(id);
+    public RiderResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String riderId){
+        Optional<Rider> riderOptional = memberService.getRider(riderId);
+        if (riderOptional.isEmpty()){
+            throw new RuntimeException("rider doesn't exist.");
+        }
+        Rider rider = riderOptional.get();
+        return new RiderResponseDto(rider);
     }
 
-    @PutMapping("/info")
+    @PutMapping
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
-                                 @RequestBody RiderDto data,
+                                 @RequestBody RiderResponseDto data,
                                  HttpServletResponse response) throws IOException {
-        memberService.updateUserInfo(id, data);
-        response.sendRedirect("/rider/member/info");
+        memberService.updateRider(id, data);
+        response.sendRedirect("/rider/member");
     }
 
 }

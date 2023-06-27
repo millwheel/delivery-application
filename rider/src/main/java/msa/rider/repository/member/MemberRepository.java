@@ -1,23 +1,15 @@
 package msa.rider.repository.member;
 
+import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.Rider;
 import org.springframework.data.geo.Point;
 
 import java.util.Optional;
 
 public interface MemberRepository {
-    String make(Rider rider);
-    Optional<Rider> findById(String id);
-
-    void setName(String id, String name);
-
-    void setPhoneNumber(String id, String phoneNumber);
-
-    void setAddress(String id, String address);
-
-    void setAddressDetail(String id, String addressDetail);
-
-    void setCoordinates(String id, Point coordinates);
-
-    void deleteAll();
+    String create(Rider rider);
+    Optional<Rider> findById(String riderId);
+    void update(String riderId, RiderResponseDto data);
+    void update(String riderId, RiderResponseDto data, Point location);
+    void deleteById(String riderId);
 }

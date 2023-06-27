@@ -23,6 +23,6 @@ public class JoinService {
         Rider customer = new Rider();
         customer.setRiderId(cognitoUsername);
         customer.setEmail(email);
-        memberRepository.make(customer);
+        memberRepository.create(customer);
     }
 }
