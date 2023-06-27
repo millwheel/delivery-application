@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface StoreRepository {
     String createStore(Store store);
     Optional<Store> readStore(String id);
-    List<Store> readStoreNearLocation(Point location, FoodKind foodKind);
+    List<Store> readStoreListNearLocation(Point location, FoodKind foodKind);
     void updateStore(StoreSqsDto data);
     void updateOpenStatus(String id, boolean open);
     void deleteStore(String id);

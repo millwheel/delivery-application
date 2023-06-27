@@ -32,7 +32,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public List<Store> readStoreNearLocation(Point location, FoodKind foodKind) {
+    public List<Store> readStoreListNearLocation(Point location, FoodKind foodKind) {
         Distance distance = new Distance(4, Metrics.KILOMETERS);
         return repository.findByLocationNearAndFoodKindIs(location, distance, foodKind);
     }

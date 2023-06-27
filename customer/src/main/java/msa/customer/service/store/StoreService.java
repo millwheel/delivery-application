@@ -59,6 +59,6 @@ public class StoreService {
     }
 
     public List<Store> showStoreListNearCustomer(Point location, FoodKind foodKind){
-        return storeRepository.readStoreNearLocation(location, foodKind);
+        return storeRepository.readStoreListNearLocation(location, foodKind);
     }
 }
