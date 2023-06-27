@@ -2,7 +2,7 @@ package msa.rider.service;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.rider.RiderAddressRequestDto;
-import msa.rider.entity.Rider;
+import msa.rider.entity.member.Rider;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;

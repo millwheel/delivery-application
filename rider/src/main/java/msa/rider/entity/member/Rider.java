@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 @Document("rider")
 public class Rider {
-
     @MongoId
     private String riderId;
     private String name;

@@ -1,7 +1,7 @@
 package msa.rider.service;
 
 import msa.rider.dto.StoreSqsDto;
-import msa.rider.entity.Store;
+import msa.rider.entity.store.Store;
 import msa.rider.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

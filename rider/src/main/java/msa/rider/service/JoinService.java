@@ -1,6 +1,6 @@
 package msa.rider.service;
 
-import msa.rider.entity.Rider;
+import msa.rider.entity.member.Rider;
 import msa.rider.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

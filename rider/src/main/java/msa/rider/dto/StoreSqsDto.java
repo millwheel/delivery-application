@@ -2,7 +2,7 @@ package msa.rider.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import msa.rider.entity.FoodKindType;
+import msa.rider.entity.store.FoodKindType;
 import org.springframework.data.geo.Point;
 
 @Getter

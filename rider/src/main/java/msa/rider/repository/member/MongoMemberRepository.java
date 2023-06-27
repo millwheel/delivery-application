@@ -2,7 +2,7 @@ package msa.rider.repository.member;
 
 import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
-import msa.rider.entity.Rider;
+import msa.rider.entity.member.Rider;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;

@@ -2,7 +2,7 @@ package msa.rider.dto.rider;
 
 import lombok.Getter;
 import lombok.Setter;
-import msa.rider.entity.Rider;
+import msa.rider.entity.member.Rider;
 import org.springframework.data.geo.Point;
 
 @Getter

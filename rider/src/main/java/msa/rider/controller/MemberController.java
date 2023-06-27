@@ -3,7 +3,7 @@ package msa.rider.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.rider.RiderResponseDto;
-import msa.rider.entity.Rider;
+import msa.rider.entity.member.Rider;
 import msa.rider.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
