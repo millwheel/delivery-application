@@ -6,6 +6,8 @@ import msa.rider.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StoreService {
 
@@ -31,8 +33,12 @@ public class StoreService {
         storeRepository.create(store);
     }
 
+    public Optional<Store> getStore(String storeId){
+        return storeRepository.findById(storeId);
+    }
+
     public void updateStore(StoreSqsDto data){
-        storeRepository.update(data);
+        storeRepository.updateStore(data);
     }
 
     public void deleteStore(String storeId){

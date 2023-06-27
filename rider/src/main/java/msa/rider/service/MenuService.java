@@ -5,13 +5,15 @@ import msa.rider.entity.Menu;
 import msa.rider.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MenuService {
 
-    private final MenuRepository menuRepository;
+    private final MenuRepository repository;
 
     public MenuService(MenuRepository menuRepository) {
-        this.menuRepository = menuRepository;
+        this.repository = menuRepository;
     }
 
     public void createMenu(MenuSqsDto data){
@@ -21,14 +23,18 @@ public class MenuService {
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
         menu.setStoreId(data.getStoreId());
-        menuRepository.create(menu);
+        repository.create(menu);
+    }
+
+    public Optional<Menu> getMenu(String menuId){
+        return repository.findById(menuId);
     }
 
     public void updateMenu(MenuSqsDto data){
-        menuRepository.update(data);
+        repository.update(data);
     }
 
     public void deleteMenu(String menuId){
-        menuRepository.deleteById(menuId);
+        repository.deleteById(menuId);
     }
 }

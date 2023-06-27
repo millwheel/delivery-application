@@ -30,7 +30,7 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void update(StoreSqsDto data) {
+    public void updateStore(StoreSqsDto data) {
         repository.findById(data.getStoreId()).ifPresent(store -> {
             store.setName(data.getName());
             store.setFoodKind(data.getFoodKind());

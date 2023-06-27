@@ -1,10 +1,12 @@
 package msa.rider.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import msa.rider.entity.FoodKindType;
 import org.springframework.data.geo.Point;
 
 @Getter
+@NoArgsConstructor
 public class StoreSqsDto {
     private String storeId;
     private String name;

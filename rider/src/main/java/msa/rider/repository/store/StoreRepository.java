@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface StoreRepository {
     String create(Store store);
     Optional<Store> findById(String id);
-    void update(StoreSqsDto data);
+    void updateStore(StoreSqsDto data);
     void updateOpenStatus(String id, boolean open);
     void deleteById(String id);
 }
