@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,8 +45,8 @@ public class SseService {
         return emitter;
     }
 
-    public void showOrderList(String managerId) {
-        List<Order> orderList = orderService.getOrderList(managerId).orElseGet(ArrayList::new);
+    public void showOrderList(String storeId) {
+        List<Order> orderList = orderService.getOrderList(storeId).orElseGet(ArrayList::new);
         List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
         orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));

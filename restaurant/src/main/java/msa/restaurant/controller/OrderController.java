@@ -6,6 +6,7 @@ import msa.restaurant.entity.order.Order;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.service.sse.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -26,10 +27,11 @@ public class OrderController {
         this.sseService = sseService;
     }
 
-    @GetMapping
-    public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId){
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
+                                    @PathVariable String storeId){
         SseEmitter sseEmitter = sseService.connect(managerId);
-        sseService.showOrderList(managerId);
+        sseService.showOrderList(storeId);
         return sseEmitter;
     }
 
