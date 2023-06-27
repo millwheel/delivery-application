@@ -4,7 +4,10 @@ import msa.restaurant.dto.order.OrderPartResponseDto;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.service.order.OrderService;
+import msa.restaurant.service.sse.SseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +18,19 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final SseService sseService;
 
-    public OrderController(OrderService orderService) {
+    @Autowired
+    public OrderController(OrderService orderService, SseService sseService) {
         this.orderService = orderService;
+        this.sseService = sseService;
     }
 
     @GetMapping
-    public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String managerId){
-        List<Order> orderList = orderService.getOrderList(managerId).orElseGet(ArrayList::new);
-        List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
-        orderList.forEach(order -> {
-            orderPartInfoList.add(new OrderPartResponseDto(order));
-        });
-        return orderPartInfoList;
+    public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId){
+        SseEmitter sseEmitter = sseService.connect(managerId);
+        sseService.showOrderList(managerId);
+        return sseEmitter;
     }
 
     @GetMapping("/{orderId}")
