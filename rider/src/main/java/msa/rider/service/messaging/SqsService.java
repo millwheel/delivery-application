@@ -4,7 +4,6 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,11 @@ public class SqsService {
     @Value("${aws.sqs.url.rider}")
     private String riderSqsUrl;
     private final AmazonSQS amazonSQSClient;
-    private final MessageConverter messageConverter;
+    private final ReceivingMessageConverter receivingMessageConverter;
 
-    public SqsService(AmazonSQS amazonSQSClient, MessageConverter messageConverter) {
+    public SqsService(AmazonSQS amazonSQSClient, ReceivingMessageConverter receivingMessageConverter) {
         this.amazonSQSClient = amazonSQSClient;
-        this.messageConverter = messageConverter;
+        this.receivingMessageConverter = receivingMessageConverter;
     }
 
     public SendMessageResult sendToCustomer(String data){
@@ -45,7 +44,7 @@ public class SqsService {
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
-                messageConverter.processMessage(messageBody);
+                receivingMessageConverter.processMessage(messageBody);
                 amazonSQSClient.deleteMessage(riderSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e) {
