@@ -1,13 +1,12 @@
 package msa.rider.dto.rider;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class RiderRequestDto {
-    private String name;
-    private String phoneNumber;
+@Getter
+public class RiderAddressRequestDto {
     private String address;
     private String addressDetail;
 }

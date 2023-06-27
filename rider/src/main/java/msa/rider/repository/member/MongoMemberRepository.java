@@ -1,5 +1,6 @@
 package msa.rider.repository.member;
 
+import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.Rider;
 import org.springframework.context.annotation.Primary;
@@ -45,6 +46,16 @@ public class MongoMemberRepository implements MemberRepository {
             rider.setAddress(data.getAddress());
             rider.setLocation(location);
             if (data.getAddressDetail() != null) rider.setAddressDetail(data.getAddressDetail());
+            repository.save(rider);
+        });
+    }
+
+    @Override
+    public void updateAddress(String riderId, RiderAddressRequestDto data, Point location) {
+        repository.findById(riderId).ifPresent(rider -> {
+            rider.setAddress(data.getAddress());
+            rider.setAddressDetail(data.getAddressDetail());
+            rider.setLocation(location);
             repository.save(rider);
         });
     }

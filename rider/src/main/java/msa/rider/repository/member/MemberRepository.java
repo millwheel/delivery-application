@@ -1,5 +1,6 @@
 package msa.rider.repository.member;
 
+import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.Rider;
 import org.springframework.data.geo.Point;
@@ -11,5 +12,6 @@ public interface MemberRepository {
     Optional<Rider> findById(String riderId);
     void update(String riderId, RiderResponseDto data);
     void update(String riderId, RiderResponseDto data, Point location);
+    void updateAddress(String riderId, RiderAddressRequestDto data, Point location);
     void deleteById(String riderId);
 }

@@ -1,16 +1,31 @@
 package msa.rider.controller;
 
+import msa.rider.dto.rider.RiderAddressRequestDto;
+import msa.rider.dto.rider.RiderResponseDto;
+import msa.rider.service.MemberService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/rider")
 @RestController
 public class HomeController {
 
-    @GetMapping("/rider")
+    private final MemberService memberService;
+
+    public HomeController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String home(){
         return "Rider server is activated successfully";
+    }
+
+    @PatchMapping("/ready")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateAddress(@RequestAttribute("cognitoUsername") String riderId,
+                              @RequestBody RiderAddressRequestDto data){
+        memberService.updateAddress(riderId, data);
     }
 }

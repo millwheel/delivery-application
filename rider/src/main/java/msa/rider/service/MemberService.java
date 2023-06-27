@@ -1,6 +1,7 @@
 package msa.rider.service;
 
 import lombok.extern.slf4j.Slf4j;
+import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.entity.Rider;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.repository.member.MemberRepository;
@@ -33,6 +34,11 @@ public class MemberService {
             Point coordinate = addressService.getCoordinate(data.getAddress());
             memberRepository.update(riderId, data, coordinate);
         }
+    }
+
+    public void updateAddress(String riderId, RiderAddressRequestDto data){
+        Point coordinate = addressService.getCoordinate(data.getAddress());
+        memberRepository.updateAddress(riderId, data, coordinate);
     }
 
 }
