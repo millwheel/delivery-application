@@ -33,7 +33,7 @@ public class MemberController {
         return new RiderResponseDto(rider);
     }
 
-    @PutMapping
+    @PatchMapping
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                                  @RequestBody RiderResponseDto data,
