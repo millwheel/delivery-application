@@ -1,10 +1,10 @@
 package msa.restaurant.service.order;
 
 import msa.restaurant.entity.order.Order;
+import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.repository.order.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +27,15 @@ public class OrderService {
 
     public Optional<Order> getOrder(String orderId){
         return orderRepository.readOrder(orderId);
+    }
+
+    public void updateOrderStatus(String orderId, OrderStatus orderStatus){
+        if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
+            orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
+        } else if (orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
+            orderRepository.updateOrderStatus(orderId, OrderStatus.FOOD_READY);
+        } else {
+            throw new RuntimeException("The current order status is not changeable");
+        }
     }
 }

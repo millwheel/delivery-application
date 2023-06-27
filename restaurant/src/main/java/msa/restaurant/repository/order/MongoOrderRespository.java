@@ -1,6 +1,7 @@
 package msa.restaurant.repository.order;
 
 import msa.restaurant.entity.order.Order;
+import msa.restaurant.entity.order.OrderStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public class MongoOrderRespository implements OrderRepository {
     @Override
     public List<Order> readOrderList(String storeId) {
         return repository.findByStoreId(storeId);
+    }
+
+    @Override
+    public void updateOrderStatus(String orderId, OrderStatus orderStatus) {
+        repository.findById(orderId).ifPresent(order -> {
+            order.setOrderStatus(orderStatus);
+            repository.save(order);
+        });
     }
 
     @Override

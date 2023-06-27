@@ -1,8 +1,9 @@
 package msa.restaurant.controller;
 
-import msa.restaurant.dto.order.OrderPartResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
+import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.service.sse.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -43,4 +43,18 @@ public class OrderController {
         }
         return new OrderResponseDto(orderOptional.get());
     }
+
+    @PostMapping("/{orderId}")
+    public void changeOrderStatus(@PathVariable String orderId,
+                                  @PathVariable String storeId,
+                                  HttpServletResponse response) throws IOException {
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if (orderOptional.isEmpty()){
+            throw new RuntimeException("order doesn't exist.");
+        }
+        OrderStatus orderStatus = orderOptional.get().getOrderStatus();
+        orderService.updateOrderStatus(orderId, orderStatus);
+        response.sendRedirect("/restaurant/store/" + storeId + "/order");
+    }
+
 }
