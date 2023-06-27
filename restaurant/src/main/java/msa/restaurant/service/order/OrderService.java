@@ -21,7 +21,7 @@ public class OrderService {
         orderRepository.createOrder(order);
     }
 
-    public Optional<List<Order>> getOrderList(String storeId){
+    public List<Order> getOrderList(String storeId){
         return orderRepository.readOrderList(storeId);
     }
 

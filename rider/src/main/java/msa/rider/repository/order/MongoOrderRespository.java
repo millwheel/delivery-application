@@ -27,7 +27,7 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public List<Order> readOrderList(String storeId) {
+    public Optional<List<Order>> readOrderList(String storeId) {
         return repository.findByStoreId(storeId);
     }
 

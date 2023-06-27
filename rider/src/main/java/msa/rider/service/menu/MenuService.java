@@ -1,6 +1,6 @@
-package msa.rider.service;
+package msa.rider.service.menu;
 
-import msa.rider.dto.MenuSqsDto;
+import msa.rider.dto.menu.MenuSqsDto;
 import msa.rider.entity.menu.Menu;
 import msa.rider.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;

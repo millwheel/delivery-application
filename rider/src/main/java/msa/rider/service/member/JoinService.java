@@ -1,4 +1,4 @@
-package msa.rider.service;
+package msa.rider.service.member;
 
 import msa.rider.entity.member.Rider;
 import msa.rider.repository.member.MemberRepository;

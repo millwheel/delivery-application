@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface OrderRepository {
     String createOrder(Order order);
     Optional<Order> readOrder(String orderId);
-    List<Order> readOrderList(String storeId);
+    Optional<List<Order>> readOrderList(String storeId);
     void deleteOrder(String orderId);
 }

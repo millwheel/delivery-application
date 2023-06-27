@@ -1,4 +1,4 @@
-package msa.rider.dto;
+package msa.rider.dto.store;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

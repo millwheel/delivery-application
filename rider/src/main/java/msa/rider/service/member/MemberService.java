@@ -1,10 +1,11 @@
-package msa.rider.service;
+package msa.rider.service.member;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.entity.member.Rider;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.repository.member.MemberRepository;
+import msa.rider.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;

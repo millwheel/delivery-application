@@ -1,4 +1,4 @@
-package msa.rider.service;
+package msa.rider.service.member;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

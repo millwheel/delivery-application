@@ -1,4 +1,4 @@
-package msa.rider.dto;
+package msa.rider.dto.menu;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
