@@ -9,21 +9,35 @@ import msa.restaurant.entity.order.OrderStatus;
 
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-public class OrderPartResponseDto {
+public class OrderResponseDto {
     private String orderTime;
     private OrderStatus orderStatus;
+    private String customerPhoneNumber;
     private String customerAddress;
+    private String customerAddressDetail;
     private List<OrderMenu> orderMenuList;
     private int totalPrice;
+    private String storeName;
+    private String storePhoneNumber;
+    private String storeAddress;
+    private String storeAddressDetail;
+    private String riderName;
+    private String riderPhoneNumber;
 
-    public OrderPartResponseDto(Order order) {
+    public OrderResponseDto(Order order) {
         orderTime = order.getOrderTime();
         orderStatus = order.getOrderStatus();
+        customerPhoneNumber = order.getCustomerPhoneNumber();
         customerAddress = order.getCustomerAddress();
+        customerAddressDetail = order.getCustomerAddressDetail();
         orderMenuList = order.getOrderMenuList();
         totalPrice = order.getTotalPrice();
+        storeName = order.getStoreName();
+        storePhoneNumber = order.getStorePhoneNumber();
+        storeAddress = order.getStoreAddress();
+        storeAddressDetail = order.getStoreAddressDetail();
     }
 }
