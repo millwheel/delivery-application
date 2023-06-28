@@ -47,7 +47,7 @@ public class OrderController {
 
 
     @GetMapping("/{orderId}")
-    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
+    public OrderResponseDto showNewOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
@@ -85,5 +85,31 @@ public class OrderController {
         });
         return orderPartResponseDtoList;
     }
+
+    @GetMapping("/history/{orderId}")
+    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if (orderOptional.isEmpty()){
+            throw new RuntimeException("order doesn't exist.");
+        }
+        return new OrderResponseDto(orderOptional.get());
+    }
+
+    @PostMapping("/history/{orderId}")
+    public void changeOrderStatus(@PathVariable String orderId,
+                                  HttpServletResponse response) throws IOException {
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if (orderOptional.isEmpty()){
+            throw new RuntimeException("order doesn't exist.");
+        }
+        Order order = orderOptional.get();
+        OrderStatus orderStatus = order.getOrderStatus();
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
+        sqsService.sendToRestaurant(messageToChangeOrderStatus);
+        sqsService.sendToCustomer(messageToChangeOrderStatus);
+        response.sendRedirect("/restaurant/order/history" + orderId);
+    }
+
 
 }
