@@ -29,7 +29,7 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus updateOrderStatus(String orderId, OrderStatus orderStatus){
+    public OrderStatus updateOrderStatusFromClient(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
             return OrderStatus.ORDER_ACCEPT;
@@ -39,5 +39,9 @@ public class OrderService {
         } else {
             throw new RuntimeException("The current order status is not changeable");
         }
+    }
+
+    public void updateOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
+        orderRepository.updateOrderStatus(orderId, orderStatus);
     }
 }

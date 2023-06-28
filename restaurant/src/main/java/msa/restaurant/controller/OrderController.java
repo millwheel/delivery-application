@@ -59,7 +59,7 @@ public class OrderController {
             throw new RuntimeException("order doesn't exist.");
         }
         Order order = orderOptional.get();
-        OrderStatus updatedOrderStatus = orderService.updateOrderStatus(orderId, order.getOrderStatus());
+        OrderStatus updatedOrderStatus = orderService.updateOrderStatusFromClient(orderId, order.getOrderStatus());
         String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToUpdateOrderStatus(updatedOrderStatus);
         sqsService.sendToRider(messageToUpdateOrderStatus);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
