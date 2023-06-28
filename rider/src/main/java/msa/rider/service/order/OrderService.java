@@ -1,10 +1,12 @@
 package msa.rider.service.order;
 
+import msa.rider.entity.member.Rider;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import msa.rider.repository.member.MemberRepository;
 import msa.rider.repository.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +27,9 @@ public class OrderService {
         orderRepository.createOrder(order);
     }
 
-    public List<Order> getOrderListNearRider(String rider){
-        memberRepository.findById()
+    public List<Order> getOrderListNearRider(String riderId){
+        Rider rider = memberRepository.findById(riderId).get();
+        Point location = rider.getLocation();
         return orderRepository.findNewOrderListNearLocation(location);
     }
 

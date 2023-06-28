@@ -44,19 +44,5 @@ public class SseService {
         return emitter;
     }
 
-    public void showOrderList(String storeId) {
-        List<Order> orderList = orderService.getOrderList(storeId);
-        List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
-        orderList.forEach(order -> {
-            orderPartInfoList.add(new OrderPartResponseDto(order));
-        });
-        emitterList.forEachValue(Long.MAX_VALUE, emitter -> {
-            try {
-                emitter.send(SseEmitter.event().name("orderList").data(orderPartInfoList));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
 
 }
