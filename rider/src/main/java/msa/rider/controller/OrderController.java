@@ -3,6 +3,7 @@ package msa.rider.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.rider.dto.order.OrderPartResponseDto;
 import msa.rider.dto.order.OrderResponseDto;
+import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.member.Rider;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
@@ -21,12 +22,14 @@ import java.util.Optional;
 @RestController
 public class OrderController {
     private final OrderService orderService;
+    private final MemberService memberService;
     private final SqsService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     public OrderController(OrderService orderService, MemberService memberService, SqsService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
+        this.memberService = memberService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
@@ -53,18 +56,21 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}")
-    public void changeOrderStatus(@PathVariable String orderId,
+    public void riderAssign(@RequestAttribute("cognitoUsername") String riderId,
+                                  @PathVariable String orderId,
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
         }
         Order order = orderOptional.get();
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
-        String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
-        sqsService.sendToRestaurant(messageToUpdateOrderStatus);
-        sqsService.sendToCustomer(messageToUpdateOrderStatus);
-        response.sendRedirect("/restaurant/order" + orderId);
+        OrderStatus orderStatus = order.getOrderStatus();
+        if (!orderStatus.equals(OrderStatus.RIDER_ASSIGNED)){
+            throw new RuntimeException("invalid order status");
+        }
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
+        RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId);
+        response.sendRedirect("/restaurant/order");
     }
 
     @GetMapping("/history")

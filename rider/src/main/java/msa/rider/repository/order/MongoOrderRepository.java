@@ -1,5 +1,6 @@
 package msa.rider.repository.order;
 
+import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import org.springframework.data.geo.Point;
@@ -43,6 +44,15 @@ public class MongoOrderRepository implements OrderRepository {
         repository.findById(orderId).ifPresent(order -> {
             order.setOrderStatus(orderStatus);
             repository.save(order);
+        });
+    }
+
+    @Override
+    public void updateRiderInfo(String orderId, RiderPartDto riderPartDto) {
+        repository.findById(orderId).ifPresent(order -> {
+            order.setRiderId(riderPartDto.getRiderId());
+            order.setRiderName(riderPartDto.getName());
+            order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
         });
     }
 

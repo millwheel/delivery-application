@@ -1,5 +1,6 @@
 package msa.rider.service.order;
 
+import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.member.Rider;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
@@ -41,18 +42,25 @@ public class OrderService {
         return orderRepository.findByRiderId(riderId);
     }
 
+    public RiderPartDto updateRiderInfo(String orderId, String riderId){
+        Rider rider = memberRepository.findById(riderId).get();
+        RiderPartDto riderPartDto = new RiderPartDto(rider);
+        orderRepository.updateRiderInfo(orderId, riderPartDto);
+        return riderPartDto;
+    }
+
     public OrderStatus changeOrderStatusFromClient(String orderId, OrderStatus orderStatus){
-        if(orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
+        if (orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.RIDER_ASSIGNED);
             return OrderStatus.RIDER_ASSIGNED;
-        } else if (orderStatus.equals(OrderStatus.FOOD_READY)) {
+        } else if (orderStatus.equals(OrderStatus.FOOD_READY) || orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
             orderRepository.updateOrderStatus(orderId, OrderStatus.DELIVERY_IN_PROGRESS);
             return OrderStatus.DELIVERY_IN_PROGRESS;
         } else if (orderStatus.equals(OrderStatus.DELIVERY_IN_PROGRESS)) {
             orderRepository.updateOrderStatus(orderId, OrderStatus.DELIVERY_COMPLETE);
             return OrderStatus.DELIVERY_COMPLETE;
         } else {
-            throw new RuntimeException("The current order status is not changeable");
+            throw new RuntimeException("Current order status is not changeable");
         }
     }
 
