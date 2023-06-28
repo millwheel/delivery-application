@@ -1,6 +1,5 @@
 package msa.rider.service.order;
 
-import msa.rider.entity.member.Rider;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import msa.rider.repository.member.MemberRepository;
@@ -35,7 +34,7 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus updateOrderStatusFromClient(String orderId, OrderStatus orderStatus){
+    public OrderStatus changeOrderStatusFromClient(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.RIDER_ASSIGNED);
             return OrderStatus.RIDER_ASSIGNED;
@@ -50,7 +49,7 @@ public class OrderService {
         }
     }
 
-    public void updateOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
+    public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
         orderRepository.updateOrderStatus(orderId, orderStatus);
     }
 }

@@ -1,11 +1,11 @@
-package msa.restaurant.dto.order;
+package msa.rider.dto.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import msa.restaurant.entity.order.OrderMenu;
-import msa.restaurant.entity.order.Order;
-import msa.restaurant.entity.order.OrderStatus;
+import msa.rider.entity.order.Order;
+import msa.rider.entity.order.OrderMenu;
+import msa.rider.entity.order.OrderStatus;
 
 import java.util.List;
 
