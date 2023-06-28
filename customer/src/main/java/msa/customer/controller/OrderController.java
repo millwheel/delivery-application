@@ -9,7 +9,9 @@ import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.order.OrderService;
 import msa.customer.service.messaging.SqsService;
+import msa.customer.service.sse.SseService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,12 +25,14 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SqsService sqsService;
+    private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final ReceivingMessageConverter receivingMessageConverter;
 
-    public OrderController(OrderService orderService, SqsService sqsService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
+    public OrderController(OrderService orderService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
         this.orderService = orderService;
         this.sqsService = sqsService;
+        this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.receivingMessageConverter = receivingMessageConverter;
     }
@@ -58,11 +62,10 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
-        }
-        return new OrderResponseDto(orderOptional.get());
+    public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String customerId,
+                                    @PathVariable String orderId){
+        SseEmitter sseEmitter = sseService.connect(customerId);
+        sseService.showOrder(orderId);
+        return sseEmitter;
     }
 }
