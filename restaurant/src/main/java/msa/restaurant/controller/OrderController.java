@@ -59,8 +59,8 @@ public class OrderController {
             throw new RuntimeException("order doesn't exist.");
         }
         Order order = orderOptional.get();
-        OrderStatus updatedOrderStatus = orderService.updateOrderStatusFromClient(orderId, order.getOrderStatus());
-        String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToUpdateOrderStatus(updatedOrderStatus);
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
+        String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         sqsService.sendToRider(messageToUpdateOrderStatus);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
         response.sendRedirect("/restaurant/store/" + storeId + "/order");

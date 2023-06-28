@@ -29,7 +29,7 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus updateOrderStatusFromClient(String orderId, OrderStatus orderStatus){
+    public OrderStatus changeOrderStatusFromClient(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
             return OrderStatus.ORDER_ACCEPT;
@@ -41,7 +41,7 @@ public class OrderService {
         }
     }
 
-    public void updateOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
+    public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
         orderRepository.updateOrderStatus(orderId, orderStatus);
     }
 }
