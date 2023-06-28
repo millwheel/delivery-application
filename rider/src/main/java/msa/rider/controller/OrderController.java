@@ -70,6 +70,9 @@ public class OrderController {
         }
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
         RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId);
+        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, changedOrderStatus);
+        sqsService.sendToRestaurant(messageToAssignRider);
+        sqsService.sendToCustomer(messageToAssignRider);
         response.sendRedirect("/restaurant/order");
     }
 
