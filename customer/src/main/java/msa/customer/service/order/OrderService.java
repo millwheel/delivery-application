@@ -83,4 +83,8 @@ public class OrderService {
     public Optional<Order> getOrder(String orderId){
         return orderRepository.readOrder(orderId);
     }
+
+    public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
+        orderRepository.updateOrderStatus(orderId, orderStatus);
+    }
 }

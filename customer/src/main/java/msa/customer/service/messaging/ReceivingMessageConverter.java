@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.dto.store.StoreSqsDto;
+import msa.customer.entity.order.OrderStatus;
 import msa.customer.service.menu.MenuService;
+import msa.customer.service.order.OrderService;
 import msa.customer.service.store.StoreService;
 import msa.customer.deserializer.StoreDeserializer;
 import org.json.JSONObject;
@@ -19,11 +21,13 @@ public class ReceivingMessageConverter {
 
     private final StoreService storeService;
     private final MenuService menuService;
+    private final OrderService orderService;
 
     @Autowired
-    public ReceivingMessageConverter(StoreService storeService, MenuService menuService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService) {
         this.storeService = storeService;
         this.menuService = menuService;
+        this.orderService = orderService;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -32,6 +36,8 @@ public class ReceivingMessageConverter {
             processStoreData(jsonObject);
         } else if (jsonObject.get("dataType").equals("menu")) {
             processMenuData(jsonObject);
+        } else if (jsonObject.get("dataType").equals("order")){
+            processOrderData(jsonObject);
         }
     }
 
@@ -57,6 +63,15 @@ public class ReceivingMessageConverter {
         }
     }
 
+    public StoreSqsDto convertStoreData(JSONObject jsonObject) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
+        objectMapper.registerModule(module);
+        String data = jsonObject.get("data").toString();
+        return objectMapper.readValue(data, StoreSqsDto.class);
+    }
+
     public void processMenuData(JSONObject jsonObject) throws JsonProcessingException {
         if (jsonObject.get("method").equals("create")){
             MenuSqsDto menuSqsDto = convertMenuData(jsonObject);
@@ -71,21 +86,20 @@ public class ReceivingMessageConverter {
         }
     }
 
-    public StoreSqsDto convertStoreData(JSONObject jsonObject) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
-        objectMapper.registerModule(module);
-        String data = jsonObject.get("data").toString();
-        return objectMapper.readValue(data, StoreSqsDto.class);
-    }
-
     public MenuSqsDto convertMenuData(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, MenuSqsDto.class);
     }
 
+    public void processOrderData(JSONObject jsonObject) throws JsonProcessingException {
+        if (jsonObject.get("method").equals("change")) {
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String orderId = (String) data.get("orderId");
+            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
+        }
+    }
 
 
 }
