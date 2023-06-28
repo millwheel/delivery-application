@@ -67,4 +67,14 @@ public class OrderController {
         response.sendRedirect("/restaurant/order" + orderId);
     }
 
+    @GetMapping("/history")
+    public List<OrderPartResponseDto> showOrderListOfRider(@RequestAttribute("cognitoUsername") String riderId){
+        List<Order> orderListOfRider = orderService.getOrderListOfRider(riderId);
+        List<OrderPartResponseDto> orderPartResponseDtoList = new ArrayList<>();
+        orderListOfRider.forEach(order -> {
+            orderPartResponseDtoList.add(new OrderPartResponseDto(order));
+        });
+        return orderPartResponseDtoList;
+    }
+
 }
