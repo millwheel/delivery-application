@@ -24,13 +24,18 @@ public class MongoOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> readOrder(String orderId) {
+    public Optional<Order> findById(String orderId) {
         return repository.findById(orderId);
     }
 
     @Override
-    public List<Order> readOrderListNearLocation(Point location) {
-        return repository.findByLocationNear(location);
+    public List<Order> findByRiderId(String riderId) {
+        return repository.findByRiderId(riderId);
+    }
+
+    @Override
+    public List<Order> findNewOrderListNearLocation(Point location) {
+        return repository.findByLocationNearAndOrderStatusIs(location, OrderStatus.ORDER_ACCEPT);
     }
 
     @Override

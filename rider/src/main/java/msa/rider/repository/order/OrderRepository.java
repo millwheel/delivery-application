@@ -10,8 +10,9 @@ import java.util.Optional;
 
 public interface OrderRepository {
     String createOrder(Order order);
-    Optional<Order> readOrder(String orderId);
-    List<Order> readOrderListNearLocation(Point location);
+    Optional<Order> findById(String orderId);
+    List<Order> findByRiderId(String riderId);
+    List<Order> findNewOrderListNearLocation(Point location);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
     void deleteOrder(String orderId);
 }

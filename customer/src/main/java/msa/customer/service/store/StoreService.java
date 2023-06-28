@@ -38,6 +38,10 @@ public class StoreService {
         log.info("Created store id={}", storeId);
     }
 
+    public List<Store> getStoreListNearCustomer(Point location, FoodKind foodKind){
+        return storeRepository.readStoreListNearLocation(location, foodKind);
+    }
+
     public Optional<Store> getStore(String storeId){
         return storeRepository.readStore(storeId);
     }
@@ -56,9 +60,5 @@ public class StoreService {
 
     public void closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
-    }
-
-    public List<Store> showStoreListNearCustomer(Point location, FoodKind foodKind){
-        return storeRepository.readStoreListNearLocation(location, foodKind);
     }
 }

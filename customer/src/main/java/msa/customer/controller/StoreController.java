@@ -40,7 +40,7 @@ public class StoreController {
             return null;
         }
         List<StorePartResponseDto> storePartList = new ArrayList<>();
-        List<Store> storeList = storeService.showStoreListNearCustomer(coordinates.get(), foodKind);
+        List<Store> storeList = storeService.getStoreListNearCustomer(coordinates.get(), foodKind);
         storeList.forEach(store -> {
             storePartList.add(new StorePartResponseDto(store));
         });

@@ -1,6 +1,7 @@
 package msa.rider.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import msa.rider.dto.order.OrderPartResponseDto;
 import msa.rider.dto.order.OrderResponseDto;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
@@ -10,6 +11,7 @@ import msa.rider.service.order.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/rider/order")
@@ -26,6 +28,7 @@ public class OrderController {
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
+
 
     @GetMapping("/{orderId}")
     public OrderResponseDto showOrderInfo(@PathVariable String orderId){
