@@ -9,6 +9,7 @@ import msa.rider.deserializer.StoreDeserializer;
 import msa.rider.dto.menu.MenuSqsDto;
 import msa.rider.dto.store.StoreSqsDto;
 import msa.rider.entity.order.Order;
+import msa.rider.entity.order.OrderStatus;
 import msa.rider.service.menu.MenuService;
 import msa.rider.service.order.OrderService;
 import msa.rider.service.store.StoreService;
@@ -95,6 +96,11 @@ public class ReceivingMessageConverter {
         if (jsonObject.get("method").equals("accept")){
             Order order = convertOrderData(jsonObject);
             orderService.createOrder(order);
+        }else if (jsonObject.get("method").equals("change")) {
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String orderId = (String) data.get("orderId");
+            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            orderService.updateOrderStatusFromOtherServer(orderId, orderStatus);
         }
     }
 

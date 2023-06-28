@@ -1,6 +1,7 @@
 package msa.rider.repository.order;
 
 import msa.rider.entity.order.Order;
+import msa.rider.entity.order.OrderStatus;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,14 @@ public class MongoOrderRepository implements OrderRepository {
     @Override
     public List<Order> readOrderListNearLocation(Point location) {
         return repository.findByLocationNear(location);
+    }
+
+    @Override
+    public void updateOrderStatus(String orderId, OrderStatus orderStatus) {
+        repository.findById(orderId).ifPresent(order -> {
+            order.setOrderStatus(orderStatus);
+            repository.save(order);
+        });
     }
 
     @Override
