@@ -21,5 +21,4 @@ public class Rider {
     private String address;
     private String addressDetail;
     private Point location;
-
 }

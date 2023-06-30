@@ -1,16 +1,17 @@
 package msa.rider.controller;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.rider.dto.order.OrderPartResponseDto;
 import msa.rider.dto.order.OrderResponseDto;
 import msa.rider.dto.rider.RiderPartDto;
-import msa.rider.entity.member.Rider;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import msa.rider.service.member.MemberService;
 import msa.rider.service.messaging.SendingMessageConverter;
 import msa.rider.service.messaging.SqsService;
 import msa.rider.service.order.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class OrderController {
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
+    @Autowired
     public OrderController(OrderService orderService, MemberService memberService, SqsService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
         this.memberService = memberService;

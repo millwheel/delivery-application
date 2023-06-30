@@ -15,6 +15,6 @@ public interface OrderRepository {
     List<Order> findByRiderId(String riderId);
     List<Order> findNewOrderListNearLocation(Point location);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
-    void updateRiderInfo(String orderId, RiderPartDto riderPartDto);
+    void updateOrderInfo(String orderId, RiderPartDto riderPartDto, Point location);
     void deleteOrder(String orderId);
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -37,6 +39,8 @@ public class Order {
     private String riderId;
     private String riderName;
     private String riderPhoneNumber;
+    @GeoSpatialIndexed(type= GeoSpatialIndexType.GEO_2DSPHERE)
+    private Point riderLocation;
 
     public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<OrderMenu> orderMenuList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {
         this.orderId = orderId;
