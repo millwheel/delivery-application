@@ -20,7 +20,6 @@ public class RiderResponseDto {
         email = rider.getEmail();
         phoneNumber = rider.getPhoneNumber();
         address = rider.getAddress();
-        addressDetail = rider.getAddressDetail();
         location = rider.getLocation();
     }
 }

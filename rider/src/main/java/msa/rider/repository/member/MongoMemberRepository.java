@@ -45,7 +45,6 @@ public class MongoMemberRepository implements MemberRepository {
             if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
             rider.setAddress(data.getAddress());
             rider.setLocation(location);
-            if (data.getAddressDetail() != null) rider.setAddressDetail(data.getAddressDetail());
             repository.save(rider);
         });
     }
@@ -54,7 +53,6 @@ public class MongoMemberRepository implements MemberRepository {
     public void updateAddress(String riderId, RiderAddressRequestDto data, Point location) {
         repository.findById(riderId).ifPresent(rider -> {
             rider.setAddress(data.getAddress());
-            rider.setAddressDetail(data.getAddressDetail());
             rider.setLocation(location);
             repository.save(rider);
         });
