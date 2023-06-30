@@ -36,7 +36,7 @@ public class MongoOrderRepository implements OrderRepository {
 
     @Override
     public List<Order> findNewOrderListNearLocation(Point location) {
-        return repository.findByLocationNearAndOrderStatusIs(location, OrderStatus.ORDER_ACCEPT);
+        return repository.findByRiderLocationNearAndOrderStatusIs(location, OrderStatus.ORDER_ACCEPT);
     }
 
     @Override
