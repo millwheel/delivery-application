@@ -58,6 +58,7 @@ public class OrderController {
         Order order = orderOptional.get();
         String messageToCreateOrder = sendingMessageConverter.createMessageToCreateOrder(order);
         sqsService.sendToRestaurant(messageToCreateOrder);
+        sqsService.sendToRider(messageToCreateOrder);
         response.sendRedirect("/customer/order");
     }
 
