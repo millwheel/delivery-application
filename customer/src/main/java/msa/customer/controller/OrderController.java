@@ -2,10 +2,10 @@ package msa.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.service.basket.BasketService;
 import msa.customer.service.messaging.ReceivingMessageConverter;
 import msa.customer.service.messaging.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
-import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.order.OrderService;
 import msa.customer.service.messaging.SqsService;
@@ -24,13 +24,15 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final BasketService basketService;
     private final SqsService sqsService;
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final ReceivingMessageConverter receivingMessageConverter;
 
-    public OrderController(OrderService orderService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
+    public OrderController(OrderService orderService, BasketService basketService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
         this.orderService = orderService;
+        this.basketService = basketService;
         this.sqsService = sqsService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
@@ -59,6 +61,7 @@ public class OrderController {
         String messageToCreateOrder = sendingMessageConverter.createMessageToCreateOrder(order);
         sqsService.sendToRestaurant(messageToCreateOrder);
         sqsService.sendToRider(messageToCreateOrder);
+        basketService.deleteAllInBasket(customerId);
         response.sendRedirect("/customer/order");
     }
 
