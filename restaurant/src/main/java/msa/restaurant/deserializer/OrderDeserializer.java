@@ -38,7 +38,7 @@ public class OrderDeserializer extends StdDeserializer {
         double cy = node.get("customerLocation").get("y").asDouble();
         Point customerLocation = new Point(cx, cy);
         List<OrderMenu> orderMenuList = new ArrayList<>();
-        node.get("orderMenuList").forEach(eachData -> {
+        node.get("MenuInBasket").forEach(eachData -> {
             OrderMenu orderMenu = new OrderMenu();
             orderMenu.setMenuId(eachData.get("menuId").asText());
             orderMenu.setMenuName(eachData.get("menuName").asText());
