@@ -40,6 +40,6 @@ public class MemberController {
                               @RequestBody CustomerRequestDto data,
                               HttpServletResponse response) throws IOException {
         memberService.updateCustomer(id, data);
-        response.sendRedirect("/customer/member/info");
+        response.sendRedirect("/customer/member");
     }
 }
