@@ -50,11 +50,12 @@ public class StoreController {
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto showStoreInfo (@PathVariable String storeId){
-        Optional<Store> store = storeService.getStore(storeId);
-        if (store.isEmpty()){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
             throw new RuntimeException("store doesn't exist");
         }
-        return new StoreResponseDto(store.get());
+        Store store = storeOptional.get();
+        return new StoreResponseDto(store);
     }
 
 }

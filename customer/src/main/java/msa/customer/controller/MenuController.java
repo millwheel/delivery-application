@@ -34,8 +34,7 @@ public class MenuController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
+        if(storeService.getStore(storeId).isEmpty()){
             throw new RuntimeException("store doesn't exist.");
         }
         List<Menu> menuList = menuService.getMenuList(storeId);
@@ -66,15 +65,15 @@ public class MenuController {
                             @PathVariable String menuId,
                             @RequestBody int menuCount,
                             HttpServletResponse response) throws IOException {
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
         if (menuCount == 0){
             throw new IllegalArgumentException("menuCount should not be zero.");
         }
         if (menuCount >= 100000){
             throw new IllegalArgumentException("menuCount is too large.");
-        }
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
         }
         basketService.addToBasket(customerId, storeId, menuId, menuCount);
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");

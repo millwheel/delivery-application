@@ -3,11 +3,14 @@ package msa.customer.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.basket.BasketResponseDto;
 import msa.customer.entity.basket.Basket;
+import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKind;
 import msa.customer.service.basket.BasketService;
+import msa.customer.service.menu.MenuService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Optional;
 
 @RequestMapping("/customer/{foodKind}/store/{storeId}")
@@ -15,9 +18,11 @@ import java.util.Optional;
 public class BasketController {
 
     private final BasketService basketService;
+    private final MenuService menuService;
 
-    public BasketController(BasketService basketService) {
+    public BasketController(BasketService basketService, MenuService menuService) {
         this.basketService = basketService;
+        this.menuService = menuService;
     }
 
     @GetMapping("/basket")
@@ -36,6 +41,9 @@ public class BasketController {
                                       @PathVariable String storeId,
                                       @PathVariable String menuId,
                                       HttpServletResponse response) throws IOException {
+        if(menuService.getMenu(menuId).isEmpty()){
+            throw new RuntimeException("Menu doesn't exist.");
+        }
         basketService.deleteMenuFromBasket(customerId, menuId);
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
     }
