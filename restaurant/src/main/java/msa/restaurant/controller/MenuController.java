@@ -7,9 +7,11 @@ import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.entity.menu.Menu;
+import msa.restaurant.entity.store.Store;
 import msa.restaurant.service.messaging.SendingMessageConverter;
 import msa.restaurant.service.menu.MenuService;
 import msa.restaurant.service.messaging.SqsService;
+import msa.restaurant.service.store.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +25,13 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store/{storeId}/menu")
 public class MenuController {
     private final MenuService menuService;
+    private final StoreService storeService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public MenuController(MenuService menuService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public MenuController(MenuService menuService, StoreService storeService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.menuService = menuService;
+        this.storeService = storeService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
@@ -63,10 +67,14 @@ public class MenuController {
     public void addMenu(@RequestBody MenuRequestDto data,
                         @PathVariable String storeId,
                         HttpServletResponse response) throws IOException {
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
         String menuId = menuService.createMenu(data, storeId);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Created menu doesn't exist.");
+            throw new RuntimeException("Menu creation fail.");
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
