@@ -30,6 +30,7 @@ public class MongoMemberRepository implements MemberRepository{
         repository.findById(managerId).ifPresent(manager -> {
             manager.setName(data.getName());
             manager.setPhoneNumber(data.getPhoneNumber());
+            repository.save(manager);
         });
     }
 
