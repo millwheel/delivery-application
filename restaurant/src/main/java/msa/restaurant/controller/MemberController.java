@@ -40,7 +40,7 @@ public class MemberController {
                                  @RequestBody ManagerRequestDto data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateManager(id, data);
-        response.sendRedirect("/restaurant/member/info");
+        response.sendRedirect("/restaurant/member");
     }
 
 }
