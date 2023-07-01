@@ -1,6 +1,7 @@
 package msa.rider.repository.member;
 
 import msa.rider.dto.rider.RiderAddressRequestDto;
+import msa.rider.dto.rider.RiderRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.member.Rider;
 import org.springframework.context.annotation.Primary;
@@ -30,7 +31,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void update(String riderId, RiderResponseDto data) {
+    public void update(String riderId, RiderRequestDto data) {
         repository.findById(riderId).ifPresent(rider -> {
             if (data.getName() != null) rider.setName(data.getName());
             if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
@@ -39,7 +40,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void update(String riderId, RiderResponseDto data, Point location) {
+    public void update(String riderId, RiderRequestDto data, Point location) {
         repository.findById(riderId).ifPresent(rider -> {
             if (data.getName() != null) rider.setName(data.getName());
             if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
@@ -50,9 +51,9 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void updateAddress(String riderId, RiderAddressRequestDto data, Point location) {
+    public void updateAddress(String riderId, String address, Point location) {
         repository.findById(riderId).ifPresent(rider -> {
-            rider.setAddress(data.getAddress());
+            rider.setAddress(address);
             rider.setLocation(location);
             repository.save(rider);
         });

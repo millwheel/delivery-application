@@ -24,7 +24,7 @@ public class HomeController {
     @PatchMapping("/ready")
     @ResponseStatus(HttpStatus.OK)
     public void updateAddress(@RequestAttribute("cognitoUsername") String riderId,
-                              @RequestBody RiderAddressRequestDto data){
-        memberService.updateAddress(riderId, data);
+                              @RequestBody String address){
+        memberService.updateAddress(riderId, address);
     }
 }

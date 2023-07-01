@@ -2,6 +2,7 @@ package msa.rider.service.member;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.rider.RiderAddressRequestDto;
+import msa.rider.dto.rider.RiderRequestDto;
 import msa.rider.entity.member.Rider;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.repository.member.MemberRepository;
@@ -28,7 +29,7 @@ public class MemberService {
         return memberRepository.findById(riderId);
     }
 
-    public void updateRider(String riderId, RiderResponseDto data){
+    public void updateRider(String riderId, RiderRequestDto data){
         if (data.getAddress() == null) {
             memberRepository.update(riderId, data);
         } else {
@@ -37,9 +38,9 @@ public class MemberService {
         }
     }
 
-    public void updateAddress(String riderId, RiderAddressRequestDto data){
-        Point coordinate = addressService.getCoordinate(data.getAddress());
-        memberRepository.updateAddress(riderId, data, coordinate);
+    public void updateAddress(String riderId, String address){
+        Point coordinate = addressService.getCoordinate(address);
+        memberRepository.updateAddress(riderId, address, coordinate);
     }
 
 }

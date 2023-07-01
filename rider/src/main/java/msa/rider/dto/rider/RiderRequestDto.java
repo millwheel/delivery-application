@@ -9,5 +9,4 @@ public class RiderRequestDto {
     private String name;
     private String phoneNumber;
     private String address;
-    private String addressDetail;
 }
