@@ -23,6 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new JoinCheckInterceptor(parseJwtService, joinService))
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/restaurant", "restaurant/main", "/error");
+                .excludePathPatterns("/restaurant", "/restaurant/main", "/error");
     }
 }
