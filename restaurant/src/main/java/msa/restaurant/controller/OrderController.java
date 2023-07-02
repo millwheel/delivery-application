@@ -46,7 +46,8 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
+    public OrderResponseDto showOrderInfo(@PathVariable String storeId,
+                                          @PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new RuntimeException("order doesn't exist.");
@@ -67,7 +68,7 @@ public class OrderController {
         String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         sqsService.sendToRider(messageToUpdateOrderStatus);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
-        response.sendRedirect("/restaurant/store/" + storeId + "/order");
+        response.sendRedirect("/restaurant/store/" + storeId + "/order/" + orderId);;
     }
 
 }
