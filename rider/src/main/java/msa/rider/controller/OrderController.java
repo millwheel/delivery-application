@@ -1,6 +1,5 @@
 package msa.rider.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.rider.dto.order.OrderPartResponseDto;
 import msa.rider.dto.order.OrderResponseDto;
