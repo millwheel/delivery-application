@@ -50,21 +50,6 @@ public class StoreController {
         return storeListDto;
     }
 
-    @GetMapping("/{storeId}")
-    @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                  @PathVariable String storeId) {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if (!store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
-        return new StoreResponseDto(store);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createStore (@RequestAttribute("cognitoUsername") String managerId,
@@ -83,13 +68,10 @@ public class StoreController {
         response.sendRedirect("/restaurant/store");
     }
 
-    @PutMapping("/{storeId}")
+    @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
-                            @PathVariable String storeId,
-                            @RequestBody StoreRequestDto data,
-                            HttpServletResponse response) throws IOException {
-        storeService.updateStore(storeId, data);
+    public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
+                                       @PathVariable String storeId) {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
             throw new RuntimeException("Store doesn't exist.");
@@ -98,6 +80,18 @@ public class StoreController {
         if (!store.getManagerId().equals(managerId)){
             throw new RuntimeException("This store doesn't belong to this manager.");
         }
+        return new StoreResponseDto(store);
+    }
+
+    @PutMapping("/{storeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
+                            @PathVariable String storeId,
+                            @RequestBody StoreRequestDto data,
+                            HttpServletResponse response) throws IOException {
+        storeService.updateStore(storeId, data);
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
@@ -110,14 +104,6 @@ public class StoreController {
     public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId,
                                   @RequestBody boolean open){
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if (!store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         String messageToChangeStatus;
         if (open){
             storeService.openStore(storeId);
@@ -134,10 +120,6 @@ public class StoreController {
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
-        }
         storeService.deleteStore(storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);

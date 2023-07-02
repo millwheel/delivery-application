@@ -40,14 +40,6 @@ public class MenuController {
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> menuList(@RequestAttribute("cognitoUsername") String managerId,
                                               @PathVariable String storeId){
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if(store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
         if (menuListOptional.isEmpty()){
             throw new RuntimeException("no menu list");
@@ -66,14 +58,6 @@ public class MenuController {
                         @RequestBody MenuRequestDto data,
                         @PathVariable String storeId,
                         HttpServletResponse response) throws IOException {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if(store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         String menuId = menuService.createMenu(data, storeId);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
@@ -92,15 +76,6 @@ public class MenuController {
     public MenuResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
                                      @PathVariable String storeId,
                                      @PathVariable String menuId) {
-
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if(store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isPresent()){
             Menu menu = menuOptional.get();
@@ -116,14 +91,6 @@ public class MenuController {
                            @PathVariable String menuId,
                            @RequestBody MenuRequestDto data,
                            HttpServletResponse response) throws IOException {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if(store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         menuService.updateMenu(menuId, data);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
@@ -143,14 +110,6 @@ public class MenuController {
                            @PathVariable String storeId,
                            @PathVariable String menuId,
                            HttpServletResponse response) throws IOException {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if(store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("Menu doesn't exist.");

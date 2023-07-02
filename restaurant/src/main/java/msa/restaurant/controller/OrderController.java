@@ -40,14 +40,6 @@ public class OrderController {
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
                                     @PathVariable String storeId){
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if (!store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
         SseEmitter sseEmitter = sseService.connect(managerId);
         sseService.showOrderList(storeId);
         return sseEmitter;
