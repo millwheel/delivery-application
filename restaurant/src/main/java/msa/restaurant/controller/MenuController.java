@@ -38,7 +38,16 @@ public class MenuController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<MenuPartResponseDto> menuList(@PathVariable String storeId){
+    public List<MenuPartResponseDto> menuList(@RequestAttribute("cognitoUsername") String managerId,
+                                              @PathVariable String storeId){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if(store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
         if (menuListOptional.isEmpty()){
             throw new RuntimeException("no menu list");
