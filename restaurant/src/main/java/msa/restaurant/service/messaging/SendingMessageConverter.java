@@ -87,7 +87,7 @@ public class SendingMessageConverter {
     public String createMessageToChangeOrderStatus(String orderId, OrderStatus orderStatus){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject();
-        jsonObject.put("dataType", "menu");
+        jsonObject.put("dataType", "order");
         jsonObject.put("method", "change");
         data.put("orderId", orderId);
         data.put("orderStatus", orderStatus);
