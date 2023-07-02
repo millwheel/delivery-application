@@ -4,10 +4,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.entity.store.Store;
 import msa.restaurant.service.messaging.SendingMessageConverter;
 import msa.restaurant.service.messaging.SqsService;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.service.sse.SseService;
+import msa.restaurant.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +23,15 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final StoreService storeService;
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, StoreService storeService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
+        this.storeService = storeService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
@@ -36,6 +40,14 @@ public class OrderController {
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
                                     @PathVariable String storeId){
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if (storeOptional.isEmpty()){
+            throw new RuntimeException("Store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if (!store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         SseEmitter sseEmitter = sseService.connect(managerId);
         sseService.showOrderList(storeId);
         return sseEmitter;

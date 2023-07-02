@@ -51,30 +51,24 @@ public class MenuController {
         return menuListDto;
     }
 
-    @GetMapping("/{menuId}")
-    @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto menuInfo (@PathVariable String menuId) {
-        Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isPresent()){
-            Menu menu = menuOptional.get();
-            return new MenuResponseDto(menu);
-        }
-        throw new RuntimeException("Menu doesn't exist.");
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMenu(@RequestBody MenuRequestDto data,
+    public void addMenu(@RequestAttribute("cognitoUsername") String managerId,
+                        @RequestBody MenuRequestDto data,
                         @PathVariable String storeId,
                         HttpServletResponse response) throws IOException {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if(storeOptional.isEmpty()){
             throw new RuntimeException("store doesn't exist.");
         }
+        Store store = storeOptional.get();
+        if(store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         String menuId = menuService.createMenu(data, storeId);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Menu creation fail.");
+            throw new RuntimeException("Menu creation failed.");
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
@@ -84,16 +78,47 @@ public class MenuController {
         response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
+    @GetMapping("/{menuId}")
+    @ResponseStatus(HttpStatus.OK)
+    public MenuResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
+                                     @PathVariable String storeId,
+                                     @PathVariable String menuId) {
+
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if(store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
+        Optional<Menu> menuOptional = menuService.getMenu(menuId);
+        if (menuOptional.isPresent()){
+            Menu menu = menuOptional.get();
+            return new MenuResponseDto(menu);
+        }
+        throw new RuntimeException("Menu doesn't exist.");
+    }
+
     @PutMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateMenu(@PathVariable String storeId,
+    public void updateMenu(@RequestAttribute("cognitoUsername") String managerId,
+                           @PathVariable String storeId,
                            @PathVariable String menuId,
                            @RequestBody MenuRequestDto data,
                            HttpServletResponse response) throws IOException {
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if(store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         menuService.updateMenu(menuId, data);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Updated menu doesn't exist.");
+            throw new RuntimeException("Menu doesn't exist.");
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
@@ -105,9 +130,18 @@ public class MenuController {
 
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMenu(@PathVariable String storeId,
+    public void deleteMenu(@RequestAttribute("cognitoUsername") String managerId,
+                           @PathVariable String storeId,
                            @PathVariable String menuId,
                            HttpServletResponse response) throws IOException {
+        Optional<Store> storeOptional = storeService.getStore(storeId);
+        if(storeOptional.isEmpty()){
+            throw new RuntimeException("store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if(store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new RuntimeException("Menu doesn't exist.");

@@ -55,22 +55,25 @@ public class StoreController {
     public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId) {
         Optional<Store> storeOptional = storeService.getStore(storeId);
-        if(storeOptional.isPresent()){
-            Store store = storeOptional.get();
-            return new StoreResponseDto(store);
+        if (storeOptional.isEmpty()){
+            throw new RuntimeException("Store doesn't exist.");
         }
-        throw new RuntimeException("Can't find store from DB");
+        Store store = storeOptional.get();
+        if (!store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
+        return new StoreResponseDto(store);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addStore (@RequestAttribute("cognitoUsername") String managerId,
+    public void createStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data,
                           HttpServletResponse response) throws IOException {
         String storeId = storeService.createStore(data, managerId);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Can't find store from DB");
+            throw new RuntimeException("Store creation failed.");
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
@@ -89,9 +92,12 @@ public class StoreController {
         storeService.updateStore(storeId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Can't find store from DB");
+            throw new RuntimeException("Store doesn't exist.");
         }
         Store store = storeOptional.get();
+        if (!store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
+        }
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
@@ -101,11 +107,16 @@ public class StoreController {
 
     @PostMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public void changeStoreStatus(@PathVariable String storeId,
+    public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
+                                  @PathVariable String storeId,
                                   @RequestBody boolean open){
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Can't find store from DB");
+            throw new RuntimeException("Store doesn't exist.");
+        }
+        Store store = storeOptional.get();
+        if (!store.getManagerId().equals(managerId)){
+            throw new RuntimeException("This store doesn't belong to this manager.");
         }
         String messageToChangeStatus;
         if (open){
@@ -125,7 +136,7 @@ public class StoreController {
                             HttpServletResponse response) throws IOException {
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Can't find store from DB");
+            throw new RuntimeException("Store doesn't exist.");
         }
         storeService.deleteStore(storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
