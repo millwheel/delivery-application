@@ -96,7 +96,7 @@ public class ReceivingMessageConverter {
         if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = (String) data.get("orderId");
-            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            OrderStatus orderStatus = OrderStatus.valueOf((String) data.get("orderStatus"));
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
         }
     }
