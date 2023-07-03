@@ -52,7 +52,7 @@ public class StoreController {
     public StoreResponseDto showStoreInfo (@PathVariable String storeId){
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("store doesn't exist");
+            throw new RuntimeException("Store doesn't exist");
         }
         Store store = storeOptional.get();
         return new StoreResponseDto(store);

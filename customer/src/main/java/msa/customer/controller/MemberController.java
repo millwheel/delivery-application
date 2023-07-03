@@ -26,12 +26,8 @@ public class MemberController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
-        Optional<Customer> customerOptional = memberService.getCustomer(id);
-        if (customerOptional.isPresent()){
-            Customer customer = customerOptional.get();
-            return new CustomerResponseDto(customer);
-        }
-        throw new RuntimeException("Cannot find Customer Info");
+        Customer customer = memberService.getCustomer(id).get();
+        return new CustomerResponseDto(customer);
     }
 
     @PatchMapping

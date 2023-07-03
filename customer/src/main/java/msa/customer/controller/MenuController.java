@@ -34,9 +34,6 @@ public class MenuController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
-        if(storeService.getStore(storeId).isEmpty()){
-            throw new RuntimeException("store doesn't exist.");
-        }
         List<Menu> menuList = menuService.getMenuList(storeId);
         List<MenuPartResponseDto> menuPartList = new ArrayList<>();
         menuList.forEach(menu -> {
