@@ -48,7 +48,7 @@ public class OrderController {
                                           @PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist." + orderId + " is not correct order id.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         return new OrderResponseDto(orderOptional.get());
     }
@@ -59,7 +59,7 @@ public class OrderController {
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist." + orderId + " is not correct order id.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
