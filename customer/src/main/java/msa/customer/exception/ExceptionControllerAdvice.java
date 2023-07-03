@@ -19,8 +19,14 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResult runtimeExceptionHandler(NullPointerException e){
+    public ErrorResult nullPointerExceptionHandler(NullPointerException e){
         return new ErrorResult("NO MATCHED DATA", e.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResult runtimeExceptionHandler(RuntimeException e){
+        return new ErrorResult("INCORRECT BEHAVIOR", e.getMessage());
     }
 
     @ExceptionHandler
