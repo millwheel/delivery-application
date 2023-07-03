@@ -11,11 +11,14 @@ import msa.customer.service.store.StoreService;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @Slf4j
@@ -34,10 +37,12 @@ public class StoreController {
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                                     @PathVariable FoodKind foodKind,
                                                     HttpServletResponse response) throws IOException {
+        if(!Arrays.asList(FoodKind.values()).contains(foodKind)){
+            throw new NullPointerException("Wrong food kind.");
+        }
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
-            response.sendRedirect("/customer/member/info");
-            return null;
+            throw new NullPointerException("Customer has no location information.");
         }
         List<StorePartResponseDto> storePartList = new ArrayList<>();
         List<Store> storeList = storeService.getStoreListNearCustomer(coordinates.get(), foodKind);
@@ -52,10 +57,9 @@ public class StoreController {
     public StoreResponseDto showStoreInfo (@PathVariable String storeId){
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist");
+            throw new NullPointerException("Store doesn't exist");
         }
-        Store store = storeOptional.get();
-        return new StoreResponseDto(store);
+        return new StoreResponseDto(storeOptional.get());
     }
 
 }

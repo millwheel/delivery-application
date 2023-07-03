@@ -29,7 +29,7 @@ public class BasketController {
     public BasketResponseDto showBasketMenu(@RequestAttribute("cognitoUsername") String customerId){
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
-            throw new RuntimeException("basket is empty");
+            throw new NullPointerException("Basket is empty");
         }
         Basket basket = basketOptional.get();
         return new BasketResponseDto(basket);
@@ -41,8 +41,12 @@ public class BasketController {
                                       @PathVariable String storeId,
                                       @PathVariable String menuId,
                                       HttpServletResponse response) throws IOException {
+        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        if (basketOptional.isEmpty()){
+            throw new NullPointerException("Basket is empty");
+        }
         if(menuService.getMenu(menuId).isEmpty()){
-            throw new RuntimeException("Menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist.");
         }
         basketService.deleteMenuFromBasket(customerId, menuId);
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
@@ -53,6 +57,10 @@ public class BasketController {
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
+        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        if (basketOptional.isEmpty()){
+            throw new NullPointerException("Basket is empty");
+        }
         basketService.deleteAllInBasket(customerId);
         response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");
     }
