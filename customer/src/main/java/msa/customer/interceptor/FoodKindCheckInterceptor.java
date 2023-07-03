@@ -14,9 +14,9 @@ public class FoodKindCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map pathVariables  = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        FoodKind foodKind = FoodKind.valueOf((String) pathVariables.get("foodKind"));
-        if(!Arrays.asList(FoodKind.values()).contains(foodKind)){
-            throw new NullPointerException("Wrong food kind.");
+        String foodKindString = (String) pathVariables.get("foodKind");
+        if(!Arrays.asList(FoodKind.values()).contains(foodKindString)){
+            throw new NullPointerException("Wrong food kind variable.");
         }
         return true;
     }
