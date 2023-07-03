@@ -20,7 +20,7 @@ public class StoreCheckInterceptor implements HandlerInterceptor {
         Map pathVariables  = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         String storeId = (String) pathVariables.get("storeId");
         if(storeService.getStore(storeId).isEmpty()){
-            throw new NullPointerException("Store doesn't exist.");
+            throw new NullPointerException("Store doesn't exist. " + storeId + " is not correct store id.");
         }
         return true;
     }
