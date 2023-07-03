@@ -29,7 +29,7 @@ public class StoreService {
         return storeRepository.readStore(storeId);
     }
 
-    public Optional<List<Store>> getStoreList(String managerId){
+    public List<Store> getStoreList(String managerId){
         return storeRepository.readStoreList(managerId);
     }
     public String createStore(StoreRequestDto data, String managerId){

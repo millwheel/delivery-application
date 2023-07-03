@@ -38,12 +38,8 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartResponseDto> storeList (
             @RequestAttribute("cognitoUsername") String managerId) {
-        Optional<List<Store>> storeListOptional = storeService.getStoreList(managerId);
-        if (storeListOptional.isEmpty()){
-            throw new RuntimeException("No store list.");
-        }
+        List<Store> storeList = storeService.getStoreList(managerId);
         List<StorePartResponseDto> storeListDto = new ArrayList<>();
-        List<Store> storeList = storeListOptional.get();
         storeList.forEach(store -> {
             storeListDto.add(new StorePartResponseDto(store));
         });
