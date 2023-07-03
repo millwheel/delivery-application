@@ -28,7 +28,7 @@ public class BasketService {
         Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isPresent()){
             if(!basketOptional.get().getStoreId().equals(storeId)){
-                throw new RuntimeException("storeId doesn't match existing storeId");
+                throw new RuntimeException("store id: " + storeId + " doesn't match existing store id");
             }
         }
         Basket basketBefore = basketOptional.orElseGet(Basket::new);
@@ -49,7 +49,7 @@ public class BasketService {
     public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
         Optional<Menu> menuOptional = menuRepository.readMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
         Menu menu = menuOptional.get();
         String menuName = menu.getName();
@@ -89,7 +89,13 @@ public class BasketService {
     }
 
     public void deleteMenuFromBasket(String basketId, String menuId){
-        basketRepository.deleteMenu(basketId, menuId);
+        List<MenuInBasket> menuInBasketList = basketRepository.readBasket(basketId).get().getMenuInBasketList();
+        if (menuInBasketList.size() == 1){
+            basketRepository.deleteBasket(basketId);
+        }
+        else{
+            basketRepository.deleteMenu(basketId, menuId);
+        }
     }
 
     public void deleteAllInBasket(String basketId){

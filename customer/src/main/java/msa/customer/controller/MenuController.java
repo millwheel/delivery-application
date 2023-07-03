@@ -48,7 +48,7 @@ public class MenuController {
     public MenuResponseDto showMenu(@PathVariable String menuId){
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new NullPointerException("Menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
         Menu menu = menuOptional.get();
         return new MenuResponseDto(menu);
@@ -63,7 +63,7 @@ public class MenuController {
                             @RequestBody int menuCount,
                             HttpServletResponse response) throws IOException {
         if(menuService.getMenu(menuId).isEmpty()){
-            throw new NullPointerException("Menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
         if (menuCount == 0){
             throw new IllegalArgumentException("Menu count should not be zero.");

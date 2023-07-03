@@ -61,7 +61,7 @@ public class BasketController {
             throw new NullPointerException("Basket is empty");
         }
         basketService.deleteAllInBasket(customerId);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");
+        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
     }
 
 }
