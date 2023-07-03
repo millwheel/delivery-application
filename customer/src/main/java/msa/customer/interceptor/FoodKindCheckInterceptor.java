@@ -3,11 +3,9 @@ package msa.customer.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.entity.store.FoodKind;
-import msa.customer.service.store.StoreService;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class FoodKindCheckInterceptor implements HandlerInterceptor {
