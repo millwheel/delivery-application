@@ -109,6 +109,7 @@ public class StoreController {
             messageToChangeStatus = sendingMessageConverter.createMessageToCloseStore(storeId);
         }
         sqsService.sendToCustomer(messageToChangeStatus);
+        sqsService.sendToRider(messageToChangeStatus);
     }
 
     @DeleteMapping("/{storeId}")
