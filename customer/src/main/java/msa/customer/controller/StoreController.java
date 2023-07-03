@@ -11,18 +11,16 @@ import msa.customer.service.store.StoreService;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @Slf4j
-@RequestMapping("/customer/{foodKind}/store")
+@RequestMapping("/customer/food/{foodKind}/store")
 public class StoreController {
     private final MemberService memberService;
     private final StoreService storeService;
@@ -37,9 +35,6 @@ public class StoreController {
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                                     @PathVariable FoodKind foodKind,
                                                     HttpServletResponse response) throws IOException {
-        if(!Arrays.asList(FoodKind.values()).contains(foodKind)){
-            throw new NullPointerException("Wrong food kind.");
-        }
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             throw new NullPointerException("Customer has no location information.");

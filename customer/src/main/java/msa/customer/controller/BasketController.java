@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Optional;
 
-@RequestMapping("/customer/{foodKind}/store/{storeId}")
+@RequestMapping("/customer/food/{foodKind}/store/{storeId}")
 @RestController
 public class BasketController {
 
@@ -31,8 +31,7 @@ public class BasketController {
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
         }
-        Basket basket = basketOptional.get();
-        return new BasketResponseDto(basket);
+        return new BasketResponseDto(basketOptional.get());
     }
 
     @DeleteMapping("/basket/{menuId}")
