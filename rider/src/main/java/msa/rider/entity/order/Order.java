@@ -34,12 +34,12 @@ public class Order {
     private String storePhoneNumber;
     private String storeAddress;
     private String storeAddressDetail;
+    @GeoSpatialIndexed(type= GeoSpatialIndexType.GEO_2DSPHERE)
     private Point storeLocation;
     @Indexed
     private String riderId;
     private String riderName;
     private String riderPhoneNumber;
-    @GeoSpatialIndexed(type= GeoSpatialIndexType.GEO_2DSPHERE)
     private Point riderLocation;
 
     public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<OrderMenu> orderMenuList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {

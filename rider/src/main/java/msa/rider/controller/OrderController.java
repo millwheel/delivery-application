@@ -62,12 +62,12 @@ public class OrderController {
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
         OrderStatus orderStatus = order.getOrderStatus();
-        if (!orderStatus.equals(OrderStatus.RIDER_ASSIGNED)){
-            throw new RuntimeException("invalid order status");
+        if (!orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
+            throw new RuntimeException("This order is unavailable. Order status is invalid.");
         }
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
         RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId);
@@ -91,7 +91,7 @@ public class OrderController {
     public OrderResponseDto showOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         return new OrderResponseDto(orderOptional.get());
     }
@@ -101,7 +101,7 @@ public class OrderController {
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
         OrderStatus orderStatus = order.getOrderStatus();

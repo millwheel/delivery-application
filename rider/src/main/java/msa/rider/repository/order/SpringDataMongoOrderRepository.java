@@ -9,6 +9,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface SpringDataMongoOrderRepository extends MongoRepository<Order, String> {
-    List<Order> findByRiderLocationNearAndOrderStatusIs(Point location, OrderStatus orderStatus);
+    List<Order> findByStoreLocationNearAndOrderStatusIs(Point location, OrderStatus orderStatus);
     List<Order> findByRiderId(String riderId);
 }
