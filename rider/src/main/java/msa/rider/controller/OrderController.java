@@ -74,7 +74,7 @@ public class OrderController {
         String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, changedOrderStatus);
         sqsService.sendToRestaurant(messageToAssignRider);
         sqsService.sendToCustomer(messageToAssignRider);
-        response.sendRedirect("/restaurant/order/new");
+        response.sendRedirect("/rider/order/new");
     }
 
     @GetMapping("/my")

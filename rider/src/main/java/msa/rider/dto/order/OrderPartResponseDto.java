@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class OrderPartResponseDto {
+    private String orderId;
     private String orderTime;
     private OrderStatus orderStatus;
     private String customerAddress;
@@ -21,6 +22,7 @@ public class OrderPartResponseDto {
     private int totalPrice;
 
     public OrderPartResponseDto(Order order) {
+        orderId = order.getOrderId();
         orderTime = order.getOrderTime();
         orderStatus = order.getOrderStatus();
         customerAddress = order.getCustomerAddress();
