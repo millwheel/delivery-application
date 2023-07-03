@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("/customer/food/{foodKind}/store")
+@RequestMapping("/customer/{foodKind}/store")
 public class StoreController {
     private final MemberService memberService;
     private final StoreService storeService;

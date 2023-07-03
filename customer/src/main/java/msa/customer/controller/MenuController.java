@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customer/food/{foodKind}/store/{storeId}/menu")
+@RequestMapping("/customer/{foodKind}/store/{storeId}/menu")
 public class MenuController {
 
     private final MenuService menuService;
