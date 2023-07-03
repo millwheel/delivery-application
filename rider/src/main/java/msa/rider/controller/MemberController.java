@@ -26,11 +26,7 @@ public class MemberController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public RiderResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String riderId){
-        Optional<Rider> riderOptional = memberService.getRider(riderId);
-        if (riderOptional.isEmpty()){
-            throw new RuntimeException("rider doesn't exist.");
-        }
-        Rider rider = riderOptional.get();
+        Rider rider = memberService.getRider(riderId).get();
         return new RiderResponseDto(rider);
     }
 
