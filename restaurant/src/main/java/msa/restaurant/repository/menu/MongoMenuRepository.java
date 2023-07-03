@@ -28,7 +28,7 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Optional<List<Menu>> readMenuList(String storeId) {
+    public List<Menu> readMenuList(String storeId) {
         return repository.findByStoreId(storeId);
     }
 

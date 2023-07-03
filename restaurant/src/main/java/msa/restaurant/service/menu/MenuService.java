@@ -32,7 +32,7 @@ public class MenuService {
         return menuRepository.readMenu(menuId);
     }
 
-    public Optional<List<Menu>> getMenuList(String storeId){
+    public List<Menu> getMenuList(String storeId){
         return menuRepository.readMenuList(storeId);
     }
 

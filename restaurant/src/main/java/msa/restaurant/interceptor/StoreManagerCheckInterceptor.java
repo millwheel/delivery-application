@@ -25,7 +25,7 @@ public class StoreManagerCheckInterceptor implements HandlerInterceptor {
         String storeId = (String) pathVariables.get("storeId");
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
+            throw new NullPointerException("Store doesn't exist. " + storeId + " is not correct store id.");
         }
         Store store = storeOptional.get();
         if (!store.getManagerId().equals(managerId)){

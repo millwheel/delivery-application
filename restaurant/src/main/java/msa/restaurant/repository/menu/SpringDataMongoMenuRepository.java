@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpringDataMongoMenuRepository extends MongoRepository<Menu, String> {
-    Optional<List<Menu>> findByStoreId(String storeId);
+    List<Menu> findByStoreId(String storeId);
 }

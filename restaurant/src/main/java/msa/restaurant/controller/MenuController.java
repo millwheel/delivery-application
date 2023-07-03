@@ -25,13 +25,11 @@ import java.util.Optional;
 @RequestMapping("/restaurant/store/{storeId}/menu")
 public class MenuController {
     private final MenuService menuService;
-    private final StoreService storeService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public MenuController(MenuService menuService, StoreService storeService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public MenuController(MenuService menuService,  SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.menuService = menuService;
-        this.storeService = storeService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
@@ -40,11 +38,7 @@ public class MenuController {
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> menuList(@RequestAttribute("cognitoUsername") String managerId,
                                               @PathVariable String storeId){
-        Optional<List<Menu>> menuListOptional = menuService.getMenuList(storeId);
-        if (menuListOptional.isEmpty()){
-            throw new RuntimeException("no menu list");
-        }
-        List<Menu> menuList = menuListOptional.get();
+        List<Menu> menuList = menuService.getMenuList(storeId);
         List<MenuPartResponseDto> menuListDto = new ArrayList<>();
         menuList.forEach(menu -> {
             menuListDto.add(new MenuPartResponseDto(menu));
@@ -77,11 +71,10 @@ public class MenuController {
                                      @PathVariable String storeId,
                                      @PathVariable String menuId) {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isPresent()){
-            Menu menu = menuOptional.get();
-            return new MenuResponseDto(menu);
+        if (menuOptional.isEmpty()){
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
-        throw new RuntimeException("Menu doesn't exist.");
+        return new MenuResponseDto(menuOptional.get());
     }
 
     @PutMapping("/{menuId}")
@@ -94,7 +87,7 @@ public class MenuController {
         menuService.updateMenu(menuId, data);
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
         Menu menu = menuOptional.get();
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
@@ -112,7 +105,7 @@ public class MenuController {
                            HttpServletResponse response) throws IOException {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
-            throw new RuntimeException("Menu doesn't exist.");
+            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }
         menuService.deleteMenu(menuId);
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
