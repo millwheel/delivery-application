@@ -25,18 +25,14 @@ public class MemberController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ManagerResponseDto memberInfo(@RequestAttribute("cognitoUsername") String id){
-        Optional<Manager> managerOptional = memberService.getManager(id);
-        if (managerOptional.isPresent()){
-            Manager manager = managerOptional.get();
-            return new ManagerResponseDto(manager);
-        }
-        throw new RuntimeException("Cannot find Manager Info");
+    public ManagerResponseDto showMember(@RequestAttribute("cognitoUsername") String id){
+        Manager manager = memberService.getManager(id).get();
+        return new ManagerResponseDto(manager);
     }
 
     @PatchMapping
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
+    public void updateMember(@RequestAttribute("cognitoUsername") String id,
                                  @RequestBody ManagerRequestDto data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateManager(id, data);
