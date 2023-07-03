@@ -23,15 +23,13 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
-    private final StoreService storeService;
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, StoreService storeService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
-        this.storeService = storeService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
@@ -50,7 +48,7 @@ public class OrderController {
                                           @PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist." + orderId + " is not correct order id.");
         }
         return new OrderResponseDto(orderOptional.get());
     }
@@ -61,7 +59,7 @@ public class OrderController {
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist." + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
