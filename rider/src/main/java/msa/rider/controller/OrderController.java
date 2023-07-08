@@ -11,6 +11,7 @@ import msa.rider.service.messaging.SendingMessageConverter;
 import msa.rider.service.messaging.SqsService;
 import msa.rider.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class OrderController {
     }
 
     @GetMapping("/new")
+    @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showNewOrderList(@RequestAttribute("cognitoUsername") String riderId){
         List<Order> orderListNearRider = orderService.getOrderListNearRider(riderId);
         List<OrderPartResponseDto> orderPartResponseDtoList = new ArrayList<>();
@@ -48,6 +50,7 @@ public class OrderController {
 
 
     @GetMapping("/new/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public OrderResponseDto showNewOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
@@ -57,6 +60,7 @@ public class OrderController {
     }
 
     @PostMapping("/new/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public void riderAssign(@RequestAttribute("cognitoUsername") String riderId,
                                   @PathVariable String orderId,
                                   HttpServletResponse response) throws IOException {
@@ -74,10 +78,10 @@ public class OrderController {
         String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, changedOrderStatus);
         sqsService.sendToRestaurant(messageToAssignRider);
         sqsService.sendToCustomer(messageToAssignRider);
-        response.sendRedirect("/rider/order/new");
     }
 
     @GetMapping("/my")
+    @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showMyOrderList(@RequestAttribute("cognitoUsername") String riderId){
         List<Order> orderListOfRider = orderService.getOrderListOfRider(riderId);
         List<OrderPartResponseDto> orderPartResponseDtoList = new ArrayList<>();
@@ -88,6 +92,7 @@ public class OrderController {
     }
 
     @GetMapping("/my/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public OrderResponseDto showOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
@@ -97,6 +102,7 @@ public class OrderController {
     }
 
     @PostMapping("/my/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public void changeOrderStatus(@PathVariable String orderId,
                                   HttpServletResponse response) throws IOException {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
@@ -109,7 +115,6 @@ public class OrderController {
         String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         sqsService.sendToRestaurant(messageToChangeOrderStatus);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
-        response.sendRedirect("/restaurant/order/my" + orderId);
     }
 
 
