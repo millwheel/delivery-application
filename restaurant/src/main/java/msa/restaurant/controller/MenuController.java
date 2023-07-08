@@ -62,7 +62,6 @@ public class MenuController {
         String messageForMenuInfo = sendingMessageConverter.createMessageToCreateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageForMenuInfo);
         sqsService.sendToRider(messageForMenuInfo);
-        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
     @GetMapping("/{menuId}")
@@ -94,11 +93,10 @@ public class MenuController {
         String messageToUpdateMenu = sendingMessageConverter.createMessageToUpdateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageToUpdateMenu);
         sqsService.sendToRider(messageToUpdateMenu);
-        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
     @DeleteMapping("/{menuId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenu(@RequestAttribute("cognitoUsername") String managerId,
                            @PathVariable String storeId,
                            @PathVariable String menuId,
@@ -111,7 +109,6 @@ public class MenuController {
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);
-        response.sendRedirect("/restaurant/store/" +storeId + "/menu");
     }
 
 }

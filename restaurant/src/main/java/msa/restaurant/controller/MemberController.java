@@ -31,12 +31,11 @@ public class MemberController {
     }
 
     @PatchMapping
-    @ResponseStatus(HttpStatus.SEE_OTHER)
+    @ResponseStatus(HttpStatus.OK)
     public void updateMember(@RequestAttribute("cognitoUsername") String id,
                                  @RequestBody ManagerRequestDto data,
                                  HttpServletResponse response) throws IOException {
         memberService.updateManager(id, data);
-        response.sendRedirect("/restaurant/member");
     }
 
 }

@@ -11,6 +11,7 @@ import msa.restaurant.service.order.OrderService;
 import msa.restaurant.service.sse.SseService;
 import msa.restaurant.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -36,6 +37,7 @@ public class OrderController {
     }
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
                                     @PathVariable String storeId){
         SseEmitter sseEmitter = sseService.connect(managerId);
@@ -44,6 +46,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public OrderResponseDto showOrderInfo(@PathVariable String storeId,
                                           @PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
@@ -54,6 +57,7 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public void changeOrderStatus(@PathVariable String orderId,
                                   @PathVariable String storeId,
                                   HttpServletResponse response) throws IOException {
@@ -66,7 +70,6 @@ public class OrderController {
         String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         sqsService.sendToRider(messageToUpdateOrderStatus);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
-        response.sendRedirect("/restaurant/store/" + storeId + "/order/" + orderId);;
     }
 
 }

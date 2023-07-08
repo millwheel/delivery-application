@@ -61,7 +61,6 @@ public class StoreController {
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
-        response.sendRedirect("/restaurant/store");
     }
 
     @GetMapping("/{storeId}")
@@ -92,11 +91,10 @@ public class StoreController {
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
         sqsService.sendToRider(messageToUpdateStore);
-        response.sendRedirect("/restaurant/store");
     }
 
     @PostMapping("/{storeId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId,
                                   @RequestBody boolean open){
@@ -113,7 +111,7 @@ public class StoreController {
     }
 
     @DeleteMapping("/{storeId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
                             HttpServletResponse response) throws IOException {
@@ -121,7 +119,6 @@ public class StoreController {
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);
         sqsService.sendToRider(messageToDeleteStore);
-        response.sendRedirect("/restaurant/store");
     }
 }
 
