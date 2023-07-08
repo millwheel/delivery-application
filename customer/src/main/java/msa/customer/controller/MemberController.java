@@ -31,7 +31,7 @@ public class MemberController {
     }
 
     @PatchMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody CustomerRequestDto data,
                               HttpServletResponse response) throws IOException {

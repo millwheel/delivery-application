@@ -37,7 +37,7 @@ public class BasketController {
     }
 
     @DeleteMapping("/basket/{menuId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenuFromBasket (@RequestAttribute("cognitoUsername") String customerId,
                                       @PathVariable FoodKind foodKind,
                                       @PathVariable String storeId,
@@ -54,7 +54,7 @@ public class BasketController {
     }
 
     @DeleteMapping("/basket")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
@@ -64,7 +64,6 @@ public class BasketController {
             throw new NullPointerException("Basket is empty");
         }
         basketService.deleteAllInBasket(customerId);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
     }
 
 }

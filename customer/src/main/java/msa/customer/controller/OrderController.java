@@ -65,7 +65,6 @@ public class OrderController {
         sqsService.sendToRestaurant(messageToCreateOrder);
         sqsService.sendToRider(messageToCreateOrder);
         basketService.deleteAllInBasket(customerId);
-        response.sendRedirect("/customer/order");
     }
 
     @GetMapping("/{orderId}")
