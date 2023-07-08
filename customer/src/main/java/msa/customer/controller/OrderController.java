@@ -10,6 +10,7 @@ import msa.customer.entity.order.Order;
 import msa.customer.service.order.OrderService;
 import msa.customer.service.messaging.SqsService;
 import msa.customer.service.sse.SseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -40,6 +41,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String customerId) {
         List<Order> orderList = orderService.getOrderList(customerId).orElseGet(ArrayList::new);
         List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
@@ -50,6 +52,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestAttribute("cognitoUsername") String customerId,
                             HttpServletResponse response) throws IOException {
         String orderId = orderService.createOrder(customerId, customerId);
@@ -66,6 +69,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String customerId,
                                     @PathVariable String orderId){
         SseEmitter sseEmitter = sseService.connect(customerId);

@@ -7,6 +7,7 @@ import msa.customer.entity.menu.Menu;
 import msa.customer.entity.store.FoodKind;
 import msa.customer.service.basket.BasketService;
 import msa.customer.service.menu.MenuService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class BasketController {
     }
 
     @GetMapping("/basket")
+    @ResponseStatus(HttpStatus.OK)
     public BasketResponseDto showBasketMenu(@RequestAttribute("cognitoUsername") String customerId){
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
@@ -35,6 +37,7 @@ public class BasketController {
     }
 
     @DeleteMapping("/basket/{menuId}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteMenuFromBasket (@RequestAttribute("cognitoUsername") String customerId,
                                       @PathVariable FoodKind foodKind,
                                       @PathVariable String storeId,
@@ -48,10 +51,10 @@ public class BasketController {
             throw new NullPointerException("Menu doesn't exist.");
         }
         basketService.deleteMenuFromBasket(customerId, menuId);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/basket");
     }
 
     @DeleteMapping("/basket")
+    @ResponseStatus(HttpStatus.OK)
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,

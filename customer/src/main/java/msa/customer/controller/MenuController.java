@@ -55,7 +55,7 @@ public class MenuController {
     }
 
     @PostMapping("/{menuId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
@@ -72,7 +72,6 @@ public class MenuController {
             throw new IllegalArgumentException("Menu count is too large.");
         }
         basketService.addToBasket(customerId, storeId, menuId, menuCount);
-        response.sendRedirect("/customer/" + foodKind + "/store/" + storeId + "/menu");
     }
 
 }
