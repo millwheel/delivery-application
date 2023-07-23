@@ -12,6 +12,6 @@ public interface OrderRepository {
     Optional<Order> readOrder(String orderId);
     List<Order> readOrderList(String storeId);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
-    void updateOrderRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
+    void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
     void deleteOrder(String orderId);
 }

@@ -43,7 +43,7 @@ public class OrderService {
     }
 
     public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto){
-        orderRepository.updateOrderRiderInfo(orderId, orderStatus, riderPartDto);
+        orderRepository.updateRiderInfo(orderId, orderStatus, riderPartDto);
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){

@@ -42,7 +42,7 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public void updateOrderRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto) {
+    public void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto) {
         repository.findById(orderId).ifPresent(order -> {
             order.setOrderStatus(orderStatus);
             order.setRiderId(riderPartDto.getRiderId());
