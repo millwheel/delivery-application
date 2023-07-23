@@ -1,4 +1,4 @@
-package msa.rider.service.messaging;
+package msa.rider.sqs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

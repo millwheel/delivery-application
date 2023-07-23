@@ -7,8 +7,8 @@ import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import msa.rider.service.member.MemberService;
-import msa.rider.service.messaging.SendingMessageConverter;
-import msa.rider.service.messaging.SqsService;
+import msa.rider.sqs.SendingMessageConverter;
+import msa.rider.sqs.SqsService;
 import msa.rider.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -116,6 +116,5 @@ public class OrderController {
         sqsService.sendToRestaurant(messageToChangeOrderStatus);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
     }
-
-
+    
 }

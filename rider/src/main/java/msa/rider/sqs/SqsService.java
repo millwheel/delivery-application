@@ -1,4 +1,4 @@
-package msa.rider.service.messaging;
+package msa.rider.sqs;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;

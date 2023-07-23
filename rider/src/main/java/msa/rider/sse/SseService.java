@@ -1,4 +1,4 @@
-package msa.rider.service.sse;
+package msa.rider.sse;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.order.OrderPartResponseDto;

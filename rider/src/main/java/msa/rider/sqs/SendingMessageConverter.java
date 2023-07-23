@@ -1,4 +1,4 @@
-package msa.rider.service.messaging;
+package msa.rider.sqs;
 
 import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.order.OrderStatus;
