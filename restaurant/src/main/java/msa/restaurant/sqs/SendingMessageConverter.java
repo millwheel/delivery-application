@@ -2,6 +2,7 @@ package msa.restaurant.sqs;
 
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;
+import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,15 @@ public class SendingMessageConverter {
         jsonObject.put("dataType", "menu");
         jsonObject.put("method", "delete");
         data.put("menuId", menuId);
+        jsonObject.put("data", data);
+        return jsonObject.toString();
+    }
+
+    public String createMessageToAcceptOrder(Order order){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(order);
+        jsonObject.put("dataType", "order");
+        jsonObject.put("method", "accept");
         jsonObject.put("data", data);
         return jsonObject.toString();
     }

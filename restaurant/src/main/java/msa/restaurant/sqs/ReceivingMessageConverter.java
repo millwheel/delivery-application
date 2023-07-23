@@ -30,6 +30,8 @@ public class ReceivingMessageConverter {
         if (jsonObject.get("method").equals("create")){
             Order order = convertOrderData(jsonObject);
             orderService.createOrder(order);
+        } else if (jsonObject.get("method").equals("assign")) {
+            
         } else if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = (String) data.get("orderId");

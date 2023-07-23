@@ -66,8 +66,9 @@ public class OrderController {
         Order order = orderOptional.get();
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
         String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
-        sqsService.sendToRider(messageToUpdateOrderStatus);
+        String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
+        sqsService.sendToRider(messageToAcceptOrder);
     }
 
 }
