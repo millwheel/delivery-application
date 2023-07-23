@@ -31,9 +31,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/customer", "/customer/main", "/error");
         registry.addInterceptor(new FoodKindCheckInterceptor())
                 .order(2)
-                .addPathPatterns("/customer/{foodKind}/**");
+                .addPathPatterns("/customer/{foodKind}/**")
+                .excludePathPatterns("/customer/order/**");
         registry.addInterceptor(new StoreCheckInterceptor(storeService))
                 .order(3)
-                .addPathPatterns("/customer/{foodKind}/store/{storeId}/**");
+                .addPathPatterns("/customer/{foodKind}/store/{storeId}/**")
+                .excludePathPatterns("/customer/order/**");
     }
 }

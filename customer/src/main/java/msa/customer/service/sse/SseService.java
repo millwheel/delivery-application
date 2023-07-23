@@ -1,7 +1,6 @@
 package msa.customer.service.sse;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.order.OrderService;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
