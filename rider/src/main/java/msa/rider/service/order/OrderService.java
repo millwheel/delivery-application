@@ -46,7 +46,7 @@ public class OrderService {
         Rider rider = memberRepository.findById(riderId).get();
         RiderPartDto riderPartDto = new RiderPartDto(rider);
         Point location = rider.getLocation();
-        orderRepository.updateOrderInfo(orderId, riderPartDto, location);
+        orderRepository.updateOrderRiderInfo(orderId, riderPartDto, location);
         return riderPartDto;
     }
 
