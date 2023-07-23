@@ -54,6 +54,7 @@ public class MongoOrderRepository implements OrderRepository {
             order.setRiderName(riderPartDto.getName());
             order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
             order.setRiderLocation(location);
+            repository.save(order);
         });
     }
 
