@@ -12,7 +12,7 @@ public class SendingMessageConverter {
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject();
         JSONObject riderData = new JSONObject(riderPartDto);
-        jsonObject.put("dataType", "menu");
+        jsonObject.put("dataType", "order");
         jsonObject.put("method", "assign");
         data.put("orderId", orderId);
         data.put("orderStatus", orderStatus);
@@ -24,7 +24,7 @@ public class SendingMessageConverter {
     public String createMessageToChangeOrderStatus(String orderId, OrderStatus orderStatus){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject();
-        jsonObject.put("dataType", "menu");
+        jsonObject.put("dataType", "order");
         jsonObject.put("method", "change");
         data.put("orderId", orderId);
         data.put("orderStatus", orderStatus);

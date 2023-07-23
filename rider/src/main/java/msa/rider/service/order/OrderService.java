@@ -51,10 +51,7 @@ public class OrderService {
     }
 
     public OrderStatus changeOrderStatusFromClient(String orderId, OrderStatus orderStatus){
-        if (orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
-            orderRepository.updateOrderStatus(orderId, OrderStatus.RIDER_ASSIGNED);
-            return OrderStatus.RIDER_ASSIGNED;
-        } else if (orderStatus.equals(OrderStatus.FOOD_READY) || orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
+        if (orderStatus.equals(OrderStatus.FOOD_READY) || orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
             orderRepository.updateOrderStatus(orderId, OrderStatus.DELIVERY_IN_PROGRESS);
             return OrderStatus.DELIVERY_IN_PROGRESS;
         } else if (orderStatus.equals(OrderStatus.DELIVERY_IN_PROGRESS)) {
