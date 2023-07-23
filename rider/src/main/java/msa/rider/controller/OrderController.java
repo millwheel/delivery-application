@@ -73,9 +73,8 @@ public class OrderController {
         if (!orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
             throw new RuntimeException("This order is unavailable. Order status is invalid.");
         }
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
-        RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId);
-        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, changedOrderStatus);
+        RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId, orderStatus);
+        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, orderStatus);
         sqsService.sendToRestaurant(messageToAssignRider);
         sqsService.sendToCustomer(messageToAssignRider);
     }

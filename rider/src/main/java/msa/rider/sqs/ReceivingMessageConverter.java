@@ -93,7 +93,7 @@ public class ReceivingMessageConverter {
     }
 
     public void processOrderData(JSONObject jsonObject) throws JsonProcessingException {
-        if (jsonObject.get("method").equals("create")){
+        if (jsonObject.get("method").equals("accept")){
             Order order = convertOrderData(jsonObject);
             orderService.createOrder(order);
         }else if (jsonObject.get("method").equals("change")) {

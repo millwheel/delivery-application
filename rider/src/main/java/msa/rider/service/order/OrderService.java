@@ -42,11 +42,11 @@ public class OrderService {
         return orderRepository.findByRiderId(riderId);
     }
 
-    public RiderPartDto updateRiderInfo(String orderId, String riderId){
+    public RiderPartDto updateRiderInfo(String orderId, String riderId, OrderStatus orderStatus){
         Rider rider = memberRepository.findById(riderId).get();
         RiderPartDto riderPartDto = new RiderPartDto(rider);
         Point location = rider.getLocation();
-        orderRepository.updateOrderRiderInfo(orderId, riderPartDto, location);
+        orderRepository.updateOrderRiderInfo(orderId, riderPartDto, location, orderStatus);
         return riderPartDto;
     }
 
