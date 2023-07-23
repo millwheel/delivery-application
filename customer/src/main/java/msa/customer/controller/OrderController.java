@@ -72,7 +72,7 @@ public class OrderController {
     public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String customerId,
                                     @PathVariable String orderId){
         SseEmitter sseEmitter = sseService.connect(customerId);
-        sseService.showOrder(orderId);
+        sseService.showOrder(customerId, orderId);
         return sseEmitter;
     }
 }

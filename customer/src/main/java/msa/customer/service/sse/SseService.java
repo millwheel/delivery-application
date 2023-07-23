@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SseService {
 
     private final OrderService orderService;
-    private SseEmitter emitterStore;
+    ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
     public SseService(OrderService orderService) {
@@ -29,10 +29,10 @@ public class SseService {
 
     public SseEmitter connect(String customerId) {
         SseEmitter emitter = new SseEmitter();
-        emitterStore = emitter;
+        emitterList.put(customerId, emitter);
         log.info("new emitter created: {}", emitter);
         emitter.onCompletion(() -> {
-            emitterStore = null;
+            emitterList.remove(emitter);
             log.info("emitter deleted: {}", emitter);
         });
         emitter.onTimeout(emitter::complete);
@@ -44,14 +44,18 @@ public class SseService {
         return emitter;
     }
 
-    public void showOrder(String orderId){
+    public void showOrder(String customerId, String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("order doesn't exist.");
         }
-        OrderResponseDto orderResponseDto = new OrderResponseDto(orderOptional.get());
+        Order order = orderOptional.get();
+        if (!customerId.equals(order.getCustomerId())){
+            throw new RuntimeException("This order doesn't belong to the customer");
+        }
+        OrderResponseDto orderResponseDto = new OrderResponseDto(order);
         try {
-            emitterStore.send(SseEmitter.event().name("orderList").data(orderResponseDto));
+            emitterList.get(customerId).send(SseEmitter.event().name("orderList").data(orderResponseDto));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
