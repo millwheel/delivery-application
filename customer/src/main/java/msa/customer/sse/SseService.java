@@ -52,7 +52,7 @@ public class SseService {
         }
         OrderResponseDto orderResponseDto = new OrderResponseDto(order);
         try {
-            emitterList.get(customerId).send(SseEmitter.event().name("orderList").data(orderResponseDto));
+            emitterList.get(customerId).send(SseEmitter.event().name("order").data(orderResponseDto));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

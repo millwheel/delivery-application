@@ -1,6 +1,6 @@
 package msa.customer.repository.order;
 
-import msa.customer.dto.rider.RiderSqsDto;
+import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
 
@@ -12,6 +12,6 @@ public interface OrderRepository {
     Optional<Order> readOrder(String orderId);
     Optional<List<Order>> readOrderList(String customerId);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
-    void updateRiderInfo(String orderId, RiderSqsDto riderSqsDto);
+    void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
     void deleteOrder(String orderId);
 }

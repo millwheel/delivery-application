@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.menu.MenuSqsDto;
+import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.dto.store.StoreSqsDto;
 import msa.customer.entity.order.OrderStatus;
 import msa.customer.service.menu.MenuService;
@@ -98,8 +99,12 @@ public class ReceivingMessageConverter {
             String orderId = (String) data.get("orderId");
             OrderStatus orderStatus = OrderStatus.valueOf((String) data.get("orderStatus"));
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
+        } else if (jsonObject.get("method").equals("assign")) {
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String orderId = (String) data.get("orderId");
+            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            RiderPartDto riderData = (RiderPartDto) data.get("riderData");
+            orderService.assignRiderToOrder(orderId, orderStatus, riderData);
         }
     }
-
-
 }

@@ -1,6 +1,6 @@
 package msa.customer.repository.order;
 
-import msa.customer.dto.rider.RiderSqsDto;
+import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
 import org.springframework.stereotype.Repository;
@@ -42,11 +42,13 @@ public class MongoOrderRepository implements OrderRepository{
     }
 
     @Override
-    public void updateRiderInfo(String orderId, RiderSqsDto riderSqsDto) {
+    public void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto) {
         repository.findById(orderId).ifPresent(order -> {
-            order.setRiderId(riderSqsDto.getRiderId());
-            order.setRiderName(riderSqsDto.getName());
-            order.setRiderPhoneNumber(riderSqsDto.getPhoneNumber());
+            order.setOrderStatus(orderStatus);
+            order.setRiderId(riderPartDto.getRiderId());
+            order.setRiderName(riderPartDto.getName());
+            order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
+            repository.save(order);
         });
     }
 

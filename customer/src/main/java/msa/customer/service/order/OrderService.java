@@ -1,5 +1,6 @@
 package msa.customer.service.order;
 
+import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
@@ -86,5 +87,10 @@ public class OrderService {
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
         orderRepository.updateOrderStatus(orderId, orderStatus);
+    }
+
+    public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto){
+        orderRepository.updateRiderInfo(orderId, orderStatus, riderPartDto);
+
     }
 }

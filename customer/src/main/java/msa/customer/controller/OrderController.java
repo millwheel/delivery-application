@@ -63,7 +63,6 @@ public class OrderController {
         Order order = orderOptional.get();
         String messageToCreateOrder = sendingMessageConverter.createMessageToCreateOrder(order);
         sqsService.sendToRestaurant(messageToCreateOrder);
-        sqsService.sendToRider(messageToCreateOrder);
         basketService.deleteAllInBasket(customerId);
     }
 
