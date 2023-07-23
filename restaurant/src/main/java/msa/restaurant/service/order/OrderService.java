@@ -1,5 +1,6 @@
 package msa.restaurant.service.order;
 
+import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.repository.order.OrderRepository;
@@ -39,6 +40,10 @@ public class OrderService {
         } else {
             throw new RuntimeException("The current order status is not changeable");
         }
+    }
+
+    public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto){
+        orderRepository.updateOrderRiderInfo(orderId, orderStatus, riderPartDto);
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){

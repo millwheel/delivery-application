@@ -1,5 +1,6 @@
 package msa.restaurant.repository.order;
 
+import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 
@@ -11,5 +12,6 @@ public interface OrderRepository {
     Optional<Order> readOrder(String orderId);
     List<Order> readOrderList(String storeId);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
+    void updateOrderRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
     void deleteOrder(String orderId);
 }

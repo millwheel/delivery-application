@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import msa.restaurant.deserializer.OrderDeserializer;
+import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.service.order.OrderService;
@@ -31,7 +32,11 @@ public class ReceivingMessageConverter {
             Order order = convertOrderData(jsonObject);
             orderService.createOrder(order);
         } else if (jsonObject.get("method").equals("assign")) {
-            
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String orderId = (String) data.get("orderId");
+            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            RiderPartDto riderData = (RiderPartDto) data.get("riderData");
+            orderService.assignRiderToOrder(orderId, orderStatus, riderData);
         } else if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = (String) data.get("orderId");

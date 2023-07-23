@@ -1,5 +1,6 @@
 package msa.restaurant.repository.order;
 
+import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,17 @@ public class MongoOrderRespository implements OrderRepository {
     public void updateOrderStatus(String orderId, OrderStatus orderStatus) {
         repository.findById(orderId).ifPresent(order -> {
             order.setOrderStatus(orderStatus);
+            repository.save(order);
+        });
+    }
+
+    @Override
+    public void updateOrderRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto) {
+        repository.findById(orderId).ifPresent(order -> {
+            order.setOrderStatus(orderStatus);
+            order.setRiderId(riderPartDto.getRiderId());
+            order.setRiderName(riderPartDto.getName());
+            order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
             repository.save(order);
         });
     }
