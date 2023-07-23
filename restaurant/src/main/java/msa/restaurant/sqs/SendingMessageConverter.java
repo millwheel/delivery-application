@@ -1,4 +1,4 @@
-package msa.restaurant.service.messaging;
+package msa.restaurant.sqs;
 
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;

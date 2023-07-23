@@ -1,4 +1,4 @@
-package msa.restaurant.service.sse;
+package msa.restaurant.sse;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.order.OrderPartResponseDto;

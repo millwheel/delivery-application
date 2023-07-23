@@ -1,4 +1,4 @@
-package msa.customer.service.messaging;
+package msa.customer.sqs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

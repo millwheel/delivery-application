@@ -1,4 +1,4 @@
-package msa.customer.service.sse;
+package msa.customer.sse;
 
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;

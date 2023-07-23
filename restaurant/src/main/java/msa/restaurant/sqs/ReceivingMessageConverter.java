@@ -1,4 +1,4 @@
-package msa.restaurant.service.messaging;
+package msa.restaurant.sqs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
