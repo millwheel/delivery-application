@@ -61,7 +61,9 @@ public class ReceivingMessageConverter {
         String customerPhoneNumber = data.getString("customerPhoneNumber");
         String customerAddress = data.getString("customerAddress");
         String customerAddressDetail = data.getString("customerAddressDetail");
-        Point customerLocation = new ObjectMapper().readValue(data.get("customerLocation").toString(), Point.class);
+        double customerX = data.getJSONObject("customerLocation").getDouble("x");
+        double customerY = data.getJSONObject("customerLocation").getDouble("y");
+        Point customerLocation = new Point(customerX, customerY);
         JSONArray orderMenuJsonArray = data.getJSONArray("menuInBasketList");
         List<OrderMenu> orderMenuList = new ArrayList<>();
         for (int i = 0; i < orderMenuJsonArray.length(); i++){
@@ -72,6 +74,7 @@ public class ReceivingMessageConverter {
             orderMenu.setCount(orderMenuJson.getInt("count"));
             orderMenu.setEachPrice(orderMenuJson.getInt("eachPrice"));
             orderMenu.setPrice(orderMenuJson.getInt("price"));
+            orderMenuList.add(orderMenu);
         }
         int totalPrice = data.getInt("totalPrice");
         String storeId = data.getString("storeId");
@@ -79,7 +82,9 @@ public class ReceivingMessageConverter {
         String storePhoneNumber = data.getString("storePhoneNumber");
         String storeAddress = data.getString("storeAddress");
         String storeAddressDetail = data.getString("storeAddressDetail");
-        Point storeLocation = new ObjectMapper().readValue(data.get("storeLocation").toString(), Point.class);
+        double storeX = data.getJSONObject("storeLocation").getDouble("x");
+        double storeY = data.getJSONObject("storeLocation").getDouble("y");
+        Point storeLocation = new Point(storeX, storeY);
         return new Order(orderId, orderTime, orderStatus, customerId, customerName, customerPhoneNumber,
                 customerAddress, customerAddressDetail, customerLocation, orderMenuList, totalPrice,
                 storeId, storeName, storePhoneNumber, storeAddress, storeAddressDetail, storeLocation);

@@ -32,7 +32,7 @@ public class OrderService {
     public String createOrder(String customerId, String basketId){
         Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isEmpty()){
-            throw new RuntimeException("Basket doesn't exist.");
+            throw new NullPointerException("Basket doesn't exist.");
         }
         Basket basket = basketOptional.get();
         String storeId = basket.getStoreId();
