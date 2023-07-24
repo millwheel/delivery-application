@@ -64,16 +64,12 @@ public class ReceivingMessageConverter {
         double customerX = data.getJSONObject("customerLocation").getDouble("x");
         double customerY = data.getJSONObject("customerLocation").getDouble("y");
         Point customerLocation = new Point(customerX, customerY);
+        ObjectMapper objectMapper = new ObjectMapper();
         JSONArray orderMenuJsonArray = data.getJSONArray("menuInBasketList");
         List<OrderMenu> orderMenuList = new ArrayList<>();
         for (int i = 0; i < orderMenuJsonArray.length(); i++){
-            JSONObject orderMenuJson = orderMenuJsonArray.getJSONObject(i);
-            OrderMenu orderMenu = new OrderMenu();
-            orderMenu.setMenuId(orderMenuJson.getString("menuId"));
-            orderMenu.setMenuName(orderMenuJson.getString("menuName"));
-            orderMenu.setCount(orderMenuJson.getInt("count"));
-            orderMenu.setEachPrice(orderMenuJson.getInt("eachPrice"));
-            orderMenu.setPrice(orderMenuJson.getInt("price"));
+            String orderMenuString = orderMenuJsonArray.getJSONObject(i).toString();
+            OrderMenu orderMenu = objectMapper.readValue(orderMenuString, OrderMenu.class);
             orderMenuList.add(orderMenu);
         }
         int totalPrice = data.getInt("totalPrice");
