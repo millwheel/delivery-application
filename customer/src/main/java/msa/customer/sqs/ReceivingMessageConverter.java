@@ -102,9 +102,9 @@ public class ReceivingMessageConverter {
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = (String) data.get("orderId");
-            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
-            RiderPartDto riderData = (RiderPartDto) data.get("riderData");
-            orderService.assignRiderToOrder(orderId, orderStatus, riderData);
+            OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
+            RiderPartDto riderPartDto= new ObjectMapper().readValue(data.get("riderData").toString(), RiderPartDto.class);
+            orderService.assignRiderToOrder(orderId, orderStatus, riderPartDto);
         }
     }
 }
