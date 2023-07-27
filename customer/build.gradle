@@ -23,8 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// --mongodb--
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	// --dynamodb--
-	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
+	// --redis--
+
 	// --aws sqs--
 	implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.472'
 	// --json--
