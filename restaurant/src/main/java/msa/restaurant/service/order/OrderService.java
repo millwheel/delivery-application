@@ -30,7 +30,7 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus changeOrderStatusFromClient(String orderId, OrderStatus orderStatus){
+    public OrderStatus changeOrderStatusFromManager(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
             orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
             return OrderStatus.ORDER_ACCEPT;

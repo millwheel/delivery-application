@@ -25,15 +25,13 @@ public class OrderController {
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
-    private final StoreService storeService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService, StoreService storeService) {
+    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
-        this.storeService = storeService;
     }
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -52,24 +50,45 @@ public class OrderController {
         if (orderOptional.isEmpty()){
             throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
-        return new OrderResponseDto(orderOptional.get());
+        Order order = orderOptional.get();
+        if (!order.getStoreId().equals(storeId)){
+            throw new IllegalCallerException("This order doesn't belong to the store");
+        }
+        return new OrderResponseDto(order);
     }
 
     @PostMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void changeOrderStatus(@PathVariable String orderId,
-                                  @PathVariable String storeId,
-                                  HttpServletResponse response) throws IOException {
+    public void acceptOrder(@PathVariable String orderId,
+                                  @PathVariable String storeId) {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
+        if (!order.getStoreId().equals(storeId)){
+            throw new IllegalCallerException("This order doesn't belong to the store");
+        }
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromManager(orderId, order.getOrderStatus());
         String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
         sqsService.sendToCustomer(messageToUpdateOrderStatus);
         sqsService.sendToRider(messageToAcceptOrder);
+    }
+
+    @PutMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void changeOrderStatus(@PathVariable String orderId,
+                                  @PathVariable String storeId){
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if (orderOptional.isEmpty()){
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
+        }
+        Order order = orderOptional.get();
+        if (!order.getStoreId().equals(storeId)){
+            throw new IllegalCallerException("This order doesn't belong to the store");
+        }
+
     }
 
 }
