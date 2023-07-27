@@ -49,6 +49,7 @@ public class OrderController {
     public void acceptOrder(@PathVariable String orderId,
                             @RequestAttribute("order") Order order) {
         OrderStatus changedOrderStatus = orderService.changeOrderStatusToOrderAccept(orderId, order.getOrderStatus());
+        order.setOrderStatus(changedOrderStatus);
         String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
         String messageToRequestOrder = sendingMessageConverter.createMessageToRequestOrder(order);
         sqsService.sendToCustomer(messageToAcceptOrder);
@@ -60,6 +61,7 @@ public class OrderController {
     public void changeOrderStatus(@PathVariable String orderId,
                                   @RequestAttribute("order") Order order){
         OrderStatus changedOrderStatus = orderService.changeOrderStatusToFoodReady(orderId, order.getOrderStatus());
+        order.setOrderStatus(changedOrderStatus);
         String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
         sqsService.sendToRider(messageToChangeOrderStatus);

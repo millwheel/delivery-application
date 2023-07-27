@@ -3,6 +3,7 @@ package msa.restaurant.sqs;
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.order.Order;
+import msa.restaurant.entity.order.OrderStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
