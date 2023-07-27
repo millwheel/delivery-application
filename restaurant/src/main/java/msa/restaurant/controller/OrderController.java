@@ -1,10 +1,8 @@
 package msa.restaurant.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
-import msa.restaurant.service.store.StoreService;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.sqs.SqsService;
 import msa.restaurant.service.order.OrderService;
@@ -14,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurant/store/{storeId}/order")
@@ -44,51 +40,29 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderResponseDto showOrderInfo(@PathVariable String storeId,
-                                          @PathVariable String orderId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
-        if (!order.getStoreId().equals(storeId)){
-            throw new IllegalCallerException("This order doesn't belong to the store");
-        }
+    public OrderResponseDto showOrderInfo(@RequestAttribute("order") Order order){
         return new OrderResponseDto(order);
     }
 
     @PostMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void acceptOrder(@PathVariable String orderId,
-                                  @PathVariable String storeId) {
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
-        if (!order.getStoreId().equals(storeId)){
-            throw new IllegalCallerException("This order doesn't belong to the store");
-        }
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromManager(orderId, order.getOrderStatus());
-        String messageToUpdateOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
+                            @RequestAttribute("order") Order order) {
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusToOrderAccept(orderId, order.getOrderStatus());
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
-        sqsService.sendToCustomer(messageToUpdateOrderStatus);
+        sqsService.sendToCustomer(messageToChangeOrderStatus);
         sqsService.sendToRider(messageToAcceptOrder);
     }
 
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void changeOrderStatus(@PathVariable String orderId,
-                                  @PathVariable String storeId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
-        if (!order.getStoreId().equals(storeId)){
-            throw new IllegalCallerException("This order doesn't belong to the store");
-        }
-
+                                  @RequestAttribute("order") Order order){
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusToFoodReady(orderId, order.getOrderStatus());
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
+        sqsService.sendToCustomer(messageToChangeOrderStatus);
+        sqsService.sendToRider(messageToChangeOrderStatus);
     }
 
 }

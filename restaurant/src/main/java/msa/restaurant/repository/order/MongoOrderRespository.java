@@ -34,11 +34,12 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public void updateOrderStatus(String orderId, OrderStatus orderStatus) {
+    public OrderStatus updateOrderStatus(String orderId, OrderStatus orderStatus) {
         repository.findById(orderId).ifPresent(order -> {
             order.setOrderStatus(orderStatus);
             repository.save(order);
         });
+        return orderStatus;
     }
 
     @Override

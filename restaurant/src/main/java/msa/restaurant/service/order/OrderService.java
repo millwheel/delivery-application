@@ -30,15 +30,19 @@ public class OrderService {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus changeOrderStatusFromManager(String orderId, OrderStatus orderStatus){
+    public OrderStatus changeOrderStatusToOrderAccept(String orderId, OrderStatus orderStatus){
         if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
-            orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
-            return OrderStatus.ORDER_ACCEPT;
-        } else if (orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
-            orderRepository.updateOrderStatus(orderId, OrderStatus.FOOD_READY);
-            return OrderStatus.FOOD_READY;
+            return orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
         } else {
-            throw new RuntimeException("The current order status is not changeable");
+            throw new IllegalStateException("The current order status is not changeable");
+        }
+    }
+
+    public OrderStatus changeOrderStatusToFoodReady(String orderId, OrderStatus orderStatus){
+        if (orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
+            return orderRepository.updateOrderStatus(orderId, OrderStatus.FOOD_READY);
+        } else {
+            throw new IllegalStateException("The current order status is not changeable");
         }
     }
 
