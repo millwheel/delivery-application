@@ -3,8 +3,8 @@ package msa.customer.sse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
-import msa.customer.entity.order.OrderStatus;
 import msa.customer.pubsub.PubService;
+import msa.customer.pubsub.dto.CustomerMatchingMessage;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +66,7 @@ public class SseService {
         if (emitterList.contains(customerId)){
             showOrder(customerId, orderId);
         } else{
-            pubService.sendMessage(customerId);
+            pubService.sendMessageToMatchCustomer(customerId, orderId);
         }
     }
 

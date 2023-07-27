@@ -1,5 +1,8 @@
 package msa.customer.pubsub;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import msa.customer.pubsub.dto.CustomerMatchingMessage;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,14 @@ public class PubService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void sendMessage(String customerId) {
-        redisTemplate.convertAndSend("topic1", customerId);
+    public void sendMessageToMatchCustomer(String customerId, String orderId) {
+        CustomerMatchingMessage customerMatchingMessage = new CustomerMatchingMessage(customerId, orderId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String messageString = objectMapper.writeValueAsString(customerMatchingMessage);
+            redisTemplate.convertAndSend("customer-matching", messageString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
