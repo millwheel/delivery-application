@@ -1,7 +1,7 @@
 package msa.restaurant.sse;
 
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.order.OrderPartResponseDto;
+import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.pubsub.PubService;
 import msa.restaurant.service.order.OrderService;
@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
-public class OrderListSseService {
+public class OrderInfoSseService {
 
     private final OrderService orderService;
     private final PubService pubService;
@@ -24,7 +23,7 @@ public class OrderListSseService {
     private ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
-    public OrderListSseService(OrderService orderService, PubService pubService) {
+    public OrderInfoSseService(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
         this.pubService = pubService;
     }
@@ -47,32 +46,37 @@ public class OrderListSseService {
         return emitter;
     }
 
-    public void showOrderList(String storeId) {
-        List<Order> orderList = orderService.getOrderList(storeId);
-        List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
-        orderList.forEach(order -> {
-            orderPartInfoList.add(new OrderPartResponseDto(order));
-        });
+
+    public void showOrderInfo(String storeId, String orderId) {
+        Optional<Order> orderOptional = orderService.getOrder(orderId);
+        if (orderOptional.isEmpty()){
+            throw new NullPointerException("Order doesn't exist.");
+        }
+        Order order = orderOptional.get();
+        if (!storeId.equals(order.getStoreId())){
+            throw new IllegalCallerException("This order doesn't belong to the store.");
+        }
+        OrderResponseDto orderResponseDto = new OrderResponseDto(order);
         try {
-            emitterList.get(storeId).send(SseEmitter.event().name("order-list").data(orderPartInfoList));
+            emitterList.get(storeId).send(SseEmitter.event().name("order").data(orderResponseDto));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateOrderListFromSqs(String storeId){
+    public void updateOrderListFromSqs(String storeId, String orderId){
         if (emitterList.contains(storeId)){
             log.info("The server has customerId={}", storeId);
-            showOrderList(storeId);
+            showOrderInfo(storeId, orderId);
         } else{
             pubService.sendMessageToMatchStore(storeId);
         }
     }
 
-    public void updateOrderFromRedis(String storeId){
+    public void updateOrderFromRedis(String storeId, String orderId){
         if (emitterList.contains(storeId)){
             log.info("The server has customerId={}", storeId);
-            showOrderList( storeId);
+            showOrderInfo(storeId, orderId);
         }
     }
 }
