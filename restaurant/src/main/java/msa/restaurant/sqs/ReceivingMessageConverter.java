@@ -36,7 +36,7 @@ public class ReceivingMessageConverter {
     public void processOrderData(JSONObject jsonObject) throws JsonProcessingException {
         if (jsonObject.get("method").equals("create")){
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
-            Order order = convertOrderDataIndividual(data);
+            Order order = convertOrderDataWithCustomDeserializer(data);
             orderService.createOrder(order);
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
@@ -50,40 +50,6 @@ public class ReceivingMessageConverter {
             OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
         }
-    }
-
-    public Order convertOrderDataIndividual(JSONObject data) throws JsonProcessingException {
-        String orderId = data.getString("orderId");
-        String orderTime = data.getString("orderTime");
-        OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
-        String customerId = data.getString("customerId");
-        String customerName = data.getString("customerName");
-        String customerPhoneNumber = data.getString("customerPhoneNumber");
-        String customerAddress = data.getString("customerAddress");
-        String customerAddressDetail = data.getString("customerAddressDetail");
-        double customerX = data.getJSONObject("customerLocation").getDouble("x");
-        double customerY = data.getJSONObject("customerLocation").getDouble("y");
-        Point customerLocation = new Point(customerX, customerY);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JSONArray orderMenuJsonArray = data.getJSONArray("menuInBasketList");
-        List<OrderMenu> orderMenuList = new ArrayList<>();
-        for (int i = 0; i < orderMenuJsonArray.length(); i++){
-            String orderMenuString = orderMenuJsonArray.getJSONObject(i).toString();
-            OrderMenu orderMenu = objectMapper.readValue(orderMenuString, OrderMenu.class);
-            orderMenuList.add(orderMenu);
-        }
-        int totalPrice = data.getInt("totalPrice");
-        String storeId = data.getString("storeId");
-        String storeName = data.getString("storeName");
-        String storePhoneNumber = data.getString("storePhoneNumber");
-        String storeAddress = data.getString("storeAddress");
-        String storeAddressDetail = data.getString("storeAddressDetail");
-        double storeX = data.getJSONObject("storeLocation").getDouble("x");
-        double storeY = data.getJSONObject("storeLocation").getDouble("y");
-        Point storeLocation = new Point(storeX, storeY);
-        return new Order(orderId, orderTime, orderStatus, customerId, customerName, customerPhoneNumber,
-                customerAddress, customerAddressDetail, customerLocation, orderMenuList, totalPrice,
-                storeId, storeName, storePhoneNumber, storeAddress, storeAddressDetail, storeLocation);
     }
 
     public Order convertOrderDataWithCustomDeserializer(JSONObject jsonObject) throws JsonProcessingException {
