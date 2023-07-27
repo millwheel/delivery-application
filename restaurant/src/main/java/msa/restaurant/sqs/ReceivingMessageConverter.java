@@ -35,8 +35,8 @@ public class ReceivingMessageConverter {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             Order order = convertOrderDataWithCustomDeserializer(data);
             String storeId = order.getStoreId();
-            sseService.updateOrderListFromSqs(storeId);
             orderService.createOrder(order);
+            sseService.updateOrderListFromSqs(storeId);
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = data.getString("orderId");
