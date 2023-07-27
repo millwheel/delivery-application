@@ -15,7 +15,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfiguration {
+public class RedisConfig {
 
     @Value("${redis.host}")
     public String host;
@@ -28,7 +28,7 @@ public class RedisConfiguration {
 
     private final SseService sseService;
 
-    public RedisConfiguration(SseService sseService) {
+    public RedisConfig(SseService sseService) {
         this.sseService = sseService;
     }
 
