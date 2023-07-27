@@ -23,10 +23,16 @@ public class ExceptionControllerAdvice {
         return new ErrorResult("NO MATCHED DATA", e.getMessage());
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(IllegalCallerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResult illegalCallerException(IllegalCallerException e){
+        return new ErrorResult("NOT ALLOWED", e.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResult runtimeExceptionHandler(RuntimeException e){
-        return new ErrorResult("INCORRECT BEHAVIOR", e.getMessage());
+        return new ErrorResult("SERVER ERROR", e.getMessage());
     }
 
     @ExceptionHandler

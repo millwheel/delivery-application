@@ -51,7 +51,7 @@ public class SseService {
         }
         Order order = orderOptional.get();
         if (!customerId.equals(order.getCustomerId())){
-            throw new RuntimeException("This order doesn't belong to the customer");
+            throw new IllegalCallerException("This order doesn't belong to the customer");
         }
         OrderResponseDto orderResponseDto = new OrderResponseDto(order);
         try {
