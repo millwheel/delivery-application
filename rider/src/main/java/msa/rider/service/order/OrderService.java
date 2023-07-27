@@ -42,11 +42,13 @@ public class OrderService {
         return orderRepository.findByRiderId(riderId);
     }
 
-    public RiderPartDto updateRiderInfo(String orderId, String riderId, OrderStatus orderStatus){
+    public RiderPartDto updateRiderInfo(String riderId, Order order){
+        if (!order.getOrderStatus().equals(OrderStatus.ORDER_ACCEPT)){
+            throw new IllegalStateException("The current order status is not changeable.");
+        }
         Rider rider = memberRepository.findById(riderId).get();
         RiderPartDto riderPartDto = new RiderPartDto(rider);
-        Point location = rider.getLocation();
-        orderRepository.updateOrderRiderInfo(orderId, riderPartDto, location, orderStatus);
+        orderRepository.updateOrderRiderInfo(order.getOrderId(), riderPartDto, rider.getLocation(), OrderStatus.RIDER_ASSIGNED);
         return riderPartDto;
     }
 
@@ -58,7 +60,7 @@ public class OrderService {
             orderRepository.updateOrderStatus(orderId, OrderStatus.DELIVERY_COMPLETE);
             return OrderStatus.DELIVERY_COMPLETE;
         } else {
-            throw new RuntimeException("Current order status is not changeable");
+            throw new IllegalStateException("The current order status is not changeable.");
         }
     }
 

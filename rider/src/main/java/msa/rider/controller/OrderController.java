@@ -23,16 +23,12 @@ import java.util.Optional;
 @RestController
 public class OrderController {
     private final OrderService orderService;
-    private final MemberService memberService;
-    private final SqsService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, MemberService memberService, SqsService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
-        this.memberService = memberService;
-        this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
@@ -54,7 +50,7 @@ public class OrderController {
     public OrderResponseDto showNewOrderInfo(@PathVariable String orderId){
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
-            throw new RuntimeException("order doesn't exist.");
+            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         return new OrderResponseDto(orderOptional.get());
     }
@@ -62,19 +58,14 @@ public class OrderController {
     @PostMapping("/new/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void riderAssign(@RequestAttribute("cognitoUsername") String riderId,
-                                  @PathVariable String orderId,
-                                  HttpServletResponse response) throws IOException {
+                                  @PathVariable String orderId) {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
-        OrderStatus orderStatus = order.getOrderStatus();
-        if (!orderStatus.equals(OrderStatus.ORDER_ACCEPT)){
-            throw new RuntimeException("This order is unavailable. Order status is invalid.");
-        }
-        RiderPartDto riderPartDto = orderService.updateRiderInfo(orderId, riderId, OrderStatus.RIDER_ASSIGNED);
-        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(orderId, riderPartDto, OrderStatus.RIDER_ASSIGNED);
+        RiderPartDto riderPartDto = orderService.updateRiderInfo(riderId, order);
+        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(order, riderPartDto, OrderStatus.RIDER_ASSIGNED);
         sqsService.sendToRestaurant(messageToAssignRider);
         sqsService.sendToCustomer(messageToAssignRider);
     }
@@ -100,10 +91,9 @@ public class OrderController {
         return new OrderResponseDto(orderOptional.get());
     }
 
-    @PostMapping("/my/{orderId}")
+    @PutMapping("/my/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void changeOrderStatus(@PathVariable String orderId,
-                                  HttpServletResponse response) throws IOException {
+    public void changeOrderStatus(@PathVariable String orderId) {
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if (orderOptional.isEmpty()){
             throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
@@ -111,7 +101,7 @@ public class OrderController {
         Order order = orderOptional.get();
         OrderStatus orderStatus = order.getOrderStatus();
         OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
-        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order, changedOrderStatus);
         sqsService.sendToRestaurant(messageToChangeOrderStatus);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
     }
