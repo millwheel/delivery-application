@@ -3,6 +3,7 @@ package msa.restaurant.sse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.order.OrderPartResponseDto;
 import msa.restaurant.entity.order.Order;
+import msa.restaurant.pubsub.PubService;
 import msa.restaurant.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +19,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SseService {
 
     private final OrderService orderService;
+    private final PubService pubService;
 
     private ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
-    public SseService(OrderService orderService) {
+    public SseService(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
+        this.pubService = pubService;
     }
 
-    public SseEmitter connect(String managerId) {
+    public SseEmitter connect(String storeId) {
         SseEmitter emitter = new SseEmitter();
-        emitterList.put(managerId, emitter);
+        emitterList.put(storeId, emitter);
         log.info("new emitter added: {}", emitter);
         log.info("emitter list:{}", emitterList);
         emitter.onCompletion(() -> {
@@ -50,13 +53,25 @@ public class SseService {
         orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));
         });
-        emitterList.forEachValue(Long.MAX_VALUE, emitter -> {
-            try {
-                emitter.send(SseEmitter.event().name("orderList").data(orderPartInfoList));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        try {
+            emitterList.get(storeId).send(SseEmitter.event().name("order-list").data(orderPartInfoList));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public void updateOrderListFromSqs(String storeId){
+        if (emitterList.contains(storeId)){
+            showOrderList(storeId);
+        } else{
+            pubService.sendMessageToMatchStore(storeId);
+        }
+    }
+
+    public void updateOrderFromRedis(String storeId){
+        if (emitterList.contains(storeId)){
+            log.info("The server has customerId={}", storeId);
+            showOrderList( storeId);
+        }
+    }
 }

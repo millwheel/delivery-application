@@ -1,5 +1,6 @@
 package msa.restaurant.config;
 
+import msa.restaurant.pubsub.SubService;
 import msa.restaurant.sse.SseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

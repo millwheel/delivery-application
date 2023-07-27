@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import msa.restaurant.dto.order.OrderResponseDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.service.store.StoreService;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.sqs.SqsService;
 import msa.restaurant.service.order.OrderService;
@@ -25,20 +26,27 @@ public class OrderController {
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
+    private final StoreService storeService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService, StoreService storeService) {
         this.orderService = orderService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
+        this.storeService = storeService;
     }
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
                                     @PathVariable String storeId){
-        SseEmitter sseEmitter = sseService.connect(managerId);
+        storeService.getStore(storeId).ifPresent(store -> {
+            if (!store.getManagerId().equals(managerId)){
+                throw new IllegalCallerException("This store doesn't belongs to the manager.");
+            }
+        });
+        SseEmitter sseEmitter = sseService.connect(storeId);
         sseService.showOrderList(storeId);
         return sseEmitter;
     }
