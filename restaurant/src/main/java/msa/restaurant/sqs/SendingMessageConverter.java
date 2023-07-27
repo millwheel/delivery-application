@@ -3,7 +3,6 @@ package msa.restaurant.sqs;
 import msa.restaurant.dto.menu.MenuSqsDto;
 import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.order.Order;
-import msa.restaurant.entity.order.OrderStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -87,20 +86,34 @@ public class SendingMessageConverter {
 
     public String createMessageToAcceptOrder(Order order){
         JSONObject jsonObject = new JSONObject();
-        JSONObject data = new JSONObject(order);
+        JSONObject data = new JSONObject();
         jsonObject.put("dataType", "order");
-        jsonObject.put("method", "accept");
+        jsonObject.put("method", "change");
+        data.put("customerId", order.getCustomerId());
+        data.put("orderId", order.getOrderId());
+        data.put("orderStatus", order.getOrderStatus());
         jsonObject.put("data", data);
         return jsonObject.toString();
     }
 
-    public String createMessageToChangeOrderStatus(String orderId, OrderStatus orderStatus){
+    public String createMessageToRequestOrder(Order order){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject data = new JSONObject(order);
+        jsonObject.put("dataType", "order");
+        jsonObject.put("method", "request");
+        jsonObject.put("data", data);
+        return jsonObject.toString();
+    }
+
+    public String createMessageToChangeOrderStatus(Order order){
         JSONObject jsonObject = new JSONObject();
         JSONObject data = new JSONObject();
         jsonObject.put("dataType", "order");
         jsonObject.put("method", "change");
-        data.put("orderId", orderId);
-        data.put("orderStatus", orderStatus);
+        data.put("customerId", order.getCustomerId());
+        data.put("riderId", order.getRiderId());
+        data.put("orderId", order.getOrderId());
+        data.put("orderStatus", order.getOrderStatus());
         jsonObject.put("data", data);
         return jsonObject.toString();
     }

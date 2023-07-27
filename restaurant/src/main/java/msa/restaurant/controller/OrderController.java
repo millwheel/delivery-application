@@ -49,10 +49,10 @@ public class OrderController {
     public void acceptOrder(@PathVariable String orderId,
                             @RequestAttribute("order") Order order) {
         OrderStatus changedOrderStatus = orderService.changeOrderStatusToOrderAccept(orderId, order.getOrderStatus());
-        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
         String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
-        sqsService.sendToCustomer(messageToChangeOrderStatus);
-        sqsService.sendToRider(messageToAcceptOrder);
+        String messageToRequestOrder = sendingMessageConverter.createMessageToRequestOrder(order);
+        sqsService.sendToCustomer(messageToAcceptOrder);
+        sqsService.sendToRider(messageToRequestOrder);
     }
 
     @PutMapping("/{orderId}")
@@ -60,7 +60,7 @@ public class OrderController {
     public void changeOrderStatus(@PathVariable String orderId,
                                   @RequestAttribute("order") Order order){
         OrderStatus changedOrderStatus = orderService.changeOrderStatusToFoodReady(orderId, order.getOrderStatus());
-        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(orderId, changedOrderStatus);
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
         sqsService.sendToRider(messageToChangeOrderStatus);
     }
