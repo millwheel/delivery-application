@@ -6,7 +6,7 @@ import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.sqs.SqsService;
 import msa.restaurant.service.order.OrderService;
-import msa.restaurant.sse.SseService;
+import msa.restaurant.sse.OrderListSseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,14 +18,14 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class OrderController {
 
     private final OrderService orderService;
-    private final SseService sseService;
+    private final OrderListSseService orderListSseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, OrderListSseService orderListSseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
-        this.sseService = sseService;
+        this.orderListSseService = orderListSseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
@@ -33,8 +33,8 @@ public class OrderController {
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderList(@PathVariable String storeId){
-        SseEmitter sseEmitter = sseService.connect(storeId);
-        sseService.showOrderList(storeId);
+        SseEmitter sseEmitter = orderListSseService.connect(storeId);
+        orderListSseService.showOrderList(storeId);
         return sseEmitter;
     }
 

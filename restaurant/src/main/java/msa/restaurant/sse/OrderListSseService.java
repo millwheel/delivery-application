@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
-public class SseService {
+public class OrderListSseService {
 
     private final OrderService orderService;
     private final PubService pubService;
@@ -24,7 +24,7 @@ public class SseService {
     private ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
-    public SseService(OrderService orderService, PubService pubService) {
+    public OrderListSseService(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
         this.pubService = pubService;
     }

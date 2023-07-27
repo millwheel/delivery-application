@@ -1,7 +1,7 @@
 package msa.restaurant.config;
 
 import msa.restaurant.pubsub.SubService;
-import msa.restaurant.sse.SseService;
+import msa.restaurant.sse.OrderListSseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +26,10 @@ public class RedisConfig {
     @Value("${redis.password}")
     public String password;
 
-    private final SseService sseService;
+    private final OrderListSseService orderListSseService;
 
-    public RedisConfig(SseService sseService) {
-        this.sseService = sseService;
+    public RedisConfig(OrderListSseService orderListSseService) {
+        this.orderListSseService = orderListSseService;
     }
 
     @Bean
@@ -53,7 +53,7 @@ public class RedisConfig {
 
     @Bean
     MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(new SubService(sseService));
+        return new MessageListenerAdapter(new SubService(orderListSseService));
     }
 
     // To use pub sub
