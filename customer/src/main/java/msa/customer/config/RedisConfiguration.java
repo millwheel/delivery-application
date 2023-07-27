@@ -1,6 +1,7 @@
 package msa.customer.config;
 
 import msa.customer.pubsub.SubService;
+import msa.customer.sse.SseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,12 @@ public class RedisConfiguration {
     @Value("${redis.password}")
     public String password;
 
+    private final SseService sseService;
+
+    public RedisConfiguration(SseService sseService) {
+        this.sseService = sseService;
+    }
+
     @Bean
     public RedisConnectionFactory connectToRedisCloud(){
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
@@ -46,7 +53,7 @@ public class RedisConfiguration {
 
     @Bean
     MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(new SubService());
+        return new MessageListenerAdapter(new SubService(sseService));
     }
 
     // To use pub sub

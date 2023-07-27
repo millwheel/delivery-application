@@ -21,6 +21,8 @@ public class AWSConfig {
     @Value("${aws.region}")
     private String awsRegion;
 
+
+
     public AWSCredentials awsCredentials() {
         return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
     }

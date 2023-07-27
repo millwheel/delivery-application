@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.pubsub.PubService;
-import msa.customer.pubsub.dto.CustomerMatchingMessage;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,12 +61,19 @@ public class SseService {
         }
     }
 
-    public void updateOrder(String customerId, String orderId){
+    public void updateOrderFromSqs(String customerId, String orderId){
         if (emitterList.contains(customerId)){
+            log.info("The server has customerId={}", customerId);
             showOrder(customerId, orderId);
         } else{
             pubService.sendMessageToMatchCustomer(customerId, orderId);
         }
     }
 
+    public void updateOrderFromRedis(String customerId, String orderId){
+        if (emitterList.contains(customerId)){
+            log.info("The server has customerId={}", customerId);
+            showOrder(customerId, orderId);
+        }
+    }
 }
