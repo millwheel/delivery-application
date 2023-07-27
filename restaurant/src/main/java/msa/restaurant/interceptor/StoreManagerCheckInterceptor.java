@@ -31,6 +31,7 @@ public class StoreManagerCheckInterceptor implements HandlerInterceptor {
         if (!store.getManagerId().equals(managerId)){
             throw new RuntimeException("This store doesn't belong to this manager.");
         }
+        request.setAttribute("store", store);
         return true;
     }
 }

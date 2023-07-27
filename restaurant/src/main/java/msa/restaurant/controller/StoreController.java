@@ -1,6 +1,5 @@
 package msa.restaurant.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StorePartResponseDto;
 import msa.restaurant.dto.store.StoreRequestDto;
@@ -14,7 +13,6 @@ import msa.restaurant.sqs.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +47,7 @@ public class StoreController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createStore (@RequestAttribute("cognitoUsername") String managerId,
-                          @RequestBody StoreRequestDto data,
-                          HttpServletResponse response) throws IOException {
+                          @RequestBody StoreRequestDto data) {
         String storeId = storeService.createStore(data, managerId);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if (storeOptional.isEmpty()){
@@ -66,15 +63,7 @@ public class StoreController {
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                       @PathVariable String storeId) {
-        Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store doesn't exist.");
-        }
-        Store store = storeOptional.get();
-        if (!store.getManagerId().equals(managerId)){
-            throw new RuntimeException("This store doesn't belong to this manager.");
-        }
+                                       @RequestAttribute("store") Store store) {
         return new StoreResponseDto(store);
     }
 
@@ -82,8 +71,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
-                            @RequestBody StoreRequestDto data,
-                            HttpServletResponse response) throws IOException {
+                            @RequestBody StoreRequestDto data)  {
         storeService.updateStore(storeId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         Store store = storeOptional.get();
@@ -113,8 +101,7 @@ public class StoreController {
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
-                            @PathVariable String storeId,
-                            HttpServletResponse response) throws IOException {
+                            @PathVariable String storeId)  {
         storeService.deleteStore(storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);

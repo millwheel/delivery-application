@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -39,13 +38,7 @@ public class OrderController {
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public SseEmitter showOrderList(@RequestAttribute("cognitoUsername") String managerId,
-                                    @PathVariable String storeId){
-        storeService.getStore(storeId).ifPresent(store -> {
-            if (!store.getManagerId().equals(managerId)){
-                throw new IllegalCallerException("This store doesn't belongs to the manager.");
-            }
-        });
+    public SseEmitter showOrderList(@PathVariable String storeId){
         SseEmitter sseEmitter = sseService.connect(storeId);
         sseService.showOrderList(storeId);
         return sseEmitter;
