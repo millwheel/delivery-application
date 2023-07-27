@@ -91,6 +91,5 @@ public class OrderService {
 
     public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto){
         orderRepository.updateRiderInfo(orderId, orderStatus, riderPartDto);
-
     }
 }
