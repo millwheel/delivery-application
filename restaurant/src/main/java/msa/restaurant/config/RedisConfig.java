@@ -61,7 +61,7 @@ public class RedisConfig {
     RedisMessageListenerContainer redisContainer() {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectToRedisCloud());
-        container.addMessageListener(messageListenerAdapter(), new ChannelTopic("topic1"));
+        container.addMessageListener(messageListenerAdapter(), new ChannelTopic("store-matching"));
         return container;
     }
 }
