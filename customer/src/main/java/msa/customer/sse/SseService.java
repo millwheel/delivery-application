@@ -3,6 +3,8 @@ package msa.customer.sse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
+import msa.customer.entity.order.OrderStatus;
+import msa.customer.pubsub.PubService;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SseService {
 
     private final OrderService orderService;
+    private final PubService pubService;
     ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
-    public SseService(OrderService orderService) {
+    public SseService(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
+        this.pubService = pubService;
     }
 
     public SseEmitter connect(String customerId) {
@@ -56,7 +60,14 @@ public class SseService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public void updateOrder(String customerId, String orderId){
+        if (emitterList.contains(customerId)){
+            showOrder(customerId, orderId);
+        } else{
+            pubService.sendMessage(customerId);
+        }
     }
 
 }
