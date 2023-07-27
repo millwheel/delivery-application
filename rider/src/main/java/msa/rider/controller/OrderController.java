@@ -99,8 +99,7 @@ public class OrderController {
             throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
         }
         Order order = orderOptional.get();
-        OrderStatus orderStatus = order.getOrderStatus();
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, orderStatus);
+        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
         String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order, changedOrderStatus);
         sqsService.sendToRestaurant(messageToChangeOrderStatus);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
