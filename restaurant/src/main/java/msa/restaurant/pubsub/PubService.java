@@ -15,18 +15,6 @@ public class PubService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void sendMessageToMatchStore(String storeId) {
-        StoreMatchingMessage storeMatchingMessage = new StoreMatchingMessage();
-        storeMatchingMessage.setStoreId(storeId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String messageString = objectMapper.writeValueAsString(storeMatchingMessage);
-            redisTemplate.convertAndSend("store-matching", messageString);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void sendMessageToMatchStoreAndOrder(String storeId, String orderId){
         StoreMatchingMessage storeMatchingMessage = new StoreMatchingMessage();
         storeMatchingMessage.setStoreId(storeId);

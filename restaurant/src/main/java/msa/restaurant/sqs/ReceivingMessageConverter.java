@@ -39,7 +39,7 @@ public class ReceivingMessageConverter {
             Order order = convertOrderDataWithCustomDeserializer(data);
             String storeId = order.getStoreId();
             orderService.createOrder(order);
-            orderListSseService.updateOrderListFromSqs(storeId);
+            orderListSseService.updateOrderListFromSqs(storeId, order.getOrderId());
             orderInfoSseService.updateOrderInfoFromSqs(storeId, order.getOrderId());
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
@@ -48,7 +48,7 @@ public class ReceivingMessageConverter {
             OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
             RiderPartDto riderPartDto= new ObjectMapper().readValue(data.get("riderData").toString(), RiderPartDto.class);
             orderService.assignRiderToOrder(orderId, orderStatus, riderPartDto);
-            orderListSseService.updateOrderListFromSqs(storeId);
+            orderListSseService.updateOrderListFromSqs(storeId, orderId);
             orderInfoSseService.updateOrderInfoFromSqs(storeId, orderId);
         } else if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
@@ -56,7 +56,7 @@ public class ReceivingMessageConverter {
             String storeId = data.getString("storeId");
             OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
-            orderListSseService.updateOrderListFromSqs(storeId);
+            orderListSseService.updateOrderListFromSqs(storeId, orderId);
             orderInfoSseService.updateOrderInfoFromSqs(storeId, orderId);
         }
     }

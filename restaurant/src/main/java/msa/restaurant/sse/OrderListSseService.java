@@ -60,12 +60,12 @@ public class OrderListSseService {
         }
     }
 
-    public void updateOrderListFromSqs(String storeId){
+    public void updateOrderListFromSqs(String storeId, String orderId){
         if (emitterList.contains(storeId)){
             log.info("The server has customerId={}", storeId);
             showOrderList(storeId);
         } else{
-            pubService.sendMessageToMatchStore(storeId);
+            pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
         }
     }
 
