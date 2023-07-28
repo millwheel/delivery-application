@@ -23,8 +23,8 @@ public class OrderSseService {
     private final OrderService orderService;
     private final PubService pubService;
 
-    private ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
 
     @Autowired
     public OrderSseService(OrderService orderService, PubService pubService) {
@@ -32,10 +32,9 @@ public class OrderSseService {
         this.pubService = pubService;
     }
 
-    public SseEmitter connectForList(String storeId) {
+    public SseEmitter connect(String storeId){
         SseEmitter emitter = new SseEmitter();
         emitterList.put(storeId, emitter);
-        requestList.put(storeId, "list");
         log.info("new emitter added: {}", emitter);
         log.info("emitter list:{}", emitterList);
         emitter.onCompletion(() -> {
@@ -52,24 +51,14 @@ public class OrderSseService {
         return emitter;
     }
 
+    public SseEmitter connectForList(String storeId) {
+        requestList.put(storeId, "list");
+        return connect(storeId);
+    }
+
     public SseEmitter connectForInfo(String storeId) {
-        SseEmitter emitter = new SseEmitter();
-        emitterList.put(storeId, emitter);
         requestList.put(storeId, "info");
-        log.info("new emitter added: {}", emitter);
-        log.info("emitter list:{}", emitterList);
-        emitter.onCompletion(() -> {
-            SseEmitter removedEmitter = this.emitterList.remove(storeId);
-            this.requestList.remove(storeId);
-            log.info("emitter deleted: {}", removedEmitter);
-        });
-        emitter.onTimeout(emitter::complete);
-        try{
-            emitter.send(SseEmitter.event().name("connect").data("connected"));
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
-        return emitter;
+        return connect(storeId);
     }
 
     public void showOrderList(String storeId) {
