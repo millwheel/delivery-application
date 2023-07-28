@@ -1,9 +1,7 @@
 package msa.restaurant.config;
 
-import msa.restaurant.pubsub.OrderInfoSubService;
-import msa.restaurant.pubsub.OrderListSubService;
-import msa.restaurant.sse.OrderInfoSseService;
-import msa.restaurant.sse.OrderListSseService;
+import msa.restaurant.pubsub.SubService;
+import msa.restaurant.sse.OrderSseService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -13,22 +11,16 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Configuration
 public class RedisSubConfig {
 
-    private final OrderListSseService orderListSseService;
-    private final OrderInfoSseService orderInfoSseService;
+    private final OrderSseService orderSseService;
     private final RedisConfig redisConfig;
 
-    public RedisSubConfig(OrderListSseService orderListSseService, OrderInfoSseService orderInfoSseService, RedisConfig redisConfig) {
-        this.orderListSseService = orderListSseService;
-        this.orderInfoSseService = orderInfoSseService;
+    public RedisSubConfig(OrderSseService orderSseService, RedisConfig redisConfig) {
+        this.orderSseService = orderSseService;
         this.redisConfig = redisConfig;
     }
 
-    MessageListenerAdapter orderListMessageListenerAdapter() {
-        return new MessageListenerAdapter(new OrderListSubService(orderListSseService));
-    }
-
-    MessageListenerAdapter orderInfoMessageListenerAdapter(){
-        return new MessageListenerAdapter(new OrderInfoSubService(orderInfoSseService));
+    MessageListenerAdapter messageListenerAdapter() {
+        return new MessageListenerAdapter(new SubService(orderSseService));
     }
 
     // To use pub sub
@@ -36,8 +28,7 @@ public class RedisSubConfig {
     RedisMessageListenerContainer redisContainer() {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(redisConfig.connectToRedisCloud());
-        container.addMessageListener(orderListMessageListenerAdapter(), new ChannelTopic("store-matching"));
-        container.addMessageListener(orderInfoMessageListenerAdapter(), new ChannelTopic("store-matching"));
+        container.addMessageListener(messageListenerAdapter(), new ChannelTopic("store-matching"));
         return container;
     }
 }
