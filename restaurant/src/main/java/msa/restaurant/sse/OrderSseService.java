@@ -35,6 +35,7 @@ public class OrderSseService {
     public SseEmitter connect(String storeId){
         SseEmitter emitter = new SseEmitter();
         emitterList.put(storeId, emitter);
+        log.info("storeId={}", storeId);
         log.info("new emitter added: {}", emitter);
         log.info("emitter list:{}", emitterList);
         emitter.onCompletion(() -> {
@@ -92,7 +93,7 @@ public class OrderSseService {
     }
 
     public void updateOrderFromSqs(String storeId, String orderId){
-        if (emitterList.contains(storeId)){
+        if (emitterList.containsKey(storeId)){
             log.info("The server has storeId={}", storeId);
             String request = requestList.get(storeId);
             if (request.equals("list")){
@@ -106,7 +107,7 @@ public class OrderSseService {
     }
 
     public void updateOrderFromRedis(String storeId, String orderId){
-        if (emitterList.contains(storeId)){
+        if (emitterList.containsKey(storeId)){
             log.info("The server has storeId={}", storeId);
             String request = requestList.get(storeId);
             if (request.equals("list")){

@@ -27,7 +27,7 @@ public class SubService implements MessageListener {
             StoreMatchingMessage storeMatchingMessage = objectMapper.readValue(message.getBody(), StoreMatchingMessage.class);
             String storeId = storeMatchingMessage.getStoreId();
             String orderId = storeMatchingMessage.getOrderId();
-            log.info("message customerId={}", storeId);
+            log.info("message storeId={}, orderId={}", storeId, orderId);
             orderSseService.updateOrderFromRedis(storeId, orderId);
         } catch (IOException e) {
             log.error("error occurred={}", e.getMessage());
