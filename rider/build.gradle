@@ -22,6 +22,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// --mongodb--
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	// --redis--
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'redis.clients:jedis'
 	// --aws sqs--
 	implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.472'
 	// --json--
