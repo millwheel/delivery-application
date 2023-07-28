@@ -1,6 +1,6 @@
 package msa.rider.config;
 
-import msa.rider.pubsub.OrderListSubService;
+import msa.rider.pubsub.SubService;
 import msa.rider.sse.SseService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class RedisSubConfig {
 
     @Bean
     MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(new OrderListSubService(sseService));
+        return new MessageListenerAdapter(new SubService(sseService));
     }
 
     // To use pub sub

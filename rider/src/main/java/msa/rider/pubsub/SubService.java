@@ -12,11 +12,11 @@ import java.io.IOException;
 
 @Slf4j
 @Service
-public class OrderListSubService implements MessageListener {
+public class SubService implements MessageListener {
 
     private final SseService sseService;
 
-    public OrderListSubService(SseService sseService) {
+    public SubService(SseService sseService) {
         this.sseService = sseService;
     }
 
