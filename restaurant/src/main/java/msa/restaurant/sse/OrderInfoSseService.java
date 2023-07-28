@@ -56,9 +56,9 @@ public class OrderInfoSseService {
         if (!storeId.equals(order.getStoreId())){
             throw new IllegalCallerException("This order doesn't belong to the store.");
         }
-        OrderResponseDto orderResponseDto = new OrderResponseDto(order);
+        OrderResponseDto orderPartInfo = new OrderResponseDto(order);
         try {
-            emitterList.get(storeId).send(SseEmitter.event().name("order").data(orderResponseDto));
+            emitterList.get(storeId).send(SseEmitter.event().name("order").data(orderPartInfo));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +69,7 @@ public class OrderInfoSseService {
             log.info("The server has customerId={}", storeId);
             showOrderInfo(storeId, orderId);
         } else{
-            pubService.sendMessageToMatchStore(storeId);
+            pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
         }
     }
 

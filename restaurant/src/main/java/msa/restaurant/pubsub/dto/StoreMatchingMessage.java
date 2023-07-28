@@ -10,8 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StoreMatchingMessage {
     private String storeId;
-
-    public StoreMatchingMessage(String storeId) {
-        this.storeId = storeId;
-    }
+    private String orderId;
 }
