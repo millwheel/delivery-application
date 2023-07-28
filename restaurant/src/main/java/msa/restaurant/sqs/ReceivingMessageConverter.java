@@ -49,7 +49,7 @@ public class ReceivingMessageConverter {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = data.getString("orderId");
             String storeId = data.getString("storeId");
-            OrderStatus orderStatus = (OrderStatus) data.get("orderStatus");
+            OrderStatus orderStatus = data.getEnum(OrderStatus.class,"orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
             orderSseService.updateOrderFromSqs(storeId, orderId);
         }
