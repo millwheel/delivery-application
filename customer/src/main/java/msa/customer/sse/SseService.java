@@ -62,7 +62,7 @@ public class SseService {
     }
 
     public void updateOrderFromSqs(String customerId, String orderId){
-        if (emitterList.contains(customerId)){
+        if (emitterList.containsKey(customerId)){
             log.info("The server has customerId={}", customerId);
             showOrder(customerId, orderId);
         } else{
@@ -71,7 +71,7 @@ public class SseService {
     }
 
     public void updateOrderFromRedis(String customerId, String orderId){
-        if (emitterList.contains(customerId)){
+        if (emitterList.containsKey(customerId)){
             log.info("The server has customerId={}", customerId);
             showOrder(customerId, orderId);
         }
