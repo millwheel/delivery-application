@@ -1,20 +1,19 @@
 package msa.rider.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import msa.rider.dto.order.OrderPartResponseDto;
 import msa.rider.dto.order.OrderResponseDto;
 import msa.rider.dto.rider.RiderPartDto;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
-import msa.rider.service.member.MemberService;
 import msa.rider.sqs.SendingMessageConverter;
 import msa.rider.sqs.SqsService;
 import msa.rider.service.order.OrderService;
+import msa.rider.sse.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +24,14 @@ public class OrderController {
     private final OrderService orderService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
+    private final SseService sseService;
 
     @Autowired
-    public OrderController(OrderService orderService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, SendingMessageConverter sendingMessageConverter, SqsService sqsService, SseService sseService) {
         this.orderService = orderService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
+        this.sseService = sseService;
     }
 
     @GetMapping("/new")
@@ -72,23 +73,19 @@ public class OrderController {
 
     @GetMapping("/my")
     @ResponseStatus(HttpStatus.OK)
-    public List<OrderPartResponseDto> showMyOrderList(@RequestAttribute("cognitoUsername") String riderId){
-        List<Order> orderListOfRider = orderService.getOrderListOfRider(riderId);
-        List<OrderPartResponseDto> orderPartResponseDtoList = new ArrayList<>();
-        orderListOfRider.forEach(order -> {
-            orderPartResponseDtoList.add(new OrderPartResponseDto(order));
-        });
-        return orderPartResponseDtoList;
+    public SseEmitter showMyOrderList(@RequestAttribute("cognitoUsername") String riderId){
+        SseEmitter sseEmitter = sseService.connectForList(riderId);
+        sseService.showOrderList(riderId);
+        return sseEmitter;
     }
 
     @GetMapping("/my/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderResponseDto showOrderInfo(@PathVariable String orderId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        return new OrderResponseDto(orderOptional.get());
+    public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String riderId,
+                                    @PathVariable String orderId){
+        SseEmitter sseEmitter = sseService.connectForInfo(riderId);
+        sseService.showOrderInfo(riderId, orderId);
+        return sseEmitter;
     }
 
     @PutMapping("/my/{orderId}")

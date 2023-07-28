@@ -29,7 +29,7 @@ public class OrderListSubService implements MessageListener {
             String orderId = customerMatchingMessage.getOrderId();
             log.info("message customerId={}", riderId);
             log.info("message orderId={}", orderId);
-            sseService.updateOrderListFromRedis(riderId);
+            sseService.updateOrderFromRedis(riderId, orderId);
         } catch (IOException e) {
             log.error("error occurred={}", e.getMessage());
         }

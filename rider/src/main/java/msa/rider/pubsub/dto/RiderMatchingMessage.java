@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RiderMatchingMessage {
-    private String customerId;
+    private String riderId;
     private String orderId;
 
-    public RiderMatchingMessage(String customerId, String orderId) {
-        this.customerId = customerId;
+    public RiderMatchingMessage(String riderId, String orderId) {
+        this.riderId = riderId;
         this.orderId = orderId;
     }
 }
