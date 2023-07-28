@@ -62,7 +62,7 @@ public class OrderListSseService {
 
     public void updateOrderListFromSqs(String storeId, String orderId){
         if (emitterList.contains(storeId)){
-            log.info("The server has customerId={}", storeId);
+            log.info("The server has storeId={}", storeId);
             showOrderList(storeId);
         } else{
             pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
@@ -71,7 +71,7 @@ public class OrderListSseService {
 
     public void updateOrderListFromRedis(String storeId){
         if (emitterList.contains(storeId)){
-            log.info("The server has customerId={}", storeId);
+            log.info("The server has storeId={}", storeId);
             showOrderList( storeId);
         }
     }

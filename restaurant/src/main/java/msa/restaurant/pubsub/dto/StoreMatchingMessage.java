@@ -11,4 +11,9 @@ import lombok.Setter;
 public class StoreMatchingMessage {
     private String storeId;
     private String orderId;
+
+    public StoreMatchingMessage(String storeId, String orderId) {
+        this.storeId = storeId;
+        this.orderId = orderId;
+    }
 }

@@ -16,9 +16,7 @@ public class PubService {
     }
 
     public void sendMessageToMatchStoreAndOrder(String storeId, String orderId){
-        StoreMatchingMessage storeMatchingMessage = new StoreMatchingMessage();
-        storeMatchingMessage.setStoreId(storeId);
-        storeMatchingMessage.setOrderId(orderId);
+        StoreMatchingMessage storeMatchingMessage = new StoreMatchingMessage(storeId, orderId);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String messageString = objectMapper.writeValueAsString(storeMatchingMessage);
