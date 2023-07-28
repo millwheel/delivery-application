@@ -37,7 +37,7 @@ public class OrderController {
     @GetMapping("/new")
     @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showNewOrderList(@RequestAttribute("cognitoUsername") String riderId){
-        List<Order> orderListNearRider = orderService.getOrderListNearRider(riderId);
+        List<Order> orderListNearRider = orderService.getNewOrderListNearRider(riderId);
         List<OrderPartResponseDto> orderPartResponseDtoList = new ArrayList<>();
         orderListNearRider.forEach(order -> {
             orderPartResponseDtoList.add(new OrderPartResponseDto(order));

@@ -28,7 +28,7 @@ public class OrderService {
         orderRepository.createOrder(order);
     }
 
-    public List<Order> getOrderListNearRider(String riderId){
+    public List<Order> getNewOrderListNearRider(String riderId){
         Rider rider = memberRepository.findById(riderId).get();
         Point location = rider.getLocation();
         return orderRepository.findNewOrderListNearLocation(location);

@@ -92,8 +92,8 @@ public class SseService {
     }
 
     public void updateOrderFromSqs(String riderId, String orderId){
-        if (emitterList.contains(riderId)){
-            log.info("The server has storeId={}", riderId);
+        if (emitterList.containsKey(riderId)){
+            log.info("The server has riderId={}", riderId);
             String request = requestList.get(riderId);
             if (request.equals("list")){
                 showOrderList(riderId);
@@ -106,8 +106,8 @@ public class SseService {
     }
 
     public void updateOrderFromRedis(String riderId, String orderId){
-        if (emitterList.contains(riderId)){
-            log.info("The server has storeId={}", riderId);
+        if (emitterList.containsKey(riderId)){
+            log.info("The server has riderId={}", riderId);
             String request = requestList.get(riderId);
             if (request.equals("list")){
                 showOrderList(riderId);
