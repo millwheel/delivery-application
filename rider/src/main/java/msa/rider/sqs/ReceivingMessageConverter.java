@@ -13,6 +13,7 @@ import msa.rider.entity.order.OrderStatus;
 import msa.rider.service.menu.MenuService;
 import msa.rider.service.order.OrderService;
 import msa.rider.service.store.StoreService;
+import msa.rider.sse.SseService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,14 @@ public class ReceivingMessageConverter {
     private final StoreService storeService;
     private final MenuService menuService;
     private final OrderService orderService;
+    private final SseService sseService;
 
     @Autowired
-    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, SseService sseService) {
         this.storeService = storeService;
         this.menuService = menuService;
         this.orderService = orderService;
+        this.sseService = sseService;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -96,11 +99,14 @@ public class ReceivingMessageConverter {
         if (jsonObject.get("method").equals("request")){
             Order order = convertOrderData(jsonObject);
             orderService.createOrder(order);
+            sseService.updateOrderFromSqs(order.getRiderId(), order.getOrderId());
         }else if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
-            String orderId = (String) data.get("orderId");
+            String orderId = data.getString("orderId");
+            String riderId = data.getString("riderId");
             OrderStatus orderStatus = OrderStatus.valueOf((String) data.get("orderStatus"));
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
+            sseService.updateOrderFromSqs(riderId, orderId);
         }
     }
 
