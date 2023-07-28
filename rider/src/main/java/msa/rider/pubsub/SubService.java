@@ -27,7 +27,7 @@ public class SubService implements MessageListener {
             RiderMatchingMessage customerMatchingMessage = objectMapper.readValue(message.getBody(), RiderMatchingMessage.class);
             String riderId = customerMatchingMessage.getRiderId();
             String orderId = customerMatchingMessage.getOrderId();
-            log.info("message riderId={}, orderId={}", riderId, orderId);
+            log.info("redis sub message: riderId={}, orderId={}", riderId, orderId);
             sseService.updateOrderFromRedis(riderId, orderId);
         } catch (IOException e) {
             log.error("error occurred={}", e.getMessage());

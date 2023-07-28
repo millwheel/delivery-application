@@ -101,6 +101,7 @@ public class SseService {
                 showOrderInfo(riderId, orderId);
             }
         } else{
+            log.info("The server doesn't have riderId={} redis publish is activated", riderId);
             pubService.sendMessageToMatchRider(riderId, orderId);
         }
     }
