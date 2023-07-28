@@ -102,6 +102,7 @@ public class OrderSseService {
                 showOrderInfo(storeId, orderId);
             }
         } else{
+            log.info("The server doesn't have storeId={} redis is publish activated", storeId);
             pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
         }
     }
