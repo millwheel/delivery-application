@@ -69,7 +69,7 @@ public class OrderListSseService {
         }
     }
 
-    public void updateOrderFromRedis(String storeId){
+    public void updateOrderListFromRedis(String storeId){
         if (emitterList.contains(storeId)){
             log.info("The server has customerId={}", storeId);
             showOrderList( storeId);
