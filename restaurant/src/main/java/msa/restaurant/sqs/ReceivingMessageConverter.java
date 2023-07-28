@@ -8,7 +8,7 @@ import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.service.order.OrderService;
-import msa.restaurant.sse.OrderSseService;
+import msa.restaurant.sse.SseService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 public class ReceivingMessageConverter {
 
     private final OrderService orderService;
-    private final OrderSseService orderSseService;
+    private final SseService sseService;
 
-    public ReceivingMessageConverter(OrderService orderService, OrderSseService orderSseService) {
+    public ReceivingMessageConverter(OrderService orderService, SseService sseService) {
         this.orderService = orderService;
-        this.orderSseService = orderSseService;
+        this.sseService = sseService;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -36,7 +36,7 @@ public class ReceivingMessageConverter {
             Order order = convertOrderDataWithCustomDeserializer(data);
             String storeId = order.getStoreId();
             orderService.createOrder(order);
-            orderSseService.updateOrderFromSqs(storeId, order.getOrderId());
+            sseService.updateOrderFromSqs(storeId, order.getOrderId());
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = data.getString("orderId");
@@ -44,14 +44,14 @@ public class ReceivingMessageConverter {
             OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
             RiderPartDto riderPartDto= new ObjectMapper().readValue(data.get("riderData").toString(), RiderPartDto.class);
             orderService.assignRiderToOrder(orderId, orderStatus, riderPartDto);
-            orderSseService.updateOrderFromSqs(storeId, orderId);
+            sseService.updateOrderFromSqs(storeId, orderId);
         } else if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String orderId = data.getString("orderId");
             String storeId = data.getString("storeId");
             OrderStatus orderStatus = data.getEnum(OrderStatus.class,"orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
-            orderSseService.updateOrderFromSqs(storeId, orderId);
+            sseService.updateOrderFromSqs(storeId, orderId);
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
-public class OrderSseService {
+public class SseService {
 
     private final OrderService orderService;
     private final PubService pubService;
@@ -27,7 +27,7 @@ public class OrderSseService {
     private static ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
 
     @Autowired
-    public OrderSseService(OrderService orderService, PubService pubService) {
+    public SseService(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
         this.pubService = pubService;
     }
@@ -102,7 +102,7 @@ public class OrderSseService {
                 showOrderInfo(storeId, orderId);
             }
         } else{
-            log.info("The server doesn't have storeId={} redis is publish activated", storeId);
+            log.info("The server doesn't have storeId={} redis publish is activated", storeId);
             pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
         }
     }

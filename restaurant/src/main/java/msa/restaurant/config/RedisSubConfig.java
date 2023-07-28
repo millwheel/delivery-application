@@ -1,7 +1,7 @@
 package msa.restaurant.config;
 
 import msa.restaurant.pubsub.SubService;
-import msa.restaurant.sse.OrderSseService;
+import msa.restaurant.sse.SseService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -11,16 +11,16 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Configuration
 public class RedisSubConfig {
 
-    private final OrderSseService orderSseService;
+    private final SseService sseService;
     private final RedisConfig redisConfig;
 
-    public RedisSubConfig(OrderSseService orderSseService, RedisConfig redisConfig) {
-        this.orderSseService = orderSseService;
+    public RedisSubConfig(SseService sseService, RedisConfig redisConfig) {
+        this.sseService = sseService;
         this.redisConfig = redisConfig;
     }
 
     MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(new SubService(orderSseService));
+        return new MessageListenerAdapter(new SubService(sseService));
     }
 
     // To use pub sub

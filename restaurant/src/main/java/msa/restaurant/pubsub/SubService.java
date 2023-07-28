@@ -3,7 +3,7 @@ package msa.restaurant.pubsub;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.pubsub.dto.StoreMatchingMessage;
-import msa.restaurant.sse.OrderSseService;
+import msa.restaurant.sse.SseService;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.io.IOException;
 @Service
 public class SubService implements MessageListener {
 
-    private final OrderSseService orderSseService;
+    private final SseService sseService;
 
-    public SubService(OrderSseService orderSseService) {
-        this.orderSseService = orderSseService;
+    public SubService(SseService sseService) {
+        this.sseService = sseService;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SubService implements MessageListener {
             String storeId = storeMatchingMessage.getStoreId();
             String orderId = storeMatchingMessage.getOrderId();
             log.info("redis sub message storeId={}, orderId={}", storeId, orderId);
-            orderSseService.updateOrderFromRedis(storeId, orderId);
+            sseService.updateOrderFromRedis(storeId, orderId);
         } catch (IOException e) {
             log.error("error occurred={}", e.getMessage());
         }

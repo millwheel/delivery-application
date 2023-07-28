@@ -5,7 +5,7 @@ import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.sqs.SqsService;
 import msa.restaurant.service.order.OrderService;
-import msa.restaurant.sse.OrderSseService;
+import msa.restaurant.sse.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,14 +17,14 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderSseService orderSseService;
+    private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, OrderSseService orderSseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
         this.orderService = orderService;
-        this.orderSseService = orderSseService;
+        this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
     }
@@ -32,8 +32,8 @@ public class OrderController {
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderList(@PathVariable String storeId){
-        SseEmitter sseEmitter = orderSseService.connectForList(storeId);
-        orderSseService.showOrderList(storeId);
+        SseEmitter sseEmitter = sseService.connectForList(storeId);
+        sseService.showOrderList(storeId);
         return sseEmitter;
     }
 
@@ -42,8 +42,8 @@ public class OrderController {
     public SseEmitter showOrderInfo(@PathVariable String storeId,
                                     @PathVariable String orderId,
                                     @RequestAttribute("order") Order order){
-        SseEmitter sseEmitter = orderSseService.connectForInfo(storeId);
-        orderSseService.showOrderInfo(storeId, orderId);
+        SseEmitter sseEmitter = sseService.connectForInfo(storeId);
+        sseService.showOrderInfo(storeId, orderId);
         return sseEmitter;
     }
 
