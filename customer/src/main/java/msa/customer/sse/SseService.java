@@ -66,6 +66,7 @@ public class SseService {
             log.info("The server has customerId={}", customerId);
             showOrder(customerId, orderId);
         } else{
+            log.info("The server doesn't have customerId={} redis publish is activated", customerId);
             pubService.sendMessageToMatchCustomer(customerId, orderId);
         }
     }
