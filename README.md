@@ -32,3 +32,36 @@ Each service server doesn't have to consider authentication and authorization pr
 
 ## DB selection
 
+### NoSQL
+
+The delivery application doesn't need to use SQL database.
+Changing order status is the most important part of this project and the query related to order is quite simple. 
+Furthermore, there was little possibility of manipulating multiple queries at the same time so it doesn't need transaction for each service logic. 
+
+NoSQL write/read time is much faster than SQL, 
+that is helpful to improve user experience especially for basket function.
+
+These are why I chose NoSQL for main database. 
+
+### MongoDB
+MongoDB serves DB lock. We can block the concurrent approach the order data
+when the several riders want to take same order at the same time.
+
+## Issue #1  How can we show each order to rider based on its location?
+
+How can the system shows order data for rider based on near-field area?
+It is needed to show only limited order data whose store location is near current rider's location (about within 4km)
+when rider uses application to check new order delivery request.
+
+### MongoDB
+MongoDB serves Geo-spatial query which returns the data based on given location parameters.
+With MongoDB, the implementation to get order information close to specific region is quite simple.
+We can save order data with store location by using spring "Point". 
+When rider send request to get new order near rider's location,
+The server use Geo-spatial query with rider location
+then MongoDB return the order information whose store location is near rider location.
+This is another reason why I chose MongoDB as main Database.
+
+So, all logic to get order information based on location is processed by MongoDB.
+But I will implement service logic to get order information near rider's location without MongoDB later
+
