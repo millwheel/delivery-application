@@ -101,3 +101,81 @@ The solution was quite simple: using well-known location api.
 I chose Kakao developer API to convert address to latitude and longitude.
 This api works flexibly. It treats "서울", "서울시" and "서울특별시" as same information.
 Those words mean really same but have different notation because of Korean grammar.
+
+## Issue #4 How can client get order status update in real time while using app?
+
+The clients(customer, restaurant and rider) should get real time update notification of order status change while they are using app.
+
+There are two options to implement real time update notification.
+First is web-socket, second is server-sent-event. 
+It is shown that the performance of two technologies is quite similar by according to experimental research:
+
+>The performance difference identified between Websockets and SSE is too small to be analyzed. The
+differences could be a result of measurement inaccuracies. In theory, the overhead data would not
+increase with payload size for SSE while it should do that for Websockets. Smaller payloads however
+allow Websockets to send slightly less overhead than SSE. The difference is only a few bytes so a very
+high client amount would be needed for this to possibly be measured and compared. These differences
+are situational and it is concluded that identifying one of them as more performance efficient than the
+other is not doable.
+
+http://www.diva-portal.se/smash/get/diva2:1133465/FULLTEXT01.pdf
+
+I chose server-sent-event because I thought SSE is more appropriate solution for this matter.
+Notification function needs one directional transmission (server -> client).
+It doesn't need bidirectional transmission. 
+SSE data is sent over HTTP. It doesn't need custom protocol.
+It is more simple to implement than websocket.
+
+### SSE Implementation
+
+SSE emitter is included in spring web library.
+This is how server side SSE is implemented in java code.
+
+- controller
+
+```java
+
+    @GetMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String customerId,
+                                    @PathVariable String orderId){
+        SseEmitter sseEmitter = sseService.connect(customerId);
+        sseService.showOrder(customerId, orderId);
+        return sseEmitter;
+    }
+
+```
+
+- service
+
+```java
+
+    ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
+
+    public SseEmitter connect(String customerId) {
+        SseEmitter emitter = new SseEmitter();
+        emitterList.put(customerId, emitter);
+        log.info("new emitter created: {}", emitter);
+        emitter.onCompletion(() -> {
+            emitterList.remove(emitter);
+            log.info("emitter deleted: {}", emitter);
+        });
+        emitter.onTimeout(emitter::complete);
+        try{
+            emitter.send(SseEmitter.event().name("connect").data("connected"));
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+        return emitter;
+    }
+
+```
+
+When client send the request, 
+the server creates sse emitter and store it in server hashmap
+to use it for a follow-up request.
+
+showOrder method finds the emitter saved in server hashmap 
+and uses it to send data by using SSE.
+
+
