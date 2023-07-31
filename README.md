@@ -44,10 +44,21 @@ that is helpful to improve user experience especially for basket function.
 These are why I chose NoSQL for main database. 
 
 ### MongoDB
-MongoDB serves DB lock. We can block the concurrent approach the order data
+MongoDB serves DB lock. By using it, we can block the concurrent approach the order data
 when the several riders want to take same order at the same time.
 
-## Issue #1  How can we show each order to rider based on its location?
+## Issue #1 Why the services are configured separately and use message queue?
+
+Each service(customer, restaurant, rider) has to work independently.
+In case of real production, there would be a possibility of certain server down for some reasons.
+Regardless of whether the restaurant server is working or not,
+customer server should work independently to get order from customer.
+while breakdown of restaurant service, the message queue hold the order information from customer service.
+After quick server recovery, restaurant can get order request from message queue, 
+so there is no need for customer to send request order again. 
+Separation of service and using message queue is really needed for user experience.
+
+## Issue #2  How can we show each order to rider based on its location?
 
 How can the system shows order data for rider based on near-field area?
 It is needed to show only limited order data whose store location is near current rider's location (about within 4km)
