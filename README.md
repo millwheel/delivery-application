@@ -180,4 +180,55 @@ to use it for a follow-up request.
 showOrder method finds the emitter saved in server hashmap 
 and uses it to send data by using SSE.
 
+## Issue #5 Deserialization problem when using message queue
+
+There was error about deserialization when the server get a message from message queue.
+That is because it uses point of spring for its location property. 
+JsonObject library doesn't support type of point class basically. 
+To solve this problem, it is needed to deserialize the json data by using
+object mapper of jackson library. 
+
+Here is example of custom deserialization below.
+
+
+### custom deserialization
+
+```java
+
+public class OrderDeserializer extends StdDeserializer {
+
+    public OrderDeserializer() {
+        this(null);
+    }
+
+    protected OrderDeserializer(Class vc) {
+        super(vc);
+    }
+
+    @Override
+    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+        JsonNode node = p.getCodec().readTree(p);
+        ...
+        double cx = node.get("customerLocation").get("x").asDouble();
+        double cy = node.get("customerLocation").get("y").asDouble();
+        Point customerLocation = new Point(cx, cy);
+        ...
+    }
+}
+
+```
+
+```java
+    public Order convertOrderDataWithCustomDeserializer(JSONObject jsonObject) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Order.class, new OrderDeserializer());
+        objectMapper.registerModule(module);
+        String data = jsonObject.get("data").toString();
+        return objectMapper.readValue(data, Order.class);
+    }
+```
+
+
+## Issue #6 SSE matching problem in scale-out server environment.
 
