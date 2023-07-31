@@ -23,5 +23,12 @@ Each service(customer, restaurant, rider) treats order information commonly,
 sending the order status to each service without being affected by responses from other services. 
 That is why every service is connected by message queue.
 
-![img_1.png](document/image/system_architecture.png)
+![img.png](document/image/System_structure.png)
+
+It is assumed that this project will use API gateway such as AWS API gateway.
+The API gateway is connected to user authentication service like Cognito.
+The responsibility of every authentication and authorization will be taken by Cognito and API gateway.
+Each service server doesn't have to consider authentication and authorization process.
+
+## DB selection
 
