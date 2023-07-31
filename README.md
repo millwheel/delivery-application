@@ -1,24 +1,20 @@
 # delivery-application
 
-This is delivery application which has three types of client (customer, restaurant, rider)  
-This is kind of full service that can handle peak RPS up to 10000.
+## Summary
+This is toy project implementing application for food delivery system.
+The server serves three type of clients (customer, restaurant, rider).
+This system produces basic function of delivery system, that is ordering menu. 
+If a customer sends food delivery order, the restaurant can accept or deny the order.
+If the restaurant accepts the order, it can be chosen by a rider for delivery.
+Order status is going to be changed according to the present situation.
 
-Now project is under the task of AWS setting.
+For your information, this project was implemented focusing on basic ordering function.
+It doesn't have any coupon, event, discount and review system. 
+Don't treat this project as real app. 
+Hope you treat it as reference for making delivery ordering system. 
+
 
 ## System structure
 
-### Rough design
-![rough_design](/document/image/rough_design.PNG)
+The whole system is consist of microservice architecture using message queue to communicate with each service.
 
-### Specific design considering AWS
-![specific_design](/document/image/specific_design.PNG)
-
-## DB Selection
-
-### NoSQL
-
-Key-value DB is fast and simple but not good for the complex data type which this project need. Graph DB is good for graph network structure which is not needed for this project. We choose Document DB and Column Oriented DB for our DB. MongoDB for DocumentDB and Cassandra for Columnar DB.
-
-### CAP theory
-Following CAP theory, Mongo DB is CP database. It has consistency and partition tolerence. Consistency is important for restaurant service and rider service because their action to change order state can be occured at the same time. Blocking the write action from another subject when it try to write to change the order state is essential because concurrent writing may cause different result randomly. We use mongoDB for restaurant application and rider application. 
-Cassandra is AP database. It focus on Availibility rather than consistency. Availibility is needed for customer service because the application has shopping basket. There may be a lot of write action (add, delete, update) so write/read latency is so important for shopping basket. Cassandra has multi-master structure so its read/write latency is absolutely lower than mongoDB(document DB). we choose cassandra for customer application.
