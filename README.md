@@ -1,5 +1,7 @@
 # delivery-application
 
+![delivery_icon.PNG](document%2Fimage%2Fdelivery_icon.PNG)
+
 ## Summary
 This is a toy project implementing application for food delivery system.
 The server serves three type of clients (customer, restaurant, rider).
@@ -21,5 +23,5 @@ Each service(customer, restaurant, rider) treats order information commonly,
 sending the order status to each service without being affected by responses from other services. 
 That is why every service is connected by message queue.
 
-![img.png](document/image/system_architecture.png)
+![img_1.png](document/image/system_architecture.png)
 
