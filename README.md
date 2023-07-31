@@ -76,6 +76,15 @@ This is another reason why I chose MongoDB as main Database.
 So, all logic to get order information based on location is processed by MongoDB.
 But I will implement service logic to get order information near rider's location without MongoDB later
 
+Here is example code of Spring Data geolocation query method
+
+```java
+public interface SpringDataMongoOrderRepository extends MongoRepository<Order, String> {
+    List<Order> findByStoreLocationNearAndOrderStatusIs(Point location, OrderStatus orderStatus);
+}
+```
+
+
 ## Issue #3 How can we get latitude and longitude?
 
 To use MongoDB Geo-spatial query, we should use point class of spring framework.
@@ -245,11 +254,89 @@ The solution, however, that I choose is redis pub/sub function which is quite li
 
 ![img.png](document/image/Redis_pubsub.png)
 
+
+Spring Data Redis serves MessageListener interface. 
+we can implement subscriber function of redis by using it. 
+
+```java
+public class SubService implements MessageListener {
+
+    private final SseService sseService;
+
+    public SubService(SseService sseService) {
+        this.sseService = sseService;
+    }
+
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            RiderMatchingMessage customerMatchingMessage = objectMapper.readValue(message.getBody(), RiderMatchingMessage.class);
+            String riderId = customerMatchingMessage.getRiderId();
+            String orderId = customerMatchingMessage.getOrderId();
+            log.info("redis sub message: riderId={}, orderId={}", riderId, orderId);
+            sseService.updateOrderFromRedis(riderId, orderId);
+        } catch (IOException e) {
+            log.error("error occurred={}", e.getMessage());
+        }
+    }
+}
+```
+And publisher function can be implemented by using RedisTemplate.
+
+```java
+public class PubService {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public PubService(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public void sendMessageToMatchRider(String riderId, String orderId) {
+        RiderMatchingMessage customerMatchingMessage = new RiderMatchingMessage(riderId, orderId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String messageString = objectMapper.writeValueAsString(customerMatchingMessage);
+            redisTemplate.convertAndSend("rider-matching", messageString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+
+
+
 After receiving order status change message from queue,
 the server checks if it has the id as key in the server hashmap.
 If it doesn't have the key in hashmap, the server publishes the client id and order id to redis which works as message broker here.
+
+Below is the code to check if the server has id as key in hashmap.
+
+```java
+    public void updateOrderFromSqs(String customerId, String orderId){
+        if (emitterList.containsKey(customerId)){
+            log.info("The server has customerId={}", customerId);
+            showOrder(customerId, orderId);
+        } else{
+            log.info("The server doesn't have customerId={} redis publish is activated", customerId);
+            pubService.sendMessageToMatchCustomer(customerId, orderId);
+        }
+    }
+```
+
 The redis broadcasts the data to all server in service(customer, restaurant, rider).
 Every server in same service subscribe same topic in redis so that they can receive same id data.
-By then, the server who has the key of emitter for SSE which means the client continuously see the order info page 
+By then, the server who has the key of emitter for SSE which means the client continuously see the order info page
 send notification about order status update to its client.
+If server doesn't have the key in its hashmap, it simply abandons message.
 
+```java
+    public void updateOrderFromRedis(String customerId, String orderId){
+        if (emitterList.containsKey(customerId)){
+            log.info("The server has customerId={}", customerId);
+            showOrder(customerId, orderId);
+        }
+    }
+```
