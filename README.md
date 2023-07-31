@@ -188,7 +188,7 @@ JsonObject library doesn't support type of point class basically.
 To solve this problem, it is needed to deserialize the json data by using
 object mapper of jackson library. 
 
-Here is example of custom deserialization below.
+Here is example of use of custom deserializer below.
 
 
 ### custom deserialization
@@ -218,6 +218,8 @@ public class OrderDeserializer extends StdDeserializer {
 
 ```
 
+in receiving message function
+
 ```java
     public Order convertOrderDataWithCustomDeserializer(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -231,4 +233,23 @@ public class OrderDeserializer extends StdDeserializer {
 
 
 ## Issue #6 SSE matching problem in scale-out server environment.
+
+There was problem related to SSE matching.
+In scaled-out server environment, Each server has its own hashmap holding emitter value and client id key. 
+When receiving event message from message queue,
+the server has to notify client a real time update of order status in case of the client continuously staying in the order information page.
+The problem is there is no way for each server to know which server has the right emitter key(client id) in its hash map.
+
+Many solution are available. We can use zookeeper for server to communicate with other servers to notify event just received.
+The solution, however, that I choose is redis pub/sub function which is quite light and simple solution.
+
+![img.png](document/image/Redis_pubsub.png)
+
+After receiving order status change message from queue,
+the server checks if it has the id as key in the server hashmap.
+If it doesn't have the key in hashmap, the server publishes the client id and order id to redis which works as message broker here.
+The redis broadcasts the data to all server in service(customer, restaurant, rider).
+Every server in same service subscribe same topic in redis so that they can receive same id data.
+By then, the server who has the key of emitter for SSE which means the client continuously see the order info page 
+send notification about order status update to its client.
 
