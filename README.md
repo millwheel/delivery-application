@@ -13,8 +13,7 @@ Order status is going to be changed according to the present situation.
 For your information, this project was implemented focusing on basic ordering function.
 It doesn't have any coupon, event, discount and review system. 
 Don't treat this project as real app. 
-Hope you treat it as reference for making delivery ordering system. 
-
+Hope you treat it as reference for making delivery ordering system.
 
 ## System structure
 
@@ -29,6 +28,10 @@ It is assumed that this project will use API gateway such as AWS API gateway.
 The API gateway is connected to user authentication service like Cognito.
 The responsibility of every authentication and authorization will be taken by Cognito and API gateway.
 Each service server doesn't have to consider authentication and authorization process.
+
+You can see more information about system architecture consideration from here. 
+It is written in Korean.
+https://bit.ly/4266S28
 
 ## DB selection
 
