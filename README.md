@@ -102,6 +102,8 @@ I chose Kakao developer API to convert address to latitude and longitude.
 This api works flexibly. It treats "서울", "서울시" and "서울특별시" as same information.
 Those words mean really same but have different notation because of Korean grammar.
 
+https://developers.kakao.com/docs/latest/ko/local/dev-guide
+
 ## Issue #4 How can client get order status update in real time while using app?
 
 The clients(customer, restaurant and rider) should get real time update notification of order status change while they are using app.
