@@ -36,7 +36,7 @@ Each service server doesn't have to consider authentication and authorization pr
 
 The delivery application doesn't need to use SQL database.
 Changing order status is the most important part of this project and the query related to order is quite simple. 
-Furthermore, there was little possibility of manipulating multiple queries at the same time so it doesn't need transaction for each service logic. 
+Furthermore, there was little possibility of manipulating multiple queries at the same time, so it doesn't need transaction for each service logic. 
 
 NoSQL write/read time is much faster than SQL, 
 that is helpful to improve user experience especially for basket function.
@@ -76,3 +76,28 @@ This is another reason why I chose MongoDB as main Database.
 So, all logic to get order information based on location is processed by MongoDB.
 But I will implement service logic to get order information near rider's location without MongoDB later
 
+## Issue #3 How can we get latitude and longitude?
+
+To use MongoDB Geo-spatial query, we should use point class of spring framework.
+Point class is simple. It has two properties, latitude and longitude.
+
+```java
+public class Point implements Serializable {
+
+    private final double x;
+    private final double y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+
+The problem is the system don't have the latitude and longitude information of clients.
+There is no b2c application in the world that requires the client to put their latitude and longitude information.
+
+The solution was quite simple: using well-known location api. 
+I chose Kakao developer API to convert address to latitude and longitude.
+This api works flexibly. It treats "서울", "서울시" and "서울특별시" as same information.
+Those words mean really same but have different notation because of Korean grammar.
