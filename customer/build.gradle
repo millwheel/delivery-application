@@ -21,13 +21,15 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// --mongodb--
+	// --db--
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra:3.1.2'
 	// --redis--
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'redis.clients:jedis'
-	// --aws sqs--
+	// --aws--
 	implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.472'
+	implementation 'com.amazonaws:aws-java-sdk-keyspaces:1.12.512'
 	// --json--
 	implementation 'org.json:json:20230227'
 	// --lombok--

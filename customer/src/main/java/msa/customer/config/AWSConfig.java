@@ -4,6 +4,8 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.keyspaces.AmazonKeyspaces;
+import com.amazonaws.services.keyspaces.AmazonKeyspacesClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,13 @@ public class AWSConfig {
     @Bean
     public AmazonSQS amazonSQSClient(){
         return AmazonSQSClientBuilder.standard().withCredentials(awsCredentialsProvider())
+                .withRegion(awsRegion).build();
+    }
+
+    // Cassandra db configuration
+    @Bean
+    public AmazonKeyspaces amazonKeyspaces(){
+        return AmazonKeyspacesClientBuilder.standard().withCredentials(awsCredentialsProvider())
                 .withRegion(awsRegion).build();
     }
 }
