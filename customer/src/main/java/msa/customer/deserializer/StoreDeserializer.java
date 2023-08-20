@@ -11,6 +11,7 @@ import org.springframework.data.geo.Point;
 
 import java.io.IOException;
 
+// (Q) Custom deserializer를 구현한 이유가 무엇인가요? Jackson 등의 serializer를 사용하기 어려운 부분이 있나요?
 public class StoreDeserializer extends StdDeserializer {
 
     public StoreDeserializer(){
