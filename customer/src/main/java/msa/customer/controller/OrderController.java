@@ -62,7 +62,7 @@ public class OrderController {
             + getOrderList는 Optional이 아닌 List<Order> 타입을 반환하면 좋을 것 같습니다
         */
         return orderService.getOrderList(customerId)
-            .orElseThrow()
+            .orElseGet(ArrayList::new)
             .stream()
             .map(OrderPartResponseDto::new)
             .collect(Collectors.toList());
