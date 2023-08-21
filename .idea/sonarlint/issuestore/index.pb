@@ -1,0 +1,23 @@
+
+i
+9customer/src/main/java/msa/customer/config/AWSConfig.java,6/e/6e753b908849860774935cd0d402b9f1595ef698
+u
+Ecustomer/src/main/java/msa/customer/dto/basket/BasketResponseDto.java,a/f/afff1bc2971d48b931f34345370f901541b95e37
+n
+>customer/src/main/java/msa/customer/entity/store/FoodKind.java,3/4/345b60259c86c7bd08c07bd417f1a82380716b30
+v
+Fcustomer/src/main/java/msa/customer/sqs/ReceivingMessageConverter.java,d/9/d93c65232997c385727225d4b792afade3ecaa19
+w
+Gcustomer/src/main/java/msa/customer/dto/store/StorePartResponseDto.java,1/9/19545c73eed822baa8c051781f81f22bb82f0577
+t
+Dcustomer/src/main/java/msa/customer/controller/BasketController.java,9/e/9ec9544b6bee1c97658a657d3c4386ab4b701465
+{
+Kcustomer/src/main/java/msa/customer/repository/member/MemberRepository.java,4/4/44e24af6cdd004692e0af739fa59d9e74844d050
+o
+?restaurant/src/main/java/msa/restaurant/entity/store/Store.java,e/6/e6bcbe764ac25ebbe8dd63c34487899062ca38f6
+w
+Gcustomer/src/main/java/msa/customer/deserializer/StoreDeserializer.java,0/4/0459aa4de64061f7a7f0bf339335e236f4505609
+s
+Ccustomer/src/main/java/msa/customer/dto/store/StoreResponseDto.java,3/8/3864c000cb6b1794b5641abca89bc5587490768b
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
