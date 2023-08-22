@@ -53,8 +53,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestAttribute("cognitoUsername") String customerId,
-                            HttpServletResponse response) throws IOException {
+    public void createOrder(@RequestAttribute("cognitoUsername") String customerId) {
         String orderId = orderService.createOrder(customerId, customerId);
         Optional<Order> orderOptional = orderService.getOrder(orderId);
         if(orderOptional.isEmpty()){
