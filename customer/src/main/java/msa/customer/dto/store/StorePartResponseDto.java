@@ -18,6 +18,6 @@ public class StorePartResponseDto {
         storeId = store.getStoreId();
         name = store.getName();
         introduction = store.getIntroduction();
-        open = store.isOpen();
+        open = store.getOpen();
     }
 }
