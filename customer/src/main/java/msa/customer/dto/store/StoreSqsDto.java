@@ -18,8 +18,9 @@ public class StoreSqsDto {
     private String addressDetail;
     private Point location;
     private String introduction;
+    private Boolean open;
 
-    public StoreSqsDto(String storeId, String name, FoodKind foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction) {
+    public StoreSqsDto(String storeId, String name, FoodKind foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction, Boolean open) {
         this.storeId = storeId;
         this.name = name;
         this.foodKind = foodKind;
@@ -28,5 +29,6 @@ public class StoreSqsDto {
         this.addressDetail = addressDetail;
         this.location = location;
         this.introduction = introduction;
+        this.open = open;
     }
 }

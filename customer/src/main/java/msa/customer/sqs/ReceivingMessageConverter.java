@@ -69,9 +69,9 @@ public class ReceivingMessageConverter {
 
     public StoreSqsDto convertStoreData(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-//        SimpleModule module = new SimpleModule();
-//        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
-//        objectMapper.registerModule(module);
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
+        objectMapper.registerModule(module);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, StoreSqsDto.class);
     }

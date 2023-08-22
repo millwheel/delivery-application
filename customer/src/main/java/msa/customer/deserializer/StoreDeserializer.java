@@ -33,6 +33,7 @@ public class StoreDeserializer extends StdDeserializer {
         double y = node.get("location").get("y").asDouble();
         Point location = new Point(x, y);
         String introduction = node.get("introduction").asText();
-        return new StoreSqsDto(storeId, name, foodKind, phoneNumber, address, addressDetail, location, introduction);
+        Boolean open = node.get("open").asBoolean();
+        return new StoreSqsDto(storeId, name, foodKind, phoneNumber, address, addressDetail, location, introduction, open);
     }
 }
