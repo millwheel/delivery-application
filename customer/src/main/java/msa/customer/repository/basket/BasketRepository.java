@@ -8,6 +8,6 @@ public interface BasketRepository {
     String createBasket(Basket basket);
     Optional<Basket> readBasket(String basketId);
     void updateBasket(Basket basket);
-    void deleteMenu(String basketId, String menuId);
+    int deleteMenu(String basketId, String menuId);
     void deleteBasket(String basketId);
 }

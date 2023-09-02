@@ -31,11 +31,8 @@ public class BasketController {
     public BasketResponseDto showBasketMenu(@RequestAttribute("cognitoUsername") String customerId){
         // Use customerId as basketId
         String basketId = customerId;
-        Optional<Basket> basketOptional = basketService.getBasket(basketId);
-        if (basketOptional.isEmpty()){
-            throw new NullPointerException("Basket is empty");
-        }
-        return new BasketResponseDto(basketOptional.get());
+        Basket basket = basketService.getBasket(basketId);
+        return new BasketResponseDto(basket);
     }
 
     @DeleteMapping("/basket/{menuId}")
@@ -44,13 +41,6 @@ public class BasketController {
                                       @PathVariable String menuId) {
         // Use customerId as basketId
         String basketId = customerId;
-        Optional<Basket> basketOptional = basketService.getBasket(basketId);
-        if (basketOptional.isEmpty()){
-            throw new NullPointerException("Basket is empty");
-        }
-        if(menuService.getMenu(menuId).isEmpty()){
-            throw new NullPointerException("Menu doesn't exist.");
-        }
         basketService.deleteMenuFromBasket(basketId, menuId);
     }
 
@@ -59,10 +49,6 @@ public class BasketController {
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId){
         // Use customerId as basketId
         String basketId = customerId;
-        Optional<Basket> basketOptional = basketService.getBasket(basketId);
-        if (basketOptional.isEmpty()){
-            throw new NullPointerException("Basket is empty");
-        }
         basketService.deleteAllInBasket(basketId);
     }
 

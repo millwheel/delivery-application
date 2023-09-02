@@ -5,7 +5,6 @@ import msa.customer.entity.basket.MenuInBasket;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,18 +38,14 @@ public class MongoBasketRepository implements BasketRepository{
     }
 
     @Override
-    public void deleteMenu(String basketId, String menuId) {
-        repository.findById(basketId).ifPresent(basket -> {
-            List<MenuInBasket> menuInBasketList = basket.getMenuInBasketList();
-            Optional<MenuInBasket> menuInBasketOptional = menuInBasketList.stream().filter(m -> m.getMenuId().equals(menuId)).findAny();
-            if (menuInBasketOptional.isEmpty()){
-                throw new RuntimeException("wrong menu id");
-            }
-            MenuInBasket menuInBasket = menuInBasketOptional.get();
-            menuInBasketList.remove(menuInBasket);
-            basket.setMenuInBasketList(menuInBasketList);
-            repository.save(basket);
-        });
+    public int deleteMenu(String basketId, String menuId) {
+        Basket basket = repository.findById(basketId).orElseThrow();
+        List<MenuInBasket> menusInBasket = basket.getMenuInBasketList();
+        MenuInBasket menuInBasket = menusInBasket.stream().filter(element -> element.getMenuId().equals(menuId)).findAny().orElseThrow();
+        menusInBasket.remove(menuInBasket);
+        basket.setMenuInBasketList(menusInBasket);
+        repository.save(basket);
+        return menusInBasket.size();
     }
 
     @Override

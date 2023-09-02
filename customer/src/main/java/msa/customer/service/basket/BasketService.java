@@ -84,23 +84,19 @@ public class BasketService {
         return basket;
     }
 
-    public Optional<Basket> getBasket(String basketId){
-        return basketRepository.readBasket(basketId);
+    public Basket getBasket(String basketId){
+        return basketRepository.readBasket(basketId).orElseThrow();
     }
 
     public void deleteMenuFromBasket(String basketId, String menuId){
-        List<MenuInBasket> menuInBasketList = basketRepository.readBasket(basketId).get().getMenuInBasketList();
-        if (menuInBasketList.size() == 1){
+        int basketSize = basketRepository.deleteMenu(basketId, menuId);
+        if (basketSize == 0){
             basketRepository.deleteBasket(basketId);
-        }
-        else{
-            basketRepository.deleteMenu(basketId, menuId);
         }
     }
 
     public void deleteAllInBasket(String basketId){
         basketRepository.deleteBasket(basketId);
     }
-
 
 }
