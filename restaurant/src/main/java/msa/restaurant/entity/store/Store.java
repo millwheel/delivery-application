@@ -22,7 +22,7 @@ public class Store {
     private String addressDetail;
     private Point location;
     private String introduction;
-    private boolean open;
+    private Boolean open;
     @Indexed
     private String managerId;
 }

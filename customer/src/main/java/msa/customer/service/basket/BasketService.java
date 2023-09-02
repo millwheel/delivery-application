@@ -47,11 +47,7 @@ public class BasketService {
     }
 
     public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
-        Optional<Menu> menuOptional = menuRepository.readMenu(menuId);
-        if (menuOptional.isEmpty()){
-            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
-        }
-        Menu menu = menuOptional.get();
+        Menu menu = menuRepository.readMenu(menuId).orElseThrow();
         String menuName = menu.getName();
         int eachPrice = menu.getPrice();
         int menuPrice = countAdd * eachPrice;

@@ -23,34 +23,27 @@ public class MenuController {
 
     private final MenuService menuService;
     private final BasketService basketService;
-    private final StoreService storeService;
 
-    public MenuController(MenuService menuService, BasketService basketService, StoreService storeService) {
+    public MenuController(MenuService menuService, BasketService basketService) {
         this.menuService = menuService;
         this.basketService = basketService;
-        this.storeService = storeService;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<MenuPartResponseDto> showMenuList (@PathVariable String storeId){
-        List<Menu> menuList = menuService.getMenuList(storeId);
-        List<MenuPartResponseDto> menuPartList = new ArrayList<>();
-        menuList.forEach(menu -> {
-            MenuPartResponseDto menuPartResponseDto = new MenuPartResponseDto(menu);
-            menuPartList.add(menuPartResponseDto);
+        List<Menu> menus = menuService.getMenuList(storeId);
+        List<MenuPartResponseDto> menusDto = new ArrayList<>();
+        menus.forEach(menu -> {
+            menusDto.add(new MenuPartResponseDto(menu));
         });
-        return menuPartList;
+        return menusDto;
     }
 
     @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public MenuResponseDto showMenu(@PathVariable String menuId){
-        Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isEmpty()){
-            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
-        }
-        Menu menu = menuOptional.get();
+        Menu menu = menuService.getMenu(menuId);
         return new MenuResponseDto(menu);
     }
 
@@ -60,9 +53,6 @@ public class MenuController {
                             @PathVariable String storeId,
                             @PathVariable String menuId,
                             @RequestBody int menuCount) {
-        if(menuService.getMenu(menuId).isEmpty()){
-            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
-        }
         if (menuCount == 0){
             throw new IllegalArgumentException("Menu count should not be zero.");
         }

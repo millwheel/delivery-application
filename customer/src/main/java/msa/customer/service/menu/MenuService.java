@@ -26,8 +26,8 @@ public class MenuService {
         menuRepository.createMenu(menu);
     }
 
-    public Optional<Menu> getMenu(String menuId){
-        return menuRepository.readMenu(menuId);
+    public Menu getMenu(String menuId){
+        return menuRepository.readMenu(menuId).orElseThrow();
     }
 
     public List<Menu> getMenuList(String storeId){

@@ -18,7 +18,7 @@ public class StoreSqsDto {
     private String addressDetail;
     private Point location;
     private String introduction;
-    private boolean open;
+    private Boolean open;
 
     public StoreSqsDto(Store store){
         storeId = store.getStoreId();
@@ -29,6 +29,6 @@ public class StoreSqsDto {
         addressDetail = store.getAddressDetail();
         location = store.getLocation();
         introduction = store.getIntroduction();
-        open = store.isOpen();
+        open = store.getOpen();
     }
 }
