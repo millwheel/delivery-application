@@ -77,7 +77,7 @@ public class OrderService {
         return order;
     }
 
-    public Optional<List<Order>> getOrderList(String customerId){
+    public List<Order> getOrderList(String customerId){
         return orderRepository.readOrderList(customerId);
     }
 

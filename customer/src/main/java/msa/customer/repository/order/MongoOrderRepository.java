@@ -5,6 +5,7 @@ import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +30,8 @@ public class MongoOrderRepository implements OrderRepository{
     }
 
     @Override
-    public Optional<List<Order>> readOrderList(String customerId) {
-        return repository.findByCustomerId(customerId);
+    public List<Order> readOrderList(String customerId) {
+        return repository.findByCustomerId(customerId).orElse(new ArrayList<>());
     }
 
     @Override

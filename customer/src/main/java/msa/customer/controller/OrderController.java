@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -41,12 +42,7 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String customerId) {
-        List<Order> orderList = orderService.getOrderList(customerId).orElseGet(ArrayList::new);
-        List<OrderPartResponseDto> orderPartInfoList = new ArrayList<>();
-        orderList.forEach(order -> {
-            orderPartInfoList.add(new OrderPartResponseDto(order));
-        });
-        return orderPartInfoList;
+        return orderService.getOrderList(customerId).stream().map(OrderPartResponseDto::new).collect(Collectors.toList());
     }
 
     @PostMapping
