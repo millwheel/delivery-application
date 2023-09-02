@@ -1,7 +1,7 @@
 package msa.customer.config;
 
 import msa.customer.pubsub.SubService;
-import msa.customer.sse.SseService;
+import msa.customer.sse.ServerSentEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -11,17 +11,17 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Configuration
 public class RedisSubConfig {
 
-    private final SseService sseService;
+    private final ServerSentEvent serverSentEvent;
     private final RedisConfig redisConfig;
 
-    public RedisSubConfig(SseService sseService, RedisConfig redisConfig) {
-        this.sseService = sseService;
+    public RedisSubConfig(ServerSentEvent serverSentEvent, RedisConfig redisConfig) {
+        this.serverSentEvent = serverSentEvent;
         this.redisConfig = redisConfig;
     }
 
     @Bean
     MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(new SubService(sseService));
+        return new MessageListenerAdapter(new SubService(serverSentEvent));
     }
 
     // To use pub sub

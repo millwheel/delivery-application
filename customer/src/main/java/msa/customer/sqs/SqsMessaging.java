@@ -6,11 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @Slf4j
-public class SqsService {
+public class SqsMessaging {
 
     @Value("${aws.sqs.url.customer}")
     private String customerSqsUrl;
@@ -22,7 +22,7 @@ public class SqsService {
     private final AmazonSQS amazonSQSClient;
     private final ReceivingMessageConverter receivingMessageConverter;
 
-    public SqsService(AmazonSQS amazonSQSClient, ReceivingMessageConverter receivingMessageConverter) {
+    public SqsMessaging(AmazonSQS amazonSQSClient, ReceivingMessageConverter receivingMessageConverter) {
         this.amazonSQSClient = amazonSQSClient;
         this.receivingMessageConverter = receivingMessageConverter;
     }

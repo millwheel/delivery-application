@@ -12,7 +12,7 @@ import msa.customer.service.menu.MenuService;
 import msa.customer.service.order.OrderService;
 import msa.customer.service.store.StoreService;
 import msa.customer.deserializer.StoreDeserializer;
-import msa.customer.sse.SseService;
+import msa.customer.sse.ServerSentEvent;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +24,14 @@ public class ReceivingMessageConverter {
     private final StoreService storeService;
     private final MenuService menuService;
     private final OrderService orderService;
-    private final SseService sseService;
+    private final ServerSentEvent serverSentEvent;
 
     @Autowired
-    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, SseService sseService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, ServerSentEvent serverSentEvent) {
         this.storeService = storeService;
         this.menuService = menuService;
         this.orderService = orderService;
-        this.sseService = sseService;
+        this.serverSentEvent = serverSentEvent;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -103,7 +103,7 @@ public class ReceivingMessageConverter {
             String orderId = data.getString("orderId");
             OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
-            sseService.updateOrderFromSqs(customerId, orderId);
+            serverSentEvent.updateOrderFromSqs(customerId, orderId);
         } else if (jsonObject.get("method").equals("assign")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
             String customerId = data.getString("customerId");
@@ -111,7 +111,7 @@ public class ReceivingMessageConverter {
             OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
             RiderPartDto riderPartDto= new ObjectMapper().readValue(data.get("riderData").toString(), RiderPartDto.class);
             orderService.assignRiderToOrder(orderId, orderStatus, riderPartDto);
-            sseService.updateOrderFromSqs(customerId, orderId);
+            serverSentEvent.updateOrderFromSqs(customerId, orderId);
         }
     }
 }

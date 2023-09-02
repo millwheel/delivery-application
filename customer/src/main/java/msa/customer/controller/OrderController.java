@@ -1,21 +1,17 @@
 package msa.customer.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.service.MessageService;
 import msa.customer.service.basket.BasketService;
-import msa.customer.sqs.ReceivingMessageConverter;
-import msa.customer.sqs.SendingMessageConverter;
 import msa.customer.dto.order.OrderPartResponseDto;
 import msa.customer.entity.order.Order;
 import msa.customer.service.order.OrderService;
-import msa.customer.sqs.SqsService;
-import msa.customer.sse.SseService;
+import msa.customer.sse.ServerSentEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,21 +19,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/customer/order")
+@AllArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final BasketService basketService;
-    private final SqsService sqsService;
-    private final SseService sseService;
-    private final SendingMessageConverter sendingMessageConverter;
-
-    public OrderController(OrderService orderService, BasketService basketService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter) {
-        this.orderService = orderService;
-        this.basketService = basketService;
-        this.sqsService = sqsService;
-        this.sseService = sseService;
-        this.sendingMessageConverter = sendingMessageConverter;
-    }
+    private final MessageService messageService;
+    private final ServerSentEvent serverSentEvent;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -54,8 +42,7 @@ public class OrderController {
             throw new RuntimeException("Can't create order");
         }
         Order order = orderOptional.get();
-        String messageToCreateOrder = sendingMessageConverter.createMessageToCreateOrder(order);
-        sqsService.sendToRestaurant(messageToCreateOrder);
+        messageService.SendOrderMessage(order);
         basketService.deleteAllInBasket(customerId);
     }
 
@@ -63,8 +50,8 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderInfo(@RequestAttribute("cognitoUsername") String customerId,
                                     @PathVariable String orderId){
-        SseEmitter sseEmitter = sseService.connect(customerId);
-        sseService.showOrder(customerId, orderId);
+        SseEmitter sseEmitter = serverSentEvent.connect(customerId);
+        serverSentEvent.showOrder(customerId, orderId);
         return sseEmitter;
     }
 }

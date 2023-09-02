@@ -6,7 +6,7 @@ import msa.customer.entity.order.Order;
 import msa.customer.pubsub.PubService;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -14,15 +14,15 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Service
-public class SseService {
+@Component
+public class ServerSentEvent {
 
     private final OrderService orderService;
     private final PubService pubService;
     ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     @Autowired
-    public SseService(OrderService orderService, PubService pubService) {
+    public ServerSentEvent(OrderService orderService, PubService pubService) {
         this.orderService = orderService;
         this.pubService = pubService;
     }
