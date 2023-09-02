@@ -57,11 +57,9 @@ public class MenuController {
     @PostMapping("/{menuId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addToBasket(@RequestAttribute("cognitoUsername") String customerId,
-                            @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
                             @PathVariable String menuId,
-                            @RequestBody int menuCount,
-                            HttpServletResponse response) {
+                            @RequestBody int menuCount) {
         if(menuService.getMenu(menuId).isEmpty()){
             throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }

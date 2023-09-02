@@ -39,10 +39,7 @@ public class BasketController {
     @DeleteMapping("/basket/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenuFromBasket (@RequestAttribute("cognitoUsername") String customerId,
-                                      @PathVariable FoodKind foodKind,
-                                      @PathVariable String storeId,
-                                      @PathVariable String menuId,
-                                      HttpServletResponse response) {
+                                      @PathVariable String menuId) {
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
@@ -55,10 +52,7 @@ public class BasketController {
 
     @DeleteMapping("/basket")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
-                            @PathVariable FoodKind foodKind,
-                            @PathVariable String storeId,
-                            HttpServletResponse response){
+    public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId){
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");

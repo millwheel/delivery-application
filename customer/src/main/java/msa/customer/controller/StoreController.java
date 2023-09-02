@@ -32,8 +32,7 @@ public class StoreController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
-                                                    @PathVariable FoodKind foodKind,
-                                                    HttpServletResponse response){
+                                                    @PathVariable FoodKind foodKind){
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             throw new NullPointerException("Customer has no location information.");

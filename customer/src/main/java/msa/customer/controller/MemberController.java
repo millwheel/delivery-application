@@ -33,8 +33,7 @@ public class MemberController {
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
-                              @RequestBody CustomerRequestDto data,
-                              HttpServletResponse response) {
+                              @RequestBody CustomerRequestDto data) {
         memberService.updateCustomer(id, data);
     }
 }
