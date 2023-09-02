@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,7 @@ public class OrderService {
         this.storeRepository = storeRepository;
     }
 
-    public String createOrder(String customerId, String basketId){
+    public Order createOrder(String customerId, String basketId){
         Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket doesn't exist.");
@@ -81,8 +82,8 @@ public class OrderService {
         return orderRepository.readOrderList(customerId);
     }
 
-    public Optional<Order> getOrder(String orderId){
-        return orderRepository.readOrder(orderId);
+    public Order getOrder(String orderId){
+        return orderRepository.readOrder(orderId).orElseThrow(() -> new NullPointerException());
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){

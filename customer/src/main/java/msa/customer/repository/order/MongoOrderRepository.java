@@ -19,9 +19,8 @@ public class MongoOrderRepository implements OrderRepository{
     }
 
     @Override
-    public String createOrder(Order order) {
-        Order savedOrder = repository.save(order);
-        return savedOrder.getOrderId();
+    public Order createOrder(Order order) {
+        return repository.save(order);
     }
 
     @Override

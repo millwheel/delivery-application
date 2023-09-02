@@ -45,11 +45,7 @@ public class ServerSentEvent {
     }
 
     public void showOrder(String customerId, String orderId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("order doesn't exist.");
-        }
-        Order order = orderOptional.get();
+        Order order = orderService.getOrder(orderId);
         if (!customerId.equals(order.getCustomerId())){
             throw new IllegalCallerException("This order doesn't belong to the customer");
         }

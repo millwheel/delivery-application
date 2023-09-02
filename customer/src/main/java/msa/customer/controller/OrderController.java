@@ -36,14 +36,11 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestAttribute("cognitoUsername") String customerId) {
-        String orderId = orderService.createOrder(customerId, customerId);
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if(orderOptional.isEmpty()){
-            throw new RuntimeException("Can't create order");
-        }
-        Order order = orderOptional.get();
+        // Use customerId as basketId
+        String BasketId = customerId;
+        Order order = orderService.createOrder(customerId, BasketId);
         messageService.SendOrderMessage(order);
-        basketService.deleteAllInBasket(customerId);
+        basketService.deleteAllInBasket(BasketId);
     }
 
     @GetMapping("/{orderId}")
