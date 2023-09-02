@@ -29,15 +29,13 @@ public class OrderController {
     private final SqsService sqsService;
     private final SseService sseService;
     private final SendingMessageConverter sendingMessageConverter;
-    private final ReceivingMessageConverter receivingMessageConverter;
 
-    public OrderController(OrderService orderService, BasketService basketService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter, ReceivingMessageConverter receivingMessageConverter) {
+    public OrderController(OrderService orderService, BasketService basketService, SqsService sqsService, SseService sseService, SendingMessageConverter sendingMessageConverter) {
         this.orderService = orderService;
         this.basketService = basketService;
         this.sqsService = sqsService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
-        this.receivingMessageConverter = receivingMessageConverter;
     }
 
     @GetMapping
