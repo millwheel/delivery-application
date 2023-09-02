@@ -29,7 +29,9 @@ public class BasketController {
     @GetMapping("/basket")
     @ResponseStatus(HttpStatus.OK)
     public BasketResponseDto showBasketMenu(@RequestAttribute("cognitoUsername") String customerId){
-        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        // Use customerId as basketId
+        String basketId = customerId;
+        Optional<Basket> basketOptional = basketService.getBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
         }
@@ -40,24 +42,28 @@ public class BasketController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenuFromBasket (@RequestAttribute("cognitoUsername") String customerId,
                                       @PathVariable String menuId) {
-        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        // Use customerId as basketId
+        String basketId = customerId;
+        Optional<Basket> basketOptional = basketService.getBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
         }
         if(menuService.getMenu(menuId).isEmpty()){
             throw new NullPointerException("Menu doesn't exist.");
         }
-        basketService.deleteMenuFromBasket(customerId, menuId);
+        basketService.deleteMenuFromBasket(basketId, menuId);
     }
 
     @DeleteMapping("/basket")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId){
-        Optional<Basket> basketOptional = basketService.getBasket(customerId);
+        // Use customerId as basketId
+        String basketId = customerId;
+        Optional<Basket> basketOptional = basketService.getBasket(basketId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
         }
-        basketService.deleteAllInBasket(customerId);
+        basketService.deleteAllInBasket(basketId);
     }
 
 }
