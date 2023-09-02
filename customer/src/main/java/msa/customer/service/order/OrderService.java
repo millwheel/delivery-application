@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -83,7 +82,7 @@ public class OrderService {
     }
 
     public Order getOrder(String orderId){
-        return orderRepository.readOrder(orderId).orElseThrow(() -> new NullPointerException());
+        return orderRepository.readOrder(orderId).orElseThrow(NullPointerException::new);
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){

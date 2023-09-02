@@ -5,7 +5,6 @@ import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
