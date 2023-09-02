@@ -61,7 +61,7 @@ public class MenuController {
                             @PathVariable String storeId,
                             @PathVariable String menuId,
                             @RequestBody int menuCount,
-                            HttpServletResponse response) throws IOException {
+                            HttpServletResponse response) {
         if(menuService.getMenu(menuId).isEmpty()){
             throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
         }

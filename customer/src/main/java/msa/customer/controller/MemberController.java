@@ -34,7 +34,7 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
                               @RequestBody CustomerRequestDto data,
-                              HttpServletResponse response) throws IOException {
+                              HttpServletResponse response) {
         memberService.updateCustomer(id, data);
     }
 }

@@ -42,7 +42,7 @@ public class BasketController {
                                       @PathVariable FoodKind foodKind,
                                       @PathVariable String storeId,
                                       @PathVariable String menuId,
-                                      HttpServletResponse response) throws IOException {
+                                      HttpServletResponse response) {
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");
@@ -58,7 +58,7 @@ public class BasketController {
     public void cleanBasket(@RequestAttribute("cognitoUsername") String customerId,
                             @PathVariable FoodKind foodKind,
                             @PathVariable String storeId,
-                            HttpServletResponse response) throws IOException {
+                            HttpServletResponse response){
         Optional<Basket> basketOptional = basketService.getBasket(customerId);
         if (basketOptional.isEmpty()){
             throw new NullPointerException("Basket is empty");

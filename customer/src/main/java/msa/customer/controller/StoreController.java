@@ -33,7 +33,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                                     @PathVariable FoodKind foodKind,
-                                                    HttpServletResponse response) throws IOException {
+                                                    HttpServletResponse response){
         Optional<Point> coordinates = memberService.getCoordinates(customerId);
         if(coordinates.isEmpty()){
             throw new NullPointerException("Customer has no location information.");
@@ -48,8 +48,7 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto showStoreInfo (@RequestAttribute("storeEntity") Store store,
-                                           @PathVariable String storeId){
+    public StoreResponseDto showStoreInfo (@RequestAttribute("storeEntity") Store store){
         return new StoreResponseDto(store);
     }
 
