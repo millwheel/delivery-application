@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpringDataMongoOrderRepository extends MongoRepository<Order, String> {
-    Optional<List<Order>> findByCustomerId(String customerId);
+    List<Order> findByCustomerId(String customerId);
 }

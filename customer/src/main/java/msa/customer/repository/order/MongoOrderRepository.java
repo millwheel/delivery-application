@@ -31,7 +31,7 @@ public class MongoOrderRepository implements OrderRepository{
 
     @Override
     public List<Order> readOrderList(String customerId) {
-        return repository.findByCustomerId(customerId).orElse(new ArrayList<>());
+        return repository.findByCustomerId(customerId);
     }
 
     @Override
