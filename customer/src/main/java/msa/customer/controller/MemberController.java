@@ -23,7 +23,7 @@ public class MemberController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
-        Customer customer = memberService.getCustomer(id).get();
+        Customer customer = memberService.getCustomer(id);
         return new CustomerResponseDto(customer);
     }
 

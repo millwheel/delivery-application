@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -31,12 +30,9 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public List<StorePartResponseDto> showStoreList(@RequestAttribute("cognitoUsername") String customerId,
                                                     @PathVariable FoodKind foodKind){
-        Optional<Point> coordinates = memberService.getCoordinates(customerId);
-        if(coordinates.isEmpty()){
-            throw new NullPointerException("Customer has no location information.");
-        }
+        Point location = memberService.getLocation(customerId);
         List<StorePartResponseDto> storePartList = new ArrayList<>();
-        List<Store> storeList = storeService.getStoreListNearCustomer(coordinates.get(), foodKind);
+        List<Store> storeList = storeService.getStoreListNearCustomer(location, foodKind);
         storeList.forEach(store -> {
             storePartList.add(new StorePartResponseDto(store));
         });

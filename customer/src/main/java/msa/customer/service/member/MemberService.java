@@ -24,12 +24,12 @@ public class MemberService {
     }
 
 
-    public Optional<Customer> getCustomer(String customerId){
-        return memberRepository.findById(customerId);
+    public Customer getCustomer(String customerId){
+        return memberRepository.findById(customerId).orElseThrow();
     }
 
-    public Optional<Point> getCoordinates(String customerId) {
-        return memberRepository.findById(customerId).map(Customer::getLocation);
+    public Point getLocation(String customerId) {
+        return memberRepository.findById(customerId).orElseThrow().getLocation();
     }
 
     public void updateCustomer(String customerId, CustomerRequestDto data){
