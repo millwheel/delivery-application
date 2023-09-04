@@ -1,4 +1,4 @@
-package msa.customer.exception;
+package msa.customer.exception_handler;
 
 import lombok.Getter;
 import lombok.Setter;
