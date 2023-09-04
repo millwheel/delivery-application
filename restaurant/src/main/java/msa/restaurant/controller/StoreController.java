@@ -6,6 +6,7 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.store.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
+import msa.restaurant.exception.store.StoreCreationFailedException;
 import msa.restaurant.service.member.MemberService;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.service.store.StoreService;
@@ -26,7 +27,10 @@ public class StoreController {
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public StoreController(StoreService storeService, SendingMessageConverter sendingMessageConverter, MemberService memberService, SqsService sqsService) {
+    public StoreController(StoreService storeService,
+                           SendingMessageConverter sendingMessageConverter,
+                           MemberService memberService,
+                           SqsService sqsService) {
         this.storeService = storeService;
         this.sendingMessageConverter = sendingMessageConverter;
         this.sqsService = sqsService;
@@ -34,8 +38,8 @@ public class StoreController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<StorePartResponseDto> storeList (
-            @RequestAttribute("cognitoUsername") String managerId) {
+    public List<StorePartResponseDto> storeList(
+        @RequestAttribute("cognitoUsername") String managerId) {
         List<Store> storeList = storeService.getStoreList(managerId);
         List<StorePartResponseDto> storeListDto = new ArrayList<>();
         storeList.forEach(store -> {
@@ -46,12 +50,12 @@ public class StoreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createStore (@RequestAttribute("cognitoUsername") String managerId,
-                          @RequestBody StoreRequestDto data) {
+    public void createStore(@RequestAttribute("cognitoUsername") String managerId,
+                            @RequestBody StoreRequestDto data) {
         String storeId = storeService.createStore(data, managerId);
         Optional<Store> storeOptional = storeService.getStore(storeId);
-        if (storeOptional.isEmpty()){
-            throw new RuntimeException("Store creation failed.");
+        if (storeOptional.isEmpty()) {
+            throw new StoreCreationFailedException(storeId);
         }
         Store store = storeOptional.get();
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
@@ -62,8 +66,8 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto storeInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                       @RequestAttribute("store") Store store) {
+    public StoreResponseDto storeInfo(@RequestAttribute("cognitoUsername") String managerId,
+                                      @RequestAttribute("store") Store store) {
         return new StoreResponseDto(store);
     }
 
@@ -71,7 +75,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public void updateStore(@RequestAttribute("cognitoUsername") String managerId,
                             @PathVariable String storeId,
-                            @RequestBody StoreRequestDto data)  {
+                            @RequestBody StoreRequestDto data) {
         storeService.updateStore(storeId, data);
         Optional<Store> storeOptional = storeService.getStore(storeId);
         Store store = storeOptional.get();
@@ -85,9 +89,9 @@ public class StoreController {
     @ResponseStatus(HttpStatus.CREATED)
     public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId,
-                                  @RequestBody boolean open){
+                                  @RequestBody boolean open) {
         String messageToChangeStatus;
-        if (open){
+        if (open) {
             storeService.openStore(storeId);
             messageToChangeStatus = sendingMessageConverter.createMessageToOpenStore(storeId);
         } else {
@@ -101,11 +105,12 @@ public class StoreController {
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
-                            @PathVariable String storeId)  {
+                            @PathVariable String storeId) {
         storeService.deleteStore(storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);
         sqsService.sendToRider(messageToDeleteStore);
     }
+
 }
 

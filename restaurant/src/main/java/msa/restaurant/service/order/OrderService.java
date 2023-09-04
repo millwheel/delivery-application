@@ -18,39 +18,30 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void createOrder(Order order){
+    public void createOrder(Order order) {
         orderRepository.createOrder(order);
     }
 
-    public List<Order> getOrderList(String storeId){
+    public List<Order> getOrderList(String storeId) {
         return orderRepository.readOrderList(storeId);
     }
 
-    public Optional<Order> getOrder(String orderId){
+    public Optional<Order> getOrder(String orderId) {
         return orderRepository.readOrder(orderId);
     }
 
-    public OrderStatus changeOrderStatusToOrderAccept(String orderId, OrderStatus orderStatus){
-        if(orderStatus.equals(OrderStatus.ORDER_REQUEST)){
-            return orderRepository.updateOrderStatus(orderId, OrderStatus.ORDER_ACCEPT);
-        } else {
-            throw new IllegalStateException("The current order status is not changeable");
-        }
+    public OrderStatus changeOrderStatus(Order order, OrderStatus status, OrderStatusUpdatePolicy orderStatusUpdatePolicy) {
+        orderStatusUpdatePolicy.checkStatusUpdatable(status);
+
+        return orderRepository.updateOrderStatus(order.getOrderId(), status);
     }
 
-    public OrderStatus changeOrderStatusToFoodReady(String orderId, OrderStatus orderStatus){
-        if (orderStatus.equals(OrderStatus.RIDER_ASSIGNED)) {
-            return orderRepository.updateOrderStatus(orderId, OrderStatus.FOOD_READY);
-        } else {
-            throw new IllegalStateException("The current order status is not changeable");
-        }
-    }
-
-    public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto){
+    public void assignRiderToOrder(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto) {
         orderRepository.updateRiderInfo(orderId, orderStatus, riderPartDto);
     }
 
-    public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
+    public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus) {
         orderRepository.updateOrderStatus(orderId, orderStatus);
     }
+
 }

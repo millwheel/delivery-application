@@ -2,6 +2,7 @@ package msa.restaurant.controller;
 
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.service.order.OrderStatusUpdatePolicy;
 import msa.restaurant.sqs.SendingMessageConverter;
 import msa.restaurant.sqs.SqsService;
 import msa.restaurant.service.order.OrderService;
@@ -22,7 +23,10 @@ public class OrderController {
     private final SqsService sqsService;
 
     @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
+    public OrderController(OrderService orderService,
+                           SseService sseService,
+                           SendingMessageConverter sendingMessageConverter,
+                           SqsService sqsService) {
         this.orderService = orderService;
         this.sseService = sseService;
         this.sendingMessageConverter = sendingMessageConverter;
@@ -31,17 +35,17 @@ public class OrderController {
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public SseEmitter showOrderList(@PathVariable String storeId){
+    public SseEmitter showOrderList(@PathVariable String storeId) {
         SseEmitter sseEmitter = sseService.connectForList(storeId);
         sseService.showOrderList(storeId);
         return sseEmitter;
     }
 
-    @GetMapping(path="/{orderId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(path = "/{orderId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderInfo(@PathVariable String storeId,
                                     @PathVariable String orderId,
-                                    @RequestAttribute("order") Order order){
+                                    @RequestAttribute("order") Order order) {
         SseEmitter sseEmitter = sseService.connectForInfo(storeId);
         sseService.showOrderInfo(storeId, orderId);
         return sseEmitter;
@@ -51,7 +55,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public void acceptOrder(@PathVariable String orderId,
                             @RequestAttribute("order") Order order) {
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusToOrderAccept(orderId, order.getOrderStatus());
+        OrderStatus changedOrderStatus = orderService.changeOrderStatus(order,
+                                                                        OrderStatus.ORDER_ACCEPT,
+                                                                        OrderStatusUpdatePolicy.ACCEPT_ORDER_POLICY);
         order.setOrderStatus(changedOrderStatus);
         String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
         String messageToRequestOrder = sendingMessageConverter.createMessageToRequestOrder(order);
@@ -62,8 +68,10 @@ public class OrderController {
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void changeOrderStatus(@PathVariable String orderId,
-                                  @RequestAttribute("order") Order order){
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusToFoodReady(orderId, order.getOrderStatus());
+                                  @RequestAttribute("order") Order order) {
+        OrderStatus changedOrderStatus = orderService.changeOrderStatus(order,
+                                                                        OrderStatus.FOOD_READY,
+                                                                        OrderStatusUpdatePolicy.FOOD_READY_POLICY);
         order.setOrderStatus(changedOrderStatus);
         String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
