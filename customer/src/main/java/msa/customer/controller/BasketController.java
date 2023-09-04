@@ -1,18 +1,12 @@
 package msa.customer.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.dto.basket.BasketResponseDto;
 import msa.customer.entity.basket.Basket;
-import msa.customer.entity.menu.Menu;
-import msa.customer.entity.store.FoodKind;
 import msa.customer.service.basket.BasketService;
 import msa.customer.service.menu.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.Optional;
 
 @RequestMapping("/customer/{foodKind}/store/{storeId}")
 @RestController
