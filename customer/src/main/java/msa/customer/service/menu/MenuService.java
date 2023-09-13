@@ -2,6 +2,7 @@ package msa.customer.service.menu;
 
 import msa.customer.dto.menu.MenuSqsDto;
 import msa.customer.entity.menu.Menu;
+import msa.customer.exception.MenuNullException;
 import msa.customer.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -27,7 +28,7 @@ public class MenuService {
     }
 
     public Menu getMenu(String menuId){
-        return menuRepository.readMenu(menuId).orElseThrow();
+        return menuRepository.readMenu(menuId).orElseThrow(() -> new MenuNullException(menuId));
     }
 
     public List<Menu> getMenuList(String storeId){

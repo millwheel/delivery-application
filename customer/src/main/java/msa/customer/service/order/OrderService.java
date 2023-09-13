@@ -47,7 +47,6 @@ public class OrderService {
     }
 
     public Order addCustomerInfo(String customerId, Order order){
-        order.setCustomerId(customerId);
         memberRepository.findById(customerId).ifPresent(member -> {
             order.setCustomerId(member.getCustomerId());
             order.setCustomerName(member.getName());

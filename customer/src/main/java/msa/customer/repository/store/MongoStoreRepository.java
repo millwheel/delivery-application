@@ -21,9 +21,9 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public String createStore(Store store) {
+    public Store createStore(Store store) {
         Store savedStore = repository.save(store);
-        return savedStore.getStoreId();
+        return savedStore;
     }
 
     @Override

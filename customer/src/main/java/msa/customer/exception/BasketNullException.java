@@ -2,9 +2,9 @@ package msa.customer.exception;
 
 public class BasketNullException extends NullPointerException{
 
-    private static final String NONEXISTENT_BASKET_MESSAGE = "This menu doesn't exist. (menuId = %s)";
+    private static final String NONEXISTENT_BASKET_MESSAGE = "This basket doesn't exist. (basketId = %s)";
 
-    public BasketNullException(String menuId) {
-        super(String.format(NONEXISTENT_BASKET_MESSAGE, menuId));
+    public BasketNullException(String basketId) {
+        super(String.format(NONEXISTENT_BASKET_MESSAGE, basketId));
     }
 }

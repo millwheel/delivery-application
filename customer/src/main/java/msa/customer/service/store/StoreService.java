@@ -34,8 +34,7 @@ public class StoreService {
         store.setAddressDetail(data.getAddressDetail());
         store.setLocation(data.getLocation());
         store.setIntroduction(data.getIntroduction());
-        String storeId = storeRepository.createStore(store);
-        log.info("Created store id={}", storeId);
+        storeRepository.createStore(store);
     }
 
     public List<Store> getStoreListNearCustomer(Point location, FoodKind foodKind){

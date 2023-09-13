@@ -3,6 +3,7 @@ package msa.customer.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.entity.store.Store;
+import msa.customer.exception.StoreNullException;
 import msa.customer.service.store.StoreService;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
@@ -23,7 +24,7 @@ public class StoreCheckInterceptor implements HandlerInterceptor {
         String storeId = (String) pathVariables.get("storeId");
         Optional<Store> storeOptional = storeService.getStore(storeId);
         if(storeOptional.isEmpty()){
-            throw new NullPointerException("Store doesn't exist. " + storeId + " is not correct store id.");
+            throw new StoreNullException(storeId);
         }
         request.setAttribute("storeEntity", storeOptional.get());
         return true;
