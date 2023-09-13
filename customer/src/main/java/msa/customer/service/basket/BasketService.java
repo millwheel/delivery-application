@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.basket.MenuInBasket;
 import msa.customer.entity.menu.Menu;
+import msa.customer.exception.StoreMismatchException;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.menu.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -25,28 +26,24 @@ public class BasketService {
     }
 
     public void addToBasket(String basketId, String storeId, String menuId, int count){
-        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
-        if (basketOptional.isPresent()){
-            if(!basketOptional.get().getStoreId().equals(storeId)){
-                throw new RuntimeException("store id: " + storeId + " doesn't match existing store id");
+        Basket basketBefore = basketRepository.readBasket(basketId).map(b -> {
+            if (!b.getStoreId().equals(storeId)){
+                throw new StoreMismatchException(storeId);
             }
+            return b;
+        }).orElseGet(Basket::new);
+        Basket basketAfter = setBasketMenuInfo(basketBefore, menuId, count);
+        if(basketAfter.getBasketId() == null){
+            basketAfter.setBasketId(basketId);
+            basketAfter.setStoreId(storeId);
+            basketRepository.createBasket(basketAfter);
+        }else{
+            basketRepository.updateBasket(basketAfter);
         }
-        Basket basketBefore = basketOptional.orElseGet(Basket::new);
-        try {
-            Basket basketAfter = setUpBasketMenuInfo(basketBefore, menuId, count);
-            if(basketOptional.isEmpty()){
-                basketAfter.setBasketId(basketId);
-                basketAfter.setStoreId(storeId);
-                basketRepository.createBasket(basketAfter);
-            }else{
-                basketRepository.updateBasket(basketAfter);
-            }
-        } catch (Exception e){
-            throw e;
-        }
+
     }
 
-    public Basket setUpBasketMenuInfo(Basket basket, String menuId, int countAdd){
+    public Basket setBasketMenuInfo(Basket basket, String menuId, int countAdd){
         Menu menu = menuRepository.readMenu(menuId).orElseThrow();
         String menuName = menu.getName();
         int eachPrice = menu.getPrice();

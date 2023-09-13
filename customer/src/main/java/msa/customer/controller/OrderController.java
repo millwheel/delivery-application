@@ -2,7 +2,6 @@ package msa.customer.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.service.MessageService;
 import msa.customer.service.basket.BasketService;
 import msa.customer.dto.order.OrderPartResponseDto;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
