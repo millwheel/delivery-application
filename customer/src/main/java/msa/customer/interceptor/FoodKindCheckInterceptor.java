@@ -3,6 +3,7 @@ package msa.customer.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.entity.store.FoodKind;
+import msa.customer.exception.FoodKindNullException;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -14,9 +15,9 @@ public class FoodKindCheckInterceptor implements HandlerInterceptor {
         Map pathVariables  = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         String foodKindString = (String) pathVariables.get("foodKind");
         try{
-            FoodKind foodKind = FoodKind.valueOf(foodKindString);
+            FoodKind.valueOf(foodKindString);
         }catch (Exception e){
-            throw new NullPointerException("Wrong food Kind. " + foodKindString + " is not in the list.");
+            throw new FoodKindNullException(foodKindString);
         }
         return true;
     }
