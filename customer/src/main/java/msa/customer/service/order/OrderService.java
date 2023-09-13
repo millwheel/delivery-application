@@ -4,6 +4,8 @@ import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
+import msa.customer.exception.BasketNullException;
+import msa.customer.exception.OrderNullException;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.member.MemberRepository;
 import msa.customer.repository.order.OrderRepository;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -30,11 +31,7 @@ public class OrderService {
     }
 
     public Order createOrder(String customerId, String basketId){
-        Optional<Basket> basketOptional = basketRepository.readBasket(basketId);
-        if (basketOptional.isEmpty()){
-            throw new NullPointerException("Basket doesn't exist.");
-        }
-        Basket basket = basketOptional.get();
+        Basket basket = basketRepository.readBasket(basketId).orElseThrow(() -> new BasketNullException(basketId));
         String storeId = basket.getStoreId();
         Order order = new Order();
         Order order1 = addCustomerInfo(customerId, order);
@@ -81,7 +78,7 @@ public class OrderService {
     }
 
     public Order getOrder(String orderId){
-        return orderRepository.readOrder(orderId).orElseThrow(NullPointerException::new);
+        return orderRepository.readOrder(orderId).orElseThrow(() -> new OrderNullException(orderId));
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
