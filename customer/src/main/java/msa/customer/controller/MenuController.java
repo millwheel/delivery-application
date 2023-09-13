@@ -3,6 +3,8 @@ package msa.customer.controller;
 import msa.customer.dto.menu.MenuPartResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
+import msa.customer.exception.MenuLargeException;
+import msa.customer.exception.MenuZeroException;
 import msa.customer.service.basket.BasketService;
 import msa.customer.service.menu.MenuService;
 import org.springframework.http.HttpStatus;
@@ -48,10 +50,10 @@ public class MenuController {
                             @PathVariable String menuId,
                             @RequestBody int menuCount) {
         if (menuCount == 0){
-            throw new IllegalArgumentException("Menu count should not be zero.");
+            throw new MenuZeroException();
         }
         if (menuCount >= 100000){
-            throw new IllegalArgumentException("Menu count is too large.");
+            throw new MenuLargeException();
         }
         basketService.addToBasket(customerId, storeId, menuId, menuCount);
     }

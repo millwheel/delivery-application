@@ -2,6 +2,7 @@ package msa.customer.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.service.MessageService;
 import msa.customer.service.basket.BasketService;
 import msa.customer.dto.order.OrderPartResponseDto;
@@ -29,7 +30,7 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<OrderPartResponseDto> showOrderList(@RequestAttribute("cognitoUsername") String customerId) {
-        return orderService.getOrderList(customerId).stream().map(OrderPartResponseDto::new).collect(Collectors.toList());
+        return orderService.getOrderList(customerId).stream().map(OrderPartResponseDto::new).toList();
     }
 
     @PostMapping
