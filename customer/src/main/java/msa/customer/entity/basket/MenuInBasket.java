@@ -1,8 +1,6 @@
 package msa.customer.entity.basket;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
@@ -13,4 +11,13 @@ public class MenuInBasket {
     private int count;
     private int eachPrice;
     private int price;
+
+    @Builder
+    public MenuInBasket(String menuId, String menuName, int count, int eachPrice, int price) {
+        this.menuId = menuId;
+        this.menuName = menuName;
+        this.count = count;
+        this.eachPrice = eachPrice;
+        this.price = price;
+    }
 }
