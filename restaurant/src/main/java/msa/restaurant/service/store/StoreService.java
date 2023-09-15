@@ -1,5 +1,6 @@
 package msa.restaurant.service.store;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.store.Store;
@@ -14,25 +15,20 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class StoreService {
 
     private final StoreRepository storeRepository;
     private final AddressService addressService;
 
-    @Autowired
-    public StoreService(StoreRepository storeRepository, AddressService addressService) {
-        this.storeRepository = storeRepository;
-        this.addressService = addressService;
-    }
-
-    public Optional<Store> getStore(String storeId){
-        return storeRepository.readStore(storeId);
+    public Store getStore(String storeId){
+        return storeRepository.readStore(storeId).orElseThrow();
     }
 
     public List<Store> getStoreList(String managerId){
         return storeRepository.readStoreList(managerId);
     }
-    public String createStore(StoreRequestDto data, String managerId){
+    public Store createStore(StoreRequestDto data, String managerId){
         Store store = new Store();
         if(data.getName() == null) throw new NullPointerException("store name is missing");
         store.setName(data.getName());
@@ -51,12 +47,14 @@ public class StoreService {
         store.setManagerId(managerId);
         store.setOpen(false);
         return storeRepository.create(store);
+
     }
 
-    public void updateStore(String storeId, StoreRequestDto data){
-        storeRepository.update(storeId, data);
+    public Store updateStore(String storeId, StoreRequestDto data){
+        Store store = storeRepository.update(storeId, data);
         Point coordinate = addressService.getCoordinate(data.getAddress());
         storeRepository.updateLocation(storeId, coordinate);
+        return store;
     }
 
     public void deleteStore(String storeId){

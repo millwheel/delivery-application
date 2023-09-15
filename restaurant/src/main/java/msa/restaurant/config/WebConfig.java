@@ -2,7 +2,6 @@ package msa.restaurant.config;
 
 import msa.restaurant.interceptor.JoinCheckInterceptor;
 import msa.restaurant.interceptor.OrderStoreCheckInterceptor;
-import msa.restaurant.interceptor.StoreManagerCheckInterceptor;
 import msa.restaurant.service.member.JoinService;
 import msa.restaurant.service.member.ParseJwtService;
 import msa.restaurant.service.order.OrderService;
@@ -32,12 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/restaurant", "/restaurant/main", "/error");
-        registry.addInterceptor(new StoreManagerCheckInterceptor(storeService))
-                .order(2)
-                .addPathPatterns("/restaurant/store/**")
-                .excludePathPatterns("/restaurant/store");
         registry.addInterceptor(new OrderStoreCheckInterceptor(orderService))
-                .order(3)
+                .order(2)
                 .addPathPatterns("/restaurant/store/*/order/**")
                 .excludePathPatterns("/restaurant/store/*/order");
     }
