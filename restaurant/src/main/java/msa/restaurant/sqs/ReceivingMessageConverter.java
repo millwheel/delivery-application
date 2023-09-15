@@ -2,14 +2,14 @@ package msa.restaurant.sqs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import msa.restaurant.deserializer.OrderDeserializer;
+import msa.restaurant.deserializer.PointMixin;
 import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.sse.SseService;
 import org.json.JSONObject;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -57,9 +57,7 @@ public class ReceivingMessageConverter {
 
     public Order convertOrderDataWithCustomDeserializer(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Order.class, new OrderDeserializer());
-        objectMapper.registerModule(module);
+        objectMapper.addMixIn(Point.class, PointMixin.class);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, Order.class);
     }
