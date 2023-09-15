@@ -28,26 +28,32 @@ public class StoreService {
     public List<Store> getStoreList(String managerId){
         return storeRepository.readStoreList(managerId);
     }
-    public Store createStore(StoreRequestDto data, String managerId){
-        Store store = new Store();
-        if(data.getName() == null) throw new NullPointerException("store name is missing");
-        store.setName(data.getName());
-        if(data.getFoodKind() == null) throw new NullPointerException("store foodKind is missing");
-        store.setFoodKind(data.getFoodKind());
-        if(data.getPhoneNumber() == null) throw new NullPointerException("store phone number is missing");
-        store.setPhoneNumber(data.getPhoneNumber());
-        if(data.getAddress() == null) throw new NullPointerException("store address is missing");
-        store.setAddress(data.getAddress());
-        Point coordinate = addressService.getCoordinate(data.getAddress());
-        store.setLocation(coordinate);
-        if(data.getAddressDetail() == null) throw new NullPointerException("store address detail is missing");
-        store.setAddressDetail(data.getAddressDetail());
-        if(data.getIntroduction() == null) throw new NullPointerException("store introduction is missing");
-        store.setIntroduction(data.getIntroduction());
-        store.setManagerId(managerId);
-        store.setOpen(false);
-        return storeRepository.create(store);
 
+    public Store createStore(StoreRequestDto data, String managerId) {
+        validateRequestData(data);
+
+        Point coordinate = addressService.getCoordinate(data.getAddress());
+
+        return Store.builder()
+                .name(data.getName())
+                .foodKind(data.getFoodKind())
+                .phoneNumber(data.getPhoneNumber())
+                .address(data.getAddress())
+                .addressDetail(data.getAddressDetail())
+                .introduction(data.getIntroduction())
+                .managerId(managerId)
+                .location(coordinate)
+                .open(false)
+                .build();
+    }
+
+    private void validateRequestData(StoreRequestDto data) {
+        Optional.ofNullable(data.getName()).orElseThrow(() -> new NullPointerException("store name is missing"));
+        Optional.ofNullable(data.getFoodKind()).orElseThrow(() -> new NullPointerException("store foodKind is missing"));
+        Optional.ofNullable(data.getPhoneNumber()).orElseThrow(() -> new NullPointerException("store phone number is missing"));
+        Optional.ofNullable(data.getAddress()).orElseThrow(() -> new NullPointerException("store address is missing"));
+        Optional.ofNullable(data.getAddressDetail()).orElseThrow(() -> new NullPointerException("store address detail is missing"));
+        Optional.ofNullable(data.getIntroduction()).orElseThrow(() -> new NullPointerException("store introduction is missing"));
     }
 
     public Store updateStore(String storeId, StoreRequestDto data){

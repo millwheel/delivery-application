@@ -1,5 +1,6 @@
 package msa.restaurant.entity.store;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,4 +26,18 @@ public class Store {
     private Boolean open;
     @Indexed
     private String managerId;
+
+    @Builder
+    public Store(String storeId, String name, FoodKind foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction, Boolean open, String managerId) {
+        this.storeId = storeId;
+        this.name = name;
+        this.foodKind = foodKind;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.addressDetail = addressDetail;
+        this.location = location;
+        this.introduction = introduction;
+        this.open = open;
+        this.managerId = managerId;
+    }
 }
