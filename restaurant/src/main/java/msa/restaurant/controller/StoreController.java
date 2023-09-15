@@ -1,5 +1,6 @@
 package msa.restaurant.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StorePartResponseDto;
 import msa.restaurant.dto.store.StoreRequestDto;
@@ -20,17 +21,13 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @RequestMapping("/restaurant/store")
+@AllArgsConstructor
 public class StoreController {
 
     private final StoreService storeService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    public StoreController(StoreService storeService, SendingMessageConverter sendingMessageConverter, MemberService memberService, SqsService sqsService) {
-        this.storeService = storeService;
-        this.sendingMessageConverter = sendingMessageConverter;
-        this.sqsService = sqsService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

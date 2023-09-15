@@ -1,6 +1,7 @@
 package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.menu.MenuPartResponseDto;
 import msa.restaurant.dto.menu.MenuRequestDto;
@@ -21,16 +22,11 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/restaurant/store/{storeId}/menu")
+@AllArgsConstructor
 public class MenuController {
     private final MenuService menuService;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
-
-    public MenuController(MenuService menuService,  SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
-        this.menuService = menuService;
-        this.sendingMessageConverter = sendingMessageConverter;
-        this.sqsService = sqsService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

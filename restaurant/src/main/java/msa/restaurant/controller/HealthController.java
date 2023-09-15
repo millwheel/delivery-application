@@ -8,17 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/restaurant")
-public class HomeController {
+public class HealthController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String home(){
+    public String healthCheck(){
         return "Restaurant server is activated successfully";
     }
 
-    @GetMapping("/main")
-    @ResponseStatus(HttpStatus.OK)
-    public String welcome(){
-        return "welcome page";
-    }
 }

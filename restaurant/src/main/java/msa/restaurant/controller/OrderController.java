@@ -1,5 +1,6 @@
 package msa.restaurant.controller;
 
+import lombok.AllArgsConstructor;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
 import msa.restaurant.sqs.SendingMessageConverter;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/restaurant/store/{storeId}/order")
+@AllArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
@@ -21,13 +23,6 @@ public class OrderController {
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
 
-    @Autowired
-    public OrderController(OrderService orderService, SseService sseService, SendingMessageConverter sendingMessageConverter, SqsService sqsService) {
-        this.orderService = orderService;
-        this.sseService = sseService;
-        this.sendingMessageConverter = sendingMessageConverter;
-        this.sqsService = sqsService;
-    }
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)

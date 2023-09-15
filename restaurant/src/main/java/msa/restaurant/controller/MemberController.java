@@ -1,6 +1,7 @@
 package msa.restaurant.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.manager.ManagerRequestDto;
 import msa.restaurant.dto.manager.ManagerResponseDto;
@@ -15,13 +16,11 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @RequestMapping("/restaurant/member")
+@AllArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
