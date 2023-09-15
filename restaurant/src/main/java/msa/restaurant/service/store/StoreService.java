@@ -57,9 +57,8 @@ public class StoreService {
     }
 
     public Store updateStore(String storeId, StoreRequestDto data){
-        Store store = storeRepository.update(storeId, data);
-        Point coordinate = addressService.getCoordinate(data.getAddress());
-        storeRepository.updateLocation(storeId, coordinate);
+        Point location = addressService.getCoordinate(data.getAddress());
+        Store store = storeRepository.update(storeId, data, location);
         return store;
     }
 
