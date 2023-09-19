@@ -3,6 +3,7 @@ package msa.rider.entity.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
@@ -41,6 +42,9 @@ public class Order {
     private String riderName;
     private String riderPhoneNumber;
     private Point riderLocation;
+
+    @Version
+    private Long version;
 
     public Order(String orderId, String orderTime, OrderStatus orderStatus, String customerId, String customerName, String customerPhoneNumber, String customerAddress, String customerAddressDetail, Point customerLocation, List<OrderMenu> orderMenuList, int totalPrice, String storeId, String storeName, String storePhoneNumber, String storeAddress, String storeAddressDetail, Point storeLocation) {
         this.orderId = orderId;

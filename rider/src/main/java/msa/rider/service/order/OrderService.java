@@ -7,6 +7,7 @@ import msa.rider.entity.order.OrderStatus;
 import msa.rider.repository.member.MemberRepository;
 import msa.rider.repository.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
@@ -42,13 +43,19 @@ public class OrderService {
         return orderRepository.findByRiderId(riderId);
     }
 
-    public RiderPartDto updateRiderInfo(String riderId, Order order){
-        if (!order.getOrderStatus().equals(OrderStatus.ORDER_ACCEPT)){
+    public RiderPartDto updateRiderInfo(String riderId, Order order) {
+        if (!order.getOrderStatus().equals(OrderStatus.ORDER_ACCEPT)) {
             throw new IllegalStateException("The current order status is not changeable.");
         }
-        Rider rider = memberRepository.findById(riderId).get();
+        Rider rider = memberRepository.findById(riderId).orElseThrow(() -> new IllegalStateException("Rider not found."));
         RiderPartDto riderPartDto = new RiderPartDto(rider);
-        orderRepository.updateOrderRiderInfo(order.getOrderId(), riderPartDto, rider.getLocation(), OrderStatus.RIDER_ASSIGNED);
+
+        try {
+            orderRepository.updateOrderRiderInfo(order.getOrderId(), riderPartDto, rider.getLocation(), OrderStatus.RIDER_ASSIGNED);
+        } catch (OptimisticLockingFailureException e) {
+            throw new IllegalStateException("The order was already updated by another transaction.");
+        }
+
         return riderPartDto;
     }
 

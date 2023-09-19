@@ -49,14 +49,16 @@ public class MongoOrderRepository implements OrderRepository {
 
     @Override
     public void updateOrderRiderInfo(String orderId, RiderPartDto riderPartDto, Point location, OrderStatus orderStatus) {
-        repository.findById(orderId).ifPresent(order -> {
-            order.setRiderId(riderPartDto.getRiderId());
-            order.setRiderName(riderPartDto.getName());
-            order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
-            order.setRiderLocation(location);
-            order.setOrderStatus(orderStatus);
-            repository.save(order);
-        });
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new IllegalStateException("Order not found."));
+
+        order.setRiderId(riderPartDto.getRiderId());
+        order.setRiderName(riderPartDto.getName());
+        order.setRiderPhoneNumber(riderPartDto.getPhoneNumber());
+        order.setRiderLocation(location);
+        order.setOrderStatus(orderStatus);
+
+        repository.save(order);
     }
 
     @Override
