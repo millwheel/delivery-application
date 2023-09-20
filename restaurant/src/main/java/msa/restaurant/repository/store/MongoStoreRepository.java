@@ -22,8 +22,8 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public Optional<Store> readStore(String storeId) {
-        return repository.findById(storeId);
+    public Store readStore(String storeId) {
+        return repository.findById(storeId).orElseThrow();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class StoreService {
 
 
     public Store getStore(String storeId){
-        return storeRepository.readStore(storeId).orElseThrow();
+        return storeRepository.readStore(storeId);
     }
 
     public List<Store> getStoreList(String managerId){
