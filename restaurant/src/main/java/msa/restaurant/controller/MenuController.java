@@ -55,9 +55,9 @@ public class MenuController {
 
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteMenu(@PathVariable String storeId,
+    public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId) {
-        return menuService.deleteMenu(storeId, menuId);
+        menuService.deleteMenu(storeId, menuId);
     }
 
 }

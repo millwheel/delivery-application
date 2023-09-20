@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.OpenStatus;
 import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.store.Store;
 import msa.restaurant.message_queue.SendingMessageConverter;
@@ -51,8 +50,7 @@ public class StoreService {
         Store savedStore = storeRepository.create(store);
         StoreSqsDto storeSqsDto = new StoreSqsDto(savedStore);
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
-        sqsService.sendToCustomer(messageToCreateStore);
-        sqsService.sendToRider(messageToCreateStore);
+        sendMessageToOtherServer(messageToCreateStore);
         return savedStore.getStoreId();
     }
 
@@ -61,40 +59,40 @@ public class StoreService {
         Store store = storeRepository.update(storeId, data, location);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
-        sqsService.sendToCustomer(messageToUpdateStore);
-        sqsService.sendToRider(messageToUpdateStore);
+        sendMessageToOtherServer(messageToUpdateStore);
         return store;
     }
 
-    public boolean deleteStore(String storeId){
-        if(!storeRepository.delete(storeId)) return false;
+    public void deleteStore(String storeId){
+        storeRepository.delete(storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
-        sqsService.sendToCustomer(messageToDeleteStore);
-        sqsService.sendToRider(messageToDeleteStore);
-        return true;
+        sendMessageToOtherServer(messageToDeleteStore);
     }
 
     public void changeStoreStatus(String storeId, OpenStatus openStatus){
+        String storeStatusMessage;
         if (openStatus == OpenStatus.OPEN){
-            openStore(storeId);
-        }
-        if (openStatus == OpenStatus.CLOSE){
-            closeStore(storeId);
+            storeStatusMessage = openStore(storeId);
+            sendMessageToOtherServer(storeStatusMessage);
+        }else if (openStatus == OpenStatus.CLOSE){
+            storeStatusMessage = closeStore(storeId);
+            sendMessageToOtherServer(storeStatusMessage);
         }
     }
 
-    private void openStore(String storeId){
+    private String openStore(String storeId){
         storeRepository.updateOpenStatus(storeId, true);
-        String messageToOpenStore = sendingMessageConverter.createMessageToOpenStore(storeId);
-        sqsService.sendToCustomer(messageToOpenStore);
-        sqsService.sendToRider(messageToOpenStore);
+        return sendingMessageConverter.createMessageToOpenStore(storeId);
     }
 
-    private void closeStore(String storeId){
+    private String closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
-        String messageToCloseStore = sendingMessageConverter.createMessageToCloseStore(storeId);
-        sqsService.sendToCustomer(messageToCloseStore);
-        sqsService.sendToRider(messageToCloseStore);
+        return sendingMessageConverter.createMessageToCloseStore(storeId);
+    }
+
+    private void sendMessageToOtherServer(String message){
+        sqsService.sendToCustomer(message);
+        sqsService.sendToRider(message);
     }
 
 }

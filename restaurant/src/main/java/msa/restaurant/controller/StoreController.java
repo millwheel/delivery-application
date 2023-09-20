@@ -65,8 +65,8 @@ public class StoreController {
 
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteStore(@PathVariable String storeId)  {
-        return storeService.deleteStore(storeId);
+    public void deleteStore(@PathVariable String storeId)  {
+        storeService.deleteStore(storeId);
     }
 }
 

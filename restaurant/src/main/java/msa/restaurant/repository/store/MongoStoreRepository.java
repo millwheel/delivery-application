@@ -2,11 +2,11 @@ package msa.restaurant.repository.store;
 
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.store.Store;
+import msa.restaurant.exception.StoreNonexistentException;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class MongoStoreRepository implements StoreRepository {
@@ -23,7 +23,7 @@ public class MongoStoreRepository implements StoreRepository {
 
     @Override
     public Store readStore(String storeId) {
-        return repository.findById(storeId).orElseThrow();
+        return repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MongoStoreRepository implements StoreRepository {
 
     @Override
     public Store update(String storeId, StoreRequestDto data, Point location) {
-        Store store = repository.findById(storeId).orElseThrow();
+        Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
         if (data.getName() != null) {
             store.setName(data.getName());
         }
@@ -62,18 +62,17 @@ public class MongoStoreRepository implements StoreRepository {
 
     @Override
     public void updateOpenStatus(String storeId, boolean status) {
-        Store store = repository.findById(storeId).orElseThrow();
+        Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
         store.setOpen(status);
         repository.save(store);
     }
 
     @Override
-    public boolean delete(String storeId) {
-        if (repository.existsById(storeId)){
-            repository.deleteById(storeId);
-            return true;
+    public void delete(String storeId) {
+        if (!repository.existsById(storeId)){
+            throw new StoreNonexistentException(storeId);
         }
-        return false;
+        repository.deleteById(storeId);
     }
 }
 

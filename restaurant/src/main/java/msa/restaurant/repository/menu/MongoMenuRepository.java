@@ -2,10 +2,10 @@ package msa.restaurant.repository.menu;
 
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.entity.menu.Menu;
+import msa.restaurant.exception.MenuNonexistentException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class MongoMenuRepository implements MenuRepository{
@@ -23,7 +23,7 @@ public class MongoMenuRepository implements MenuRepository{
 
     @Override
     public Menu readMenu(String menuId) {
-        return repository.findById(menuId).orElseThrow();
+        return repository.findById(menuId).orElseThrow(()-> new MenuNonexistentException(menuId));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MongoMenuRepository implements MenuRepository{
 
     @Override
     public Menu update(String menuId, MenuRequestDto data) {
-        Menu menu = repository.findById(menuId).orElseThrow();
+        Menu menu = repository.findById(menuId).orElseThrow(()-> new MenuNonexistentException(menuId));
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
@@ -41,12 +41,9 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public boolean delete(String menuId) {
-        if(repository.existsById(menuId)){
-            repository.deleteById(menuId);
-            return true;
-        }
-        return false;
+    public void delete(String menuId) {
+        if(!repository.existsById(menuId)) throw new MenuNonexistentException(menuId);
+        repository.deleteById(menuId);
     }
 
 }

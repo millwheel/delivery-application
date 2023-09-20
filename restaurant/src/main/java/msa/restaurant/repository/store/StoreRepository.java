@@ -13,5 +13,5 @@ public interface StoreRepository {
     List<Store> readStoreList(String managerId);
     Store update(String storeId, StoreRequestDto data, Point location);
     void updateOpenStatus(String storeId, boolean open);
-    boolean delete(String storeId);
+    void delete(String storeId);
 }

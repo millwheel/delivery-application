@@ -7,11 +7,9 @@ import msa.restaurant.entity.menu.Menu;
 import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.message_queue.SqsService;
 import msa.restaurant.repository.menu.MenuRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -48,11 +46,10 @@ public class MenuService {
         return menu;
     }
 
-    public boolean deleteMenu(String storeId, String menuId){
-        if (!menuRepository.delete(menuId)) return false;
+    public void deleteMenu(String storeId, String menuId){
+        menuRepository.delete(menuId);
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);
-        return true;
     }
 }
