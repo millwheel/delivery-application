@@ -2,10 +2,12 @@ package msa.restaurant.repository.menu;
 
 import msa.restaurant.dto.menu.MenuRequestDto;
 import msa.restaurant.entity.menu.Menu;
+import msa.restaurant.exception.MenuMismatchException;
 import msa.restaurant.exception.MenuNonexistentException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class MongoMenuRepository implements MenuRepository{
@@ -22,8 +24,12 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Menu readMenu(String menuId) {
-        return repository.findById(menuId).orElseThrow(()-> new MenuNonexistentException(menuId));
+    public Menu readMenu(String storeId, String menuId) {
+        Menu menu = repository.findById(menuId).orElseThrow(() -> new MenuNonexistentException(menuId));
+        if(!Objects.equals(storeId, menu.getStoreId())){
+            throw new MenuMismatchException(menuId, storeId);
+        }
+        return menu;
     }
 
     @Override
@@ -32,8 +38,11 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public Menu update(String menuId, MenuRequestDto data) {
+    public Menu update(String storeId, String menuId, MenuRequestDto data) {
         Menu menu = repository.findById(menuId).orElseThrow(()-> new MenuNonexistentException(menuId));
+        if (!Objects.equals(storeId, menu.getStoreId())){
+            throw new MenuMismatchException(menuId, storeId);
+        }
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
         menu.setDescription(data.getDescription());
@@ -41,8 +50,11 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void delete(String menuId) {
-        if(!repository.existsById(menuId)) throw new MenuNonexistentException(menuId);
+    public void delete(String storeId, String menuId) {
+        Menu menu = repository.findById(menuId).orElseThrow(()-> new MenuNonexistentException(menuId));
+        if (!Objects.equals(storeId, menu.getStoreId())){
+            throw new MenuMismatchException(menuId, storeId);
+        }
         repository.deleteById(menuId);
     }
 

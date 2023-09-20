@@ -24,32 +24,34 @@ public class MenuService {
         Menu savedMenu = menuRepository.create(menu);
         MenuSqsDto menuSqsDto = new MenuSqsDto(savedMenu);
         String messageForMenuInfo = sendingMessageConverter.createMessageToCreateMenu(menuSqsDto);
-        sqsService.sendToCustomer(messageForMenuInfo);
-        sqsService.sendToRider(messageForMenuInfo);
+        sendMessageToOtherServer(messageForMenuInfo);
         return savedMenu.getMenuId();
     }
 
-    public Menu getMenu(String menuId){
-        return menuRepository.readMenu(menuId);
+    public Menu getMenu(String storeId, String menuId){
+        return menuRepository.readMenu(storeId, menuId);
     }
 
     public List<Menu> getMenuList(String storeId){
         return menuRepository.readMenuList(storeId);
     }
 
-    public Menu updateMenu(String menuId, MenuRequestDto data){
-        Menu menu = menuRepository.update(menuId, data);
+    public Menu updateMenu(String storeId, String menuId, MenuRequestDto data){
+        Menu menu = menuRepository.update(storeId, menuId, data);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         String messageToUpdateMenu = sendingMessageConverter.createMessageToUpdateMenu(menuSqsDto);
-        sqsService.sendToCustomer(messageToUpdateMenu);
-        sqsService.sendToRider(messageToUpdateMenu);
+        sendMessageToOtherServer(messageToUpdateMenu);
         return menu;
     }
 
     public void deleteMenu(String storeId, String menuId){
-        menuRepository.delete(menuId);
+        menuRepository.delete(storeId, menuId);
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
-        sqsService.sendToCustomer(messageToDeleteMenu);
-        sqsService.sendToRider(messageToDeleteMenu);
+        sendMessageToOtherServer(messageToDeleteMenu);
+    }
+
+    private void sendMessageToOtherServer(String message){
+        sqsService.sendToCustomer(message);
+        sqsService.sendToRider(message);
     }
 }

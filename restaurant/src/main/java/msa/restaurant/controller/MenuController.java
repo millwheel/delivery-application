@@ -33,23 +33,23 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createMenu(@RequestBody MenuRequestDto data,
-                        @PathVariable String storeId) {
+    public String createMenu(@RequestBody MenuRequestDto data, @PathVariable String storeId) {
         return menuService.createMenu(data, storeId);
     }
 
     @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto menuInfo (@PathVariable String menuId) {
-        Menu menu = menuService.getMenu(menuId);
+    public MenuResponseDto menuInfo (@PathVariable String storeId, @PathVariable String menuId) {
+        Menu menu = menuService.getMenu(storeId, menuId);
         return new MenuResponseDto(menu);
     }
 
     @PatchMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto updateMenu(@PathVariable String menuId,
-                           @RequestBody MenuRequestDto data) {
-        Menu menu = menuService.updateMenu(menuId, data);
+    public MenuResponseDto updateMenu(@RequestBody MenuRequestDto data,
+                                      @PathVariable String storeId,
+                                      @PathVariable String menuId) {
+        Menu menu = menuService.updateMenu(storeId, menuId, data);
         return new MenuResponseDto(menu);
     }
 

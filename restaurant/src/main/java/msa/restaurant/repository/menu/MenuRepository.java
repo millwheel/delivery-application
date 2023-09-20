@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface MenuRepository {
     Menu create(Menu menu);
-    Menu readMenu(String menuId);
+    Menu readMenu(String storeId, String menuId);
     List<Menu> readMenuList(String storeId);
-    Menu update(String menuId, MenuRequestDto data);
-    void delete(String menuId);
+    Menu update(String storeId, String menuId, MenuRequestDto data);
+    void delete(String storeId, String menuId);
 }
