@@ -76,11 +76,7 @@ public class SseService {
     }
 
     public void showOrderInfo(String storeId, String orderId) {
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist.");
-        }
-        Order order = orderOptional.get();
+        Order order = orderService.getOrder(orderId);
         if (!storeId.equals(order.getStoreId())){
             throw new IllegalCallerException("This order doesn't belong to the store.");
         }

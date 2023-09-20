@@ -23,11 +23,7 @@ public class OrderStoreCheckInterceptor implements HandlerInterceptor {
         Map pathVariables  = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         String storeId = (String) pathVariables.get("storeId");
         String orderId = (String) pathVariables.get("orderId");
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
+        Order order = orderService.getOrder(orderId);
         if (!order.getStoreId().equals(storeId)){
             throw new IllegalCallerException("This order doesn't belong to the store");
         }

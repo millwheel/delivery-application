@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository {
-    String createOrder(Order order);
-    Optional<Order> readOrder(String orderId);
+    Order createOrder(Order order);
+    Order readOrder(String orderId);
     List<Order> readOrderList(String storeId);
-    OrderStatus updateOrderStatus(String orderId, OrderStatus orderStatus);
+    Order updateOrderStatus(String orderId, OrderStatus orderStatus);
     void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
     void deleteOrder(String orderId);
 }

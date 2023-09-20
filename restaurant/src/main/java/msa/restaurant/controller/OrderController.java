@@ -19,8 +19,6 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SseService sseService;
-    private final SendingMessageConverter sendingMessageConverter;
-    private final SqsService sqsService;
 
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -43,25 +41,16 @@ public class OrderController {
 
     @PostMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void acceptOrder(@PathVariable String orderId,
-                            @RequestAttribute("order") Order order) {
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusToOrderAccept(orderId, order.getOrderStatus());
-        order.setOrderStatus(changedOrderStatus);
-        String messageToAcceptOrder = sendingMessageConverter.createMessageToAcceptOrder(order);
-        String messageToRequestOrder = sendingMessageConverter.createMessageToRequestOrder(order);
-        sqsService.sendToCustomer(messageToAcceptOrder);
-        sqsService.sendToRider(messageToRequestOrder);
+    public OrderStatus acceptOrder(@RequestAttribute("order") Order order) {
+        Order savedOrder = orderService.changeOrderStatus(order);
+        return savedOrder.getOrderStatus();
     }
 
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void changeOrderStatus(@PathVariable String orderId,
-                                  @RequestAttribute("order") Order order){
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusToFoodReady(orderId, order.getOrderStatus());
-        order.setOrderStatus(changedOrderStatus);
-        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order);
-        sqsService.sendToCustomer(messageToChangeOrderStatus);
-        sqsService.sendToRider(messageToChangeOrderStatus);
+    public OrderStatus setFoodReady(@RequestAttribute("order") Order order){
+        Order savedOrder = orderService.changeOrderStatus(order);
+        return savedOrder.getOrderStatus();
     }
 
 }

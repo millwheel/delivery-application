@@ -18,14 +18,13 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public String createOrder(Order order) {
-        Order savedOrder = repository.save(order);
-        return savedOrder.getOrderId();
+    public Order createOrder(Order order) {
+        return repository.save(order);
     }
 
     @Override
-    public Optional<Order> readOrder(String orderId) {
-        return repository.findById(orderId);
+    public Order readOrder(String orderId) {
+        return repository.findById(orderId).orElseThrow();
     }
 
     @Override
@@ -34,12 +33,10 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public OrderStatus updateOrderStatus(String orderId, OrderStatus orderStatus) {
-        repository.findById(orderId).ifPresent(order -> {
-            order.setOrderStatus(orderStatus);
-            repository.save(order);
-        });
-        return orderStatus;
+    public Order updateOrderStatus(String orderId, OrderStatus orderStatus) {
+        Order order = repository.findById(orderId).orElseThrow();
+        order.setOrderStatus(orderStatus);
+        return repository.save(order);
     }
 
     @Override
