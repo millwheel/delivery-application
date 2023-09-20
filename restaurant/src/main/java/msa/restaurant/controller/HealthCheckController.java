@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/restaurant")
-public class HealthController {
+public class HealthCheckController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

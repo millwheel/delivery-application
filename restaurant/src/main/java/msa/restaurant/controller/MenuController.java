@@ -30,8 +30,7 @@ public class MenuController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<MenuPartResponseDto> menuList(@RequestAttribute("cognitoUsername") String managerId,
-                                              @PathVariable String storeId){
+    public List<MenuPartResponseDto> menuList(@PathVariable String storeId){
         List<Menu> menuList = menuService.getMenuList(storeId);
         List<MenuPartResponseDto> menuListDto = new ArrayList<>();
         menuList.forEach(menu -> {
@@ -42,16 +41,9 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMenu(@RequestAttribute("cognitoUsername") String managerId,
-                        @RequestBody MenuRequestDto data,
-                        @PathVariable String storeId,
-                        HttpServletResponse response) throws IOException {
-        String menuId = menuService.createMenu(data, storeId);
-        Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isEmpty()){
-            throw new RuntimeException("Menu creation failed.");
-        }
-        Menu menu = menuOptional.get();
+    public void addMenu(@RequestBody MenuRequestDto data,
+                        @PathVariable String storeId) {
+        Menu menu = menuService.createMenu(data, storeId);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         String messageForMenuInfo = sendingMessageConverter.createMessageToCreateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageForMenuInfo);
@@ -60,9 +52,7 @@ public class MenuController {
 
     @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto menuInfo (@RequestAttribute("cognitoUsername") String managerId,
-                                     @PathVariable String storeId,
-                                     @PathVariable String menuId) {
+    public MenuResponseDto menuInfo (@PathVariable String menuId) {
         Optional<Menu> menuOptional = menuService.getMenu(menuId);
         if (menuOptional.isEmpty()){
             throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
@@ -72,17 +62,9 @@ public class MenuController {
 
     @PutMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateMenu(@RequestAttribute("cognitoUsername") String managerId,
-                           @PathVariable String storeId,
-                           @PathVariable String menuId,
-                           @RequestBody MenuRequestDto data,
-                           HttpServletResponse response) throws IOException {
-        menuService.updateMenu(menuId, data);
-        Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isEmpty()){
-            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
-        }
-        Menu menu = menuOptional.get();
+    public void updateMenu(@PathVariable String menuId,
+                           @RequestBody MenuRequestDto data) {
+        Menu menu = menuService.updateMenu(menuId, data);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         String messageToUpdateMenu = sendingMessageConverter.createMessageToUpdateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageToUpdateMenu);
@@ -91,14 +73,8 @@ public class MenuController {
 
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMenu(@RequestAttribute("cognitoUsername") String managerId,
-                           @PathVariable String storeId,
-                           @PathVariable String menuId,
-                           HttpServletResponse response) throws IOException {
-        Optional<Menu> menuOptional = menuService.getMenu(menuId);
-        if (menuOptional.isEmpty()){
-            throw new NullPointerException("Menu doesn't exist. " + menuId + " is not correct menu id.");
-        }
+    public void deleteMenu(@PathVariable String storeId,
+                           @PathVariable String menuId) {
         menuService.deleteMenu(menuId);
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);

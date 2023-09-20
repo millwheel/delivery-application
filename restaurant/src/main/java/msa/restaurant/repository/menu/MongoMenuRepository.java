@@ -17,9 +17,8 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public String create(Menu menu) {
-        Menu savedMenu = repository.save(menu);
-        return savedMenu.getMenuId();
+    public Menu create(Menu menu) {
+        return repository.save(menu);
     }
 
     @Override
@@ -33,17 +32,16 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void update(String menuId, MenuRequestDto data) {
-        repository.findById(menuId).ifPresent(menu -> {
-            menu.setName(data.getName());
-            menu.setPrice(data.getPrice());
-            menu.setDescription(data.getDescription());
-            repository.save(menu);
-        });
+    public Menu update(String menuId, MenuRequestDto data) {
+        Menu menu = repository.findById(menuId).orElseThrow();
+        menu.setName(data.getName());
+        menu.setPrice(data.getPrice());
+        menu.setDescription(data.getDescription());
+        return repository.save(menu);
     }
 
     @Override
-    public void deleteById(String menuId) {
+    public void delete(String menuId) {
         repository.deleteById(menuId);
     }
 

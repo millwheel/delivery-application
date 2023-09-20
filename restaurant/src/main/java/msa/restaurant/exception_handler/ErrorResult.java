@@ -1,4 +1,4 @@
-package msa.restaurant.exception;
+package msa.restaurant.exception_handler;
 
 import lombok.Getter;
 import lombok.Setter;

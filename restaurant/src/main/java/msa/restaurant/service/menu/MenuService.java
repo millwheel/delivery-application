@@ -19,7 +19,7 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public String createMenu(MenuRequestDto data, String storeId){
+    public Menu createMenu(MenuRequestDto data, String storeId){
         Menu menu = new Menu();
         menu.setName(data.getName());
         menu.setPrice(data.getPrice());
@@ -36,11 +36,11 @@ public class MenuService {
         return menuRepository.readMenuList(storeId);
     }
 
-    public void updateMenu(String menuId, MenuRequestDto data){
-        menuRepository.update(menuId, data);
+    public Menu updateMenu(String menuId, MenuRequestDto data){
+        return menuRepository.update(menuId, data);
     }
 
     public void deleteMenu(String menuId){
-        menuRepository.deleteById(menuId);
+        menuRepository.delete(menuId);
     }
 }
