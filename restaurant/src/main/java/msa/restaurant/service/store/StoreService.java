@@ -53,7 +53,7 @@ public class StoreService {
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
-        return store.getStoreId();
+        return savedStore.getStoreId();
     }
 
     public StoreResponseDto updateStore(String storeId, StoreRequestDto data){
