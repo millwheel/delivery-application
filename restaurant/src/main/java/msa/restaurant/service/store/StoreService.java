@@ -48,22 +48,25 @@ public class StoreService {
     }
 
     private void validateRequestData(StoreRequestDto data) {
-        Optional.ofNullable(data.getName()).orElseThrow(() -> new NullPointerException("store name is missing"));
-        Optional.ofNullable(data.getFoodKind()).orElseThrow(() -> new NullPointerException("store foodKind is missing"));
-        Optional.ofNullable(data.getPhoneNumber()).orElseThrow(() -> new NullPointerException("store phone number is missing"));
-        Optional.ofNullable(data.getAddress()).orElseThrow(() -> new NullPointerException("store address is missing"));
-        Optional.ofNullable(data.getAddressDetail()).orElseThrow(() -> new NullPointerException("store address detail is missing"));
-        Optional.ofNullable(data.getIntroduction()).orElseThrow(() -> new NullPointerException("store introduction is missing"));
+        validateField(data.getName(), "store name is missing");
+        validateField(data.getFoodKind(), "store foodKind is missing");
+        validateField(data.getPhoneNumber(), "store phone number is missing");
+        validateField(data.getAddress(), "store address is missing");
+        validateField(data.getAddressDetail(), "store address detail is missing");
+        validateField(data.getIntroduction(), "store introduction is missing");
+    }
+
+    private void validateField(Object field, String errorMessage) {
+        Optional.ofNullable(field).orElseThrow(() -> new NullPointerException(errorMessage));
     }
 
     public Store updateStore(String storeId, StoreRequestDto data){
         Point location = addressService.getCoordinate(data.getAddress());
-        Store store = storeRepository.update(storeId, data, location);
-        return store;
+        return storeRepository.update(storeId, data, location);
     }
 
-    public void deleteStore(String storeId){
-        storeRepository.deleteById(storeId);
+    public boolean deleteStore(String storeId){
+        return storeRepository.delete(storeId);
     }
 
     public void openStore(String storeId){

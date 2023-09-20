@@ -41,13 +41,14 @@ public class StoreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createStore (@RequestAttribute("cognitoUsername") String managerId,
+    public String createStore (@RequestAttribute("cognitoUsername") String managerId,
                           @RequestBody StoreRequestDto data) {
         Store store = storeService.createStore(data, managerId);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
+        return store.getStoreId();
     }
 
     @GetMapping("/{storeId}")
@@ -87,7 +88,7 @@ public class StoreController {
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStore(@PathVariable String storeId)  {
-        storeService.deleteStore(storeId);
+        if(!storeService.deleteStore(storeId)) return;
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sqsService.sendToCustomer(messageToDeleteStore);
         sqsService.sendToRider(messageToDeleteStore);

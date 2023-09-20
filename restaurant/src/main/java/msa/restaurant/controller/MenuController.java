@@ -41,13 +41,14 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMenu(@RequestBody MenuRequestDto data,
+    public String createMenu(@RequestBody MenuRequestDto data,
                         @PathVariable String storeId) {
         Menu menu = menuService.createMenu(data, storeId);
         MenuSqsDto menuSqsDto = new MenuSqsDto(menu);
         String messageForMenuInfo = sendingMessageConverter.createMessageToCreateMenu(menuSqsDto);
         sqsService.sendToCustomer(messageForMenuInfo);
         sqsService.sendToRider(messageForMenuInfo);
+        return menu.getMenuId();
     }
 
     @GetMapping("/{menuId}")
@@ -75,9 +76,7 @@ public class MenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId) {
-        if (!menuService.deleteMenu(menuId)){
-            return;
-        }
+        if (!menuService.deleteMenu(menuId)) return;
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);

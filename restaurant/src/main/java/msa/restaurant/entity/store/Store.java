@@ -28,8 +28,7 @@ public class Store {
     private String managerId;
 
     @Builder
-    public Store(String storeId, String name, FoodKind foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction, Boolean open, String managerId) {
-        this.storeId = storeId;
+    public Store(String name, FoodKind foodKind, String phoneNumber, String address, String addressDetail, Point location, String introduction, Boolean open, String managerId) {
         this.name = name;
         this.foodKind = foodKind;
         this.phoneNumber = phoneNumber;

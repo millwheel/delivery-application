@@ -18,8 +18,7 @@ public class MongoStoreRepository implements StoreRepository {
 
     @Override
     public Store create(Store store) {
-        Store savedStore = repository.save(store);
-        return savedStore;
+        return repository.save(store);
     }
 
     @Override
@@ -42,8 +41,7 @@ public class MongoStoreRepository implements StoreRepository {
         store.setAddressDetail(data.getAddressDetail());
         store.setIntroduction(data.getIntroduction());
         store.setLocation(location);
-        repository.save(store);
-        return store;
+        return repository.save(store);
     }
 
 
@@ -56,8 +54,12 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public void deleteById(String storeId) {
-        repository.deleteById(storeId);
+    public boolean delete(String storeId) {
+        if (repository.existsById(storeId)){
+            repository.deleteById(storeId);
+            return true;
+        }
+        return false;
     }
 }
 
