@@ -75,7 +75,9 @@ public class MenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMenu(@PathVariable String storeId,
                            @PathVariable String menuId) {
-        menuService.deleteMenu(menuId);
+        if (!menuService.deleteMenu(menuId)){
+            return;
+        }
         String messageToDeleteMenu = sendingMessageConverter.createMessageToDeleteMenu(storeId, menuId);
         sqsService.sendToCustomer(messageToDeleteMenu);
         sqsService.sendToRider(messageToDeleteMenu);

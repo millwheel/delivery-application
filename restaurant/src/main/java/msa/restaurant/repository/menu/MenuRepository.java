@@ -11,5 +11,5 @@ public interface MenuRepository {
     Optional<Menu> readMenu(String menuId);
     List<Menu> readMenuList(String storeId);
     Menu update(String menuId, MenuRequestDto data);
-    void delete(String menuId);
+    boolean delete(String menuId);
 }

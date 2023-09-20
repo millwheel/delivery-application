@@ -41,9 +41,12 @@ public class MongoMenuRepository implements MenuRepository{
     }
 
     @Override
-    public void delete(String menuId) {
-        repository.deleteById(menuId);
+    public boolean delete(String menuId) {
+        if(repository.existsById(menuId)){
+            repository.deleteById(menuId);
+            return true;
+        }
+        return false;
     }
-
 
 }

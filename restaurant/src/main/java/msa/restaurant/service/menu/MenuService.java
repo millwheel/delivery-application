@@ -40,7 +40,7 @@ public class MenuService {
         return menuRepository.update(menuId, data);
     }
 
-    public void deleteMenu(String menuId){
-        menuRepository.delete(menuId);
+    public boolean deleteMenu(String menuId){
+        return menuRepository.delete(menuId);
     }
 }
