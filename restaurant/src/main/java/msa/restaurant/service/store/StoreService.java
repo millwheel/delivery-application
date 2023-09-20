@@ -1,20 +1,20 @@
 package msa.restaurant.service.store;
 
-import jakarta.validation.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import msa.restaurant.dto.store.OpenStatus;
 import msa.restaurant.dto.store.StoreRequestDto;
+import msa.restaurant.dto.store.StoreResponseDto;
+import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.entity.store.Store;
+import msa.restaurant.message_queue.SendingMessageConverter;
+import msa.restaurant.message_queue.SqsService;
 import msa.restaurant.repository.store.StoreRepository;
 import msa.restaurant.service.AddressService;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,6 +23,9 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final AddressService addressService;
+    private final SendingMessageConverter sendingMessageConverter;
+    private final SqsService sqsService;
+
 
     public Store getStore(String storeId){
         return storeRepository.readStore(storeId).orElseThrow();
@@ -32,10 +35,9 @@ public class StoreService {
         return storeRepository.readStoreList(managerId);
     }
 
-    public Store createStore(StoreRequestDto data, String managerId) {
+    public String createStore(StoreRequestDto data, String managerId) {
         Point coordinate = addressService.getCoordinate(data.getAddress());
-
-        return Store.builder()
+        Store store = Store.builder()
                 .name(data.getName())
                 .foodKind(data.getFoodKind())
                 .phoneNumber(data.getPhoneNumber())
@@ -46,23 +48,53 @@ public class StoreService {
                 .location(coordinate)
                 .open(false)
                 .build();
+
+        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
+        sqsService.sendToCustomer(messageToCreateStore);
+        sqsService.sendToRider(messageToCreateStore);
+        return store.getStoreId();
     }
 
-    public Store updateStore(String storeId, StoreRequestDto data){
+    public StoreResponseDto updateStore(String storeId, StoreRequestDto data){
         Point location = addressService.getCoordinate(data.getAddress());
-        return storeRepository.update(storeId, data, location);
+        Store store = storeRepository.update(storeId, data, location);
+        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
+        sqsService.sendToCustomer(messageToUpdateStore);
+        sqsService.sendToRider(messageToUpdateStore);
+        return new StoreResponseDto(store);
     }
 
     public boolean deleteStore(String storeId){
-        return storeRepository.delete(storeId);
+        if(!storeRepository.delete(storeId)) return false;
+        String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
+        sqsService.sendToCustomer(messageToDeleteStore);
+        sqsService.sendToRider(messageToDeleteStore);
+        return true;
+    }
+
+    public void changeStoreStatus(String storeId, OpenStatus openStatus){
+        if (openStatus == OpenStatus.OPEN){
+            openStore(storeId);
+        }
+        if (openStatus == OpenStatus.CLOSE){
+            closeStore(storeId);
+        }
     }
 
     public void openStore(String storeId){
         storeRepository.updateOpenStatus(storeId, true);
+        String messageToOpenStore = sendingMessageConverter.createMessageToOpenStore(storeId);
+        sqsService.sendToCustomer(messageToOpenStore);
+        sqsService.sendToRider(messageToOpenStore);
     }
 
     public void closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
+        String messageToCloseStore = sendingMessageConverter.createMessageToCloseStore(storeId);
+        sqsService.sendToCustomer(messageToCloseStore);
+        sqsService.sendToRider(messageToCloseStore);
     }
 
 }

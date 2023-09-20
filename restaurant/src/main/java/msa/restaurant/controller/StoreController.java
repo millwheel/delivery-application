@@ -2,11 +2,8 @@ package msa.restaurant.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import msa.restaurant.dto.store.StorePartResponseDto;
-import msa.restaurant.dto.store.StoreRequestDto;
-import msa.restaurant.dto.store.StoreResponseDto;
+import msa.restaurant.dto.store.*;
 import msa.restaurant.entity.store.Store;
-import msa.restaurant.dto.store.StoreSqsDto;
 import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.service.store.StoreService;
 import msa.restaurant.message_queue.SqsService;
@@ -24,8 +21,6 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
-    private final SendingMessageConverter sendingMessageConverter;
-    private final SqsService sqsService;
 
 
     @GetMapping
@@ -44,12 +39,7 @@ public class StoreController {
     @ResponseStatus(HttpStatus.CREATED)
     public String createStore (@RequestAttribute("cognitoUsername") String managerId,
                           @Validated @RequestBody StoreRequestDto data) {
-        Store store = storeService.createStore(data, managerId);
-        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
-        sqsService.sendToCustomer(messageToCreateStore);
-        sqsService.sendToRider(messageToCreateStore);
-        return store.getStoreId();
+        return storeService.createStore(data, managerId);
     }
 
     @GetMapping("/{storeId}")
@@ -61,38 +51,22 @@ public class StoreController {
 
     @PatchMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateStore(@PathVariable String storeId,
+    public StoreResponseDto updateStore(@PathVariable String storeId,
                             @RequestBody StoreRequestDto data)  {
-        Store store = storeService.updateStore(storeId, data);
-        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
-        String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
-        sqsService.sendToCustomer(messageToUpdateStore);
-        sqsService.sendToRider(messageToUpdateStore);
+        return storeService.updateStore(storeId, data);
     }
 
     @PostMapping("/{storeId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void changeStoreStatus(@PathVariable String storeId,
-                                  @RequestBody boolean open){
-        String messageToChangeStatus;
-        if (open){
-            storeService.openStore(storeId);
-            messageToChangeStatus = sendingMessageConverter.createMessageToOpenStore(storeId);
-        } else {
-            storeService.closeStore(storeId);
-            messageToChangeStatus = sendingMessageConverter.createMessageToCloseStore(storeId);
-        }
-        sqsService.sendToCustomer(messageToChangeStatus);
-        sqsService.sendToRider(messageToChangeStatus);
+                                  @RequestBody OpenStatus openStatus){
+        storeService.changeStoreStatus(storeId, openStatus);
     }
 
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStore(@PathVariable String storeId)  {
-        if(!storeService.deleteStore(storeId)) return;
-        String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
-        sqsService.sendToCustomer(messageToDeleteStore);
-        sqsService.sendToRider(messageToDeleteStore);
+    public boolean deleteStore(@PathVariable String storeId)  {
+        return storeService.deleteStore(storeId);
     }
 }
 
