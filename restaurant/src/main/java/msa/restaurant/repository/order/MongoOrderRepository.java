@@ -3,17 +3,19 @@ package msa.restaurant.repository.order;
 import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.exception.OrderMismatchException;
 import msa.restaurant.exception.OrderNonexistentException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
-public class MongoOrderRespository implements OrderRepository {
+public class MongoOrderRepository implements OrderRepository {
 
     private final SpringDataMongoOrderRepository repository;
 
-    public MongoOrderRespository(SpringDataMongoOrderRepository repository) {
+    public MongoOrderRepository(SpringDataMongoOrderRepository repository) {
         this.repository = repository;
     }
 
@@ -23,8 +25,10 @@ public class MongoOrderRespository implements OrderRepository {
     }
 
     @Override
-    public Order readOrder(String orderId) {
-        return repository.findById(orderId).orElseThrow(() -> new OrderNonexistentException(orderId));
+    public Order readOrder(String storeId, String orderId) {
+        Order order = repository.findById(orderId).orElseThrow(() -> new OrderNonexistentException(orderId));
+        if(!Objects.equals(order.getStoreId(), storeId)) throw new OrderMismatchException(orderId, storeId);
+        return order;
     }
 
     @Override

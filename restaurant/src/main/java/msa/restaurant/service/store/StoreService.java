@@ -54,39 +54,39 @@ public class StoreService {
         return savedStore.getStoreId();
     }
 
-    public Store updateStore(String storeId, StoreRequestDto data){
+    public Store updateStore(String managerId, String storeId, StoreRequestDto data){
         Point location = addressService.getCoordinate(data.getAddress());
-        Store store = storeRepository.update(storeId, data, location);
+        Store store = storeRepository.update(managerId, storeId, data, location);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sendMessageToOtherServer(messageToUpdateStore);
         return store;
     }
 
-    public void deleteStore(String storeId){
-        storeRepository.delete(storeId);
+    public void deleteStore(String managerId, String storeId){
+        storeRepository.delete(managerId, storeId);
         String messageToDeleteStore = sendingMessageConverter.createMessageToDeleteStore(storeId);
         sendMessageToOtherServer(messageToDeleteStore);
     }
 
-    public void changeStoreStatus(String storeId, OpenStatus openStatus){
+    public void changeStoreStatus(String managerId, String storeId, OpenStatus openStatus){
         String storeStatusMessage;
         if (openStatus == OpenStatus.OPEN){
-            storeStatusMessage = openStore(storeId);
+            storeStatusMessage = openStore(managerId, storeId);
             sendMessageToOtherServer(storeStatusMessage);
         }else if (openStatus == OpenStatus.CLOSE){
-            storeStatusMessage = closeStore(storeId);
+            storeStatusMessage = closeStore(managerId, storeId);
             sendMessageToOtherServer(storeStatusMessage);
         }
     }
 
-    private String openStore(String storeId){
-        storeRepository.updateOpenStatus(storeId, true);
+    private String openStore(String managerId, String storeId){
+        storeRepository.updateOpenStatus(managerId, storeId, true);
         return sendingMessageConverter.createMessageToOpenStore(storeId);
     }
 
-    private String closeStore(String storeId){
-        storeRepository.updateOpenStatus(storeId, false);
+    private String closeStore(String managerId, String storeId){
+        storeRepository.updateOpenStatus(managerId, storeId, false);
         return sendingMessageConverter.createMessageToCloseStore(storeId);
     }
 

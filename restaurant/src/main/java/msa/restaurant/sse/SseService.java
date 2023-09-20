@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -37,7 +36,6 @@ public class SseService {
         emitterList.put(storeId, emitter);
         log.info("storeId={}", storeId);
         log.info("new emitter added: {}", emitter);
-        log.info("emitter list:{}", emitterList);
         emitter.onCompletion(() -> {
             SseEmitter removedEmitter = this.emitterList.remove(storeId);
             this.requestList.remove(storeId);
@@ -68,21 +66,28 @@ public class SseService {
         orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));
         });
+        sendOrderListToSse(storeId, orderPartInfoList);
+    }
+
+    private void sendOrderListToSse(String storeId, List<OrderPartResponseDto> orderPartInfoList){
         try {
-            emitterList.get(storeId).send(SseEmitter.event().name("order-list").data(orderPartInfoList));
+            SseEmitter sseEmitter = emitterList.get(storeId);
+            sseEmitter.send(SseEmitter.event().name("order-list").data(orderPartInfoList));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void showOrderInfo(String storeId, String orderId) {
-        Order order = orderService.getOrder(orderId);
-        if (!storeId.equals(order.getStoreId())){
-            throw new IllegalCallerException("This order doesn't belong to the store.");
-        }
+        Order order = orderService.getOrder(storeId, orderId);
         OrderResponseDto orderPartInfo = new OrderResponseDto(order);
+        sendOrderInfoToSse(storeId, orderPartInfo);
+    }
+
+    private void sendOrderInfoToSse(String storeId, OrderResponseDto orderPartInfo){
         try {
-            emitterList.get(storeId).send(SseEmitter.event().name("order").data(orderPartInfo));
+            SseEmitter sseEmitter = emitterList.get(storeId);
+            sseEmitter.send(SseEmitter.event().name("order").data(orderPartInfo));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -91,12 +96,7 @@ public class SseService {
     public void updateOrderFromSqs(String storeId, String orderId){
         if (emitterList.containsKey(storeId)){
             log.info("The server has storeId={}", storeId);
-            String request = requestList.get(storeId);
-            if (request.equals("list")){
-                showOrderList(storeId);
-            } else if (request.equals("info")){
-                showOrderInfo(storeId, orderId);
-            }
+            extractRequest(storeId, orderId);
         } else{
             log.info("The server doesn't have storeId={} redis publish is activated", storeId);
             pubService.sendMessageToMatchStoreAndOrder(storeId, orderId);
@@ -106,13 +106,18 @@ public class SseService {
     public void updateOrderFromRedis(String storeId, String orderId){
         if (emitterList.containsKey(storeId)){
             log.info("The server has storeId={}", storeId);
-            String request = requestList.get(storeId);
-            if (request.equals("list")){
-                showOrderList(storeId);
-            } else if (request.equals("info")){
-                showOrderInfo(storeId, orderId);
-            }
+            extractRequest(storeId, orderId);
         }
     }
+
+    private void extractRequest(String storeId, String orderId){
+        String request = requestList.get(storeId);
+        if (request.equals("list")){
+            showOrderList(storeId);
+        } else if (request.equals("info")){
+            showOrderInfo(storeId, orderId);
+        }
+    }
+
 
 }

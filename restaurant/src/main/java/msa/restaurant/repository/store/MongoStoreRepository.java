@@ -8,6 +8,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class MongoStoreRepository implements StoreRepository {
@@ -35,8 +36,11 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public Store update(String storeId, StoreRequestDto data, Point location) {
+    public Store update(String managerId, String storeId, StoreRequestDto data, Point location) {
         Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
+        if(!Objects.equals(store.getManagerId(), managerId)){
+            throw new StoreMismatchException(storeId, managerId);
+        }
         if (data.getName() != null) {
             store.setName(data.getName());
         }
@@ -64,16 +68,20 @@ public class MongoStoreRepository implements StoreRepository {
 
 
     @Override
-    public void updateOpenStatus(String storeId, boolean status) {
+    public void updateOpenStatus(String managerId, String storeId, boolean status) {
         Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
+        if(!Objects.equals(store.getManagerId(), managerId)){
+            throw new StoreMismatchException(storeId, managerId);
+        }
         store.setOpen(status);
         repository.save(store);
     }
 
     @Override
-    public void delete(String storeId) {
-        if (!repository.existsById(storeId)){
-            throw new StoreNonexistentException(storeId);
+    public void delete(String managerId, String storeId) {
+        Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
+        if(!Objects.equals(store.getManagerId(), managerId)){
+            throw new StoreMismatchException(storeId, managerId);
         }
         repository.deleteById(storeId);
     }

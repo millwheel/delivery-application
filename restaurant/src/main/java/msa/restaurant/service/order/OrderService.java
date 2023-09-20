@@ -28,13 +28,14 @@ public class OrderService {
         return orderRepository.readOrderList(storeId);
     }
 
-    public Order getOrder(String orderId){
-        return orderRepository.readOrder(orderId);
+    public Order getOrder(String storeId, String orderId){
+        return orderRepository.readOrder(storeId, orderId);
     }
 
-    public Order changeOrderStatus(Order order){
+    public Order changeOrderStatus(String storeId, String orderId){
+        Order order = orderRepository.readOrder(storeId, orderId);
         OrderStatus nextStatus = orderStatusUpdatePolicy.checkStatusUpdatable(order.getOrderStatus());
-        Order savedOrder = orderRepository.updateOrderStatus(order.getOrderId(), nextStatus);
+        Order savedOrder = orderRepository.updateOrderStatus(orderId, nextStatus);
         if (nextStatus == OrderStatus.ORDER_ACCEPT) sendMessageToOrderAccept(savedOrder);
         if (nextStatus == OrderStatus.FOOD_READY) sendMessageToFoodReady(savedOrder);
         return savedOrder;

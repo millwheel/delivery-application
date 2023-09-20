@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+
 @RestController
 @RequestMapping("/restaurant/store/{storeId}/order")
 @AllArgsConstructor
@@ -17,7 +18,6 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SseService sseService;
-
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -30,8 +30,7 @@ public class OrderController {
     @GetMapping(path="/{orderId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public SseEmitter showOrderInfo(@PathVariable String storeId,
-                                    @PathVariable String orderId,
-                                    @RequestAttribute("order") Order order){
+                                    @PathVariable String orderId){
         SseEmitter sseEmitter = sseService.connectForInfo(storeId);
         sseService.showOrderInfo(storeId, orderId);
         return sseEmitter;
@@ -39,15 +38,17 @@ public class OrderController {
 
     @PostMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderStatus acceptOrder(@RequestAttribute("order") Order order) {
-        Order savedOrder = orderService.changeOrderStatus(order);
+    public OrderStatus acceptOrder(@PathVariable String storeId,
+                                   @PathVariable String orderId) {
+        Order savedOrder = orderService.changeOrderStatus(storeId, orderId);
         return savedOrder.getOrderStatus();
     }
 
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderStatus setFoodReady(@RequestAttribute("order") Order order){
-        Order savedOrder = orderService.changeOrderStatus(order);
+    public OrderStatus setFoodReady(@PathVariable String storeId,
+                                    @PathVariable String orderId){
+        Order savedOrder = orderService.changeOrderStatus(storeId, orderId);
         return savedOrder.getOrderStatus();
     }
 

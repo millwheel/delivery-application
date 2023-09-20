@@ -50,24 +50,27 @@ public class StoreController {
 
     @PatchMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto updateStore(@PathVariable String storeId,
-                            @RequestBody StoreRequestDto data)  {
-        Store store = storeService.updateStore(storeId, data);
+    public StoreResponseDto updateStore(@RequestAttribute("cognitoUsername") String managerId,
+                                        @PathVariable String storeId,
+                                        @RequestBody StoreRequestDto data)  {
+        Store store = storeService.updateStore(managerId, storeId, data);
         return new StoreResponseDto(store);
 
     }
 
     @PostMapping("/{storeId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changeStoreStatus(@PathVariable String storeId,
+    public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
+                                  @PathVariable String storeId,
                                   @RequestBody OpenStatus openStatus){
-        storeService.changeStoreStatus(storeId, openStatus);
+        storeService.changeStoreStatus(managerId, storeId, openStatus);
     }
 
     @DeleteMapping("/{storeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStore(@PathVariable String storeId)  {
-        storeService.deleteStore(storeId);
+    public void deleteStore(@RequestAttribute("cognitoUsername") String managerId,
+                            @PathVariable String storeId)  {
+        storeService.deleteStore(managerId, storeId);
     }
 }
 

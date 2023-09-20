@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface StoreRepository {
     Store create(Store store);
-    Store readStore(String managerId,String storeId);
+    Store readStore(String managerId, String storeId);
     List<Store> readStoreList(String managerId);
-    Store update(String storeId, StoreRequestDto data, Point location);
-    void updateOpenStatus(String storeId, boolean open);
-    void delete(String storeId);
+    Store update(String managerId, String storeId, StoreRequestDto data, Point location);
+    void updateOpenStatus(String managerId, String storeId, boolean open);
+    void delete(String managerId, String storeId);
 }
