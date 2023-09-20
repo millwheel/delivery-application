@@ -3,8 +3,6 @@ package msa.restaurant.controller;
 import lombok.AllArgsConstructor;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
-import msa.restaurant.message_queue.SendingMessageConverter;
-import msa.restaurant.message_queue.SqsService;
 import msa.restaurant.service.order.OrderService;
 import msa.restaurant.sse.SseService;
 import org.springframework.http.HttpStatus;

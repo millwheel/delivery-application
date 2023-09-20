@@ -32,8 +32,7 @@ public class MemberController {
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public void updateMember(@RequestAttribute("cognitoUsername") String id,
-                                 @RequestBody ManagerRequestDto data,
-                                 HttpServletResponse response) throws IOException {
+                                 @RequestBody ManagerRequestDto data) {
         memberService.updateManager(id, data);
     }
 

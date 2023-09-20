@@ -10,33 +10,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(basePackages = "msa.restaurant")
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResult illegalExceptionHandler(IllegalArgumentException e){
-        return new ErrorResult("ARGUMENT ERROR", e.getMessage());
-    }
-
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResult nullPointerExceptionHandler(NullPointerException e){
-        return new ErrorResult("NO MATCHED DATA", e.getMessage());
+        return new ErrorResult("NULL_POINTER", e.getMessage());
     }
 
-    @ExceptionHandler(IllegalCallerException.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResult illegalCallerException(IllegalCallerException e){
-        return new ErrorResult("NOT ALLOWED", e.getMessage());
+    public ErrorResult illegalExceptionHandler(IllegalArgumentException e){
+        return new ErrorResult("ILLEGAL_ARGUMENT", e.getMessage());
     }
-
 
     @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResult runtimeExceptionHandler(RuntimeException e){
-        return new ErrorResult("SERVER ERROR", e.getMessage());
+        return new ErrorResult("RUNTIME", e.getMessage());
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResult exceptionHandler(Exception e){
-        return new ErrorResult("SERVER ERROR", e.getMessage());
+        return new ErrorResult("INTERNAL_SERVER", e.getMessage());
     }
 }
