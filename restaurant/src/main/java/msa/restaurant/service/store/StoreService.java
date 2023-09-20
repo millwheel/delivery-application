@@ -48,8 +48,8 @@ public class StoreService {
                 .location(coordinate)
                 .open(false)
                 .build();
-        storeRepository.create(store);
-        StoreSqsDto storeSqsDto = new StoreSqsDto(store);
+        Store savedStore = storeRepository.create(store);
+        StoreSqsDto storeSqsDto = new StoreSqsDto(savedStore);
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToCreateStore);
         sqsService.sendToRider(messageToCreateStore);
