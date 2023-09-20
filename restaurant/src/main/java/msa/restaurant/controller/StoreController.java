@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.*;
 import msa.restaurant.entity.store.Store;
-import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.service.store.StoreService;
-import msa.restaurant.message_queue.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +42,7 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto storeInfo (@PathVariable String storeId) {
+    public StoreResponseDto readStore (@PathVariable String storeId) {
         Store store = storeService.getStore(storeId);
         return new StoreResponseDto(store);
     }
@@ -53,7 +51,9 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     public StoreResponseDto updateStore(@PathVariable String storeId,
                             @RequestBody StoreRequestDto data)  {
-        return storeService.updateStore(storeId, data);
+        Store store = storeService.updateStore(storeId, data);
+        return new StoreResponseDto(store);
+
     }
 
     @PostMapping("/{storeId}")

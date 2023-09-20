@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MenuRepository {
     Menu create(Menu menu);
-    Optional<Menu> readMenu(String menuId);
+    Menu readMenu(String menuId);
     List<Menu> readMenuList(String storeId);
     Menu update(String menuId, MenuRequestDto data);
     boolean delete(String menuId);

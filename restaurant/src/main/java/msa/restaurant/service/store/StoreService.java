@@ -56,14 +56,14 @@ public class StoreService {
         return savedStore.getStoreId();
     }
 
-    public StoreResponseDto updateStore(String storeId, StoreRequestDto data){
+    public Store updateStore(String storeId, StoreRequestDto data){
         Point location = addressService.getCoordinate(data.getAddress());
         Store store = storeRepository.update(storeId, data, location);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToUpdateStore = sendingMessageConverter.createMessageToUpdateStore(storeSqsDto);
         sqsService.sendToCustomer(messageToUpdateStore);
         sqsService.sendToRider(messageToUpdateStore);
-        return new StoreResponseDto(store);
+        return store;
     }
 
     public boolean deleteStore(String storeId){

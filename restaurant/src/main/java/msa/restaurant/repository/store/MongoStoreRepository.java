@@ -62,10 +62,9 @@ public class MongoStoreRepository implements StoreRepository {
 
     @Override
     public void updateOpenStatus(String storeId, boolean status) {
-        repository.findById(storeId).ifPresent(store -> {
-            store.setOpen(status);
-            repository.save(store);
-        });
+        Store store = repository.findById(storeId).orElseThrow();
+        store.setOpen(status);
+        repository.save(store);
     }
 
     @Override

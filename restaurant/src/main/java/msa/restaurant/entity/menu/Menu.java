@@ -1,5 +1,6 @@
 package msa.restaurant.entity.menu;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,4 +20,12 @@ public class Menu {
     private String description;
     @Indexed
     private String storeId;
+
+    @Builder
+    public Menu(String name, int price, String description, String storeId) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.storeId = storeId;
+    }
 }
