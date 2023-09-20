@@ -42,8 +42,9 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto readStore (@PathVariable String storeId) {
-        Store store = storeService.getStore(storeId);
+    public StoreResponseDto readStore (@RequestAttribute("cognitoUsername") String managerId,
+                                       @PathVariable String storeId) {
+        Store store = storeService.getStore(managerId, storeId);
         return new StoreResponseDto(store);
     }
 

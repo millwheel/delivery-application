@@ -2,6 +2,7 @@ package msa.restaurant.repository.store;
 
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.store.Store;
+import msa.restaurant.exception.StoreMismatchException;
 import msa.restaurant.exception.StoreNonexistentException;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
@@ -22,8 +23,10 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public Store readStore(String storeId) {
-        return repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
+    public Store readStore(String managerId, String storeId) {
+        Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
+        if (!store.getManagerId().equals(managerId)) throw new StoreMismatchException(storeId, managerId);
+        return store;
     }
 
     @Override

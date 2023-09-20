@@ -26,8 +26,8 @@ public class StoreService {
     private final SqsService sqsService;
 
 
-    public Store getStore(String storeId){
-        return storeRepository.readStore(storeId);
+    public Store getStore(String managerId, String storeId){
+        return storeRepository.readStore(managerId, storeId);
     }
 
     public List<Store> getStoreList(String managerId){
