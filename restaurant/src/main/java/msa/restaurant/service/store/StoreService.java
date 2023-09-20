@@ -1,17 +1,20 @@
 package msa.restaurant.service.store;
 
+import jakarta.validation.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.entity.store.Store;
 import msa.restaurant.repository.store.StoreRepository;
 import msa.restaurant.service.AddressService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,8 +33,6 @@ public class StoreService {
     }
 
     public Store createStore(StoreRequestDto data, String managerId) {
-        validateRequestData(data);
-
         Point coordinate = addressService.getCoordinate(data.getAddress());
 
         return Store.builder()
@@ -45,19 +46,6 @@ public class StoreService {
                 .location(coordinate)
                 .open(false)
                 .build();
-    }
-
-    private void validateRequestData(StoreRequestDto data) {
-        validateField(data.getName(), "store name is missing");
-        validateField(data.getFoodKind(), "store foodKind is missing");
-        validateField(data.getPhoneNumber(), "store phone number is missing");
-        validateField(data.getAddress(), "store address is missing");
-        validateField(data.getAddressDetail(), "store address detail is missing");
-        validateField(data.getIntroduction(), "store introduction is missing");
-    }
-
-    private void validateField(Object field, String errorMessage) {
-        Optional.ofNullable(field).orElseThrow(() -> new NullPointerException(errorMessage));
     }
 
     public Store updateStore(String storeId, StoreRequestDto data){

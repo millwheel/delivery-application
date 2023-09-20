@@ -11,6 +11,7 @@ import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.service.store.StoreService;
 import msa.restaurant.message_queue.SqsService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class StoreController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String createStore (@RequestAttribute("cognitoUsername") String managerId,
-                          @RequestBody StoreRequestDto data) {
+                          @Validated @RequestBody StoreRequestDto data) {
         Store store = storeService.createStore(data, managerId);
         StoreSqsDto storeSqsDto = new StoreSqsDto(store);
         String messageToCreateStore = sendingMessageConverter.createMessageToCreateStore(storeSqsDto);
@@ -58,7 +59,7 @@ public class StoreController {
         return new StoreResponseDto(store);
     }
 
-    @PutMapping("/{storeId}")
+    @PatchMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateStore(@PathVariable String storeId,
                             @RequestBody StoreRequestDto data)  {
