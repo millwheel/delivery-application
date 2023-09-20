@@ -7,16 +7,14 @@ import msa.restaurant.dto.store.StoreRequestDto;
 import msa.restaurant.dto.store.StoreResponseDto;
 import msa.restaurant.entity.store.Store;
 import msa.restaurant.dto.store.StoreSqsDto;
-import msa.restaurant.service.member.MemberService;
-import msa.restaurant.sqs.SendingMessageConverter;
+import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.service.store.StoreService;
-import msa.restaurant.sqs.SqsService;
+import msa.restaurant.message_queue.SqsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j

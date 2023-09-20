@@ -1,4 +1,4 @@
-package msa.restaurant.sqs;
+package msa.customer.message_queue;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
@@ -6,11 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @Slf4j
-public class SqsService {
+public class SqsMessaging {
 
     @Value("${aws.sqs.url.customer}")
     private String customerSqsUrl;
@@ -22,13 +22,13 @@ public class SqsService {
     private final AmazonSQS amazonSQSClient;
     private final ReceivingMessageConverter receivingMessageConverter;
 
-    public SqsService(AmazonSQS amazonSQSClient, ReceivingMessageConverter receivingMessageConverter) {
+    public SqsMessaging(AmazonSQS amazonSQSClient, ReceivingMessageConverter receivingMessageConverter) {
         this.amazonSQSClient = amazonSQSClient;
         this.receivingMessageConverter = receivingMessageConverter;
     }
 
-    public SendMessageResult sendToCustomer(String data){
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(customerSqsUrl, data);
+    public SendMessageResult sendToRestaurant(String data){
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(restaurantSqsUrl, data);
         return amazonSQSClient.sendMessage(sendMessageRequest);
     }
 
@@ -40,13 +40,13 @@ public class SqsService {
     @Scheduled(fixedDelay = 1000)
     public void receive() throws JsonProcessingException {
         try{
-            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(restaurantSqsUrl);
+            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(customerSqsUrl);
             if(!receiveMessageResult.getMessages().isEmpty()){
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
                 receivingMessageConverter.processMessage(messageBody);
-                amazonSQSClient.deleteMessage(restaurantSqsUrl, message.getReceiptHandle());
+                amazonSQSClient.deleteMessage(customerSqsUrl, message.getReceiptHandle());
             }
         } catch (QueueDoesNotExistException e){
             log.error("Queue Dose not exist {}", e.getMessage());

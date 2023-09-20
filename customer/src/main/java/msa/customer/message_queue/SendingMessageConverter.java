@@ -1,4 +1,4 @@
-package msa.customer.sqs;
+package msa.customer.message_queue;
 
 import msa.customer.entity.order.Order;
 import org.json.JSONObject;

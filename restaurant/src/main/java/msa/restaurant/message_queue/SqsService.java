@@ -1,4 +1,4 @@
-package msa.rider.sqs;
+package msa.restaurant.message_queue;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.*;
@@ -18,6 +18,7 @@ public class SqsService {
     private String restaurantSqsUrl;
     @Value("${aws.sqs.url.rider}")
     private String riderSqsUrl;
+
     private final AmazonSQS amazonSQSClient;
     private final ReceivingMessageConverter receivingMessageConverter;
 
@@ -31,23 +32,23 @@ public class SqsService {
         return amazonSQSClient.sendMessage(sendMessageRequest);
     }
 
-    public SendMessageResult sendToRestaurant(String data){
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(restaurantSqsUrl, data);
+    public SendMessageResult sendToRider(String data){
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(riderSqsUrl, data);
         return amazonSQSClient.sendMessage(sendMessageRequest);
     }
 
     @Scheduled(fixedDelay = 1000)
     public void receive() throws JsonProcessingException {
         try{
-            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(riderSqsUrl);
+            ReceiveMessageResult receiveMessageResult = amazonSQSClient.receiveMessage(restaurantSqsUrl);
             if(!receiveMessageResult.getMessages().isEmpty()){
                 Message message = receiveMessageResult.getMessages().get(0);
                 String messageBody = message.getBody();
                 log.info("message body={}", messageBody);
                 receivingMessageConverter.processMessage(messageBody);
-                amazonSQSClient.deleteMessage(riderSqsUrl, message.getReceiptHandle());
+                amazonSQSClient.deleteMessage(restaurantSqsUrl, message.getReceiptHandle());
             }
-        } catch (QueueDoesNotExistException e) {
+        } catch (QueueDoesNotExistException e){
             log.error("Queue Dose not exist {}", e.getMessage());
         }
     }

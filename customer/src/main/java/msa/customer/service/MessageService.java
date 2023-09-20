@@ -1,8 +1,8 @@
 package msa.customer.service;
 
 import msa.customer.entity.order.Order;
-import msa.customer.sqs.SendingMessageConverter;
-import msa.customer.sqs.SqsMessaging;
+import msa.customer.message_queue.SendingMessageConverter;
+import msa.customer.message_queue.SqsMessaging;
 import org.springframework.stereotype.Service;
 
 @Service

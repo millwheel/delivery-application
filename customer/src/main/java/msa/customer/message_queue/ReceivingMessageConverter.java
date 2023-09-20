@@ -1,21 +1,20 @@
-package msa.rider.sqs;
+package msa.customer.message_queue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
-import msa.rider.deserializer.OrderDeserializer;
-import msa.rider.deserializer.StoreDeserializer;
-import msa.rider.dto.menu.MenuSqsDto;
-import msa.rider.dto.store.StoreSqsDto;
-import msa.rider.entity.order.Order;
-import msa.rider.entity.order.OrderStatus;
-import msa.rider.service.menu.MenuService;
-import msa.rider.service.order.OrderService;
-import msa.rider.service.store.StoreService;
-import msa.rider.sse.SseService;
+import msa.customer.deserializer.PointMixin;
+import msa.customer.dto.menu.MenuSqsDto;
+import msa.customer.dto.rider.RiderPartDto;
+import msa.customer.dto.store.StoreSqsDto;
+import msa.customer.entity.order.OrderStatus;
+import msa.customer.service.menu.MenuService;
+import msa.customer.service.order.OrderService;
+import msa.customer.service.store.StoreService;
+import msa.customer.sse.ServerSentEvent;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,14 +24,14 @@ public class ReceivingMessageConverter {
     private final StoreService storeService;
     private final MenuService menuService;
     private final OrderService orderService;
-    private final SseService sseService;
+    private final ServerSentEvent serverSentEvent;
 
     @Autowired
-    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, SseService sseService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, ServerSentEvent serverSentEvent) {
         this.storeService = storeService;
         this.menuService = menuService;
         this.orderService = orderService;
-        this.sseService = sseService;
+        this.serverSentEvent = serverSentEvent;
     }
 
     public void processMessage(String message) throws JsonProcessingException {
@@ -41,7 +40,7 @@ public class ReceivingMessageConverter {
             processStoreData(jsonObject);
         } else if (jsonObject.get("dataType").equals("menu")) {
             processMenuData(jsonObject);
-        } else if (jsonObject.get("dataType").equals("order")) {
+        } else if (jsonObject.get("dataType").equals("order")){
             processOrderData(jsonObject);
         }
     }
@@ -54,10 +53,12 @@ public class ReceivingMessageConverter {
             StoreSqsDto storeSqsDto = convertStoreData(jsonObject);
             storeService.updateStore(storeSqsDto);
         } else if (jsonObject.get("method").equals("open")){
-            String storeId = (String)jsonObject.get("storeId");
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String storeId = (String) data.get("storeId");
             storeService.openStore(storeId);
         } else if (jsonObject.get("method").equals("close")){
-            String storeId = (String)jsonObject.get("storeId");
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String storeId = (String) data.get("storeId");
             storeService.closeStore(storeId);
         } else if (jsonObject.get("method").equals("delete")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
@@ -68,9 +69,7 @@ public class ReceivingMessageConverter {
 
     public StoreSqsDto convertStoreData(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
-        objectMapper.registerModule(module);
+        objectMapper.addMixIn(Point.class, PointMixin.class);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, StoreSqsDto.class);
     }
@@ -96,27 +95,21 @@ public class ReceivingMessageConverter {
     }
 
     public void processOrderData(JSONObject jsonObject) throws JsonProcessingException {
-        if (jsonObject.get("method").equals("request")){
-            Order order = convertOrderData(jsonObject);
-            orderService.createOrder(order);
-            sseService.updateOrderFromSqs(order.getRiderId(), order.getOrderId());
-        }else if (jsonObject.get("method").equals("change")) {
+        if (jsonObject.get("method").equals("change")) {
             JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String customerId = data.getString("customerId");
             String orderId = data.getString("orderId");
-            String riderId = data.getString("riderId");
-            OrderStatus orderStatus = OrderStatus.valueOf((String) data.get("orderStatus"));
+            OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
             orderService.changeOrderStatusFromOtherServer(orderId, orderStatus);
-            sseService.updateOrderFromSqs(riderId, orderId);
+            serverSentEvent.updateOrderFromSqs(customerId, orderId);
+        } else if (jsonObject.get("method").equals("assign")) {
+            JSONObject data = new JSONObject(jsonObject.get("data").toString());
+            String customerId = data.getString("customerId");
+            String orderId = data.getString("orderId");
+            OrderStatus orderStatus = data.getEnum(OrderStatus.class, "orderStatus");
+            RiderPartDto riderPartDto= new ObjectMapper().readValue(data.get("riderData").toString(), RiderPartDto.class);
+            orderService.assignRiderToOrder(orderId, orderStatus, riderPartDto);
+            serverSentEvent.updateOrderFromSqs(customerId, orderId);
         }
     }
-
-    public Order convertOrderData(JSONObject jsonObject) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Order.class, new OrderDeserializer());
-        objectMapper.registerModule(module);
-        String data = jsonObject.get("data").toString();
-        return objectMapper.readValue(data, Order.class);
-    }
-
 }
