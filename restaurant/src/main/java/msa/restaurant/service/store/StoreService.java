@@ -83,14 +83,14 @@ public class StoreService {
         }
     }
 
-    public void openStore(String storeId){
+    private void openStore(String storeId){
         storeRepository.updateOpenStatus(storeId, true);
         String messageToOpenStore = sendingMessageConverter.createMessageToOpenStore(storeId);
         sqsService.sendToCustomer(messageToOpenStore);
         sqsService.sendToRider(messageToOpenStore);
     }
 
-    public void closeStore(String storeId){
+    private void closeStore(String storeId){
         storeRepository.updateOpenStatus(storeId, false);
         String messageToCloseStore = sendingMessageConverter.createMessageToCloseStore(storeId);
         sqsService.sendToCustomer(messageToCloseStore);
