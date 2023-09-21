@@ -14,7 +14,7 @@ public class StoreResponseDto {
     private String address;
     private String addressDetail;
     private String introduction;
-    private boolean open;
+    private OpenStatus openStatus;
 
     public StoreResponseDto(Store store) {
         name = store.getName();
@@ -23,6 +23,10 @@ public class StoreResponseDto {
         address = store.getAddress();
         addressDetail = store.getAddressDetail();
         introduction = store.getIntroduction();
-        open = store.isOpen();
+        if(store.getOpen()){
+            openStatus = OpenStatus.OPEN;
+        }else{
+            openStatus = OpenStatus.CLOSE;
+        }
     }
 }
