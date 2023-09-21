@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import msa.customer.entity.basket.Basket;
 import msa.customer.entity.basket.MenuInBasket;
 import msa.customer.entity.menu.Menu;
-import msa.customer.exception.BasketNullException;
+import msa.customer.exception.BasketNonexistentException;
 import msa.customer.exception.StoreMismatchException;
 import msa.customer.repository.basket.BasketRepository;
 import msa.customer.repository.menu.MenuRepository;
@@ -91,7 +91,7 @@ public class BasketService {
 
 
     public Basket getBasket(String basketId){
-        return basketRepository.readBasket(basketId).orElseThrow(() -> new BasketNullException(basketId));
+        return basketRepository.readBasket(basketId).orElseThrow(() -> new BasketNonexistentException(basketId));
     }
 
     public void deleteMenuFromBasket(String basketId, String menuId){
