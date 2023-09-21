@@ -8,6 +8,7 @@ import msa.restaurant.dto.menu.MenuResponseDto;
 import msa.restaurant.entity.menu.Menu;
 import msa.restaurant.service.menu.MenuService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createMenu(@RequestBody MenuRequestDto data, @PathVariable String storeId) {
+    public String createMenu(@Validated @RequestBody MenuRequestDto data, @PathVariable String storeId) {
         return menuService.createMenu(data, storeId);
     }
 
