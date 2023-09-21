@@ -1,6 +1,6 @@
 package msa.rider.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.dto.rider.RiderRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
@@ -9,19 +9,14 @@ import msa.rider.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @Slf4j
 @RequestMapping("/rider/member")
+@AllArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -33,8 +28,7 @@ public class MemberController {
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public void updateMemberInfo(@RequestAttribute("cognitoUsername") String riderId,
-                                 @RequestBody RiderRequestDto data,
-                                 HttpServletResponse response) throws IOException {
+                                 @RequestBody RiderRequestDto data){
         memberService.updateRider(riderId, data);
     }
 

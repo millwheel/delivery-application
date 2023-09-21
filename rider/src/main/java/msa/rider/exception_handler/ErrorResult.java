@@ -1,4 +1,4 @@
-package msa.rider.exception;
+package msa.rider.exception_handler;
 
 import lombok.Getter;
 import lombok.Setter;
