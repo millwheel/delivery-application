@@ -3,6 +3,7 @@ package msa.customer.sse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
+import msa.customer.exception.OrderMismatchException;
 import msa.customer.pubsub.PubService;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -44,13 +46,15 @@ public class ServerSentEvent {
     }
 
     public void showOrder(String customerId, String orderId){
-        Order order = orderService.getOrder(orderId);
-        if (!customerId.equals(order.getCustomerId())){
-            throw new IllegalCallerException("This order doesn't belong to the customer");
-        }
+        Order order = orderService.getOrder(customerId, orderId);
         OrderResponseDto orderResponseDto = new OrderResponseDto(order);
+        sendOrderInfoToSse(customerId, orderResponseDto);
+    }
+
+    private void sendOrderInfoToSse(String customerId, OrderResponseDto orderPartInfo){
         try {
-            emitterList.get(customerId).send(SseEmitter.event().name("order").data(orderResponseDto));
+            SseEmitter sseEmitter = emitterList.get(customerId);
+            sseEmitter.send(SseEmitter.event().name("order").data(orderPartInfo));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

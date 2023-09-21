@@ -3,7 +3,7 @@ package msa.customer.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import msa.customer.entity.store.FoodKind;
-import msa.customer.exception.FoodKindNullException;
+import msa.customer.exception.FoodKindNonexistentException;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -17,7 +17,7 @@ public class FoodKindCheckInterceptor implements HandlerInterceptor {
         try{
             FoodKind.valueOf(foodKindString);
         }catch (Exception e){
-            throw new FoodKindNullException(foodKindString);
+            throw new FoodKindNonexistentException(foodKindString);
         }
         return true;
     }

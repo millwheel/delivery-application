@@ -3,9 +3,12 @@ package msa.customer.repository.order;
 import msa.customer.dto.rider.RiderPartDto;
 import msa.customer.entity.order.Order;
 import msa.customer.entity.order.OrderStatus;
+import msa.customer.exception.OrderMismatchException;
+import msa.customer.exception.OrderNonexistentException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -23,8 +26,10 @@ public class MongoOrderRepository implements OrderRepository{
     }
 
     @Override
-    public Optional<Order> readOrder(String orderId) {
-        return repository.findById(orderId);
+    public Order readOrder(String customerId, String orderId) {
+        Order order = repository.findById(orderId).orElseThrow(() -> new OrderNonexistentException(orderId));
+        if (!Objects.equals(order.getCustomerId(), customerId)) throw new OrderMismatchException(orderId, customerId);
+        return order;
     }
 
     @Override

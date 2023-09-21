@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface OrderRepository {
     Order createOrder(Order order);
-    Optional<Order> readOrder(String orderId);
+    Order readOrder(String customerId, String orderId);
     List<Order> readOrderList(String customerId);
     void updateOrderStatus(String orderId, OrderStatus orderStatus);
     void updateRiderInfo(String orderId, OrderStatus orderStatus, RiderPartDto riderPartDto);
