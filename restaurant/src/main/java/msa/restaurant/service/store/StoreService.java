@@ -69,25 +69,28 @@ public class StoreService {
         sendMessageToOtherServer(messageToDeleteStore);
     }
 
-    public void changeStoreStatus(String managerId, String storeId, OpenStatus openStatus){
-        String storeStatusMessage;
+    public Store changeStoreStatus(String managerId, String storeId, OpenStatus openStatus){
+        Store store;
         if (openStatus == OpenStatus.OPEN){
-            storeStatusMessage = openStore(managerId, storeId);
-            sendMessageToOtherServer(storeStatusMessage);
-        }else if (openStatus == OpenStatus.CLOSE){
-            storeStatusMessage = closeStore(managerId, storeId);
-            sendMessageToOtherServer(storeStatusMessage);
+            store = openStore(managerId, storeId);
+        }else{
+            store = closeStore(managerId, storeId);
         }
+        return store;
     }
 
-    private String openStore(String managerId, String storeId){
-        storeRepository.updateOpenStatus(managerId, storeId, true);
-        return sendingMessageConverter.createMessageToOpenStore(storeId);
+    private Store openStore(String managerId, String storeId){
+        Store store = storeRepository.updateOpenStatus(managerId, storeId, true);
+        String messageToOpenStore = sendingMessageConverter.createMessageToOpenStore(storeId);
+        sendMessageToOtherServer(messageToOpenStore);
+        return store;
     }
 
-    private String closeStore(String managerId, String storeId){
-        storeRepository.updateOpenStatus(managerId, storeId, false);
-        return sendingMessageConverter.createMessageToCloseStore(storeId);
+    private Store closeStore(String managerId, String storeId){
+        Store store = storeRepository.updateOpenStatus(managerId, storeId, false);
+        String messageToCloseStore = sendingMessageConverter.createMessageToCloseStore(storeId);
+        sendMessageToOtherServer(messageToCloseStore);
+        return store;
     }
 
     private void sendMessageToOtherServer(String message){

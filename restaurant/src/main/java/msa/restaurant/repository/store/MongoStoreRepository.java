@@ -68,13 +68,13 @@ public class MongoStoreRepository implements StoreRepository {
 
 
     @Override
-    public void updateOpenStatus(String managerId, String storeId, boolean status) {
+    public Store updateOpenStatus(String managerId, String storeId, boolean status) {
         Store store = repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
         if(!Objects.equals(store.getManagerId(), managerId)){
             throw new StoreMismatchException(storeId, managerId);
         }
         store.setOpen(status);
-        repository.save(store);
+        return repository.save(store);
     }
 
     @Override

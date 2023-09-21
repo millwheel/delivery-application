@@ -10,16 +10,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(basePackages = "msa.customer")
 public class ExceptionControllerAdvice {
 
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResult nullPointerExceptionHandler(NullPointerException e){
+        return new ErrorResult("NULL_POINTER", e.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResult illegalExceptionHandler(IllegalArgumentException e){
-        return new ErrorResult("ARGUMENT", e.getMessage());
+        return new ErrorResult("ILLEGAL_ARGUMENT", e.getMessage());
     }
 
     @ExceptionHandler(IllegalCallerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResult illegalCallerException(IllegalCallerException e){
-        return new ErrorResult("CALLER", e.getMessage());
+        return new ErrorResult("ILLEGAL_CALLER", e.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

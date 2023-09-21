@@ -60,10 +60,11 @@ public class StoreController {
 
     @PostMapping("/{storeId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
+    public StoreResponseDto changeStoreStatus(@RequestAttribute("cognitoUsername") String managerId,
                                   @PathVariable String storeId,
                                   @RequestBody OpenStatus openStatus){
-        storeService.changeStoreStatus(managerId, storeId, openStatus);
+        Store store = storeService.changeStoreStatus(managerId, storeId, openStatus);
+        return new StoreResponseDto(store);
     }
 
     @DeleteMapping("/{storeId}")

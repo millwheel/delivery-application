@@ -1,6 +1,6 @@
 package msa.customer.exception;
 
-public class StoreNullException extends RuntimeException {
+public class StoreNullException extends NullPointerException {
 
     private static final String NONEXISTENT_STORE_MESSAGE = "This store doesn't exist. (storeId = %s)";
 
