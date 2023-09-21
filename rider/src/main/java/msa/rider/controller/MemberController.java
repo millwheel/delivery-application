@@ -21,7 +21,7 @@ public class MemberController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public RiderResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String riderId){
-        Rider rider = memberService.getRider(riderId).get();
+        Rider rider = memberService.getRider(riderId);
         return new RiderResponseDto(rider);
     }
 
