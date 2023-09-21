@@ -3,6 +3,7 @@ package msa.customer.sse;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
+import msa.customer.exception.OrderMismatchException;
 import msa.customer.pubsub.PubService;
 import msa.customer.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class ServerSentEvent {
     public void showOrder(String customerId, String orderId){
         Order order = orderService.getOrder(orderId);
         if (!customerId.equals(order.getCustomerId())){
-            throw new IllegalCallerException("This order doesn't belong to the customer");
+            throw new OrderMismatchException(orderId, customerId);
         }
         OrderResponseDto orderResponseDto = new OrderResponseDto(order);
         try {
