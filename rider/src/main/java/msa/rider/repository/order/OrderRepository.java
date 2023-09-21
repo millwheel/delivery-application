@@ -1,20 +1,19 @@
 package msa.rider.repository.order;
 
 
-import msa.rider.dto.rider.RiderPartDto;
+import msa.rider.dto.rider.RiderSqsDto;
 import msa.rider.entity.order.Order;
 import msa.rider.entity.order.OrderStatus;
 import org.springframework.data.geo.Point;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderRepository {
-    String createOrder(Order order);
-    Optional<Order> findById(String orderId);
+    Order createOrder(Order order);
+    Order readOrder(String orderId);
     List<Order> findByRiderId(String riderId);
     List<Order> findNewOrderListNearLocation(Point location);
-    void updateOrderStatus(String orderId, OrderStatus orderStatus);
-    void updateOrderRiderInfo(String orderId, RiderPartDto riderPartDto, Point location, OrderStatus orderStatus);
-    void deleteOrder(String orderId);
+    Order updateOrderStatus(String orderId, String riderId);
+    Order updateOrderStatus(String orderId, OrderStatus orderStatus);
+    Order updateOrderRiderInfo(String orderId, RiderSqsDto riderSqsDto);
 }

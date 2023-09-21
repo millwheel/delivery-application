@@ -10,9 +10,8 @@ import java.util.Optional;
 
 public interface MemberRepository {
     String create(Rider rider);
-    Optional<Rider> findById(String riderId);
-    void update(String riderId, RiderRequestDto data);
+    Rider readRider(String riderId);
+    Rider update(String riderId, RiderRequestDto data);
     void update(String riderId, RiderRequestDto data, Point location);
     void updateAddress(String riderId, String address, Point location);
-    void deleteById(String riderId);
 }

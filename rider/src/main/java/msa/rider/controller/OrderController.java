@@ -44,24 +44,18 @@ public class OrderController {
     @GetMapping("/new/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public OrderResponseDto showNewOrderInfo(@PathVariable String orderId){
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        return new OrderResponseDto(orderOptional.get());
+        Order order = orderService.getOrder(orderId);
+        return new OrderResponseDto(order);
     }
 
     @PostMapping("/new/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void riderAssign(@RequestAttribute("cognitoUsername") String riderId,
+    public void assignRider(@RequestAttribute("cognitoUsername") String riderId,
                                   @PathVariable String orderId) {
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
-        RiderPartDto riderPartDto = orderService.updateRiderInfo(riderId, order);
-        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(order, riderPartDto, OrderStatus.RIDER_ASSIGNED);
+        Rider rider = memberService.getRider(riderId);
+        RiderSqsDto riderSqsDto = new RiderSqsDto(rider);
+        Order order = orderService.assignRider(riderId, riderSqsDto);
+        String messageToAssignRider = sendingMessageConverter.createMessageToAssignRider(order, riderSqsDto);
         sqsService.sendToRestaurant(messageToAssignRider);
         sqsService.sendToCustomer(messageToAssignRider);
     }
@@ -85,14 +79,10 @@ public class OrderController {
 
     @PutMapping("/my/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void changeOrderStatus(@PathVariable String orderId) {
-        Optional<Order> orderOptional = orderService.getOrder(orderId);
-        if (orderOptional.isEmpty()){
-            throw new NullPointerException("Order doesn't exist. " + orderId + " is not correct order id.");
-        }
-        Order order = orderOptional.get();
-        OrderStatus changedOrderStatus = orderService.changeOrderStatusFromClient(orderId, order.getOrderStatus());
-        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order, changedOrderStatus);
+    public void changeOrderStatus(@RequestAttribute("cognitoUsername") String riderId,
+                                  @PathVariable String orderId) {
+        Order order = orderService.changeOrderStatusFromClient(orderId, riderId);
+        String messageToChangeOrderStatus = sendingMessageConverter.createMessageToChangeOrderStatus(order, order.getOrderStatus());
         sqsService.sendToRestaurant(messageToChangeOrderStatus);
         sqsService.sendToCustomer(messageToChangeOrderStatus);
     }

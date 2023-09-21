@@ -25,8 +25,8 @@ public class MemberService {
         this.addressService = addressService;
     }
 
-    public Optional<Rider> getRider(String riderId){
-        return memberRepository.findById(riderId);
+    public Rider getRider(String riderId){
+        return memberRepository.readRider(riderId);
     }
 
     public void updateRider(String riderId, RiderRequestDto data){

@@ -27,17 +27,16 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Rider> findById(String id) {
-        return repository.findById(id);
+    public Rider readRider(String riderId) {
+        return repository.findById(riderId).orElseThrow(() -> new RiderNonexistentException(riderId));
     }
 
     @Override
-    public void update(String riderId, RiderRequestDto data) {
-        repository.findById(riderId).ifPresent(rider -> {
-            if (data.getName() != null) rider.setName(data.getName());
-            if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
-            repository.save(rider);
-        });
+    public Rider update(String riderId, RiderRequestDto data) {
+        Rider rider = repository.findById(riderId).orElseThrow(() -> new RiderNonexistentException(riderId));
+        if (data.getName() != null) rider.setName(data.getName());
+        if (data.getPhoneNumber() != null) rider.setPhoneNumber(data.getPhoneNumber());
+        return repository.save(rider);
     }
 
     @Override
@@ -58,10 +57,5 @@ public class MongoMemberRepository implements MemberRepository {
             rider.setLocation(location);
             repository.save(rider);
         });
-    }
-
-    @Override
-    public void deleteById(String riderId) {
-        repository.deleteById(riderId);
     }
 }
