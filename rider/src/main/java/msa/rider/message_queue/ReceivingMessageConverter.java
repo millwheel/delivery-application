@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.deserializer.OrderDeserializer;
+import msa.rider.deserializer.PointMixin;
 import msa.rider.deserializer.StoreDeserializer;
 import msa.rider.dto.menu.MenuSqsDto;
 import msa.rider.dto.store.StoreSqsDto;
@@ -16,6 +17,7 @@ import msa.rider.service.store.StoreService;
 import msa.rider.sse.SseService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -68,9 +70,7 @@ public class ReceivingMessageConverter {
 
     public StoreSqsDto convertStoreData(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(StoreSqsDto.class, new StoreDeserializer());
-        objectMapper.registerModule(module);
+        objectMapper.addMixIn(Point.class, PointMixin.class);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, StoreSqsDto.class);
     }
@@ -112,9 +112,7 @@ public class ReceivingMessageConverter {
 
     public Order convertOrderData(JSONObject jsonObject) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Order.class, new OrderDeserializer());
-        objectMapper.registerModule(module);
+        objectMapper.addMixIn(Point.class, PointMixin.class);
         String data = jsonObject.get("data").toString();
         return objectMapper.readValue(data, Order.class);
     }
