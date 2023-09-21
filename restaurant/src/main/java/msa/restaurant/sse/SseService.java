@@ -1,5 +1,6 @@
 package msa.restaurant.sse;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.restaurant.dto.order.OrderPartResponseDto;
 import msa.restaurant.dto.order.OrderResponseDto;
@@ -17,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class SseService {
 
     private final OrderService orderService;
@@ -24,12 +26,6 @@ public class SseService {
 
     private static ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
-
-    @Autowired
-    public SseService(OrderService orderService, PubService pubService) {
-        this.orderService = orderService;
-        this.pubService = pubService;
-    }
 
     public SseEmitter connect(String storeId){
         SseEmitter emitter = new SseEmitter();

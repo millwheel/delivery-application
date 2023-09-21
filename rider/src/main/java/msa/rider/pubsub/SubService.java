@@ -3,7 +3,7 @@ package msa.rider.pubsub;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import msa.rider.pubsub.dto.RiderMatchingMessage;
-import msa.rider.sse.SseService;
+import msa.rider.sse.ServerSentEvent;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import java.io.IOException;
 @Service
 public class SubService implements MessageListener {
 
-    private final SseService sseService;
+    private final ServerSentEvent sseService;
 
-    public SubService(SseService sseService) {
+    public SubService(ServerSentEvent sseService) {
         this.sseService = sseService;
     }
 

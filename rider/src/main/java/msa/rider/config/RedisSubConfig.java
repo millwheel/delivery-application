@@ -1,7 +1,7 @@
 package msa.rider.config;
 
 import msa.rider.pubsub.SubService;
-import msa.rider.sse.SseService;
+import msa.rider.sse.ServerSentEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -11,10 +11,10 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Configuration
 public class RedisSubConfig {
 
-    private final SseService sseService;
+    private final ServerSentEvent sseService;
     private final RedisConfig redisConfig;
 
-    public RedisSubConfig(SseService sseService, RedisConfig redisConfig) {
+    public RedisSubConfig(ServerSentEvent sseService, RedisConfig redisConfig) {
         this.sseService = sseService;
         this.redisConfig = redisConfig;
     }

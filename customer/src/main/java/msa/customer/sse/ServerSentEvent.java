@@ -1,5 +1,6 @@
 package msa.customer.sse;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.order.OrderResponseDto;
 import msa.customer.entity.order.Order;
@@ -16,17 +17,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class ServerSentEvent {
 
     private final OrderService orderService;
     private final PubService pubService;
-    ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
-
-    @Autowired
-    public ServerSentEvent(OrderService orderService, PubService pubService) {
-        this.orderService = orderService;
-        this.pubService = pubService;
-    }
+    private static ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
 
     public SseEmitter connect(String customerId) {
         SseEmitter emitter = new SseEmitter();
