@@ -2,7 +2,6 @@ package msa.restaurant.service.order;
 
 import lombok.RequiredArgsConstructor;
 import msa.restaurant.entity.order.OrderStatus;
-import msa.restaurant.exception.OrderStatusUnchangeableException;
 
 import java.util.Set;
 
@@ -14,11 +13,18 @@ public enum OrderStatusUpdatePolicy {
 
     private final Set<OrderStatus> possibleStatuses;
 
-    public void checkStatusUpdatable(OrderStatus nowStatus) {
+    public OrderStatus checkStatusUpdatable(OrderStatus nowStatus) {
         final var isUpdatable = this.possibleStatuses.contains(nowStatus);
 
         if (!isUpdatable) {
-            throw new OrderStatusUnchangeableException(nowStatus);
+            throw new RuntimeException();
+        }
+        if (nowStatus == OrderStatus.ORDER_REQUEST){
+            return OrderStatus.ORDER_ACCEPT;
+        }else if(nowStatus == OrderStatus.RIDER_ASSIGNED){
+            return OrderStatus.FOOD_READY;
+        }else {
+            throw new RuntimeException();
         }
     }
 

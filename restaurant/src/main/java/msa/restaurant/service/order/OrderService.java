@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import msa.restaurant.dto.rider.RiderPartDto;
 import msa.restaurant.entity.order.Order;
 import msa.restaurant.entity.order.OrderStatus;
+import msa.restaurant.exception.OrderStatusUnchangeableException;
 import msa.restaurant.message_queue.SendingMessageConverter;
 import msa.restaurant.message_queue.SqsService;
 import msa.restaurant.repository.order.OrderRepository;
@@ -34,11 +35,21 @@ public class OrderService {
 
     public Order changeOrderStatus(String storeId, String orderId){
         Order order = orderRepository.readOrder(storeId, orderId);
-        OrderStatus nextStatus = orderStatusUpdatePolicy.checkStatusUpdatable(order.getOrderStatus());
+        OrderStatus nextStatus = extractNextStatus(order.getOrderStatus());
         Order savedOrder = orderRepository.updateOrderStatus(orderId, nextStatus);
         if (nextStatus == OrderStatus.ORDER_ACCEPT) sendMessageToOrderAccept(savedOrder);
         if (nextStatus == OrderStatus.FOOD_READY) sendMessageToFoodReady(savedOrder);
         return savedOrder;
+    }
+
+    private OrderStatus extractNextStatus(OrderStatus prevStatus){
+        if (prevStatus == OrderStatus.ORDER_REQUEST){
+            return OrderStatus.ORDER_ACCEPT;
+        }else if(prevStatus == OrderStatus.RIDER_ASSIGNED){
+            return OrderStatus.FOOD_READY;
+        }else {
+            throw new OrderStatusUnchangeableException(prevStatus);
+        }
     }
 
     private void sendMessageToOrderAccept(Order order){
