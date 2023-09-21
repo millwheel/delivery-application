@@ -19,8 +19,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final SendingMessageConverter sendingMessageConverter;
     private final SqsService sqsService;
-    private final OrderStatusUpdatePolicy orderStatusUpdatePolicy;
-
     public void createOrder(Order order){
         orderRepository.createOrder(order);
     }

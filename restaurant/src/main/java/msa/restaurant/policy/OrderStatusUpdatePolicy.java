@@ -1,4 +1,4 @@
-package msa.restaurant.service.order;
+package msa.restaurant.policy;
 
 import lombok.RequiredArgsConstructor;
 import msa.restaurant.entity.order.OrderStatus;
