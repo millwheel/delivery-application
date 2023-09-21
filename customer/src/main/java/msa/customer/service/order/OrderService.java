@@ -77,8 +77,8 @@ public class OrderService {
         return orderRepository.readOrderList(customerId);
     }
 
-    public Order getOrder(String orderId){
-        return orderRepository.readOrder(orderId).orElseThrow(() -> new OrderNonexistentException(orderId));
+    public Order getOrder(String customerId, String orderId){
+        return orderRepository.readOrder(customerId, orderId);
     }
 
     public void changeOrderStatusFromOtherServer(String orderId, OrderStatus orderStatus){
