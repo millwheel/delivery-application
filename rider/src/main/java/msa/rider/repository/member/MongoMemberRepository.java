@@ -4,6 +4,7 @@ import msa.rider.dto.rider.RiderAddressRequestDto;
 import msa.rider.dto.rider.RiderRequestDto;
 import msa.rider.dto.rider.RiderResponseDto;
 import msa.rider.entity.member.Rider;
+import msa.rider.exception.RiderNonexistentException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;

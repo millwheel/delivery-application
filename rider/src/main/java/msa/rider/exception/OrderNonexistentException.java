@@ -1,4 +1,4 @@
-package msa.customer.exception;
+package msa.rider.exception;
 
 public class OrderNonexistentException extends NullPointerException{
 

@@ -1,6 +1,7 @@
-package msa.restaurant.exception;
+package msa.rider.exception;
 
-import msa.restaurant.entity.order.OrderStatus;
+
+import msa.rider.entity.order.OrderStatus;
 
 public class OrderStatusUnchangeableException extends RuntimeException{
 
