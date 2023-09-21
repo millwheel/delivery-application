@@ -14,7 +14,7 @@ import msa.rider.entity.order.OrderStatus;
 import msa.rider.service.menu.MenuService;
 import msa.rider.service.order.OrderService;
 import msa.rider.service.store.StoreService;
-import msa.rider.sse.SseService;
+import msa.rider.sse.ServerSentEvent;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -27,10 +27,10 @@ public class ReceivingMessageConverter {
     private final StoreService storeService;
     private final MenuService menuService;
     private final OrderService orderService;
-    private final SseService sseService;
+    private final ServerSentEvent sseService;
 
     @Autowired
-    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, SseService sseService) {
+    public ReceivingMessageConverter(StoreService storeService, MenuService menuService, OrderService orderService, ServerSentEvent sseService) {
         this.storeService = storeService;
         this.menuService = menuService;
         this.orderService = orderService;

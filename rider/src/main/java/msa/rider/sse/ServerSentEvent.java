@@ -25,8 +25,8 @@ public class ServerSentEvent {
     private final OrderService orderService;
     private final PubService pubService;
 
-    private ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, SseEmitter> emitterList = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, String> requestList = new ConcurrentHashMap<>();
 
     public SseEmitter connect(String riderId){
         SseEmitter emitter = new SseEmitter();
@@ -63,8 +63,13 @@ public class ServerSentEvent {
         orderList.forEach(order -> {
             orderPartInfoList.add(new OrderPartResponseDto(order));
         });
+        sendOrderListToSse(riderId, orderPartInfoList);
+    }
+
+    private void sendOrderListToSse(String riderId, List<OrderPartResponseDto> orderPartInfoList){
         try {
-            emitterList.get(riderId).send(SseEmitter.event().name("order-list").data(orderPartInfoList));
+            SseEmitter sseEmitter = emitterList.get(riderId);
+            sseEmitter.send(SseEmitter.event().name("order-list").data(orderPartInfoList));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,12 +94,7 @@ public class ServerSentEvent {
     public void updateOrderFromSqs(String riderId, String orderId){
         if (emitterList.containsKey(riderId)){
             log.info("The server has riderId={}", riderId);
-            String request = requestList.get(riderId);
-            if (request.equals("list")){
-                showOrderList(riderId);
-            } else if (request.equals("info")){
-                showOrderInfo(riderId, orderId);
-            }
+            extractRequest(riderId, orderId);
         } else{
             log.info("The server doesn't have riderId={} redis publish is activated", riderId);
             pubService.sendMessageToMatchRider(riderId, orderId);
@@ -104,12 +104,16 @@ public class ServerSentEvent {
     public void updateOrderFromRedis(String riderId, String orderId){
         if (emitterList.containsKey(riderId)){
             log.info("The server has riderId={}", riderId);
-            String request = requestList.get(riderId);
-            if (request.equals("list")){
-                showOrderList(riderId);
-            } else if (request.equals("info")){
-                showOrderInfo(riderId, orderId);
-            }
+            extractRequest(riderId, orderId);
+        }
+    }
+
+    private void extractRequest(String riderId, String orderId){
+        String request = requestList.get(riderId);
+        if (request.equals("list")){
+            showOrderList(riderId);
+        } else if (request.equals("info")){
+            showOrderInfo(riderId, orderId);
         }
     }
 
