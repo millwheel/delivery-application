@@ -30,14 +30,16 @@ public class OrderService {
     public Order createOrder(String customerId, String basketId){
         Basket basket = basketRepository.readBasket(basketId).orElseThrow(() -> new BasketNonexistentException(basketId));
         String storeId = basket.getStoreId();
+
         Order order = new Order();
-        Order order1 = addCustomerInfo(customerId, order);
-        Order order2 = addStoreInfo(storeId, order1);
-        Order order3 = addBasketInfo(basket, order2);
-        String thisTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        order3.setOrderTime(thisTime);
-        order3.setOrderStatus(OrderStatus.ORDER_REQUEST);
-        return orderRepository.createOrder(order2);
+        addCustomerInfo(customerId, order);
+        addStoreInfo(storeId, order);
+        addBasketInfo(basket, order);
+
+        order.setOrderTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        order.setOrderStatus(OrderStatus.ORDER_REQUEST);
+
+        return orderRepository.createOrder(order);
     }
 
     private Order addCustomerInfo(String customerId, Order order){

@@ -1,5 +1,6 @@
 package msa.customer.service.member;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.customer.CustomerRequestDto;
 import msa.customer.entity.member.Customer;
@@ -13,16 +14,11 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AddressService addressService;
-    @Autowired
-    public MemberService(MemberRepository memberRepository, AddressService addressService) {
-        this.memberRepository = memberRepository;
-        this.addressService = addressService;
-    }
-
 
     public Customer getCustomer(String customerId){
         return memberRepository.readCustomer(customerId);
