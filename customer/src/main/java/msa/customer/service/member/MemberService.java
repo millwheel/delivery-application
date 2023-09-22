@@ -32,12 +32,12 @@ public class MemberService {
         return memberRepository.findById(customerId).orElseThrow().getLocation();
     }
 
-    public void updateCustomer(String customerId, CustomerRequestDto data){
+    public Customer updateCustomer(String customerId, CustomerRequestDto data){
         if (data.getAddress() == null) {
-            memberRepository.update(customerId, data);
+            return memberRepository.update(customerId, data);
         } else {
             Point coordinate = addressService.getCoordinate(data.getAddress());
-            memberRepository.update(customerId, data, coordinate);
+            return memberRepository.update(customerId, data, coordinate);
         }
     }
 
