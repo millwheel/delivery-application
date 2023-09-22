@@ -25,19 +25,19 @@ public class MemberService {
 
 
     public Customer getCustomer(String customerId){
-        return memberRepository.findById(customerId).orElseThrow();
+        return memberRepository.readCustomer(customerId);
     }
 
     public Point getLocation(String customerId) {
-        return memberRepository.findById(customerId).orElseThrow().getLocation();
+        return memberRepository.readCustomer(customerId).getLocation();
     }
 
     public Customer updateCustomer(String customerId, CustomerRequestDto data){
         if (data.getAddress() == null) {
-            return memberRepository.update(customerId, data);
+            return memberRepository.updateCustomer(customerId, data);
         } else {
             Point coordinate = addressService.getCoordinate(data.getAddress());
-            return memberRepository.update(customerId, data, coordinate);
+            return memberRepository.updateCustomer(customerId, data, coordinate);
         }
     }
 

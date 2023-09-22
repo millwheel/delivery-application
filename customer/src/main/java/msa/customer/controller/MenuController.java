@@ -35,7 +35,7 @@ public class MenuController {
 
     @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto showMenu(@PathVariable String menuId){
+    public MenuResponseDto showMenu(@PathVariable String storeId, @PathVariable String menuId){
         Menu menu = menuService.getMenu(menuId);
         return new MenuResponseDto(menu);
     }

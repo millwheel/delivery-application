@@ -41,7 +41,7 @@ public class StoreService {
         return storeRepository.readStoreListNearLocation(location, foodKind);
     }
 
-    public Optional<Store> getStore(String storeId){
+    public Store getStore(String storeId){
         return storeRepository.readStore(storeId);
     }
 

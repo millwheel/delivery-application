@@ -21,18 +21,23 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String create(Customer customer) {
+    public String createCustomer(Customer customer) {
         Customer save = repository.save(customer);
         return save.getCustomerId();
     }
 
     @Override
-    public Optional<Customer> findById(String id) {
-        return repository.findById(id);
+    public Boolean checkCustomer(String customerId) {
+        return repository.existsById(customerId);
     }
 
     @Override
-    public Customer update(String customerId, CustomerRequestDto data) {
+    public Customer readCustomer(String customerId) {
+        return repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
+    }
+
+    @Override
+    public Customer updateCustomer(String customerId, CustomerRequestDto data) {
         Customer customer = repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
         if (data.getName() != null) customer.setName(data.getName());
         if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
@@ -40,7 +45,7 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Customer update(String customerId, CustomerRequestDto data, Point location) {
+    public Customer updateCustomer(String customerId, CustomerRequestDto data, Point location) {
         Customer customer = repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
         if (data.getName() != null) customer.setName(data.getName());
         if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());

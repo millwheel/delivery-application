@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface StoreRepository {
     Store createStore(Store store);
-    Optional<Store> readStore(String id);
+    Store readStore(String storeId);
     List<Store> readStoreListNearLocation(Point location, FoodKind foodKind);
     void updateStore(StoreSqsDto data);
     void updateOpenStatus(String id, boolean open);

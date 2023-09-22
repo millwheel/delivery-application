@@ -38,7 +38,8 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto showStoreInfo (@RequestAttribute("storeEntity") Store store){
+    public StoreResponseDto showStoreInfo (@PathVariable String storeId){
+        Store store = storeService.getStore(storeId);
         return new StoreResponseDto(store);
     }
 
