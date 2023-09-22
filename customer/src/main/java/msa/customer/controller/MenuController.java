@@ -1,5 +1,6 @@
 package msa.customer.controller;
 
+import lombok.AllArgsConstructor;
 import msa.customer.dto.menu.MenuPartResponseDto;
 import msa.customer.dto.menu.MenuResponseDto;
 import msa.customer.entity.menu.Menu;
@@ -15,15 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer/{foodKind}/store/{storeId}/menu")
+@AllArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;
     private final BasketService basketService;
-
-    public MenuController(MenuService menuService, BasketService basketService) {
-        this.menuService = menuService;
-        this.basketService = basketService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -38,7 +35,7 @@ public class MenuController {
 
     @GetMapping("/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public MenuResponseDto showMenu(@PathVariable String menuId){
+    public MenuResponseDto showMenu(@PathVariable String storeId, @PathVariable String menuId){
         Menu menu = menuService.getMenu(menuId);
         return new MenuResponseDto(menu);
     }

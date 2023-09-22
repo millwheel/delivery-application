@@ -3,6 +3,7 @@ package msa.customer.repository.store;
 import msa.customer.entity.store.FoodKind;
 import msa.customer.entity.store.Store;
 import msa.customer.dto.store.StoreSqsDto;
+import msa.customer.exception.StoreNonexistentException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,8 @@ public class MongoStoreRepository implements StoreRepository {
     }
 
     @Override
-    public Optional<Store> readStore(String id) {
-        return repository.findById(id);
+    public Store readStore(String storeId) {
+        return repository.findById(storeId).orElseThrow(() -> new StoreNonexistentException(storeId));
     }
 
     @Override

@@ -3,6 +3,7 @@ package msa.customer.repository.member;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.customer.CustomerRequestDto;
 import msa.customer.entity.member.Customer;
+import msa.customer.exception.MemberNonexistentException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Repository;
@@ -20,36 +21,37 @@ public class MongoMemberRepository implements MemberRepository {
     }
 
     @Override
-    public String create(Customer customer) {
+    public String createCustomer(Customer customer) {
         Customer save = repository.save(customer);
         return save.getCustomerId();
     }
 
     @Override
-    public Optional<Customer> findById(String id) {
-        return repository.findById(id);
+    public Boolean checkCustomer(String customerId) {
+        return repository.existsById(customerId);
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data) {
-        repository.findById(customerId).ifPresent(customer -> {
-            if (data.getName() != null) customer.setName(data.getName());
-            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
-            repository.save(customer);
-        });
+    public Customer readCustomer(String customerId) {
+        return repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
     }
 
     @Override
-    public void update(String customerId, CustomerRequestDto data, Point location) {
-        repository.findById(customerId).ifPresent(customer -> {
-            if (data.getName() != null) customer.setName(data.getName());
-            if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
-            customer.setAddress(data.getAddress());
-            customer.setLocation(location);
-            if (data.getAddressDetail() != null) customer.setAddressDetail(data.getAddressDetail());
-            repository.save(customer);
-        });
+    public Customer updateCustomer(String customerId, CustomerRequestDto data) {
+        Customer customer = repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
+        if (data.getName() != null) customer.setName(data.getName());
+        if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
+        return repository.save(customer);
     }
 
-
+    @Override
+    public Customer updateCustomer(String customerId, CustomerRequestDto data, Point location) {
+        Customer customer = repository.findById(customerId).orElseThrow(() -> new MemberNonexistentException(customerId));
+        if (data.getName() != null) customer.setName(data.getName());
+        if (data.getPhoneNumber() != null) customer.setPhoneNumber(data.getPhoneNumber());
+        customer.setAddress(data.getAddress());
+        customer.setLocation(location);
+        if (data.getAddressDetail() != null) customer.setAddressDetail(data.getAddressDetail());
+        return repository.save(customer);
+    }
 }

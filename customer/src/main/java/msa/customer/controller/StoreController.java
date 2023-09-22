@@ -1,5 +1,6 @@
 package msa.customer.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.customer.dto.store.StorePartResponseDto;
 import msa.customer.dto.store.StoreResponseDto;
@@ -17,14 +18,10 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/customer/{foodKind}/store")
+@AllArgsConstructor
 public class StoreController {
     private final MemberService memberService;
     private final StoreService storeService;
-
-    public StoreController(MemberService memberService, StoreService storeService) {
-        this.memberService = memberService;
-        this.storeService = storeService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -41,7 +38,8 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto showStoreInfo (@RequestAttribute("storeEntity") Store store){
+    public StoreResponseDto showStoreInfo (@PathVariable String storeId){
+        Store store = storeService.getStore(storeId);
         return new StoreResponseDto(store);
     }
 

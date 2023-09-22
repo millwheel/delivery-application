@@ -2,7 +2,6 @@ package msa.customer.config;
 
 import msa.customer.interceptor.FoodKindCheckInterceptor;
 import msa.customer.interceptor.JoinCheckInterceptor;
-import msa.customer.interceptor.StoreCheckInterceptor;
 import msa.customer.service.member.JoinService;
 import msa.customer.service.member.ParseJwtService;
 import msa.customer.service.store.StoreService;
@@ -32,10 +31,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new FoodKindCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/customer/{foodKind}/**")
-                .excludePathPatterns("/customer/order/**");
-        registry.addInterceptor(new StoreCheckInterceptor(storeService))
-                .order(3)
-                .addPathPatterns("/customer/{foodKind}/store/{storeId}/**")
                 .excludePathPatterns("/customer/order/**");
     }
 }
