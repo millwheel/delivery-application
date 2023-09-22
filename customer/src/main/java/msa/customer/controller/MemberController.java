@@ -22,15 +22,15 @@ public class MemberController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String id){
-        Customer customer = memberService.getCustomer(id);
+    public CustomerResponseDto showMemberInfo(@RequestAttribute("cognitoUsername") String riderId){
+        Customer customer = memberService.getCustomer(riderId);
         return new CustomerResponseDto(customer);
     }
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateMemberInfo(@RequestAttribute("cognitoUsername") String id,
+    public void updateMemberInfo(@RequestAttribute("cognitoUsername") String riderId,
                               @RequestBody CustomerRequestDto data) {
-        memberService.updateCustomer(id, data);
+        memberService.updateCustomer(riderId, data);
     }
 }

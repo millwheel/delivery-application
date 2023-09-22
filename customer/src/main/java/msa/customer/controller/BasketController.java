@@ -1,5 +1,6 @@
 package msa.customer.controller;
 
+import lombok.AllArgsConstructor;
 import msa.customer.dto.basket.BasketResponseDto;
 import msa.customer.entity.basket.Basket;
 import msa.customer.service.basket.BasketService;
@@ -10,15 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/customer/{foodKind}/store/{storeId}")
 @RestController
+@AllArgsConstructor
 public class BasketController {
 
     private final BasketService basketService;
-    private final MenuService menuService;
-
-    public BasketController(BasketService basketService, MenuService menuService) {
-        this.basketService = basketService;
-        this.menuService = menuService;
-    }
 
     @GetMapping("/basket")
     @ResponseStatus(HttpStatus.OK)
